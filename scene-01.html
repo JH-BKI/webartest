@@ -1,0 +1,273 @@
+  
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <title>A-Frame Animation Timeline Component - Bohemian</title>
+      <meta name="description" content="Basic example for Animation Timeline component."></meta>
+             <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script> 
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    </head>
+    <body>
+
+      <a-scene timeline-controller>
+        <a-assets timeout="2000">
+           
+          <!-- Scene 01 Character Assets -->
+          <img id="s01-scene-01-Alex" src="./assets/s01-scene-01-Alex.png">
+          <img id="s01-scene-01-Mia" src="./assets/s01-scene-01-Mia.png">
+          
+          <!-- Scene 02 Character Assets -->
+          <img id="s01-scene-02-Alex" src="./assets/s01-scene-02-Alex.png">
+          <img id="s01-scene-02-Mia" src="./assets/s01-scene-02-Mia.png">
+          
+          <!-- Scene 03 Character Assets -->
+          <img id="s01-scene-03-Alex" src="./assets/s01-scene-03-Alex.png">
+          <img id="s01-scene-03-Mia" src="./assets/s01-scene-03-Mia.png">
+          
+          <!-- Scene 04 Social Media Assets -->
+          <img id="s01-scene-04-comment" src="./assets/s01-scene-04-comment.png">
+          <img id="s01-scene-04-heart" src="./assets/s01-scene-04-heart.png">
+          <img id="s01-scene-04-like" src="./assets/s01-scene-04-like.png">
+          <img id="s01-scene-04-post" src="./assets/s01-scene-04-post.png">
+          <img id="s01-scene-04-share" src="./assets/s01-scene-04-share.png">
+          <img id="s01-scene-04-smile" src="./assets/s01-scene-04-smile.png">
+          
+          <!-- Scene 05 Character Assets -->
+          <img id="s01-scene-05-Alex" src="./assets/s01-scene-05-Alex.png">
+          <img id="s01-scene-05-Mia" src="./assets/s01-scene-05-Mia.png">
+          
+          <!-- Scene 06 Character Assets -->
+          <img id="s01-scene-06-Alex" src="./assets/s01-scene-06-Alex.png">
+          <img id="s01-scene-06-Mia" src="./assets/s01-scene-06-Mia.png">
+          
+          <!-- Scene 07 Character Assets -->
+          <img id="s01-scene-07-Alex" src="./assets/s01-scene-07-Alex.png">
+          <img id="s01-scene-07-Mia" src="./assets/s01-scene-07-Mia.png">
+          
+          <!-- Scene 08 Action and Status Assets -->
+          <img id="s01-scene-08-bam" src="./assets/s01-scene-08-bam.png">
+          <img id="s01-scene-08-friend1" src="./assets/s01-scene-08-friend1.png">
+          <img id="s01-scene-08-friend2" src="./assets/s01-scene-08-friend2.png">
+          <img id="s01-scene-08-lock" src="./assets/s01-scene-08-lock.png">
+          <img id="s01-scene-08-no" src="./assets/s01-scene-08-no.png">
+          <img id="s01-scene-08-pow" src="./assets/s01-scene-08-pow.png">
+          <img id="s01-scene-08-profile" src="./assets/s01-scene-08-profile.png">
+          <img id="s01-scene-08-random" src="./assets/s01-scene-08-random.png">
+          <img id="s01-scene-08-troll1" src="./assets/s01-scene-08-troll1.png">
+          <img id="s01-scene-08-troll2" src="./assets/s01-scene-08-troll2.png">
+          <img id="s01-scene-08-yes" src="./assets/s01-scene-08-yes.png">
+          
+          <!-- Generic Speech Bubble Assets -->
+          <img id="s01-speech-left" src="./assets/s01-speech-left.png">
+          <img id="s01-speech-right" src="./assets/s01-speech-right.png">
+
+        </a-assets>
+        
+        
+        
+                 <!-- Anime.js Timeline Container -->
+         <div id="timelineContainer" style="display: none;"></div>
+         
+
+
+        <a-image id="s01s01-Alex" src="#s01-scene-01-Alex" scale="2 4 1" position="-3 0 -2" rotation="0 0 0" opacity="0"></a-image>
+        <a-image id="s01s01-Mia" src="#s01-scene-01-Mia" scale="2 4 1" position="1 0 -2.1" rotation="0 0 0" opacity="0"></a-image>
+
+
+        <a-image id="s01s02-Alex" src="#s01-scene-02-Alex" scale="2 4 1" position="-1 0 -2" rotation="0 0 0" opacity="0"></a-image>
+        <a-image id="s01s02-Mia" src="#s01-scene-02-Mia" scale="2 4 1" position="1 0 -2.1" rotation="0 0 0" opacity="0"></a-image>
+
+
+
+        <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="0 2 -2" rotation="0 0 0" opacity="0"></a-image>
+        <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0 2 -2.1" rotation="0 0 0" opacity="0"></a-image>
+
+
+
+        <!-- Pause trigger entity (invisible) -->
+        <a-entity id="pauseTrigger" visible="false">
+        </a-entity>
+        
+        <!-- Scene 03 trigger entity (invisible) -->
+        <a-entity id="scene03Trigger" visible="false">
+        </a-entity>
+        
+        <!-- Clickable area to advance timeline -->
+        <a-plane id="clickArea" 
+          color="#FF0000" 
+          height="10" 
+          width="10" 
+          position="0 0 -5" 
+          opacity="0.3"
+          class="clickable">
+        </a-plane>
+
+        <a-plane color="#CCC" height="20" width="20" position="0 -2 0" rotation="-90 0 0"></a-plane>
+        <a-sky color="#6EBAA7"></a-sky>
+        <a-camera position="0 0 2"></a-camera>
+      </a-scene>
+      
+                           <script>
+         // Wait for A-Frame to be ready
+         AFRAME.registerComponent('timeline-controller', {
+           init: function() {
+             this.scene = this.el;
+             this.timeline = null;
+             this.isPaused = false;
+             this.currentScene = 1;
+             
+             // Wait for scene to be fully loaded before starting timeline
+             this.el.addEventListener('loaded', this.onSceneLoaded.bind(this));
+             
+             // Add click handler to advance timeline
+             this.clickArea = document.querySelector('#clickArea');
+             this.clickArea.addEventListener('click', this.advanceTimeline.bind(this));
+           },
+           
+           onSceneLoaded: function() {
+             // Start the anime.js timeline after a short delay
+             setTimeout(() => {
+               this.startAnimeTimeline();
+             }, 1000);
+           },
+           
+           startAnimeTimeline: function() {
+             console.log('Starting anime.js timeline...');
+             
+             // Create the main timeline
+             this.timeline = anime.timeline({
+               easing: 'easeOutExpo',
+               duration: 750,
+               complete: () => {
+                 console.log('Timeline completed');
+               }
+             });
+             
+             // Scene 01: Fade In (Mia and Alex simultaneously)
+             this.timeline
+               .add({
+                 targets: '#s01s01-Mia',
+                 opacity: [0, 1],
+                 duration: 500,
+                 easing: 'linear'
+               })
+               .add({
+                 targets: '#s01s01-Alex',
+                 opacity: [0, 1],
+                 duration: 500,
+                 easing: 'linear'
+               }, '-=500') // Start at same time as Mia
+                               .add({
+                  targets: '#s01s01-Alex',
+                  position: ['-3 0 -2', '-1 0 -2'],
+                  duration: 1500,
+                  easing: 'easeInOutQuad'
+                }, '-=500'); // Start Alex's move while fading in
+             
+             // Scene 01: Fade Out (Mia and Alex simultaneously)
+             this.timeline
+               .add({
+                 targets: '#s01s01-Mia',
+                 opacity: [1, 0],
+                 duration: 500,
+                 easing: 'linear'
+               }, '+=500') // Wait 1 second after previous
+               .add({
+                 targets: '#s01s01-Alex',
+                 opacity: [1, 0],
+                 duration: 500,
+                 easing: 'linear'
+               }, '-=500'); // Start at same time as Mia
+             
+             // Scene 02: Fade In (Mia and Alex simultaneously)
+             this.timeline
+               .add({
+                 targets: '#s01s02-Mia',
+                 opacity: [0, 1],
+                 duration: 500,
+                 easing: 'linear'
+               }, '+=500') // Wait 1 second after fade out
+               .add({
+                 targets: '#s01s02-Alex',
+                 opacity: [0, 1],
+                 duration: 500,
+                 easing: 'linear'
+               }, '-=500'); // Start at same time as Mia
+             
+             // Scene 02: Speech Left
+             this.timeline
+               .add({
+                 targets: '#s01-speech-lt',
+                 opacity: [0, 1],
+                 duration: 500,
+                 easing: 'linear'
+               }, '+=500') // Wait 1 second after characters fade in
+               .add({
+                 targets: '#s01-speech-lt',
+                 opacity: [1, 0],
+                 duration: 500,
+                 easing: 'linear'
+               }, '+=500'); // Wait 1 second, then fade out
+             
+             // Scene 02: Speech Right
+             this.timeline
+               .add({
+                 targets: '#s01-speech-rt',
+                 opacity: [0, 1],
+                 duration: 500,
+                 easing: 'linear'
+               }, '+=500') // Wait 1 second after speech left
+               .add({
+                 targets: '#s01-speech-rt',
+                 opacity: [1, 0],
+                 duration: 500,
+                 easing: 'linear'
+               }, '+=500'); // Wait 1 second, then fade out
+             
+             // Scene 02: Fade Out (Mia and Alex simultaneously)
+             this.timeline
+               .add({
+                 targets: '#s01s02-Mia',
+                 opacity: [1, 0],
+                 duration: 500,
+                 easing: 'linear'
+               }, '+=500') // Wait 1 second after speech right
+               .add({
+                 targets: '#s01s02-Alex',
+                 opacity: [1, 0],
+                 duration: 500,
+                 easing: 'linear'
+               }, '-=500'); // Start at same time as Mia
+             
+             // Wait 2 seconds before Scene 03 (placeholder)
+             this.timeline
+               .add({
+                 targets: '#scene03Trigger',
+                 opacity: [0, 0], // No visual change, just timing
+                 duration: 2000,
+                 easing: 'linear',
+                 complete: () => {
+                   console.log('Ready for Scene 03');
+                 }
+               }, '+=1000'); // Wait 1 second after characters fade out
+           },
+           
+           advanceTimeline: function() {
+             if (this.isPaused) {
+               this.isPaused = false;
+               console.log('Timeline advanced by click!');
+               this.currentScene++;
+               console.log('Moving to Scene ' + this.currentScene);
+               
+               // Resume timeline if needed
+               if (this.timeline && this.timeline.paused) {
+                 this.timeline.play();
+               }
+             }
+           }
+         });
+        </script>
+  
+    </body>
+  </html>
