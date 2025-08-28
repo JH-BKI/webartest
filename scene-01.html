@@ -5,15 +5,37 @@
       <meta charset="utf-8">
       <title>A-Frame Animation Timeline Component - Bohemian</title>
       <meta name="description" content="Basic example for Animation Timeline component."></meta>
-             <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script> 
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+        <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+        <script src="./timeline-data.js"></script>
+        <script src="./components.js"></script>
     
        <style>
 
-        body {
-
+        html, body {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden; /* prevents scrollbars */
+          box-sizing: border-box;
           font-family: 'Open Sans', sans-serif;
         }        
+
+        *, *::before, *::after {
+          box-sizing: inherit; /* ensures padding/border don’t add extra size */
+        }
+
+        .fullscreen {
+          position: fixed;   /* ensures it’s pinned to viewport */
+          top: 0;
+          left: 0;
+          width: 100vw;      /* viewport width, ignores scrollbars */
+          height: 100vh;     /* viewport height */
+        }
+
+
         .a-enter-vr {display:none;}
 
         .scenario-ui-prompt {
@@ -136,29 +158,140 @@
           cursor: pointer;
           /* max-width: 100%; */
         }
-      
+        
+        #loading {
+          background-color: #4ac6e6;
+          border: 10px dashed #fff;
+          color: white;
+          text-shadow: 1px 1px 2px #000;
+        }
+        
+        #loading .loading-content, 
+        #loading .loading-campus {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+        }
+
+        #loading .loading-content-text {
+          font-size: 24px;
+          font-weight: bold;
+        } 
+
+        #loading .loading-campus {
+          display: none;
+        }
+        
+        #loading.loading-content-campus {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          justify-content: center;
+          align-items: center;
+          align-content: center;
+        }
+
+        #loading .loading-content-campus .kangan-selector, 
+        #loading .loading-content-campus .bendigo-selector{
+          display: block;
+          flex-grow: 0;
+          flex-shrink: 1;
+          flex-basis: auto;
+          align-self: auto;
+          order: 0;
+        }
+
+        #loading .loading-content-campus .kangan-selector button, 
+        #loading .loading-content-campus .bendigo-selector button{ 
+          background-color: #fff;
+          border-radius: 5px;
+          padding: 5px;          
+          font-weight: bold;
+          color: #000;
+        }
+
+        #loading .loading-content-campus .kangan-selector img, 
+        #loading .loading-content-campus .bendigo-selector img{ 
+          width: 100px;
+        }
+
+        #loading, #menu, #scenario {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1000;
+        }
+
+
+        #loading {
+          display: block;
+        }
       </style>
         
     
       </head>
     <body>
 
-      <div class="scenario-ui-prompt">
-        <div class="scenario-ui-prompt-speech left">
-            <span class="scenario-ui-prompt-speech-profile"><img src="./assets/s01-profile-alex.png"></span>
-            <span class="scenario-ui-prompt-speech-content"><span>Alex</span><span id="text-content-left">----</span></span>
-        </div >
-        <div class="scenario-ui-prompt-speech right">
-          <span class="scenario-ui-prompt-speech-profile"><img src="./assets/s01-profile-mia.png"></span>
-          <span class="scenario-ui-prompt-speech-content"><span>Mia</span><span id="text-content-right">----</span></span>
-        </div>
-        <div class="scenario-ui-prompt-button-area">
-          <button type="button" id="scenario-ui-prompt-button">Continue</button>
+        <div id="loading">
+          <div class="loading-content">
+              <div class="loading-content-text">
+                  <h1>BKI NCPW2025</h1>
+                  <p>Loading...</p>
+              </div>
+          </div>
+          <div class="loading-campus">
+            <h3>Please select your campus:</h3>
+            <div class="loading-content-campus">
+              <div class="kangan-selector">
+                <button id="kangan-selector-button" type="button">
+                  <img src="./assets/kangan.png">
+                  <p>Broadmedows</p>
+                </button>
+              </div>
+              <BR>
+                <BR>
+              <div class="bendigo-selector">
+                <button id="bendigo-selector-button" type="button">
+                    <img src="./assets/bendigo.png">
+                    <p>Bendigo</p>
+                </button>
+              </div>
+            </div>
+          </div>        
+        </div>  
+        
+        <div id="menu">
+          <div class="menu-content">
+            <h1>Welcome!</h1>
+            <p>PLACE HOLDER CONTENT</p>
+            <p>Webar onboarding</p>
+            <h3>Let's Go!</h3>
+            <button type="button" id="menu-continue-button">Continue</button>
+          </div>        
+        </div>  
+        
+        <div id="scenario">
+            <div class="scenario-ui-prompt">
+              <div class="scenario-ui-prompt-speech left">
+                <span class="scenario-ui-prompt-speech-profile"><img src="./assets/s01-profile-alex.png"></span>
+                <span class="scenario-ui-prompt-speech-content"><span>Alex</span><span id="text-content-left">----</span></span>
+              </div >
+              <div class="scenario-ui-prompt-speech right">
+                <span class="scenario-ui-prompt-speech-profile"><img src="./assets/s01-profile-mia.png"></span>
+                <span class="scenario-ui-prompt-speech-content"><span>Mia</span><span id="text-content-right">----</span></span>
+              </div>
+              <div class="scenario-ui-prompt-button-area">
+                <button type="button" id="scenario-ui-prompt-button">Continue</button>
+              </div>
+            </div>
         </div>
 
-      </div>
-
-      <a-scene timeline-controller state-tracker>
+      <a-scene id="ARscene" timeline-controller state-tracker mindar-image="imageTargetSrc: ./poster-01.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false"></a-scene>
         <a-assets timeout="2000">
            
           <!-- Scene 01 Character Assets -->
@@ -264,865 +397,141 @@
 
 
         <!-- Pause trigger entity (invisible) -->
-        <a-entity id="pauseTrigger" visible="false">
-        </a-entity>
-        
-
-        <!-- Clickable area to advance timeline -->
-        <a-plane id="clickArea" 
-          color="#FF0000" 
-          height="10" 
-          width="10" 
-          position="0 0 -5" 
-          opacity="0.3"
-          class="clickable">
-        </a-plane>
+        <a-entity id="pauseTrigger" visible="false"></a-entity>
 
         <a-plane color="#CCC" height="20" width="20" position="0 -2 0" rotation="-90 0 0"></a-plane>
-        <a-sky color="#6EBAA7"></a-sky>
-        <a-camera position="0 0.5 1"></a-camera>
+
+        <a-entity mindar-image-target="targetIndex: 0">
+          <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+        </a-entity>
+
+        <a-camera position="0 0.5 1" look-controls="enabled: false"></a-camera>
       </a-scene>
 
+      <script>
+        
+        var BKICampus = '';
+        
+        document.querySelector('#kangan-selector-button').addEventListener('click', () => {
+            BKICampus = 'kangan';
+            appState.setState('Menu');
 
-      
-                           <script>
-         // Wait for A-Frame to be ready
-         AFRAME.registerComponent('state-tracker', {
-           init: function() {
-             // Define the 5 states
-             this.states = ['Loading', 'Scanning', 'Video', 'Quiz', 'Finish'];
-             this.currentState = 'Loading';
-             this.stateCallbacks = {};
-             
-             // Initialize callbacks for each state
-             this.states.forEach(state => {
-               this.stateCallbacks[state] = {
-                 onEnter: [],
-                 onExit: []
-               };
-             });
-             
-             // Expose state tracker globally for easy access
-             window.appState = {
-               setState: this.setState.bind(this),
-               getCurrentState: this.getCurrentState.bind(this),
-               addStateCallback: this.addStateCallback.bind(this)
-             };
-             
-             console.log('State Tracker initialized. Current state:', this.currentState);
-           },
-           
-           setState: function(newState) {
-             if (!this.states.includes(newState)) {
-               console.error('Invalid state:', newState);
-               return;
-             }
-             
-             if (newState === this.currentState) {
-               console.log('Already in state:', newState);
-               return;
-             }
-             
-             const oldState = this.currentState;
-             
-             // Execute onExit callbacks for current state
-             this.stateCallbacks[oldState].onExit.forEach(callback => {
-               try {
-                 callback(oldState, newState);
-               } catch (error) {
-                 console.error('Error in onExit callback for', oldState, ':', error);
-               }
-             });
-             
-             // Change state
-             this.currentState = newState;
-             console.log('State changed from', oldState, 'to', newState);
-             
-             // Execute onEnter callbacks for new state
-             this.stateCallbacks[newState].onEnter.forEach(callback => {
-               try {
-                 callback(newState, oldState);
-               } catch (error) {
-                 console.error('Error in onEnter callback for', newState, ':', error);
-               }
-             });
-           },
-           
-           getCurrentState: function() {
-             return this.currentState;
-           },
-           
-           addStateCallback: function(state, type, callback) {
-             if (!this.states.includes(state)) {
-               console.error('Invalid state:', state);
-               return;
-             }
-             
-             if (type !== 'onEnter' && type !== 'onExit') {
-               console.error('Invalid callback type. Use "onEnter" or "onExit"');
-               return;
-             }
-             
-             this.stateCallbacks[state][type].push(callback);
-             console.log(`Added ${type} callback for state: ${state}`);
-           }
-         });
-         
-         AFRAME.registerComponent('timeline-controller', {
-                       init: function() {
-              this.scene = this.el;
-              this.timeline = null;
-              this.isPaused = false;
-              this.currentScene = 1;
-              this.currentTimescale = 1.0;
-              this.startAtItem = 0; // Item to start at when pressing ]
-             // Wait for scene to be fully loaded before starting timeline
-             this.el.addEventListener('loaded', this.onSceneLoaded.bind(this));
-             
-             // Add click handler to advance timeline
-             this.clickArea = document.querySelector('#clickArea');
-             this.clickArea.addEventListener('click', this.advanceTimeline.bind(this));
-             
-                           // Add click handler for UI button
-              this.uiButton = document.querySelector('#scenario-ui-prompt-button');
-              this.uiButton.addEventListener('click', this.advanceTimeline.bind(this));
-              
-              // Add keyboard controls for timescale
-              document.addEventListener('keydown', this.handleKeyPress.bind(this));
-           },
-           
-           onSceneLoaded: function() {
-             // Start the anime.js timeline after a short delay
-             setTimeout(() => {
-               this.startAnimeTimeline();
-             }, 1000);
-           },
-           
+        });
 
-                addPause: function(duration) {
-                    return {
-                      targets: '#pauseTrigger',
-                      opacity: [0, 0], // No visual change
-                      duration: 100, // Very short duration - just enough to trigger begin()
-                      easing: 'linear',
-                      begin: () => {
-                        console.log(`Pause started - waiting ${duration}s for click or timer`);
-                        this.timeline.pause();
-                        
-                        // Store the pause duration for manual resume logic
-                        this.currentPauseDuration = duration;
-                                           
-                        this.uiButton.textContent = `Continue (${duration}s)`;
-                        
-                        // Start countdown timer that updates button text and logs every second (only if duration > 0)
-                        if (duration > 0) {
-                          let secondsElapsed = 0;
-                          this.countdownInterval = setInterval(() => {
-                            secondsElapsed++;
-                            const remainingTime = duration - secondsElapsed;
+        document.querySelector('#bendigo-selector-button').addEventListener('click', () => {
+            BKICampus = 'bendigo'; 
+            appState.setState('Menu');
 
-                            if (remainingTime > 0) {
-                              this.uiButton.textContent = `Continue (${remainingTime}s)`;
-                              console.log(`Paused ${secondsElapsed}s`);
-                            } else {
-                              // Final second - show "Continue (0s)"
-                              this.uiButton.textContent = `Continuing...`;
-                            }
-                          }, 1000);
-                        }
-                        
-                        // Start timer for auto-resume (only if duration > 0)
-                        if (duration > 0) {
-                          this.pauseTimer = setTimeout(() => {
-                            if (this.timeline.paused) {
-                              console.log(`Pause resolved by timer after ${duration}s - continuing`);
-                              // Clear the countdown interval
-                              if (this.countdownInterval) {
-                                clearInterval(this.countdownInterval);
-                                this.countdownInterval = null;
-                              }
-                              // Reset button text
-                              this.uiButton.textContent = 'Continuing...';
-                              // Resume timeline
-                              this.timeline.play();
-                            }
-                          }, duration * 1000);
-                        } else {
-                          // Duration is 0 - no auto-resume, just show "Continue" indefinitely
-                          this.uiButton.textContent = 'Continue';
-                          console.log('Pause started with duration 0 - waiting for manual resume only');
-                        }
-                      },
-                      complete: () => {
-                        // Animation completes quickly, but timeline is already paused
-                        console.log('Pause animation completed');
-                      }
-                    };
-                },
+        });
+        document.querySelector('#menu-continue-button').addEventListener('click', () => {
+            appState.setState('Scenario-Scan');
 
-                       startAnimeTimeline: function() {
-              console.log('Starting anime.js timeline...');
-              
-              // Create the main timeline
-              this.timeline = anime.timeline({
-                easing: 'easeOutExpo',
-                duration: 750,
-                update: (anim) => {
-                 // anim.progress gives you 0-100 progress
-                 // anim.currentTime gives you current time in milliseconds
-                 const progress = Math.floor(anim.progress);
-                 if (!this.lastProgress || this.lastProgress !== progress) {
-                   console.log(`Timeline progress: ${progress}%`);
-                   this.lastProgress = progress;
-                 }
-                 
-                 // You can also track which specific animation is running
-                 if (anim.animatables && anim.animatables.length > 0) {
-                   console.log('Currently animating:', anim.animatables[0].target);
-                 }
-               },
-                complete: () => {
-                  console.log('Timeline completed');
-                }
-              });
-              
-              // Track timeline item numbers
-              let itemNumber = 1;
-             
-             ///////////////////////////////////////////////////////////////////////////////////////////
-             ///////////////////////////////////////////////////////////////////////////////////////////
-             ///////////////////////////////////////////////////////////////////////////////////////////
-             ///////////////////////////////////////////////////////////////////////////////////////////
-             // Scene 01: Fade In (Mia and Alex simultaneously)
-             ///////////////////////////////////////////////////////////////////////////////////////////
-                                                       this.timeline
-                 .add({
-                   targets: '#s01s01-Mia',
-                   opacity: [0, 1],
-                   duration: 1000,
-                   easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading in Mia (Scene 01)`);
-                     document.getElementById('s01s01-Mia').setAttribute('visible', true);
-                   }
-                 })
-                                                               .add({
-                    targets: '#s01s01-Alex',
-                    opacity: [0, 1],
-                    position: ['-2.5 0 -2', '-0.45 0 -2'],
-                    duration: 1500,
-                    easing: 'easeInOutQuad',
-                    begin: () => {
-                      console.log(`Timeline Item ${itemNumber++}: Fading in Alex and moving him from left to center (Scene 01)`);
-                      document.getElementById('s01s01-Alex').setAttribute('visible', true);
-                    }
-                  })
-                                 .add({
-                   targets: ['#s01s01-Mia', '#s01s01-Alex'],
-                   opacity: [1, 0],
-                   duration: 1000,
-                   easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading out Mia and Alex (Scene 01)`);
-                   },
-                     complete: () => {
-                       document.getElementById('s01s01-Mia').setAttribute('visible', false);
-                       document.getElementById('s01s01-Alex').setAttribute('visible', false);                  
-                     }
-                   
-                 });               
+        });
 
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            // Scene 02: Fade In (Mia and Alex simultaneously)
-            /////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
+        // Wait for A-Frame scene to be ready before setting up state callbacks
+        document.addEventListener('DOMContentLoaded', () => {
+          
+          
+          
+          
+          const scene = document.querySelector('#ARscene');
+          if (scene) {
+            scene.addEventListener('loaded', () => {
+              // Wait a bit more for components to fully initialize
+              const appState = window.appState;
+              setTimeout(() => {
+              if (window.appState) {  
+                  appState.addStateCallback('Loading', 'onEnter', () => {
+                    console.log('Loading state entered');
 
-                         this.timeline
-             .add({
-                   targets: '#text-content-left',
-                   opacity: [1, 1],
-                   duration: 10, // Instant change
-                   easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Setting Alex's speech text to "Hey Mia!"`);
-                     document.getElementById('text-content-left').textContent = "Hey Mia!";
-                   }
-                 })
-                                 .add({
-                   targets: '#text-content-right',
-                   opacity: [1, 1],
-                   duration: 10, // Instant change
-                   easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Setting Mia's speech text to "Hi Alex!"`);
-                     document.getElementById('text-content-right').textContent = "Hi Alex!";
-                   }
-                 })
-                         .add({
-                  targets: ['#s01s02-Mia', '#s01s02-Alex'],
-                  opacity: [0, 1],
-                  duration: 1000,
-                  easing: 'linear',
-                  begin: () => {
-                    console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 02)`);
-                       document.getElementById('s01s02-Mia').setAttribute('visible', true);
-                    document.getElementById('s01s02-Alex').setAttribute('visible', true);
-                   }
-                },"-=1000")
-               
-                               .add({
-                 targets: ['#s01-speech-lt', '.scenario-ui-prompt-speech.left'],
-                 opacity: [0, 1],
-                 duration: 1000,
-                 easing: 'linear',
-                 begin: () => {
-                   console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Alex's speech UI (Scene 02)`);
-                   document.getElementById('s01-speech-lt').setAttribute('visible', true);
-                   document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
-                 }
-               })
-            
-                               .add({
-                  targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right'],
-                  opacity: [0, 1],
-                  duration: 1000,
-                  easing: 'linear',
-                 begin: () => {
-                   console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 02)`);
-                   document.getElementById('s01-speech-rt').setAttribute('visible', true);
-                   document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
-                 }
-                })
-               
-                               .add({
-                  targets: '.scenario-ui-prompt-button-area',
-                  opacity: [0, 1],
-                  duration: 500,
-                  easing: 'linear',
-                 begin: () => {
-                   console.log(`Timeline Item ${itemNumber++}: Fading in continue button area (Scene 02)`);
-                   document.querySelector('.scenario-ui-prompt-button-area').style.display = "flex";
-                 }
-                })               
-               
-               .add(this.addPause(3))
+                    setTimeout(() => {
+                      console.log('Loading campus selector');
+                      document.querySelector('.loading-content').style.display = 'none';
+                      document.querySelector('.loading-campus').style.display = 'block';
+                    }, 3000);
+                  });
 
-                                 .add({
-                   targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
-                               '#s01-speech-lt','#s01-speech-rt','#s01s02-Mia', '#s01s02-Alex'],
-                   opacity: [1, 0],
-                   duration: 1000,
-                   easing: 'linear',                  
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubbles (Scene 02)`);
-                   },
-                   complete: () => {
-                     document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
-                     document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-                     document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-                     document.getElementById('s01-speech-lt').setAttribute('visible', false);
-                     document.getElementById('s01-speech-rt').setAttribute('visible', false);
-                     document.getElementById('s01s02-Mia').setAttribute('visible', false);
-                     document.getElementById('s01s02-Alex').setAttribute('visible', false);
-                   }
-                 })
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                // Scene 03: Fade In (Mia and Alex simultaneously)
-                /////////////////////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                                 this.timeline.add({
-               targets: ['#s01s03-Mia', '#s01s03-Alex'],
-               opacity: [0, 1],
-               duration: 1000,
-               easing: 'linear',
-               begin: () => {                
-                 console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 03)`);
-                 document.getElementById('s01s03-Alex').setAttribute('visible', true);
-                 document.getElementById('s01s03-Mia').setAttribute('visible', true);
-               }           
-             },"-=1000")
-                
-                         .add({
-               targets: '#text-content-left',
-               opacity: [1, 1],
-               duration: 10, // Instant change
-               easing: 'linear',
-               begin: () => {
-                 console.log(`Timeline Item ${itemNumber++}: Setting Alex's speech text about new phone and TAFE logo (Scene 03)`);
-                 document.getElementById('text-content-left').textContent = "I just got a new phone! I posted a selfie with it and my TAFE logo is showing.";
-               }
-             })
-                             .add({
-                  targets: ['#s01-speech-lt', '.scenario-ui-prompt-speech.left'],
-                  opacity: [0, 1],
-                  duration: 1000,
-                  easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Alex's speech UI (Scene 03)`);
-                     document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
-                     document.getElementById('s01-speech-lt').setAttribute('visible', true);
-                   }
-                })
-                             .add({
-                   targets: ['#s01-speech-lt','#s01s03-Mia', '#s01s03-Alex'],
-                   opacity: [1, 0],
-                   duration: 1000,
-                   easing: 'linear',
-                   delay: 3000,
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading out left speech bubble, Mia and Alex (Scene 03)`);
-                   },
-                   complete: () => {
-                     document.getElementById('s01-speech-lt').setAttribute('visible', false);
-                     document.getElementById('s01s03-Mia').setAttribute('visible', false);
-                     document.getElementById('s01s03-Alex').setAttribute('visible', false);
-                   }
-                 }) 
-                                 .add({
-                     targets: '#s01s04-post',
-                     opacity: [0, 1],
-                     position: ['0.5 -0.5 -2', '0.5 0 -1.25'],
-                     rotation: ['0 0 0', '0 0 10'], // Spin while moving
-                     duration: 1000,
-                     easing: 'easeInOutQuad',
-                     begin: () => {
-                       console.log(`Timeline Item ${itemNumber++}: Fading in social media post with spin and movement (Scene 03)`);
-                       document.getElementById('s01s04-post').setAttribute('visible', true);
-                     },
-                  complete: () => {
-                       console.log('Timeline: Starting social media reactions animations (Scene 03)');
-                       document.getElementById('s01s04-like').setAttribute('visible', true);
-                       document.getElementById('s01s04-heart').setAttribute('visible', true);
-                       document.getElementById('s01s04-share').setAttribute('visible', true);
-                       document.getElementById('s01s04-smile').setAttribute('visible', true);
-                       // Start a separate looping animation when this completes
-                       anime({
-                       targets: '#s01s04-post',
-                       rotation: ['0 0 10', '0 0 5'],
-                       duration: 5000,
-                       easing: 'linear',
-                       loop: true,
-                       direction: 'alternate'
-                       });
+                  appState.addStateCallback('Loading', 'onExit', () => { 
+                    console.log('Loading state exited');
+                      console.log('Loading campus selector');
+                      document.querySelector('#loading').style.display = 'none';
+                      document.querySelector('.loading-campus').style.display = 'none';
+                      document.querySelector('.loading-content').style.display = 'block';
 
-                       anime({
-                       targets: '#s01s04-like',
-                       opacity: [1, 0],
-                       position: ['-1 2.5 -3', '-1 -1.5 -3'],
-                       duration: 2000,
-                       easing: 'easeInOutQuad',
-                                             loop: true,
-                             direction: 'alternate'
+                      console.log('BKICampus:', BKICampus);
+                  });
+ 
+                  appState.addStateCallback('Menu', 'onEnter', () => {
+                    console.log('Menu state entered');
+                    document.querySelector('#menu').style.display = 'block';
 
-                           },"-=1000");
-
-                           anime({
-                             targets: '#s01s04-heart',
-                             opacity: [1, 0],
-                       position: ['0.5 2 -2.5', '0.5 -1.75 -2.5'],
-                       duration: 2500,
-                       easing: 'easeInOutQuad',
-                                             loop: true,
-                             direction: 'alternate'
-
-                           },"-=500");
-
-                           anime({
-                             targets: '#s01s04-share',
-                             opacity: [1, 0],
-                       position: ['-0.5 2 -3', '-0.5 -1.5 -3.5'],
-                       duration: 3000,
-                       easing: 'easeInOutQuad',
-                                             loop: true,
-                             direction: 'alternate'
-
-                           },"-=250");
+                  });
+ 
+                  appState.addStateCallback('Menu', 'onExit', () => { 
+                    console.log('Menu state exited');
+                    document.querySelector('#menu').style.display = 'none';
+                  });   
+ 
+                  appState.addStateCallback('Scenario-Scan', 'onEnter', () => {
+                    console.log('Scenario-Scan state entered');
                     
-                           anime({
-                             targets: '#s01s04-smile',
-                             opacity: [1, 0],
-                       position: ['1.25 2 -2.25', '1.25 -1.5 -2.25'],
-                       duration: 2750,
-                       easing: 'easeInOutQuad',
-                                             loop: true,
-                             direction: 'alternate'
-
-                     },"-=750");
-
-                   }
-                },"-=1000")
-
-                               .add({
-                  targets: '.scenario-ui-prompt-button-area',
-                  opacity: [0, 1],
-                  duration: 500,
-                  easing: 'linear',
-                  delay: 3000,
-                 begin: () => {
-                   console.log(`Timeline Item ${itemNumber++}: Fading in continue button area (Scene 03)`);
-                   document.querySelector('.scenario-ui-prompt-button-area').style.display = "flex";
-                 }
-                })               
-               
-               .add(this.addPause(10))
-
-                      
-                                 .add({
-                   targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','#s01s04-post','#s01s04-heart','#s01s04-like','#s01s04-share','#s01s04-smile'],
-                   opacity: [1, 0],
-                   duration: 1000,
-                   easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading out all social media elements (Scene 04)`);
-                   },
-                   complete: () => {
-                     document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
-                     document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-                     document.getElementById('s01s04-post').setAttribute('visible', false);
-                     document.getElementById('s01s04-like').setAttribute('visible', false);
-                     document.getElementById('s01s04-heart').setAttribute('visible', false);
-                     document.getElementById('s01s04-share').setAttribute('visible', false);
-                     document.getElementById('s01s04-smile').setAttribute('visible', false);
-                   }
-                 });
-                
-                
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            // Scene 05: Fade In (Mia and Alex simultaneously)
-            /////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-
-                         this.timeline
-                 .add({
-                   targets: '#text-content-right',
-                   opacity: [1, 1],
-                   duration: 10, // Instant change
-                   easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Setting Mia's speech text about privacy concerns (Scene 05)`);
-                     document.getElementById('text-content-right').textContent = "Oh, you might want to take that down. People can figure out where you go to school from that.";
-                   }
-                 })
-
-                                 .add({
-                  targets: ['#s01s05-Mia', '#s01s05-Alex'],
-                  opacity: [0, 1],
-                  duration: 1000,
-                  easing: 'linear',
-                  begin: () => {
-                    console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 05)`);
-                    document.getElementById('s01s05-Mia').setAttribute('visible', true);
-                    document.getElementById('s01s05-Alex').setAttribute('visible', true);
-                  }
-
-                },"-=1000")
-                             .add({
-                  targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right'],
-                  opacity: [0, 1],
-                  duration: 1000,
-                  easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 05)`);
-                     document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
-                     document.getElementById('s01-speech-rt').setAttribute('visible', true);
-                   }
-                })
-
-                                 .add({
-                   targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right','#s01s05-Mia', '#s01s05-Alex'],
-                   opacity: [1, 0],
-                   duration: 1000,
-                   easing: 'linear',
-                   delay: 3000,
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading out speech bubble right and Mia and Alex (Scene 05)`);
-                   },
-                   complete: () => {
-                     document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-                     document.getElementById('s01-speech-rt').setAttribute('visible', false);
-                     document.getElementById('s01s05-Mia').setAttribute('visible', false);
-                      document.getElementById('s01s05-Alex').setAttribute('visible', false);
-                   }
-                 });  
-             
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            // Scene 06: Fade In (Mia and Alex simultaneously)
-            /////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-
-                         this.timeline
-             
-             .add({
-                  targets: ['#s01s06-Mia', '#s01s06-Alex'],
-                  opacity: [0, 1],
-                  duration: 1000,
-                  easing: 'linear',
-                  begin: () => {
-                    console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 06)`);
-                   document.getElementById('s01s06-Mia').setAttribute('visible', true);
-                    document.getElementById('s01s06-Alex').setAttribute('visible', true);
-                  }
-
-                },"-=1000")
-                             .add({
-                  targets: '#text-content-left',
-                  opacity: [1, 1],
-                  duration: 10, // Instant change
-                  easing: 'linear',
-                  begin: () => {
-                    console.log(`Timeline Item ${itemNumber++}: Setting Alex's speech text about not thinking it's a big deal (Scene 06)`);
-                    document.getElementById('text-content-left').textContent = "Really? I didn't think it was a big deal.";
-                  }
-                })
-                             .add({
-                  targets: ['#s01-speech-lt', '.scenario-ui-prompt-speech.left'],
-                  opacity: [0, 1],
-                  duration: 1000,
-                  easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Alex's speech UI (Scene 06)`);
-                     document.getElementById('s01-speech-lt').setAttribute('visible', true);
-                     document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
-                   }
-                })
-             
-                               .add({
-                   targets: ['#s01-speech-lt', '.scenario-ui-prompt-speech.left','#s01s06-Mia', '#s01s06-Alex'],
-                   opacity: [1, 0],
-                   duration: 1000,
-                   easing: 'linear',
-                   delay: 3000,
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading out Mia and Alex (Scene 06)`);
-                   },
-                   complete: () => {
-                     document.getElementById('s01-speech-lt').setAttribute('visible', false);
-                     document.getElementById('s01s06-Mia').setAttribute('visible', false);
-                     document.getElementById('s01s06-Alex').setAttribute('visible', false);
-                     document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-                   }
-
-                 });
-             
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            // Scene 06: Fade In (Mia and Alex simultaneously)
-            /////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-
-                         this.timeline
-             
-             .add({
-                  targets: ['#s01s07-Mia', '#s01s07-Alex'],
-                  opacity: [0, 1],
-                  duration: 1000,
-                  easing: 'linear',
-                  begin: () => {
-                   console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 07)`);
-                   document.getElementById('s01s07-Mia').setAttribute('visible', true);
-                   document.getElementById('s01s07-Alex').setAttribute('visible', true);
-                  }
-
-                },"-=1000")
-                                 .add({
-                  targets: '#text-content-right',
-                  opacity: [1, 1],
-                  duration: 10, // Instant change
-                  easing: 'linear',
-                  begin: () => {
-                    console.log(`Timeline Item ${itemNumber++}: Setting Mia's speech text about privacy and safety (Scene 07)`);
-                    document.getElementById('text-content-right').textContent = "It can be. It's safer to keep stuff like your school and location private.";
-                  }
-                })
-                             .add({
-                  targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right'],
-                  opacity: [0, 1],
-                  duration: 1000,
-                  easing: 'linear',
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 07)`);
-                     document.getElementById('s01-speech-rt').setAttribute('visible', true);
-                     document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
-                   }
-                })
-
-                               .add({
-                   targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right','#s01s07-Mia', '#s01s07-Alex'],
-                   opacity: [1, 0],
-                   duration: 1000,
-                   easing: 'linear',
-                   delay: 3000,
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading out Mia and Alex (Scene 07)`);
-                     document.getElementById('s01s07-Mia').setAttribute('visible', false);
-                     document.getElementById('s01s07-Alex').setAttribute('visible', false);
-                     document.getElementById('s01-speech-rt').setAttribute('visible', false);
-                     document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-                   }
-
-                 });
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            // Scene 08: Fade In 
-            /////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////
-
-
-                         this.timeline
-             .add({
-                  targets: '#s01s08-profile',
-                  opacity: [0, 1],
-                  position: ['0.5 -0.5 -2', '0.5 0 -1.25'],
-                  rotation: ['0 0 0', '0 0 10'], // Spin while moving
-                  duration: 1000,
-                  easing: 'easeInOutQuad',
-                  begin: () => {
-                   console.log(`Timeline Item ${itemNumber++}: Fading in profile icon with spin and movement (Scene 08)`);
-                   document.getElementById('s01s08-profile').setAttribute('visible', true);
-                  },
-                  complete: () => {
-
-                   
-                       console.log('Timeline: Starting profile and random icon animations (Scene 08)');
-                       document.getElementById('s01s08-random').setAttribute('visible', true);
-                       // Start a separate looping animation when this completes
-                       anime({
-                       targets: '#s01s08-profile',
-                       rotation: ['0 0 10', '0 0 5'],
-                       duration: 5000,
-                       easing: 'linear',
-                       loop: true,
-                       direction: 'alternate'
-                       });
-
-                       anime({
-                       targets: '#s01s08-random',
-                       opacity: [1, 0],
-                       position: ['-1 2.5 -3', '-1 -1.5 -3'],
-                       duration: 2000,
-                       easing: 'easeInOutQuad',
-                       loop: true,
-                       direction: 'alternate'
-
-                       },"-=1000");
-
-                   }
-                },"-=1000")
-
-               .add(this.addPause(3))
-
-                               .add({
-                  targets: '.scenario-ui-prompt-button-area',
-                  opacity: [0, 1],
-                  duration: 500,
-                  easing: 'linear',
-                 begin: () => {
-                   console.log(`Timeline Item ${itemNumber++}: Fading in continue button area (Scene 08)`);
-                   document.querySelector('.scenario-ui-prompt-button-area').style.display = "flex";
-                 }
-                })               
-               
-               .add(this.addPause(0))
-
-                                 .add({
-                   targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left'],
-                   opacity: [1, 0],
-                   duration: 500,
-                   easing: 'linear',
-                   delay:500,
-                   begin: () => {
-                     console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubble (Scene 08)`);
-                   },
-                   complete: () => {
-                     document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
-                     document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-                   }
-                 });
-
-
-
-           },
-           
-                     handleKeyPress: function(event) {
-               if (this.timeline) {
-                 switch(event.key) {
-                   case '0':
-                     this.currentTimescale = 0;
-                     this.timeline.pause();
-                     console.log('Timescale set to 0.0x (Paused)');
-                     break;
-                   case '1':
-                     this.currentTimescale = 1.0;
-                     this.timeline.timescale = 1.0;
-                     this.timeline.play();
-                     console.log('Timescale set to 1.0x (normal speed)');
-                     break;
-                   case '2':
-                     this.currentTimescale = 2.0;
-                     this.timeline.timescale = 2.0;
-                     this.timeline.play();
-                     console.log('Timescale set to 2.0x (2x speed)');
-                     break;
-                                       case '5':
-                      this.currentTimescale = 5.0;
-                      this.timeline.timescale = 5.0;
-                      this.timeline.play();
-                      console.log('Timescale set to 5.0x (5x speed)');
-                      break;
-                    case ']':
-                      // Start timeline at specified item (default: item 10)
-                      this.startAtItem = 10; // You can change this number to start at different items
-                      if (this.timeline) {
-                        this.timeline.pause();
-                        this.timeline.seek(this.startAtItem);
-                        console.log(`Timeline started at item ${this.startAtItem}`);
-                        this.timeline.play();
-                      }
-                      break;
-                 }
-               }
-             },
-            
-                                                   advanceTimeline: function() {
-                 console.log('Timeline advanced by click!');
-                 
-                 // If timeline is paused, resume it
-                 if (this.timeline && this.timeline.paused) {
-                   // Cancel the auto-resume timer since user clicked early
-                   if (this.pauseTimer) {
-                     clearTimeout(this.pauseTimer);
-                     this.pauseTimer = null;
-                   }
-                   
-                   // Clear the countdown interval
-                   if (this.countdownInterval) {
-                     clearInterval(this.countdownInterval);
-                     this.countdownInterval = null;
-                   }
-                   
-                   // Resume timeline immediately - no need to complete animation
-                   this.timeline.timescale = this.currentTimescale;
-                   this.timeline.play();
-                   // Reset button text
-                   this.uiButton.textContent = 'Continue';
-                   console.log('Timeline resumed by click');
-                 } else {
-                   // If timeline is running, pause it (for debugging)
-                   console.log('Timeline is currently running');
-                 }
-               }
-         });
-        </script>
+                    // // Get the timeline-controller component instance
+                    // const timelineController = document.querySelector('#ARscene').components['timeline-controller'];
+                    // if (timelineController && timelineController.startAnimeTimeline) {
+                    //   timelineController.startAnimeTimeline();
+                    //   document.querySelector('#scenario').style.display = 'block';
+                    // } else {
+                    //   console.error('Timeline controller not available');
+                    // }
+                  });
+ 
+                  appState.addStateCallback('Scenario-Scan', 'onExit', () => { 
+                    console.log('Scenario-Scan state exited');
+                  }); 
+ 
+                  appState.addStateCallback('Scenario-Video', 'onEnter', () => {
+                    console.log('Scenario-Video state entered');
+                  });
+ 
+                  appState.addStateCallback('Scenario-Video', 'onExit', () => { 
+                    console.log('Scenario-Video state exited');
+                  });     
+ 
+                  appState.addStateCallback('Scenario-Quiz', 'onEnter', () => {
+                    console.log('Scenario-Quiz state entered');
+                  });
+ 
+                  appState.addStateCallback('Scenario-Quiz', 'onExit', () => { 
+                    console.log('Scenario-Quiz state exited');
+                  });     
+ 
+                  appState.addStateCallback('Scenario-Finish', 'onEnter', () => {
+                    console.log('Scenario-Finish state entered');
+                  });
+ 
+                  appState.addStateCallback('Scenario-Finish', 'onExit', () => { 
+                    console.log('Scenario-Finish state exited');
+                  });     
+ 
+                  appState.addStateCallback('Filter', 'onEnter', () => {
+                    console.log('Filter state entered');
+                  });
+ 
+                  appState.addStateCallback('Filter', 'onExit', () => { 
+                    console.log('Filter state exited');
+                  });
+                  
+                  appState.setState('Loading');
+                  console.log("Current state:", appState.getCurrentState());
+                } else {
+                  console.error('appState not available yet');
+                }
+              }, 500);
+            });
+          }
+        });
+      </script>
+         
   
     </body>
   </html>
