@@ -131,6 +131,8 @@
                  <!-- Anime.js Timeline Container -->
          <div id="timelineContainer" style="display: none;"></div>
          
+         <a-entity mindar-image-target="targetIndex: 0">
+          <!-- <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane> -->
          <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="-0.25 2.25 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
          <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0.25 2.25 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
 
@@ -164,7 +166,8 @@
         <a-image id="s01s08-profile" src="#s01-scene-08-profile" scale="2 3 1" position="-0 0 -1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
         
         <a-image id="s01s08-random" src="#s01-scene-08-random" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        
+        </a-entity>
+
         
         <!-- <a-image id="s01s08-bam" src="#s01-scene-08-bam" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
         <a-image id="s01s08-friend1" src="#s01-scene-08-friend1" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
@@ -182,9 +185,6 @@
 
         <a-plane color="#CCC" height="20" width="20" position="0 -2 0" rotation="-90 0 0"></a-plane>
 
-        <a-entity mindar-image-target="targetIndex: 0">
-          <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        </a-entity>
 
         <a-camera position="0 0.5 1" look-controls="enabled: false"></a-camera>
       </a-scene>
@@ -256,14 +256,14 @@
                   appState.addStateCallback('Scenario-Scan', 'onEnter', () => {
                     console.log('Scenario-Scan state entered');
                     
-                    // // Get the timeline-controller component instance
-                    // const timelineController = document.querySelector('#ARscene').components['timeline-controller'];
-                    // if (timelineController && timelineController.startAnimeTimeline) {
-                    //   timelineController.startAnimeTimeline();
-                    //   document.querySelector('#scenario').style.display = 'block';
-                    // } else {
-                    //   console.error('Timeline controller not available');
-                    // }
+                    //Get the timeline-controller component instance
+                    const timelineController = document.querySelector('#ARscene').components['timeline-controller'];
+                    if (timelineController && timelineController.startAnimeTimeline) {
+                      timelineController.startAnimeTimeline();
+                      document.querySelector('#scenario').style.display = 'block';
+                    } else {
+                      console.error('Timeline controller not available');
+                    }
                   });
  
                   appState.addStateCallback('Scenario-Scan', 'onExit', () => { 
