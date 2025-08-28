@@ -71,8 +71,18 @@
             </div>
         </div>
 
-      <a-scene id="ARscene" timeline-controller state-tracker mindar-image="imageTargetSrc: ./image.mind;" 
-            vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+
+            <a-scene id="ARscene" 
+            timeline-controller 
+            state-tracker 
+            mindar-image="imageTargetSrc: ./image.mind; 
+                         filterMinCF: 0.1; 
+                         filterBeta: 10; 
+                         warmupTolerance: 3; 
+                         missTolerance: 3; 
+                         maxTrack: 1" 
+            vr-mode-ui="enabled: false" 
+            device-orientation-permission-ui="enabled: false">            
         <a-assets timeout="2000">
            
           <!-- Scene 01 Character Assets -->
