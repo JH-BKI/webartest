@@ -1,0 +1,219 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* prevents scrollbars */
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}        
+
+*, *::before, *::after {
+  box-sizing: inherit; /* ensures padding/border don't add extra size */
+}
+
+.fullscreen {
+  position: fixed;   /* ensures it's pinned to viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;      /* viewport width, ignores scrollbars */
+  height: 100vh;     /* viewport height */
+}
+
+.a-enter-vr {display:none;}
+
+.scenario-ui-prompt {
+  display: flex;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  z-index: 1000;
+  padding: 10px 2%;
+  width: 96%;
+  height: auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: stretch;
+  color: #fff;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.scenario-ui-prompt-speech {
+  display: none;
+  opacity: 0;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: flex-start;
+  order: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: auto;
+  padding: 5px 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  background: rgb(132 105 161 / 85%);
+  border: 1px solid rgba(92, 74, 112, 0.9);
+}
+
+.scenario-ui-prompt-speech-profile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: 0 0 50px;
+}
+
+.scenario-ui-prompt-speech-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          
+}
+
+.scenario-ui-prompt-speech-content {
+  margin: 0 10px;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.scenario-ui-prompt-speech-content>span:nth-child(1) { 
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.scenario-ui-prompt-speech-content>span:nth-child(2) {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.scenario-ui-prompt-speech.right {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  background: rgb(127 189 66 / 85%);
+  border: 1px solid rgba(66, 97, 34, 0.9);
+}
+
+.scenario-ui-prompt-speech.right .scenario-ui-prompt-speech-content {
+  align-items: flex-end;  
+}
+
+.scenario-ui-prompt-speech.right .scenario-ui-prompt-speech-profile {
+  /* margin: 0;
+  margin-left: 30px; */
+}
+
+.scenario-ui-prompt-button-area {
+  display: none;
+  /*display: block;*/
+  opacity: 0;          
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: center;
+  justify-content: center;
+  order: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px 2%;
+  width: 96%;
+}
+
+#scenario-ui-prompt-button {
+  width: auto;
+  height: 50px;
+  padding: 10px 20px;
+  background: #000000;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  position: relative;
+  border: 0;
+  color: white;
+  cursor: pointer;
+  /* max-width: 100%; */
+}
+
+#loading {
+  background-color: #4ac6e6;
+  border: 10px dashed #fff;
+  color: white;
+  text-shadow: 1px 1px 2px #000;
+}
+
+#loading .loading-content, 
+#loading .loading-campus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#loading .loading-content-text {
+  font-size: 24px;
+  font-weight: bold;
+} 
+
+#loading .loading-campus {
+  display: none;
+}
+
+#loading.loading-content-campus {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+#loading .loading-content-campus .kangan-selector, 
+#loading .loading-content-campus .bendigo-selector{
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
+
+#loading .loading-content-campus .kangan-selector button, 
+#loading .loading-content-campus .bendigo-selector button{ 
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 5px;          
+  font-weight: bold;
+  color: #000;
+}
+
+#loading .loading-content-campus .kangan-selector img, 
+#loading .loading-content-campus .bendigo-selector img{ 
+  width: 100px;
+}
+
+#loading, #menu, #scenario {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+#loading {
+  display: block;
+}
