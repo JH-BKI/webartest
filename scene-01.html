@@ -108,12 +108,14 @@
         renderer="colorManagement: true, physicallyCorrectLights"
         vr-mode-ui="enabled: false" 
         device-orientation-permission-ui="enabled: false">            
-            <!-- <a-scene id="ARscene" 
-            timeline-controller 
-            state-tracker 
-            vr-mode-ui="enabled: false" 
-            device-orientation-permission-ui="enabled: false">            
-        <a-assets timeout="2000"> -->
+        <!-- <a-scene id="ARscene" 
+        timeline-controller 
+        state-tracker 
+     
+        color-space="sRGB" 
+        renderer="colorManagement: true, physicallyCorrectLights"
+        vr-mode-ui="enabled: false" 
+        device-orientation-permission-ui="enabled: false">     -->
            
           <!-- Scene 01 Character Assets -->
           <img id="s01-scene-01-Alex" src="./assets/s01-scene-01-Alex.png">
@@ -171,7 +173,7 @@
                  <!-- Anime.js Timeline Container -->
          <div id="timelineContainer" style="display: none;"></div>
          
-         <a-entity id="scenario-assets" mindar-image-target="targetIndex: 0">
+         <a-entity id="scenario-assets" position="0 0 2" mindar-image-target="targetIndex: 0">
 
               <a-plane color="#CCC" height="20" width="20" position="0 -2 0" rotation="-90 0 0"></a-plane>
           <!-- <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane> -->
@@ -211,6 +213,42 @@
      
             </a-entity>
 
+              <!-- Navigation boxes arranged in a cross pattern -->
+              <a-box id="up-button" 
+                     position="0 0.2 1" 
+                     scale="0.1 0.1 0.1" 
+                     color="green"
+                     class="clickable"></a-box>
+              
+              <a-box id="down-button"
+                     position="0 -0.2 1"
+                     scale="0.1 0.1 0.1"
+                     color="blue" 
+                     class="clickable"></a-box>
+              
+              <a-box id="left-button"
+                     position="-0.2 0 1"
+                     scale="0.1 0.1 0.1"
+                     color="red"
+                     class="clickable"></a-box>
+              
+              <a-box id="right-button"
+                     position="0.2 0 1"
+                     scale="0.1 0.1 0.1"
+                     color="yellow"
+                     class="clickable"></a-box>
+              
+              <a-box id="forward-button"
+                     position="0.2 0.2 1"
+                     scale="0.1 0.1 0.1"
+                     color="purple"
+                     class="clickable"></a-box>
+                     
+              <a-box id="backward-button"
+                     position="0.2 -0.2 1"
+                     scale="0.1 0.1 0.1"
+                     color="pink"
+                     class="clickable"></a-box>
 
         
         <!-- <a-image id="s01s08-bam" src="#s01-scene-08-bam" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
@@ -236,7 +274,7 @@
       position="0 1.6 -3">
     </a-entity> -->
 
-        <a-camera position="0 2.6 14" look-controls="enabled: false"></a-camera>
+        <a-camera position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse"></a-camera>
       </a-scene>
 
 <!-- Hidden iframe container -->
@@ -257,7 +295,37 @@
           debug.innerHTML = ver+"> Debug: "+message;
         }
 
+        function moveCamera(direction) {
+                  const assetArea = document.querySelector('#scenario-assets');
+                  const currentPosition = assetArea.getAttribute('position');
+                  
+                  switch(direction) {
+                    case 'up':
+                      assetArea.setAttribute('position', `${currentPosition.x} ${currentPosition.y + 0.1} ${currentPosition.z}`);
+                      break;
+                    case 'down':
+                      assetArea.setAttribute('position', `${currentPosition.x} ${currentPosition.y - 0.1} ${currentPosition.z}`);
+                      break;
+                    case 'left':
+                      assetArea.setAttribute('position', `${currentPosition.x - 0.1} ${currentPosition.y} ${currentPosition.z}`);
+                      break;
+                    case 'right':
+                      assetArea.setAttribute('position', `${currentPosition.x + 0.1} ${currentPosition.y} ${currentPosition.z}`);
+                      break;
+                    case 'forward':
+                      assetArea.setAttribute('position', `${currentPosition.x} ${currentPosition.y} ${currentPosition.z + 0.1}`);
+                      break;                      
+                    case 'backward':
+                      assetArea.setAttribute('position', `${currentPosition.x} ${currentPosition.y} ${currentPosition.z - 0.1}`);
+                      break;
+                  }
 
+
+                  debugLog(`moved:${direction} | ${currentPosition.x.toFixed(3)} ${currentPosition.y.toFixed(3)} ${currentPosition.z.toFixed(3)} `);
+                  console.log(`moved:${direction} | ${currentPosition.x.toFixed(3)} ${currentPosition.y.toFixed(3)} ${currentPosition.z.toFixed(3)} `);
+
+
+                }
 
 
         document.querySelector('#kangan-selector-button').addEventListener('click', () => {
@@ -276,6 +344,42 @@
         document.querySelector('#menu-continue-button').addEventListener('click', () => {
             appState.setState('Scenario-Scan');
 
+        });
+
+        // Add click event listeners for navigation boxes
+        document.addEventListener('DOMContentLoaded', () => {
+          // Wait for A-Frame to be ready
+          const scene = document.querySelector('#ARscene');
+          if (scene) {
+            scene.addEventListener('loaded', () => {
+              // Add click listeners to navigation boxes
+              const upButton = document.querySelector('#up-button');
+              const downButton = document.querySelector('#down-button');
+                const leftButton = document.querySelector('#left-button');
+                const rightButton = document.querySelector('#right-button');
+                const forwardButton = document.querySelector('#forward-button');
+                const backwardButton = document.querySelector('#backward-button');
+
+              if (upButton) {
+                upButton.addEventListener('click', () => moveCamera('up'));
+              }
+              if (downButton) {
+                downButton.addEventListener('click', () => moveCamera('down'));
+              }
+              if (leftButton) {
+                leftButton.addEventListener('click', () => moveCamera('left'));
+              }
+              if (rightButton) {
+                rightButton.addEventListener('click', () => moveCamera('right'));
+              }
+              if (forwardButton) {
+                forwardButton.addEventListener('click', () => moveCamera('forward'));
+              }
+              if (backwardButton) {
+                backwardButton.addEventListener('click', () => moveCamera('backward'));
+              }
+            });
+          }
         });
 
         // Wait for A-Frame scene to be ready before setting up state callbacks
@@ -383,6 +487,7 @@
                   appState.addStateCallback('Scenario-Scan', 'onEnter', () => {
                     console.log('Scenario-Scan state entered');
                     document.querySelector('#scenario').style.display = 'none';
+
                     
                   });
  
