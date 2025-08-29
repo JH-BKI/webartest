@@ -263,7 +263,12 @@ AFRAME.registerComponent('timeline-controller', {
       }
     }
   },
-  
+  quickPlay: function() {
+    this.timeline.play();
+  },  
+  quickPause: function() {
+    this.timeline.pause();
+  },
   advanceTimeline: function() {
     console.log('Timeline advanced by click!');
     

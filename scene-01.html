@@ -273,6 +273,8 @@
               arSystem = scene.systems["mindar-image-system"];
               
               const appState = window.appState;
+              const timelineController = document.querySelector('#ARscene').components['timeline-controller'];
+
               setTimeout(() => {
               if (window.appState) {  
 
@@ -296,14 +298,27 @@
                   // detect target found
                   arImageTargetAssets.addEventListener("targetFound", event => {
                     debugLog("target found in state: " + appState.getCurrentState());
-                    console.log("target found");
-
-
+                    console.log("target found in state: " + appState.getCurrentState());
+                    switch (appState.getCurrentState()) {
+                      case 'Scenario-Scan':
+                        appState.setState('Scenario-Animate');
+                        break;
+                      case 'Scenario-Animate':
+                        timelineController.quickPlay();
+                        break;
+                    }
                   });
                   // detect target lost
                   arImageTargetAssets.addEventListener("targetLost", event => {
                     debugLog("target lost in state: " + appState.getCurrentState());
                       console.log("target lost");
+                      switch (appState.getCurrentState()) {
+                      case 'Scenario-Scan':
+                        break;
+                      case 'Scenario-Animate':
+                      timelineController.quickPause();
+                        break;
+                    }
                   });
 
 
@@ -350,7 +365,6 @@
 
                   appState.addStateCallback('Scenario-Animate', 'onEnter', () => {
                     //Get the timeline-controller component instance
-                    const timelineController = document.querySelector('#ARscene').components['timeline-controller'];
                     if (timelineController && timelineController.startAnimeTimeline) {
                       timelineController.startAnimeTimeline();
                       document.querySelector('#scenario').style.display = 'block';
