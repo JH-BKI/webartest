@@ -12,7 +12,7 @@
         <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
         <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"> -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script> -->
-        <script src="https://unpkg.com/aframe-html-shader@1.0.0/dist/aframe-html-shader.min.js"></script>
+        <!-- <script src="https://unpkg.com/aframe-html-shader@1.0.0/dist/aframe-html-shader.min.js"></script> -->
        <link rel="stylesheet" href="./styles.css">
         
     
@@ -228,22 +228,22 @@
         <a-plane color="#CCC" height="20" width="20" position="0 -2 0" rotation="-90 0 0"></a-plane>
 
         <!-- Vimeo Video on a plane -->
-      <a-entity 
+      <!-- <a-entity 
       geometry="primitive: plane; width: 3; height: 1.6875" 
       material="shader: html; target: #vimeoContainer" 
       position="0 1.6 -3">
-    </a-entity>
+    </a-entity> -->
 
         <a-camera position="0 0.5 1" look-controls="enabled: false"></a-camera>
       </a-scene>
 
-<!-- Hidden iframe container -->
-<div id="vimeoContainer" style="display: none;">
+<!-- Hidden iframe container --> -->
+<!-- <div id="vimeoContainer" style="display: none;">
   <iframe 
     src="https://player.vimeo.com/video/911432606?background=1&autoplay=1&muted=1"
     width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
   </iframe>
-</div>
+</div> -->
       <script>
         console.log("filterMinCF: 0.0001; | filterBeta: 0.001; | warmupTolerance: 1; | missTolerance: 1; | maxTrack: 1");
         var BKICampus = '';
@@ -287,55 +287,7 @@
               
 
 
-   // Create Vimeo Player
-   const iframe = document.getElementById('vimeoPlayer');
-      const player = new Vimeo.Player(iframe);
-
-      // Create a video element
-      const videoEl = document.createElement('video');
-      videoEl.setAttribute('id', 'vimeoVideo');
-      videoEl.setAttribute('crossorigin', 'anonymous');
-      videoEl.setAttribute('playsinline', '');
-      videoEl.setAttribute('autoplay', '');
-      videoEl.setAttribute('muted', ''); // Must be muted for autoplay in most browsers
-      videoEl.setAttribute('loop', '');
-      videoEl.style.display = 'none'; // hide the <video> element itself
-      document.body.appendChild(videoEl);
-
-      // Get the current playable URL from Vimeo and assign it to videoEl
-      player.getVideoUrl().then(function(url) {
-        videoEl.src = url;
-        videoEl.play().catch(err => console.warn('Autoplay prevented', err));
-      });
-
-      // Update the A-Frame material to use the video as a texture
-      const plane = document.querySelector('#videoPlane');
-      plane.addEventListener('materialtextureloaded', () => {
-        console.log('Video texture loaded');
-      });
-      plane.setAttribute('material', 'shader: flat; src: #vimeoVideo');
-
-
-
-              const video = document.getElementById('vimeoVideo');
-      const vimeoHLS = 'https://vod-adaptive-ak.vimeocdn.com/exp=1756432009/.../playlist.m3u8'; // Replace with your HLS URL
-
-      // Check for HLS support
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(vimeoHLS);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          video.play();
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        // Safari support
-        video.src = vimeoHLS;
-        video.addEventListener('loadedmetadata', () => {
-          video.play();
-        });
-      }
-
+  
 
 
 
