@@ -21,7 +21,7 @@
 
 
 <div id="debug">
-  <p>Debug</p>
+  ##Debug window##
 </div>
       
         <div id="loading">
@@ -248,10 +248,11 @@
         console.log("filterMinCF: 0.0001; | filterBeta: 0.001; | warmupTolerance: 1; | missTolerance: 1; | maxTrack: 1");
         var BKICampus = '';
         
+        var ver = '0.5';
 
         const debug = document.querySelector('#debug');
         function debugLog(message) {
-          debug.innerHTML += message + "<br>";
+          debug.innerHTML = ver+"> Debug: "+message;
         }
 
 
@@ -259,12 +260,14 @@
 
         document.querySelector('#kangan-selector-button').addEventListener('click', () => {
             BKICampus = 'kangan';
+            debugLog("Kangan campus selected");
             appState.setState('Menu');
 
         });
 
         document.querySelector('#bendigo-selector-button').addEventListener('click', () => {
             BKICampus = 'bendigo'; 
+            debugLog("Bendigo campus selected");
             appState.setState('Menu');
 
         });
