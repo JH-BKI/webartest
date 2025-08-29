@@ -68,10 +68,11 @@
                 <p>UPDATE WITH WEB AR INSTRUCTIONS & ONBOARDING</p>
                 <p>PLACE HOLDER CONTENT</p>
                 <p>PLACE HOLDER CONTENT</p>
-                <p>PLACE HOLDER CONTENT</p>
             </div>
             <div class="cell cell3">
-              <button type="button" id="menu-continue-button">Let's Go!</button>  
+              <p>Have you seen any NCPW posters yet?</p>
+              <p>You have <strong>3</strong> more posters to find.</p>
+              <button type="button" id="menu-continue-button">SCAN A POSTER!</button>  
             </div>
             <div class="cell cell4">
             </div>
@@ -94,6 +95,78 @@
               </div>
             </div>
         </div>
+
+        <div id="video">
+          <div class="menu-grid menu-content">
+            <div class="cell cell2 our-label">            
+              <h2>The signs someone might be a catfish</h2>                
+                  <p>Catfishing is when someone creates a fake social media account to scam or trick you.</p>
+                  <p>Always be careful about what you say and share online.</p>
+            </div>
+            <div class="cell cell3 our-label">
+              <p><strong>Signs of a catfish:</strong></p>
+              <p>Watch the video below to learn more about catfishing and the signs to look out for.</p>
+              <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/911432606?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="SCROLL - Catfishing"></iframe></div>
+            </div>
+            <div class="cell cell4" style="text-align: center;">
+              <button type="button" id="video-continue-button">Continue</button>  
+            </div>
+            <div class="cell cell5"></div>
+          </div>
+      </div>
+
+      <div id="quiz">
+        <div class="menu-grid menu-content" id="quiz-content">
+          <div class="cell cell2 our-label">      
+            <h2>Knowledge Check</h2>                
+                <p>There are five signs of catfishing, below are three of these signs, select which three are correct.</p>
+                <form id="quiz-form">
+                <ul style="list-style-type: none;">
+                  <li><input type="checkbox">They like to talk about themselves.</li>
+                  <li><input type="checkbox" class="quiz-correct"> They seem a bit too… perfect.</li>
+                  <li><input type="checkbox" class="quiz-correct"> They always have a reason why they can't meet up.</li>
+                  <li><input type="checkbox">They like to do video chats so you can see who they are.</li>
+                  <li><input type="checkbox" class="quiz-correct"> Their stories don't quite add up.</li>
+                </ul>
+                <button type="button" id="quiz-submit-button">Submit</button>  
+              </form>
+          </div>
+          <div class="cell cell3 our-label answer-area">
+              <p class="correct">Correct!<BR>You paid attention, well done, thought we might have tricked you with this one! Here are the signs to look out for:</p>
+              <p class="incorrect">Not quite.<BR>Here are the signs you should look out for:</p>
+              <ol>
+                <li>They ask lots of questions about you but avoid answering questions about themselves.</li>
+                <li>They seem a bit too… perfect.</li>
+                <li>They always have a reason why they can't meet up.</li>
+                <li>They're not keen on video chats.</li>
+                <li>Their stories don't quite add up.</li>
+              </ol>
+
+          </div>
+          <div class="cell cell4" style="text-align: center;">
+            <button type="button" id="quiz-continue-button">Continue</button>  
+          </div>
+          <div class="cell cell5"></div>
+        </div>
+    </div>
+    
+    <div id="finish">
+      <div class="menu-grid menu-content">
+        <div class="cell cell2 our-label">            
+          <h2>Poster complete!</h2>                
+        </div>
+        <div class="cell cell3 our-label">
+          <p>Select the 'Continue' button below to run through this again or you can go and find another poster.</p>
+          <p>You have <strong>3</strong> more posters to find.</p>
+        </div>
+        <div class="cell cell4" style="text-align: center;">
+          <button type="button" id="finish-continue-button">Continue</button>  
+        </div>
+        <div class="cell cell5"></div>
+      </div>
+  </div>
+
+
 
         <a-scene id="ARscene" 
         timeline-controller 
@@ -291,12 +364,12 @@
       <script>
         var BKICampus = '';
         
-        var ver = '0.60 - offset?';
+        var ver = '0.61 - flow complete:';
         console.log(ver+" || filterMinCF: 0.0001; | filterBeta: 0.001; | warmupTolerance: 1; | missTolerance: 1; | maxTrack: 1");
         
         const debug = document.querySelector('#debug'); 
         function debugLog(message) {
-          debug.innerHTML = ver + "> Debug: "+message;
+          debug.innerHTML = ver + "> \nDebug: "+message;
         }
         
         debugLog(ver);
@@ -348,44 +421,58 @@
         });
         document.querySelector('#menu-continue-button').addEventListener('click', () => {
             appState.setState('Scenario-Scan');
-
         });
+          document.querySelector('#video-continue-button').addEventListener('click', () => {
+              appState.setState('Scenario-Quiz');
+          });
+          document.querySelector('#quiz-submit-button').addEventListener('click', () => {
 
-        // Add click event listeners for navigation boxes
-        document.addEventListener('DOMContentLoaded', () => {
-          // Wait for A-Frame to be ready
-          const scene = document.querySelector('#ARscene');
-          if (scene) {
-            scene.addEventListener('loaded', () => {
-              // Add click listeners to navigation boxes
-              const upButton = document.querySelector('#up-button');
-              const downButton = document.querySelector('#down-button');
-                const leftButton = document.querySelector('#left-button');
-                const rightButton = document.querySelector('#right-button');
-                const forwardButton = document.querySelector('#forward-button');
-                const backwardButton = document.querySelector('#backward-button');
+          });
+          document.querySelector('#quiz-continue-button').addEventListener('click', () => {
+            appState.setState('Scenario-Finish');
+          });
+          document.querySelector('#finish-continue-button').addEventListener('click', () => {
+              appState.setState('Menu');
+          });
 
-              if (upButton) {
-                upButton.addEventListener('click', () => moveCamera('up'));
-              }
-              if (downButton) {
-                downButton.addEventListener('click', () => moveCamera('down'));
-              }
-              if (leftButton) {
-                leftButton.addEventListener('click', () => moveCamera('left'));
-              }
-              if (rightButton) {
-                rightButton.addEventListener('click', () => moveCamera('right'));
-              }
-              if (forwardButton) {
-                forwardButton.addEventListener('click', () => moveCamera('forward'));
-              }
-              if (backwardButton) {
-                backwardButton.addEventListener('click', () => moveCamera('backward'));
-              }
-            });
-          }
-        });
+
+
+
+        // // Add click event listeners for navigation boxes
+        // document.addEventListener('DOMContentLoaded', () => {
+        //   // Wait for A-Frame to be ready
+        //   const scene = document.querySelector('#ARscene');
+        //   if (scene) {
+        //     scene.addEventListener('loaded', () => {
+        //       // Add click listeners to navigation boxes
+        //       const upButton = document.querySelector('#up-button');
+        //       const downButton = document.querySelector('#down-button');
+        //         const leftButton = document.querySelector('#left-button');
+        //         const rightButton = document.querySelector('#right-button');
+        //         const forwardButton = document.querySelector('#forward-button');
+        //         const backwardButton = document.querySelector('#backward-button');
+
+        //       if (upButton) {
+        //         upButton.addEventListener('click', () => moveCamera('up'));
+        //       }
+        //       if (downButton) {
+        //         downButton.addEventListener('click', () => moveCamera('down'));
+        //       }
+        //       if (leftButton) {
+        //         leftButton.addEventListener('click', () => moveCamera('left'));
+        //       }
+        //       if (rightButton) {
+        //         rightButton.addEventListener('click', () => moveCamera('right'));
+        //       }
+        //       if (forwardButton) {
+        //         forwardButton.addEventListener('click', () => moveCamera('forward'));
+        //       }
+        //       if (backwardButton) {
+        //         backwardButton.addEventListener('click', () => moveCamera('backward'));
+        //       }
+        //     });
+        //   }
+        // });
 
         // Wait for A-Frame scene to be ready before setting up state callbacks
         document.addEventListener('DOMContentLoaded', () => {
@@ -488,17 +575,19 @@
                     document.querySelector('#menu').style.display = 'none';
                   });   
  
+
+
                   appState.addStateCallback('Scenario-Scan', 'onEnter', () => {
                     console.log('Scenario-Scan state entered');
                     document.querySelector('#scenario').style.display = 'none';
-
-                    
                   });
  
                   appState.addStateCallback('Scenario-Scan', 'onExit', () => { 
                     console.log('Scenario-Scan state exited');
                     document.querySelector('#scenario').style.display = 'block';
                   }); 
+
+
 
                   appState.addStateCallback('Scenario-Animate', 'onEnter', () => {
                     document.querySelector('#scenario').style.display = 'block';
@@ -513,31 +602,51 @@
  
                   appState.addStateCallback('Scenario-Animate', 'onExit', () => { 
                     console.log('Scenario-Animate state exited');
+                    document.querySelector('#scenario').style.display = 'none';
+                      //clean up aframe
+
                   });   
+
+
 
                   appState.addStateCallback('Scenario-Video', 'onEnter', () => {
                     console.log('Scenario-Video state entered');
+                    document.querySelector('#video').style.display = 'block';
+
                   });
  
                   appState.addStateCallback('Scenario-Video', 'onExit', () => { 
                     console.log('Scenario-Video state exited');
+                    document.querySelector('#video').style.display = 'none';
                   });     
  
+
+
                   appState.addStateCallback('Scenario-Quiz', 'onEnter', () => {
                     console.log('Scenario-Quiz state entered');
+                    document.querySelector('#quiz').style.display = 'block';
+
                   });
  
                   appState.addStateCallback('Scenario-Quiz', 'onExit', () => { 
                     console.log('Scenario-Quiz state exited');
+                    document.querySelector('#quiz').style.display = 'none';
                   });     
+ 
+ 
  
                   appState.addStateCallback('Scenario-Finish', 'onEnter', () => {
                     console.log('Scenario-Finish state entered');
+                    document.querySelector('#finish').style.display = 'block';
+
                   });
  
                   appState.addStateCallback('Scenario-Finish', 'onExit', () => { 
                     console.log('Scenario-Finish state exited');
+                    document.querySelector('#finish').style.display = 'none';
                   });     
+ 
+ 
  
                   appState.addStateCallback('Filter', 'onEnter', () => {
                     console.log('Filter state entered');

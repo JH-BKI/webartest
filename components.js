@@ -5,7 +5,11 @@
 AFRAME.registerComponent('state-tracker', {
   init: function() {
     // Define the 5 states
-    this.states = ['Start','Loading', 'Menu', 'Scenario-Scan', 'Scenario-Animate','Scenario-Video', 'Scenario-Quiz', 'Scenario-Finish','Filter'];
+    this.states = ['Start','Loading', 
+                  'Menu', 'Scenario-Scan', 
+                  'Scenario-Animate','Scenario-Video', 
+                  'Scenario-Quiz', 'Scenario-Finish',
+                  'Filter'];
     this.currentState = 'Start';
     this.stateCallbacks = {};
     
@@ -200,6 +204,11 @@ AFRAME.registerComponent('timeline-controller', {
       },
       complete: () => {
         console.log('Timeline completed');
+                // Access the global appState to call setState
+                if (window.appState) {
+                  window.appState.setState('Scenario-Video'); // or whatever state you want
+                }
+        
       }
     });
     
