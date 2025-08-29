@@ -165,6 +165,7 @@
           <!-- Generic Speech Bubble Assets -->
           <img id="s01-speech-left" src="./assets/s01-speech-left.png">
           <img id="s01-speech-right" src="./assets/s01-speech-right.png">
+          <img id="s01-floor" src="./assets/s01-floor.png">
 
         </a-assets>
         
@@ -173,9 +174,9 @@
                  <!-- Anime.js Timeline Container -->
          <div id="timelineContainer" style="display: none;"></div>
          
-         <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 0">
+         <a-entity id="scenario-assets" position="0 0 -10" mindar-image-target="targetIndex: 0">
 
-              <a-plane color="#CCC" height="20" width="20" position="0 -2 0" rotation="-90 0 0"></a-plane>
+              <a-image id="s01-floor" src="#s01-floor" scale="2 1 2" position="0 -2 0" rotation="-90 0 0"></a-image>
           <!-- <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane> -->
               <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="-0.25 2.25 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
               <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0.25 2.25 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
