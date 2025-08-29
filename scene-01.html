@@ -213,6 +213,8 @@
      
             </a-entity>
 
+
+            <a-entity id="assetsGamepad" position="0 0 0"></a-entity>
               <!-- Navigation boxes arranged in a cross pattern -->
               <a-box id="up-button" 
                      position="0 0.2 1" 
@@ -249,7 +251,7 @@
                      scale="0.1 0.1 0.1"
                      color="pink"
                      class="clickable"></a-box>
-
+              </a-entity>
         
         <!-- <a-image id="s01s08-bam" src="#s01-scene-08-bam" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
         <a-image id="s01s08-friend1" src="#s01-scene-08-friend1" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
@@ -288,7 +290,7 @@
         console.log("filterMinCF: 0.0001; | filterBeta: 0.001; | warmupTolerance: 1; | missTolerance: 1; | maxTrack: 1");
         var BKICampus = '';
         
-        var ver = '0.51 - camera position test';
+        var ver = '0.52 - a-pos test ';
 
         const debug = document.querySelector('#debug');
         function debugLog(message) {
