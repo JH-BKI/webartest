@@ -290,15 +290,15 @@
       <script>
         var BKICampus = '';
         
-        var ver = '0.58 - more floor';
+        var ver = '0.59 - more floor';
         console.log(ver+" || filterMinCF: 0.0001; | filterBeta: 0.001; | warmupTolerance: 1; | missTolerance: 1; | maxTrack: 1");
-        debugLog(ver);
-
+        
         const debug = document.querySelector('#debug'); 
         function debugLog(message) {
-          debug.innerHTML = ver+"> Debug: "+message;
+          debug.innerHTML = ver + "> Debug: "+message;
         }
-
+        
+        debugLog(ver);
         function moveCamera(direction) {
                   const assetArea = document.querySelector('#scenario-assets');
                   const currentPosition = assetArea.getAttribute('position');
@@ -400,7 +400,7 @@
               
 
 
-  
+
 
 
 
@@ -412,7 +412,6 @@
 
               setTimeout(() => {
               if (window.appState) {  
-
 
               // arReady event triggered when ready
               scene.addEventListener("arReady", (event) => {
@@ -497,13 +496,14 @@
  
                   appState.addStateCallback('Scenario-Scan', 'onExit', () => { 
                     console.log('Scenario-Scan state exited');
+                    document.querySelector('#scenario').style.display = 'block';
                   }); 
 
                   appState.addStateCallback('Scenario-Animate', 'onEnter', () => {
+                    document.querySelector('#scenario').style.display = 'block';
                     //Get the timeline-controller component instance
                     if (timelineController && timelineController.startAnimeTimeline) {
                       timelineController.startAnimeTimeline();
-                      document.querySelector('#scenario').style.display = 'block';
                     } else {
                       console.error('Timeline controller not available');
                     }
