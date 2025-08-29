@@ -10,22 +10,27 @@
         <script src="./timeline-data.js"></script>
         <script src="./components.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"> -->
        <link rel="stylesheet" href="./styles.css">
         
     
       </head>
     <body>
 
+
+<div id="debug">
+  <p>Debug</p>
+</div>
+      
         <div id="loading">
           <div class="loading-content">
               <div class="loading-content-text">
-                  <h1>BKI NCPW2025</h1>
-                  <p>Loading...</p>
+                  <h1 class="our-label">BKI NCPW2025</h1>
+                  <p class="our-label">Loading...</p>
               </div>
           </div>
           <div class="loading-campus">
-            <h3>Please select your campus:</h3>
+            <h3 class="our-label">Please select your campus:</h3>
             <div class="loading-content-campus">
               <div class="kangan-selector">
                 <button id="kangan-selector-button" type="button">
@@ -45,15 +50,31 @@
           </div>        
         </div>  
         
+
+
+
+
         <div id="menu">
-          <div class="menu-content">
-            <h1>Welcome!</h1>
-            <p>PLACE HOLDER CONTENT</p>
-            <p>Webar onboarding</p>
-            <p>filterMinCF: 0.0001; | filterBeta: 0.001; | warmupTolerance: 1; | missTolerance: 1; | maxTrack: 1</p>
-            <h3>Let's Go!</h3>
-            <button type="button" id="menu-continue-button">Continue</button>
-          </div>        
+          <div class="menu-grid menu-content">
+            <div class="cell cell1 our-label">
+                <h1>Welcome!</h1>
+                <p>We are celebrating NCPW 2025!
+                  
+                </p>
+            </div>
+            <div class="cell cell2">            
+                <p>UPDATE WITH WEB AR INSTRUCTIONS & ONBOARDING</p>
+                <p>PLACE HOLDER CONTENT</p>
+                <p>PLACE HOLDER CONTENT</p>
+                <p>PLACE HOLDER CONTENT</p>
+            </div>
+            <div class="cell cell3">
+              <button type="button" id="menu-continue-button">Let's Go!</button>  
+            </div>
+            <div class="cell cell4">
+            </div>
+            <div class="cell cell5"><small>Illustrative assets <a href="https://storytribeapp.com/" target="_blank">created with StoryTribe</a></small></div>
+          </div>
         </div>  
         
         <div id="scenario">
@@ -72,19 +93,25 @@
             </div>
         </div>
 
-
-            <a-scene id="ARscene" 
+        <a-scene id="ARscene" 
+        timeline-controller 
+        state-tracker 
+        mindar-image="imageTargetSrc: ./image.mind; 
+                     filterMinCF: 0.0001; 
+                     filterBeta: 0.001; 
+                     warmupTolerance: 1; 
+                     missTolerance: 1; 
+                     maxTrack: 1;" 
+        color-space="sRGB" 
+        renderer="colorManagement: true, physicallyCorrectLights"
+        vr-mode-ui="enabled: false" 
+        device-orientation-permission-ui="enabled: false">            
+            <!-- <a-scene id="ARscene" 
             timeline-controller 
             state-tracker 
-            mindar-image="imageTargetSrc: ./image.mind; 
-                         filterMinCF: 0.0001; 
-                         filterBeta: 0.001; 
-                         warmupTolerance: 1; 
-                         missTolerance: 1; 
-                         maxTrack: 1" 
             vr-mode-ui="enabled: false" 
             device-orientation-permission-ui="enabled: false">            
-        <a-assets timeout="2000">
+        <a-assets timeout="2000"> -->
            
           <!-- Scene 01 Character Assets -->
           <img id="s01-scene-01-Alex" src="./assets/s01-scene-01-Alex.png">
@@ -142,42 +169,44 @@
                  <!-- Anime.js Timeline Container -->
          <div id="timelineContainer" style="display: none;"></div>
          
-         <a-entity mindar-image-target="targetIndex: 0">
-          <!-- <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane> -->
-         <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="-0.25 2.25 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-         <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0.25 2.25 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-
-        <a-image id="s01s01-Alex" src="#s01-scene-01-Alex" scale="2 4 1" position="-2.5 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s01-Mia" src="#s01-scene-01-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-
-
-        <a-image id="s01s02-Alex" src="#s01-scene-02-Alex" scale="2 4 1" position="-0.55 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s02-Mia" src="#s01-scene-02-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-
-        <a-image id="s01s03-Alex" src="#s01-scene-03-Alex" scale="2 4 1" position="-0.55 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s03-Mia" src="#s01-scene-03-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-
-        <a-image id="s01s04-post" src="#s01-scene-04-post" scale="2 3 1" position="-0 0 -1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s04-heart" src="#s01-scene-04-heart" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s04-like" src="#s01-scene-04-like" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s04-share" src="#s01-scene-04-share" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s04-smile" src="#s01-scene-04-smile" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false"opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-
-
-        <a-image id="s01s05-Alex" src="#s01-scene-05-Alex" scale="2 4 1" position="-0.55 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s05-Mia" src="#s01-scene-05-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-
-        <a-image id="s01s06-Alex" src="#s01-scene-06-Alex" scale="2 4 1" position="-0.55 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s06-Mia" src="#s01-scene-06-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-
-        <a-image id="s01s07-Alex" src="#s01-scene-07-Alex" scale="2 4 1" position="-0.55 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        <a-image id="s01s07-Mia" src="#s01-scene-07-Mia" scale="2 4 1" position="0.5 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-
-        <!-- Scene 08 Action and Status Assets -->
-        <a-image id="s01s08-profile" src="#s01-scene-08-profile" scale="2 3 1" position="-0 0 -1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-        
-        <a-image id="s01s08-random" src="#s01-scene-08-random" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+         <a-entity id="scenario-assets" mindar-image-target="targetIndex: 0">
+          <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
         </a-entity>
+              <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="-0.25 2.25 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0.25 2.25 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+
+              <a-image id="s01s01-Alex" src="#s01-scene-01-Alex" scale="2 4 1" position="-2.5 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s01-Mia" src="#s01-scene-01-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+
+
+              <a-image id="s01s02-Alex" src="#s01-scene-02-Alex" scale="2 4 1" position="-0.55 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s02-Mia" src="#s01-scene-02-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+
+              <a-image id="s01s03-Alex" src="#s01-scene-03-Alex" scale="2 4 1" position="-0.55 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s03-Mia" src="#s01-scene-03-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+
+              <a-image id="s01s04-post" src="#s01-scene-04-post" scale="2 3 1" position="-0 0 -1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s04-heart" src="#s01-scene-04-heart" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s04-like" src="#s01-scene-04-like" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s04-share" src="#s01-scene-04-share" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s04-smile" src="#s01-scene-04-smile" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false"opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+
+
+              <a-image id="s01s05-Alex" src="#s01-scene-05-Alex" scale="2 4 1" position="-0.55 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s05-Mia" src="#s01-scene-05-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+
+              <a-image id="s01s06-Alex" src="#s01-scene-06-Alex" scale="2 4 1" position="-0.55 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s06-Mia" src="#s01-scene-06-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+
+              <a-image id="s01s07-Alex" src="#s01-scene-07-Alex" scale="2 4 1" position="-0.55 0 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s07-Mia" src="#s01-scene-07-Mia" scale="2 4 1" position="0.5 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+
+              <!-- Scene 08 Action and Status Assets -->
+              <a-image id="s01s08-profile" src="#s01-scene-08-profile" scale="2 3 1" position="-0 0 -1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              
+              <a-image id="s01s08-random" src="#s01-scene-08-random" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+     
+        
 
         
         <!-- <a-image id="s01s08-bam" src="#s01-scene-08-bam" scale="1 1 1" position="-0 0 -2" rotation="0 0 0" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
@@ -201,9 +230,18 @@
       </a-scene>
 
       <script>
-        
+        console.log("filterMinCF: 0.0001; | filterBeta: 0.001; | warmupTolerance: 1; | missTolerance: 1; | maxTrack: 1");
         var BKICampus = '';
         
+
+        const debug = document.querySelector('#debug');
+        function debugLog(message) {
+          debug.innerHTML += message + "<br>";
+        }
+
+
+
+
         document.querySelector('#kangan-selector-button').addEventListener('click', () => {
             BKICampus = 'kangan';
             appState.setState('Menu');
@@ -227,12 +265,46 @@
           
           
           const scene = document.querySelector('#ARscene');
+          let arSystem;
           if (scene) {
             scene.addEventListener('loaded', () => {
               // Wait a bit more for components to fully initialize
+              
+              arSystem = scene.systems["mindar-image-system"];
+              
               const appState = window.appState;
               setTimeout(() => {
               if (window.appState) {  
+
+
+              // arReady event triggered when ready
+              scene.addEventListener("arReady", (event) => {
+                  // console.log("MindAR is ready")
+                  debugLog("MindAR is ready");
+                  console.log("MindAR is ready");
+                });
+
+                // arError event triggered when something went wrong. Mostly browser compatbility issue
+                scene.addEventListener("arError", (event) => {
+                    // console.log("MindAR failed to start")
+                    debugLog("MindAR failed to start");
+                    console.log("MindAR failed to start");
+                  });
+
+                  const arImageTargetAssets = document.querySelector('#scenario-assets');
+
+                  // detect target found
+                  arImageTargetAssets.addEventListener("targetFound", event => {
+                    debugLog("target found");
+                    console.log("target found");
+                  });
+                  // detect target lost
+                  arImageTargetAssets.addEventListener("targetLost", event => {
+                    debugLog("target lost");
+                      console.log("target lost");
+                  });
+
+
                   appState.addStateCallback('Loading', 'onEnter', () => {
                     console.log('Loading state entered');
 
@@ -240,7 +312,7 @@
                       console.log('Loading campus selector');
                       document.querySelector('.loading-content').style.display = 'none';
                       document.querySelector('.loading-campus').style.display = 'block';
-                    }, 3000);
+                    }, 500);
                   });
 
                   appState.addStateCallback('Loading', 'onExit', () => { 
@@ -266,7 +338,15 @@
  
                   appState.addStateCallback('Scenario-Scan', 'onEnter', () => {
                     console.log('Scenario-Scan state entered');
+                    document.querySelector('#scenario').style.display = 'none';
                     
+                  });
+ 
+                  appState.addStateCallback('Scenario-Scan', 'onExit', () => { 
+                    console.log('Scenario-Scan state exited');
+                  }); 
+
+                  appState.addStateCallback('Scenario-Animate', 'onEnter', () => {
                     //Get the timeline-controller component instance
                     const timelineController = document.querySelector('#ARscene').components['timeline-controller'];
                     if (timelineController && timelineController.startAnimeTimeline) {
@@ -275,12 +355,13 @@
                     } else {
                       console.error('Timeline controller not available');
                     }
+                    
                   });
  
-                  appState.addStateCallback('Scenario-Scan', 'onExit', () => { 
-                    console.log('Scenario-Scan state exited');
-                  }); 
- 
+                  appState.addStateCallback('Scenario-Animate', 'onExit', () => { 
+                    console.log('Scenario-Animate state exited');
+                  });   
+
                   appState.addStateCallback('Scenario-Video', 'onEnter', () => {
                     console.log('Scenario-Video state entered');
                   });

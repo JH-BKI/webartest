@@ -5,7 +5,7 @@
 AFRAME.registerComponent('state-tracker', {
   init: function() {
     // Define the 5 states
-    this.states = ['Start','Loading', 'Menu', 'Scenario-Scan', 'Scenario-Video', 'Scenario-Quiz', 'Scenario-Finish','Filter'];
+    this.states = ['Start','Loading', 'Menu', 'Scenario-Scan', 'Scenario-Animate','Scenario-Video', 'Scenario-Quiz', 'Scenario-Finish','Filter'];
     this.currentState = 'Start';
     this.stateCallbacks = {};
     
