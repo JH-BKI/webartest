@@ -295,12 +295,14 @@
 
                   // detect target found
                   arImageTargetAssets.addEventListener("targetFound", event => {
-                    debugLog("target found");
+                    debugLog("target found in state: " + appState.getCurrentState());
                     console.log("target found");
+
+
                   });
                   // detect target lost
                   arImageTargetAssets.addEventListener("targetLost", event => {
-                    debugLog("target lost");
+                    debugLog("target lost in state: " + appState.getCurrentState());
                       console.log("target lost");
                   });
 
