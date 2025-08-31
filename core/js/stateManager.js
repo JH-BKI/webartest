@@ -1,8 +1,89 @@
 // Simple State Manager for the learning app
 class StateManager {
     constructor() {
-        this.currentState = 'topics';
+        this.currentState = 'loading'; // Start with loading state
         this.states = {
+            loading: {
+                onEnter: () => {
+                    console.log('Entering loading state');
+                    // Show loading screen
+                    this.hideAllSections();
+                    // Note: loading section will be created in HTML
+                },
+                onExit: () => {
+                    console.log('Exiting loading state');
+                }
+            },
+            campus_selection: {
+                onEnter: () => {
+                    console.log('Entering campus selection state');
+                    this.hideAllSections();
+                    // Show campus selection section
+                    const campusSection = document.getElementById('campus-selection');
+                    if (campusSection) {
+                        campusSection.classList.remove('hidden');
+                    }
+                },
+                onExit: () => {
+                    console.log('Exiting campus selection state');
+                }
+            },
+            menu: {
+                onEnter: () => {
+                    console.log('Entering menu state');
+                    this.hideAllSections();
+                    // Show menu section
+                    const menuSection = document.getElementById('menu-section');
+                    if (menuSection) {
+                        menuSection.classList.remove('hidden');
+                    }
+                },
+                onExit: () => {
+                    console.log('Exiting menu state');
+                }
+            },
+            scanning: {
+                onEnter: () => {
+                    console.log('Entering scanning state');
+                    this.hideAllSections();
+                    // Show scanning section
+                    const scanningSection = document.getElementById('scanning-section');
+                    if (scanningSection) {
+                        scanningSection.classList.remove('hidden');
+                    }
+                },
+                onExit: () => {
+                    console.log('Exiting scanning state');
+                }
+            },
+            ar_ready: {
+                onEnter: () => {
+                    console.log('Entering AR ready state');
+                    this.hideAllSections();
+                    // Show AR ready section
+                    const arReadySection = document.getElementById('ar-ready-section');
+                    if (arReadySection) {
+                        arReadySection.classList.remove('hidden');
+                    }
+                },
+                onExit: () => {
+                    console.log('Exiting AR ready state');
+                }
+            },
+            animating: {
+                onEnter: () => {
+                    console.log('Entering animating state');
+                    this.hideAllSections();
+                    // Show animating section
+                    const animatingSection = document.getElementById('animating-section');
+                    if (animatingSection) {
+                        animatingSection.classList.remove('hidden');
+                    }
+                },
+                onExit: () => {
+                    console.log('Exiting animating state');
+                }
+            },
             topics: {
                 onEnter: () => {
                     console.log('Entering topics state');
@@ -18,17 +99,21 @@ class StateManager {
             video: {
                 onEnter: () => {
                     console.log('Entering video state');
+                    this.hideAllSections();
                     document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('video-section').classList.remove('hidden');
                 },
                 onExit: () => {
                     console.log('Exiting video state');
+                    document.getElementById('progress').classList.add('hidden');
                     document.getElementById('video-section').classList.add('hidden');
                 }
             },
             quiz: {
                 onEnter: () => {
                     console.log('Entering quiz state');
+                    this.hideAllSections();
+                    document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('quiz-section').classList.remove('hidden');
                 },
                 onExit: () => {
@@ -39,6 +124,8 @@ class StateManager {
             summary: {
                 onEnter: () => {
                     console.log('Entering summary state');
+                    this.hideAllSections();
+                    document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('summary-section').classList.remove('hidden');
                 },
                 onExit: () => {
@@ -90,7 +177,19 @@ class StateManager {
 
     // Helper method to hide all sections
     hideAllSections() {
-        const sections = ['topics', 'progress', 'video-section', 'quiz-section', 'summary-section'];
+        const sections = [
+            'topics', 
+            'progress', 
+            'video-section', 
+            'quiz-section', 
+            'summary-section', 
+            'loading-section', 
+            'campus-selection', 
+            'menu-section', 
+            'scanning-section', 
+            'ar-ready-section', 
+            'animating-section'];
+            
         sections.forEach(sectionId => {
             const element = document.getElementById(sectionId);
             if (element) {
