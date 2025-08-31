@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning App</title>
+    <link rel="stylesheet" href="core/css/style.css">
+</head>
+<body>
+    <!-- Topic Selection -->
+    <div id="topics" class="card">
+        <h1>Choose Your Learning Topic</h1>
+        <p>Select a topic to begin your interactive learning experience</p>
+        
+        <div class="topic-grid">
+            <div class="topic-card" onclick="startTopic('web')">
+                <span class="topic-icon">💻</span>
+                <div class="topic-title">Web Development</div>
+                <div class="topic-desc">HTML, CSS & JavaScript</div>
+            </div>
+            <div class="topic-card" onclick="startTopic('marketing')">
+                <span class="topic-icon">📱</span>
+                <div class="topic-title">Digital Marketing</div>
+                <div class="topic-desc">SEO & Social Media</div>
+            </div>
+            <div class="topic-card" onclick="startTopic('data')">
+                <span class="topic-icon">📊</span>
+                <div class="topic-title">Data Science</div>
+                <div class="topic-desc">Python & Analytics</div>
+            </div>
+            <div class="topic-card" onclick="startTopic('security')">
+                <span class="topic-icon">🔒</span>
+                <div class="topic-title">Cybersecurity</div>
+                <div class="topic-desc">Threats & Protection</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Progress Bar -->
+    <div id="progress" class="hidden">
+        <div class="back-link" onclick="goHome()">← Back to Topics</div>
+        <div class="progress-bar">
+            <div id="progress-bar" class="progress-fill"></div>
+        </div>
+    </div>
+    
+    <!-- Video Section -->
+    <div id="video-section" class="card hidden">
+        <h2 id="video-title">Topic Title</h2>
+        
+        <div class="video-container">
+            <iframe src="https://player.vimeo.com/video/76979871" frameborder="0" allowfullscreen></iframe>
+        </div>
+        
+        <div id="content-area">
+            <!-- Content will be loaded here -->
+        </div>
+        
+        <button class="btn" onclick="goToQuiz()">Continue to Quiz</button>
+    </div>
+    
+    <!-- Quiz Section -->
+    <div id="quiz-section" class="card hidden">
+        <h2>Quiz Time!</h2>
+        
+        <div class="question-box">
+            <h3 id="question">Loading question...</h3>
+            <p id="instructions">Select your answer(s):</p>
+        </div>
+        
+        <div id="answers">
+            <!-- Answers will be loaded here -->
+        </div>
+        
+        <button id="submit-btn" class="btn" onclick="checkAnswers()">Submit Answer</button>
+        
+        <div id="results" class="hidden">
+            <div id="score" class="score-box">Score: 0%</div>
+            <div id="feedback" class="feedback-box">Feedback will appear here</div>
+            <button class="btn btn-success" onclick="goToSummary()">Continue</button>
+        </div>
+    </div>
+    
+    <!-- Summary Section -->
+    <div id="summary-section" class="card hidden">
+        <h2>Great Work!</h2>
+        <div id="summary-content">
+            <!-- Summary will be loaded here -->
+        </div>
+        <button class="btn btn-secondary" onclick="restartTopic()">Try Again</button>
+        <button class="btn" onclick="goHome()">Choose New Topic</button>
+    </div>
+
+    <script src="./core/js/topics.js"></script>
+    <script src="./core/js/stateManager.js"></script>
+    <script>
+        
+        let currentTopic = '';
+        let selectedAnswers = [];
+        let currentScore = 0;
+        
+        function startTopic(topic) {
+            currentTopic = topic;
+            selectedAnswers = [];
+            currentScore = 0;
+            
+            // Use state manager to change to video state
+            stateManager.changeState('video');
+            
+            // Load content
+            loadVideoContent();
+            updateProgress(33);
+        }
+        
+        function loadVideoContent() {
+            const topic = topicData[currentTopic];
+            document.getElementById('video-title').textContent = topic.title;
+            
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = '';
+            
+            topic.content.forEach(paragraph => {
+                const p = document.createElement('p');
+                p.textContent = paragraph;
+                contentArea.appendChild(p);
+            });
+        }
+        
+        function goToQuiz() {
+            stateManager.changeState('quiz');
+            
+            loadQuiz();
+            updateProgress(66);
+        }
+        
+        function loadQuiz() {
+            const topic = topicData[currentTopic];
+            document.getElementById('question').textContent = topic.question;
+            
+            const answersDiv = document.getElementById('answers');
+            answersDiv.innerHTML = '';
+            
+            topic.answers.forEach((answer, index) => {
+                const div = document.createElement('div');
+                div.className = 'answer';
+                div.textContent = answer.text;
+                div.onclick = () => selectAnswer(index);
+                answersDiv.appendChild(div);
+            });
+        }
+        
+        function selectAnswer(index) {
+            const answerDiv = document.getElementsByClassName('answer')[index];
+            
+            if (selectedAnswers.includes(index)) {
+                selectedAnswers = selectedAnswers.filter(i => i !== index);
+                answerDiv.classList.remove('selected');
+            } else {
+                selectedAnswers.push(index);
+                answerDiv.classList.add('selected');
+            }
+        }
+        
+        function checkAnswers() {
+            const topic = topicData[currentTopic];
+            const correctAnswers = topic.answers.map((answer, index) => 
+                answer.correct ? index : null).filter(i => i !== null);
+            
+            let correct = 0;
+            let total = correctAnswers.length;
+            
+            // Count correct selections
+            correctAnswers.forEach(correctIndex => {
+                if (selectedAnswers.includes(correctIndex)) {
+                    correct++;
+                }
+            });
+            
+            // Subtract for wrong selections
+            selectedAnswers.forEach(selectedIndex => {
+                if (!correctAnswers.includes(selectedIndex)) {
+                    correct = Math.max(0, correct - 1);
+                }
+            });
+            
+            currentScore = Math.round((correct / total) * 100);
+            
+            // Show results
+            showQuizResults(correctAnswers);
+        }
+        
+        function showQuizResults(correctAnswers) {
+            const topic = topicData[currentTopic];
+            const answers = document.getElementsByClassName('answer');
+            
+            // Color code answers
+            for (let i = 0; i < answers.length; i++) {
+                const answer = answers[i];
+                const wasSelected = selectedAnswers.includes(i);
+                const isCorrect = correctAnswers.includes(i);
+                
+                answer.onclick = null; // Disable clicking
+                answer.classList.remove('selected');
+                
+                if (isCorrect && wasSelected) {
+                    answer.classList.add('correct');
+                } else if (isCorrect && !wasSelected) {
+                    answer.classList.add('missed');
+                } else if (!isCorrect && wasSelected) {
+                    answer.classList.add('incorrect');
+                }
+            }
+            
+            // Show score and feedback
+            document.getElementById('score').textContent = `Score: ${currentScore}%`;
+            
+            const feedbackText = currentScore === 100 ? topic.feedback.perfect : topic.feedback.partial;
+            document.getElementById('feedback').textContent = feedbackText;
+            
+            document.getElementById('submit-btn').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+        }
+        
+        function goToSummary() {
+            stateManager.changeState('summary');
+            
+            loadSummary();
+            updateProgress(100);
+        }
+        
+        function loadSummary() {
+            const topic = topicData[currentTopic];
+            const summaryDiv = document.getElementById('summary-content');
+            summaryDiv.innerHTML = '';
+            
+            topic.summary.forEach(line => {
+                const p = document.createElement('p');
+                p.textContent = line;
+                summaryDiv.appendChild(p);
+            });
+            
+            // Add final score
+            const scoreP = document.createElement('div');
+            scoreP.className = 'score-box';
+            scoreP.textContent = `Final Score: ${currentScore}%`;
+            scoreP.style.marginTop = '20px';
+            summaryDiv.appendChild(scoreP);
+        }
+        
+        function restartTopic() {
+            selectedAnswers = [];
+            currentScore = 0;
+            
+            // Reset quiz
+            document.getElementById('submit-btn').classList.remove('hidden');
+            document.getElementById('results').classList.add('hidden');
+            
+            // Use state manager to return to video state
+            stateManager.changeState('video');
+            
+            loadVideoContent();
+            updateProgress(33);
+        }
+        
+        function goHome() {
+            // Reset everything
+            selectedAnswers = [];
+            currentScore = 0;
+            currentTopic = '';
+            
+            // Use state manager to return to topics state
+            stateManager.changeState('topics');
+            
+            // Reset quiz state
+            document.getElementById('submit-btn').classList.remove('hidden');
+            document.getElementById('results').classList.add('hidden');
+        }
+        
+        function updateProgress(percent) {
+            document.getElementById('progress-bar').style.width = percent + '%';
+        }
+    </script>
+</body>
+</html>

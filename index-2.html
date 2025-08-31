@@ -39,5 +39,59 @@
       <a-cursor color="white"></a-cursor>
     </a-entity>
   </a-scene>
+  <!-- Console Output Element -->
+  <div id="consoleOutput" style="position: fixed; bottom: 10px; left: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; font-family: monospace; max-height: 200px; overflow-y: auto; z-index: 9999;">
+  </div>
+
+  <script>
+    // Override console.log and other methods to display in the custom console
+    const consoleOutput = document.getElementById('consoleOutput');
+    const originalConsole = {
+      log: console.log,
+      error: console.error,
+      warn: console.warn,
+      info: console.info
+    };
+
+    function addToConsoleOutput(message, type = 'log') {
+      const entry = document.createElement('div');
+      entry.style.borderBottom = '1px solid #333';
+      entry.style.padding = '2px 0';
+      
+      switch(type) {
+        case 'error':
+          entry.style.color = '#ff4444';
+          break;
+        case 'warn':
+          entry.style.color = '#ffaa00';
+          break;
+        case 'info':
+          entry.style.color = '#44aaff';
+          break;
+      }
+      
+      entry.textContent = `${type}: ${typeof message === 'object' ? JSON.stringify(message) : message}`;
+      consoleOutput.appendChild(entry);
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+
+    // Override console methods
+    console.log = function() {
+      originalConsole.log.apply(console, arguments);
+      addToConsoleOutput(arguments[0], 'log');
+    };
+    console.error = function() {
+      originalConsole.error.apply(console, arguments);
+      addToConsoleOutput(arguments[0], 'error');
+    };
+    console.warn = function() {
+      originalConsole.warn.apply(console, arguments);
+      addToConsoleOutput(arguments[0], 'warn');
+    };
+    console.info = function() {
+      originalConsole.info.apply(console, arguments);
+      addToConsoleOutput(arguments[0], 'info');
+    };
+  </script>
 </body>
 </html>
