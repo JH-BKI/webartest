@@ -1,7 +1,7 @@
 // Topic data for the learning app
 const topicData = {
-    web: {
-        title: 'Web Development Basics',
+    topic_1: {
+        title: 'Protecting Yourself Online',
         content: [
             'Welcome to web development! This course covers the three core technologies that power the modern web.',
             'HTML provides the structure and content of web pages, like the skeleton of a building.',
@@ -29,8 +29,8 @@ const topicData = {
             '• These three work together to create modern websites'
         ]
     },
-    marketing: {
-        title: 'Digital Marketing Essentials',
+    topic_2: {
+        title: 'Navigating Difficult Situations',
         content: [
             'Digital marketing is the practice of promoting products or services using digital technologies.',
             'Search Engine Optimization (SEO) helps websites rank higher in search results.',
@@ -58,8 +58,8 @@ const topicData = {
             '• Digital channels offer measurable results'
         ]
     },
-    data: {
-        title: 'Data Science Fundamentals',
+    topic_3: {
+        title: 'Respectful Relationships Online',
         content: [
             'Data science combines statistical analysis, programming, and domain expertise.',
             'Python and R are the most popular programming languages for data analysis.',
@@ -87,8 +87,8 @@ const topicData = {
             '• Domain expertise guides analysis'
         ]
     },
-    security: {
-        title: 'Cybersecurity Basics',
+    topic_4: {
+        title: 'Seeking Help and Support',
         content: [
             'Cybersecurity protects systems, networks, and data from digital attacks.',
             'Malware includes viruses, worms, and ransomware that can damage systems.',

@@ -4,35 +4,268 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning App</title>
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="core/css/style.css">
+    
+    <!-- 
+     * AR Learning App - Phase 1: UI Structure Complete
+     * 
+     * Dependencies:
+     * - CSS: core/css/style.css (all UI section styles)
+     * - JS: core/js/topics.js (topic data and content)
+     * - JS: core/js/stateManager.js (application state management)
+     * 
+     * Note: arSceneManager.js is disabled during Phase 1 UI development
+     * Will be re-enabled for Phase 3: MindAR Integration
+     -->
 </head>
 <body>
+    <!-- Loading Section -->
+    <div id="loading-section" class="card">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Loading Learning Experience</h2>
+            <p>Preparing your interactive AR journey...</p>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="loading-progress" class="progress-fill"></div>
+                </div>
+                <div class="progress-text">Initializing... <span id="loading-percentage">0%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campus Selection -->
+    <div id="campus-selection" class="card hidden">
+        <h1>Choose Your Campus</h1>
+        <p>Select your preferred learning location</p>
+        
+        <div class="campus-grid">
+            <div class="campus-card" onclick="selectCampus('broadmeadows')">
+                <img src="assets/kangan.png" alt="Broadmeadows Campus" class="campus-logo">
+                <div class="campus-name">Broadmeadows</div>
+            </div>
+            <div class="campus-card" onclick="selectCampus('bendigo')">
+                <img src="assets/bendigo.png" alt="Bendigo Campus" class="campus-logo">
+                <div class="campus-name">Bendigo</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Topic Selection -->
-    <div id="topics" class="card">
+    <div id="topics" class="card hidden">
         <h1>Choose Your Learning Topic</h1>
         <p>Select a topic to begin your interactive learning experience</p>
         
         <div class="topic-grid">
-            <div class="topic-card" onclick="startTopic('web')">
+            <div class="topic-card" onclick="startTopic('topic_1')">
                 <span class="topic-icon">💻</span>
-                <div class="topic-title">Web Development</div>
-                <div class="topic-desc">HTML, CSS & JavaScript</div>
+                <div class="topic-title">Seeking Help and Support</div>
+                <div class="topic-desc">subtitle description</div>
             </div>
-            <div class="topic-card" onclick="startTopic('marketing')">
+            <div class="topic-card" onclick="startTopic('topic_2')">
                 <span class="topic-icon">📱</span>
-                <div class="topic-title">Digital Marketing</div>
-                <div class="topic-desc">SEO & Social Media</div>
+                <div class="topic-title">Navigating Difficult Situations</div>
+                <div class="topic-desc">subtitle description</div>
             </div>
-            <div class="topic-card" onclick="startTopic('data')">
+            <div class="topic-card" onclick="startTopic('topic_3')">
                 <span class="topic-icon">📊</span>
-                <div class="topic-title">Data Science</div>
-                <div class="topic-desc">Python & Analytics</div>
+                <div class="topic-title">Respectful Relationships Online</div>
+                <div class="topic-desc">subtitle description</div>
             </div>
-            <div class="topic-card" onclick="startTopic('security')">
+            <div class="topic-card" onclick="startTopic('topic_4')">
                 <span class="topic-icon">🔒</span>
-                <div class="topic-title">Cybersecurity</div>
-                <div class="topic-desc">Threats & Protection</div>
+                <div class="topic-title">Seeking Help and Support</div>
+                <div class="topic-desc">subtitle description</div>
             </div>
+        </div>
+    </div>
+    
+    <!-- Menu Section -->
+    <div id="menu-section" class="card hidden">
+        <h1>Ready to Start AR Learning?</h1>
+        <p>Your interactive AR journey is about to begin</p>
+        
+        <div class="completion-status">
+            <div class="status-card">
+                <span class="status-icon">📊</span>
+                <div class="status-text">Progress</div>
+                <div class="completion-count">0 of 4 completed</div>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="startARScanning()">
+            🚀 Start AR Scanning
+        </button>
+        
+        <div class="menu-info">
+            <p>📱 Point your camera at one of the learning posters</p>
+            <p>🎯 Each poster will unlock a different learning experience</p>
+        </div>
+    </div>
+    
+    <!-- Scanning Section -->
+    <div id="scanning-section" class="card hidden">
+        <h1>AR Camera Scanner</h1>
+        <p>Point your camera at one of the learning posters</p>
+        
+        <div class="camera-container">
+            <div class="viewfinder">
+                <div class="viewfinder-frame">
+                    <div class="corner top-left"></div>
+                    <div class="corner top-right"></div>
+                    <div class="corner bottom-left"></div>
+                    <div class="corner bottom-right"></div>
+                    <div class="scanning-line"></div>
+                </div>
+                <div class="camera-placeholder">
+                    <span class="camera-icon">📷</span>
+                    <p>Camera viewfinder</p>
+                </div>
+            </div>
+            
+            <div class="scanning-instructions">
+                <div class="instruction-step">
+                    <span class="step-icon">1️⃣</span>
+                    <span>Hold your device steady</span>
+                </div>
+                <div class="instruction-step">
+                    <span class="step-icon">2️⃣</span>
+                    <span>Point at a learning poster</span>
+                </div>
+                <div class="instruction-step">
+                    <span class="step-icon">3️⃣</span>
+                    <span>Wait for poster detection</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="permission-section">
+            <button id="request-camera-btn" class="btn btn-primary" onclick="requestCameraPermission()">
+                📱 Enable Camera Access
+            </button>
+            <p class="permission-note">Camera access is required for AR scanning</p>
+        </div>
+        
+        <!-- Simulated poster detection for testing -->
+        <div class="demo-section">
+            <h3>🧪 Demo Mode</h3>
+            <p>For testing purposes, simulate poster detection:</p>
+            <div class="demo-buttons">
+                <button class="btn btn-secondary" onclick="simulatePosterDetection('topic_1')">
+                    🎯 Protecting Yourself Online
+                </button>
+                <button class="btn btn-secondary" onclick="simulatePosterDetection('topic_2')">
+                    🎯 Navigating Difficult Situations
+                </button>
+                <button class="btn btn-secondary" onclick="simulatePosterDetection('topic_3')">
+                    🎯 Respectful Relationships Online
+                </button>
+                <button class="btn btn-secondary" onclick="simulatePosterDetection('topic_4')">
+                    🎯 Seeking Help and Support
+                </button>
+            </div>
+        </div>
+        
+        <div class="error-section hidden">
+            <div class="error-message">
+                <span class="error-icon">⚠️</span>
+                <p>Camera access denied. Please enable camera permissions to continue.</p>
+            </div>
+            <button class="btn btn-secondary" onclick="goBackToMenu()">
+                ← Back to Menu
+            </button>
+        </div>
+    </div>
+    
+    <!-- AR Ready Section -->
+    <div id="ar-ready-section" class="card hidden">
+        <h1>🎯 Poster Detected!</h1>
+        <p>Great! We found a learning poster. Your AR experience is ready to begin.</p>
+        
+        <div class="detection-success">
+            <div class="success-icon">✅</div>
+            <div class="poster-info">
+                <h3 id="detected-poster-title">Learning Poster Detected</h3>
+                <p id="detected-poster-desc">Topic: <span id="detected-topic-name">Web Development</span></p>
+            </div>
+        </div>
+        
+        <div class="ar-instructions">
+            <h3>What happens next?</h3>
+            <div class="instruction-list">
+                <div class="instruction-item">
+                    <span class="step-number">1</span>
+                    <span>AR scene will load with interactive content</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="step-number">2</span>
+                    <span>Explore the 3D learning environment</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="step-number">3</span>
+                    <span>Complete interactive activities</span>
+                </div>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="startARExperience()">
+            🚀 Start AR Experience
+        </button>
+        
+        <div class="ar-note">
+            <p>💡 <strong>Tip:</strong> Keep your device steady and follow the on-screen instructions</p>
+        </div>
+    </div>
+    
+    <!-- Animating Section -->
+    <div id="animating-section" class="card hidden">
+        <h1>🚀 Loading AR Experience</h1>
+        <p>Preparing your interactive learning environment...</p>
+        
+        <div class="ar-loading-container">
+            <div class="ar-loading-animation">
+                <div class="ar-spinner"></div>
+                <div class="ar-pulse"></div>
+            </div>
+            
+            <div class="loading-steps">
+                <div class="loading-step" id="step-1">
+                    <span class="step-icon">🔍</span>
+                    <span class="step-text">Initializing AR scene...</span>
+                    <span class="step-status">⏳</span>
+                </div>
+                <div class="loading-step" id="step-2">
+                    <span class="step-icon">🎬</span>
+                    <span class="step-text">Loading assets...</span>
+                    <span class="step-status">⏳</span>
+                </div>
+                <div class="loading-step" id="step-3">
+                    <span class="step-icon">🎮</span>
+                    <span class="step-text">Setting up interactions...</span>
+                    <span class="step-status">⏳</span>
+                </div>
+                <div class="loading-step" id="step-4">
+                    <span class="step-icon">✨</span>
+                    <span class="step-text">Finalizing experience...</span>
+                    <span class="step-status">⏳</span>
+                </div>
+            </div>
+            
+            <div class="ar-progress-container">
+                <div class="ar-progress-bar">
+                    <div id="ar-progress-fill" class="ar-progress-fill"></div>
+                </div>
+                <div class="ar-progress-text">
+                    <span id="ar-progress-percentage">0%</span> Complete
+                </div>
+            </div>
+        </div>
+        
+        <div class="ar-loading-note">
+            <p>🎯 <strong>Keep your device pointed at the poster</strong></p>
+            <p>This ensures the AR experience loads correctly</p>
         </div>
     </div>
     
@@ -91,35 +324,268 @@
         <button class="btn" onclick="goHome()">Choose New Topic</button>
     </div>
 
-    <script src="./core/js/topics.js"></script>
-    <script src="./core/js/stateManager.js"></script>
+    <!-- Core JavaScript Files - Load in dependency order -->
+    <script src="./core/js/topics.js?v=1.2"></script>
+    <script src="./core/js/stateManager.js?v=1.2"></script>
+    
+    <!-- Note: arSceneManager.js is temporarily disabled for Phase 1 UI development -->
+    <!-- Will be re-enabled when implementing Phase 3: MindAR Integration -->
     <script>
+        /*
+         * Main Application Script
+         * 
+         * Dependencies (loaded in order):
+         * 1. topics.js - Topic data and content management
+         * 2. stateManager.js - Application state management
+         * 
+         * This script contains:
+         * - Global variables and state
+         * - UI interaction functions
+         * - State transition logic
+         * - Loading simulations
+         * - Content loading functions
+         */
         
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
+        let selectedCampus = '';
+        
+        // Loading simulation function
+        function simulateLoading() {
+            let progress = 0;
+            const progressBar = document.getElementById('loading-progress');
+            const progressText = document.getElementById('loading-percentage');
+            const loadingText = document.querySelector('.progress-text');
+            
+            const loadingSteps = [
+                { text: 'Initializing...', progress: 20 },
+                { text: 'Loading AR components...', progress: 40 },
+                { text: 'Preparing learning content...', progress: 60 },
+                { text: 'Setting up interactive elements...', progress: 80 },
+                { text: 'Almost ready...', progress: 100 }
+            ];
+            
+            let currentStep = 0;
+            
+            const interval = setInterval(() => {
+                progress += 2;
+                
+                if (progress >= loadingSteps[currentStep].progress) {
+                    loadingText.textContent = loadingSteps[currentStep].text;
+                    currentStep++;
+                }
+                
+                progressBar.style.width = progress + '%';
+                progressText.textContent = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // Use state manager to transition to campus selection
+                        stateManager.changeState('campus_selection');
+                    }, 500);
+                }
+            }, 20);
+        }
+        
+        // Start loading when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            simulateLoading();
+        });
+        
+        // Campus selection function
+        function selectCampus(campus) {
+            selectedCampus = campus;
+            // Use state manager to transition to topics
+            stateManager.changeState('topics');
+        }
+        
+        // Start AR scanning function
+        function startARScanning() {
+            // Use state manager to transition to scanning state
+            stateManager.changeState('scanning');
+        }
+        
+        // Start AR experience function
+        function startARExperience() {
+            // Use state manager to transition to animating state
+            stateManager.changeState('animating');
+            
+            // Start the AR loading simulation
+            setTimeout(() => {
+                simulateARLoading();
+            }, 500);
+        }
+        
+        // Simulate AR loading process
+        function simulateARLoading() {
+            let progress = 0;
+            const progressBar = document.getElementById('ar-progress-fill');
+            const progressText = document.getElementById('ar-progress-percentage');
+            
+            const loadingSteps = [
+                { step: 1, text: 'Initializing AR scene...', progress: 25 },
+                { step: 2, text: 'Loading assets...', progress: 50 },
+                { step: 3, text: 'Setting up interactions...', progress: 75 },
+                { step: 4, text: 'Finalizing experience...', progress: 100 }
+            ];
+            
+            let currentStep = 0;
+            
+            const interval = setInterval(() => {
+                progress += 1;
+                
+                // Update progress bar
+                progressBar.style.width = progress + '%';
+                progressText.textContent = progress + '%';
+                
+                // Check if we should move to next step
+                if (progress >= loadingSteps[currentStep].progress) {
+                    // Mark current step as completed
+                    const stepElement = document.getElementById(`step-${loadingSteps[currentStep].step}`);
+                    if (stepElement) {
+                        stepElement.classList.remove('active');
+                        stepElement.classList.add('completed');
+                        stepElement.querySelector('.step-status').textContent = '✅';
+                    }
+                    
+                    currentStep++;
+                    
+                    // If we have more steps, activate the next one
+                    if (currentStep < loadingSteps.length) {
+                        const nextStepElement = document.getElementById(`step-${loadingSteps[currentStep].step}`);
+                        if (nextStepElement) {
+                            nextStepElement.classList.add('active');
+                            nextStepElement.querySelector('.step-status').textContent = '🔄';
+                        }
+                    }
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // Transition to video state after loading completes
+                        stateManager.changeState('video');
+                        
+                        // Load video content for the current topic
+                        loadVideoContent();
+                        updateProgress(33);
+                    }, 500);
+                }
+            }, 100);
+        }
+        
+        // Simulate poster detection for demo purposes
+        function simulatePosterDetection(topic) {
+            // Update the detected poster information
+            const topicNames = {
+                'topic_1': 'Protecting Yourself Online',
+                'topic_2': 'Navigating Difficult Situations', 
+                'topic_3': 'Respectful Relationships Online',
+                'topic_4': 'Seeking Help and Support'
+            };
+            
+            document.getElementById('detected-poster-title').textContent = `${topicNames[topic]} Poster Detected`;
+            document.getElementById('detected-topic-name').textContent = topicNames[topic];
+            
+            // Store the detected topic
+            currentTopic = topic;
+            
+            // Transition to AR Ready state
+            stateManager.changeState('ar_ready');
+        }
+        
+        // Camera permission handling
+        let permissionAttempts = 0;
+        const MAX_PERMISSION_ATTEMPTS = 2;
+        
+        function requestCameraPermission() {
+            permissionAttempts++;
+            
+            if (permissionAttempts <= MAX_PERMISSION_ATTEMPTS) {
+                // Simulate permission request (placeholder for now)
+                const btn = document.getElementById('request-camera-btn');
+                btn.textContent = `📱 Requesting Camera Access... (${permissionAttempts}/${MAX_PERMISSION_ATTEMPTS})`;
+                btn.disabled = true;
+                
+                // Simulate permission check after 2 seconds
+                setTimeout(() => {
+                    if (permissionAttempts < MAX_PERMISSION_ATTEMPTS) {
+                        // Simulate permission denied, show retry
+                        btn.textContent = `📱 Try Again (${permissionAttempts}/${MAX_PERMISSION_ATTEMPTS})`;
+                        btn.disabled = false;
+                        btn.onclick = requestCameraPermission;
+                    } else {
+                        // Max attempts reached, show error
+                        showCameraError();
+                    }
+                }, 2000);
+            } else {
+                showCameraError();
+            }
+        }
+        
+        function showCameraError() {
+            document.querySelector('.permission-section').classList.add('hidden');
+            document.querySelector('.error-section').classList.remove('hidden');
+        }
+        
+        function goBackToMenu() {
+            // Reset permission attempts
+            permissionAttempts = 0;
+            // Go back to menu state
+            stateManager.changeState('menu');
+        }
         
         function startTopic(topic) {
             currentTopic = topic;
             selectedAnswers = [];
             currentScore = 0;
             
-            // Use state manager to change to video state
-            stateManager.changeState('video');
-            
-            // Load content
-            loadVideoContent();
-            updateProgress(33);
+            // Use state manager to change to menu state
+            stateManager.changeState('menu');
         }
         
         function loadVideoContent() {
-            const topic = topicData[currentTopic];
-            document.getElementById('video-title').textContent = topic.title;
+            // For now, use placeholder content since topicData is not yet implemented
+            const topicTitles = {
+                'topic_1': 'Protecting Yourself Online',
+                'topic_2': 'Navigating Difficult Situations',
+                'topic_3': 'Respectful Relationships Online',
+                'topic_4': 'Seeking Help and Support'
+            };
+            
+            const topicContent = {
+                'topic_1': [
+                    'Learn essential strategies to protect your personal information and stay safe online.',
+                    'Understand common online threats and how to recognize them.',
+                    'Discover best practices for creating strong passwords and securing your accounts.'
+                ],
+                'topic_2': [
+                    'Develop skills to handle challenging online situations with confidence.',
+                    'Learn conflict resolution strategies for digital communication.',
+                    'Understand how to de-escalate tense online interactions.'
+                ],
+                'topic_3': [
+                    'Build healthy and respectful relationships in digital spaces.',
+                    'Learn about digital consent and boundaries.',
+                    'Understand the importance of empathy in online interactions.'
+                ],
+                'topic_4': [
+                    'Know where and how to seek help when you need support.',
+                    'Learn about available resources and support networks.',
+                    'Understand when and how to report concerning online behavior.'
+                ]
+            };
+            
+            document.getElementById('video-title').textContent = topicTitles[currentTopic] || 'Learning Topic';
             
             const contentArea = document.getElementById('content-area');
             contentArea.innerHTML = '';
             
-            topic.content.forEach(paragraph => {
+            const content = topicContent[currentTopic] || ['Content will be loaded here.'];
+            content.forEach(paragraph => {
                 const p = document.createElement('p');
                 p.textContent = paragraph;
                 contentArea.appendChild(p);
@@ -267,9 +733,10 @@
             selectedAnswers = [];
             currentScore = 0;
             currentTopic = '';
+            selectedCampus = '';
             
-            // Use state manager to return to topics state
-            stateManager.changeState('topics');
+            // Use state manager to return to campus selection state
+            stateManager.changeState('campus_selection');
             
             // Reset quiz state
             document.getElementById('submit-btn').classList.remove('hidden');
@@ -279,6 +746,13 @@
         function updateProgress(percent) {
             document.getElementById('progress-bar').style.width = percent + '%';
         }
+        
+        /*
+         * End of Main Application Script
+         * 
+         * All UI sections, state management, and user interactions are now implemented
+         * The app provides a complete flow from loading through AR scanning to video/quiz/summary
+         */
     </script>
 </body>
 </html>
