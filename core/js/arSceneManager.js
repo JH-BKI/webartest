@@ -80,7 +80,7 @@ class ARSceneManager {
         const container = document.getElementById('ar-scene-container');
         if (!container) return false;
         
-        // Create A-Frame scene with MindAR for real camera feed
+        // Create A-Frame scene with MindAR for real camera feed and timeline controller
         const sceneHTML = `
             <a-scene 
                 id="ar-scene-${topicId}"
@@ -89,6 +89,7 @@ class ARSceneManager {
                 vr-mode-ui="enabled: false"
                 renderer="logarithmicDepthBuffer: true; colorManagement: true; physicallyCorrectLights: true"
                 mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: no; uiScanning: no; uiError: no"
+                timeline-controller
                 color-space="sRGB"
                 device-orientation-permission-ui="enabled: false">
                 
@@ -114,9 +115,33 @@ class ARSceneManager {
                     position="1 1 1">
                 </a-light>
                 
-                <!-- Topic-specific content container -->
-                <a-entity id="topic-content-${topicId}">
-                    <!-- 3D content will be added here when posters are detected -->
+                <!-- Topic-specific content containers for each target -->
+                <a-entity id="topic-${topicId}-assets" position="0 0 -2" mindar-image-target="targetIndex: ${topicId - 1}">
+                    <!-- Topic ${topicId} 3D content will be added here -->
+                    <a-entity id="topic-${topicId}-content">
+                        <!-- Basic 3D content for testing - will be enhanced by animation system -->
+                        <a-box id="topic${topicId}-cube" 
+                               position="0 0 0" 
+                               scale="0.5 0.5 0.5" 
+                               color="#e34c26" 
+                               visible="false" 
+                               opacity="0">
+                        </a-box>
+                        <a-sphere id="topic${topicId}-sphere" 
+                                  position="1 0 0" 
+                                  scale="0.5 0.5 0.5" 
+                                  color="#264de4" 
+                                  visible="false" 
+                                  opacity="0">
+                        </a-sphere>
+                        <a-pyramid id="topic${topicId}-pyramid" 
+                                   position="-1 0 0" 
+                                   scale="0.5 0.5 0.5" 
+                                   color="#f7df1e" 
+                                   visible="false" 
+                                   opacity="0">
+                        </a-pyramid>
+                    </a-entity>
                 </a-entity>
                 
             </a-scene>
@@ -128,7 +153,10 @@ class ARSceneManager {
         // Set up MindAR event listeners for this scene
         this.setupMindARListeners(topicId);
         
-        console.log(`AR scene created for topic ${topicId} with real camera feed`);
+        // Load topic-specific animation file
+        this.loadTopicAnimation(topicId);
+        
+        console.log(`AR scene created for topic ${topicId} with timeline controller`);
         return true;
     }
     
@@ -153,6 +181,38 @@ class ARSceneManager {
         console.log(`MindAR listeners set up for topic ${topicId}`);
     }
     
+    // Load topic-specific animation file
+    async loadTopicAnimation(topicId) {
+        try {
+            // Load the animation file dynamically
+            const script = document.createElement('script');
+            // Use test animation file for now
+            script.src = `./core/js/animations/timeline-topic-${topicId}-test.js?v=${Date.now()}`;
+            script.onload = () => {
+                console.log(`Animation file loaded for topic ${topicId}`);
+                // Set the topic in the timeline controller
+                this.setTimelineTopic(topicId);
+            };
+            script.onerror = () => {
+                console.error(`Failed to load animation file for topic ${topicId}`);
+            };
+            document.head.appendChild(script);
+        } catch (error) {
+            console.error(`Error loading animation file for topic ${topicId}:`, error);
+        }
+    }
+    
+    // Set the topic in the timeline controller
+    setTimelineTopic(topicId) {
+        if (this.currentScene) {
+            const timelineController = this.currentScene.components['timeline-controller'];
+            if (timelineController) {
+                timelineController.setTopic(topicId - 1); // Convert to 0-based index
+                console.log(`Timeline controller set to topic ${topicId}`);
+            }
+        }
+    }
+    
     // Handle target found event
     handleTargetFound(targetIndex, topicId) {
         // Map target index to topic number (0-3 -> 1-4)
@@ -166,6 +226,10 @@ class ARSceneManager {
         const detectedTopicId = topicMapping[targetIndex];
         if (detectedTopicId && detectedTopicId === topicId) {
             console.log(`✅ Correct poster detected for topic ${topicId}`);
+            
+            // Start the animation timeline
+            this.startAnimation(topicId);
+            
             // Notify MindAR Manager about the detection
             if (window.mindARManager) {
                 window.mindARManager.handleTargetFound(targetIndex);
@@ -175,14 +239,41 @@ class ARSceneManager {
         }
     }
     
+    // Start animation for the detected topic
+    startAnimation(topicId) {
+        if (this.currentScene) {
+            const timelineController = this.currentScene.components['timeline-controller'];
+            if (timelineController && timelineController.isTimelineReady()) {
+                console.log(`Starting animation for topic ${topicId}`);
+                timelineController.startAnimeTimeline();
+            } else {
+                console.log(`Timeline not ready for topic ${topicId}`);
+            }
+        }
+    }
+    
     // Handle target lost event
     handleTargetLost(targetIndex, topicId) {
         console.log(`Target ${targetIndex} lost for topic ${topicId}`);
-        // Could implement logic to handle target loss if needed
+        
+        // Pause the animation when target is lost
+        if (this.currentScene) {
+            const timelineController = this.currentScene.components['timeline-controller'];
+            if (timelineController) {
+                console.log(`Pausing animation for topic ${topicId}`);
+                timelineController.quickPause();
+            }
+        }
     }
     
     disposeScene() {
         if (this.currentScene) {
+            // Stop any running animations
+            const timelineController = this.currentScene.components['timeline-controller'];
+            if (timelineController) {
+                timelineController.reset();
+            }
+            
             const container = document.getElementById('ar-scene-container');
             if (container) {
                 container.innerHTML = '';
