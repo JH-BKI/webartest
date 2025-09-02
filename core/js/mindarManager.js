@@ -24,18 +24,18 @@ class MindARManager {
     
     // Topic mapping: target index -> topic number
     this.topicMapping = {
-      0: 0, // Target 0 -> Web Development
-      1: 1, // Target 1 -> Digital Marketing  
-      2: 2, // Target 2 -> Data Science
-      3: 3  // Target 3 -> Cybersecurity
+      0: 1, // Target 0 -> topic_1 (Web Development)
+      1: 2, // Target 1 -> topic_2 (Digital Marketing)  
+      2: 3, // Target 2 -> topic_3 (Data Science)
+      3: 4  // Target 3 -> topic_4 (Cybersecurity)
     };
     
     // Topic names for UI display - dynamically loaded from topics.js
     this.topicNames = {
-      0: 'topic_1', // Will be resolved to actual title from topics.js
-      1: 'topic_2', // Will be resolved to actual title from topics.js
-      2: 'topic_3', // Will be resolved to actual title from topics.js
-      3: 'topic_4'  // Will be resolved to actual title from topics.js
+      1: 'topic_1', // Will be resolved to actual title from topics.js
+      2: 'topic_2', // Will be resolved to actual title from topics.js
+      3: 'topic_3', // Will be resolved to actual title from topics.js
+      4: 'topic_4'  // Will be resolved to actual title from topics.js
     };
     
     // Poster ID mapping for demo buttons
@@ -275,6 +275,10 @@ class MindARManager {
     const topicId = this.topicMapping[targetIndex];
     if (topicId !== undefined) {
       this.currentTopic = topicId;
+      // Set current topic in the main app
+      if (typeof setCurrentTopic === 'function') {
+        setCurrentTopic(`topic_${topicId}`);
+      }
       console.log(`📚 Topic identified: ${topicId} (${this.topicNames[topicId]})`);
       
       // Stop scanning
@@ -359,7 +363,7 @@ class MindARManager {
     
     // Update global currentTopic for the rest of the app
     if (typeof window !== 'undefined') {
-      window.currentTopic = `topic_${this.currentTopic + 1}`;
+      window.currentTopic = `topic_${this.currentTopic}`;
     }
     
     // Update UI

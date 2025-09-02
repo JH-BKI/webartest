@@ -172,6 +172,42 @@ function getTopicVideoUrl(topicId) {
   return topic ? topic.videoUrl : null; // Return null if not found - let it fail gracefully
 }
 
+// Debug function to inspect topic details
+function debugTopic(topicId) {
+  const topic = getTopicInfo(topicId);
+  if (!topic) {
+    console.log(`❌ Topic ${topicId} not found`);
+    console.log('Available topics:', Object.keys(topicData));
+    return;
+  }
+  
+  console.log(`📚 Topic ${topicId} Details:`);
+  console.log('Title:', topic.title);
+  console.log('Icon:', topic.icon);
+  console.log('Video URL:', topic.videoUrl);
+  console.log('Content:', topic.content);
+  console.log('Question:', topic.question);
+  console.log('Answers:', topic.answers);
+  console.log('Feedback:', topic.feedback);
+  console.log('Summary:', topic.summary);
+  console.log('Full topic object:', topic);
+}
+
+// Debug function to show currently selected/active topic
+function debugCurrentTopic() {
+  // Access the currentTopic variable from app.html
+  if (typeof currentTopic !== 'undefined' && currentTopic) {
+    console.log(`🎯 Current Topic: ${currentTopic}`);
+    debugTopic(currentTopic);
+  } else {
+    console.log('❌ No current topic set (currentTopic is empty or undefined)');
+    console.log('Available topics:', Object.keys(topicData));
+    console.log('Try: debugTopic(1), debugTopic(2), debugTopic(3), or debugTopic(4)');
+  }
+}
+
+
+
 // Make topicData and helper functions available globally
 window.topicData = topicData;
 window.getTopicInfo = getTopicInfo;
@@ -183,3 +219,6 @@ window.getTopicFeedback = getTopicFeedback;
 window.getTopicSummary = getTopicSummary;
 window.getTopicIcon = getTopicIcon;
 window.getTopicVideoUrl = getTopicVideoUrl;
+window.debugTopic = debugTopic;
+window.debugCurrentTopic = debugCurrentTopic;
+
