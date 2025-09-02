@@ -458,25 +458,11 @@ class MindARManager {
   showARNotSupported() {
     console.log('Showing AR not supported message');
     
-    // Create or get the message container
-    let messageContainer = document.getElementById('ar-not-supported-message');
-    if (!messageContainer) {
-      messageContainer = document.createElement('div');
-      messageContainer.id = 'ar-not-supported-message';
-      messageContainer.className = 'ar-not-supported-message';
-      messageContainer.innerHTML = `
-        <div class="message-content">
-          <h3>AR Scanning Not Available</h3>
-          <p>Your device or browser doesn't support AR scanning.</p>
-          <p>Please try on a mobile device with camera access for the full AR experience.</p>
-          <button class="btn" onclick="restartApp()">Restart App</button>
-        </div>
-      `;
-      document.body.appendChild(messageContainer);
+    // Show the existing modal
+    const messageContainer = document.getElementById('ar-not-supported-message');
+    if (messageContainer) {
+      messageContainer.classList.remove('hidden');
     }
-    
-    // Show the message
-    messageContainer.style.display = 'flex';
     
     // Hide the scanning section
     const scanningSection = document.getElementById('scanning-section');
