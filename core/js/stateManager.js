@@ -37,6 +37,10 @@ class StateManager {
                     if (menuSection) {
                         menuSection.classList.remove('hidden');
                     }
+                    // Refresh progress display when entering menu
+                    if (window.progressManager) {
+                        window.progressManager.updateMenuUI();
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting menu state');
@@ -208,5 +212,60 @@ class StateManager {
     }
 }
 
+// Debug function to show complete app status
+function debugAppStatus() {
+  console.log('📊 APP STATUS OVERVIEW');
+  console.log('====================');
+  
+  // Current state from stateManager
+  if (window.stateManager) {
+    console.log('🔄 Current State:', window.stateManager.getCurrentState());
+  } else {
+    console.log('❌ StateManager not available');
+  }
+  
+  // Current topic
+  if (typeof currentTopic !== 'undefined') {
+    console.log('📚 Current Topic:', currentTopic || 'None selected');
+  } else {
+    console.log('❌ currentTopic variable not available');
+  }
+  
+  // Campus selection
+  if (typeof selectedCampus !== 'undefined') {
+    console.log('🏫 Selected Campus:', selectedCampus || 'None selected');
+  } else {
+    console.log('❌ selectedCampus variable not available');
+  }
+  
+  // Quiz progress
+  if (typeof currentScore !== 'undefined') {
+    console.log('📝 Current Score:', currentScore);
+  } else {
+    console.log('❌ currentScore variable not available');
+  }
+  
+  if (typeof selectedAnswers !== 'undefined') {
+    console.log('✅ Selected Answers:', selectedAnswers);
+  } else {
+    console.log('❌ selectedAnswers variable not available');
+  }
+  
+  // Progress tracking
+  if (window.progressManager) {
+    const progress = window.progressManager.getProgressSummary();
+    console.log('📈 Progress Summary:', progress);
+  } else {
+    console.log('❌ ProgressManager not available');
+  }
+  
+  console.log('====================');
+  console.log('💡 Use debugCurrentTopic() to see current topic details');
+  console.log('💡 Use testProgress.show() to see detailed progress info');
+}
+
 // Create and make stateManager available globally
 window.stateManager = new StateManager();
+
+// Make debug function available globally
+window.debugAppStatus = debugAppStatus;
