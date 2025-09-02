@@ -43,11 +43,11 @@
         
         <div class="campus-grid">
             <div class="campus-card" onclick="selectCampus('broadmeadows')">
-                <img src="assets/kangan.png" alt="Broadmeadows Campus" class="campus-logo">
+                <img src="./assets/misc/kangan.png" alt="Broadmeadows Campus" class="campus-logo">
                 <div class="campus-name">Broadmeadows</div>
             </div>
             <div class="campus-card" onclick="selectCampus('bendigo')">
-                <img src="assets/bendigo.png" alt="Bendigo Campus" class="campus-logo">
+                <img src="./assets/misc/bendigo.png" alt="Bendigo Campus" class="campus-logo">
                 <div class="campus-name">Bendigo</div>
             </div>
         </div>
@@ -287,12 +287,22 @@
         <button class="btn" onclick="goHome()">Choose New Topic</button>
     </div>
 
+    <!-- AR Not Supported Modal -->
+    <div id="ar-not-supported-message" class="ar-not-supported-message hidden">
+        <div class="message-content">
+            <h3>AR Scanning Not Available</h3>
+            <p>Your device or browser doesn't support AR scanning.</p>
+            <p>Please try on a mobile device with camera access for the full AR experience.</p>
+            <button class="btn" onclick="restartApp()">Go Back</button>
+        </div>
+    </div>
+
     <!-- Core JavaScript Files - Load in dependency order -->
-    <script src="./core/js/topics.js?v=2.1"></script>
-    <script src="./core/js/stateManager.js?v=2.1"></script>
+    <script src="./core/js/topics.js?v=2.2"></script>
+    <script src="./core/js/stateManager.js?v=2.2"></script>
     <!-- MindAR Library - Required for AR functionality -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="./core/js/mindarManager.js?v=2.1"></script>
+    <script src="./core/js/mindarManager.js?v=2.2"></script>
     
     <!-- Note: arSceneManager.js is temporarily disabled for Phase 1 UI development -->
     <!-- MindAR integration now active for Phase 3A: Simulated AR Flow -->
@@ -742,12 +752,11 @@
             // Hide the AR not supported message
             const messageContainer = document.getElementById('ar-not-supported-message');
             if (messageContainer) {
-                messageContainer.style.display = 'none';
+                messageContainer.classList.add('hidden');
             }
             
-            // Reset to AR ready state
-            stateManager.changeState('ar_ready');
-  
+            // Go back to topics selection
+            stateManager.changeState('topics');
         }
         
         function goHome() {
