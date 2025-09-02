@@ -16,11 +16,8 @@ class MindARManager {
     this.stateManager = null;
     this.timelineController = null;
     
-    // Real MindAR components (only used in real mode)
-    this.mindarThree = null;
-    this.scene = null;
-    this.camera = null;
-    this.renderer = null;
+    // Real MindAR components (A-Frame integration)
+    // Note: A-Frame scenes are managed by AR Scene Manager
     
     // Topic mapping: target index -> topic number
     this.topicMapping = {
@@ -98,22 +95,10 @@ class MindARManager {
       return false;
     }
 
-    // Initialize MindAR with targets file
-    this.mindarThree = new window.MINDAR.IMAGE.MindARThree({
-      container: this.getOrCreateARContainer(),
-      imageTargetSrc: './assets/targets/targets_4.mind',
-      maxTrack: 4,
-      uiLoading: "no",
-      uiScanning: "no", 
-      uiError: "no"
-    });
-
-    // Get Three.js components
-    const { renderer, scene, camera } = this.mindarThree;
-    this.renderer = renderer;
-    this.scene = scene;
-    this.camera = camera;
-
+    // Initialize MindAR with A-Frame (MindARImage)
+    // Note: We'll let the AR Scene Manager handle the actual A-Frame scene creation
+    // This manager will focus on detection logic and state management
+    
     // Set up event listeners for target detection
     this.setupTargetListeners();
 
@@ -162,19 +147,9 @@ class MindARManager {
 
   // Set up target detection event listeners (real mode only)
   setupTargetListeners() {
-    if (!this.mindarThree) return;
-    
-    // Listen for target found events
-    this.mindarThree.addListener('targetFound', (targetIndex) => {
-      console.log(`🎯 Real target detected: ${targetIndex}`);
-      this.handleTargetFound(targetIndex);
-    });
-
-    // Listen for target lost events
-    this.mindarThree.addListener('targetLost', (targetIndex) => {
-      console.log(`📤 Target lost: ${targetIndex}`);
-      this.handleTargetLost(targetIndex);
-    });
+    // For A-Frame scenes, we'll listen to the scene events
+    // The AR Scene Manager will handle the actual A-Frame scene creation
+    console.log('Target listeners set up for A-Frame integration');
   }
 
   // Start scanning based on current mode
@@ -207,16 +182,10 @@ class MindARManager {
       this.isScanning = true;
       console.log('Started real AR camera scanning...');
       
-      // Show AR container
-      const container = document.getElementById('ar-container');
-      if (container) {
-        container.style.display = 'block';
-      }
-
-      // Start MindAR
-      await this.mindarThree.start();
+      // The AR Scene Manager will handle the actual A-Frame scene creation
+      // This manager focuses on detection logic and state management
       
-      console.log('Real camera scanning active...');
+      console.log('Real camera scanning active (A-Frame integration)...');
       return true;
     } catch (error) {
       console.error('Failed to start real scanning:', error);
@@ -232,15 +201,8 @@ class MindARManager {
     this.isScanning = false;
     console.log(`Stopped ${this.mode} AR scanning`);
     
-    if (this.mode === 'real' && this.mindarThree) {
-      this.mindarThree.stop();
-      
-      // Hide AR container
-      const container = document.getElementById('ar-container');
-      if (container) {
-        container.style.display = 'none';
-      }
-    }
+    // The AR Scene Manager will handle scene disposal
+    // This manager focuses on state management
   }
 
   // Simulate the scanning process (simulated mode only)
@@ -323,6 +285,15 @@ class MindARManager {
   // Transition to AR ready state
   transitionToARReady(topicId) {
     console.log(`🎉 Poster found! Transitioning to AR experience for topic ${topicId}`);
+    
+    // Create AR scene for the detected topic
+    if (window.arSceneManager) {
+      window.arSceneManager.createSceneForDetectedTopic(topicId).then(() => {
+        console.log(`AR scene ready for topic ${topicId}`);
+      }).catch(error => {
+        console.error(`Failed to create AR scene for topic ${topicId}:`, error);
+      });
+    }
     
     if (this.stateManager) {
       this.stateManager.changeState('ar_ready');
@@ -443,11 +414,6 @@ class MindARManager {
   // Cleanup when done
   dispose() {
     this.stopScanning();
-    
-    if (this.mindarThree) {
-      this.mindarThree.stop();
-      this.mindarThree = null;
-    }
     
     // Remove AR container
     const container = document.getElementById('ar-container');

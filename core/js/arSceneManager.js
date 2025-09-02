@@ -1,286 +1,293 @@
-/*
- * Temporarily disabled for Phase 1 - UI Structure Development
- * This file will be re-enabled when we implement Phase 3: MindAR Integration
- * 
- * For now, we're focusing on building the complete UI structure:
- * - Loading → Campus Selection → Topics → Menu → Scanning → AR Ready → Animating
- * 
- * The AR functionality will be added later.
- */
+// AR Scene Manager - Phase 4.5 Implementation
+// Handles A-Frame scene creation, management, and disposal with asset caching
 
-/*
-// class ARSceneManager {
-//     constructor() {
-//         this.currentScene = null;
-//         this.currentTopic = null;
-//         this.sceneContainer = null;
-//         this.isInitialized = false;
-//     }
-//     
-//     // Initialize the AR scene manager
-//     initialize() {
-//         if (this.isInitialized) {
-//             console.log('AR Scene Manager already initialized');
-//             return;
-//         }
-//         console.log('Initializing AR Scene Manager');
-//         this.createSceneContainer();
-//         this.isInitialized = true;
-//     }
-//     
-//     // Create the main scene container
-//     createSceneContainer() {
-//         // Create container for A-Frame scenes
-//         this.sceneContainer = document.createElement('div');
-//         this.sceneContainer.id = 'ar-scene-container';
-//         this.sceneContainer.style.position = 'fixed';
-//         this.sceneContainer.style.top = '0';
-//         this.sceneContainer.style.left = '0';
-//         this.sceneContainer.style.width = '100%';
-//         this.sceneContainer.style.height = '100%';
-//         this.sceneContainer.style.zIndex = '1000';
-//         this.sceneContainer.style.display = 'none';
-//         document.body.appendChild(this.sceneContainer);
-//         console.log('AR Scene container created');
-//     }
-//     
-//     // Create a new A-Frame scene for a specific topic
-//     createTopicScene(topicId) {
-//         if (this.currentScene) {
-//             this.destroyCurrentScene();
-//         }
-//         console.log(`Creating AR scene for topic: ${topicId}`);
-//         this.currentTopic = topicId;
-//         
-//         // Create the A-Frame scene
-//         const scene = document.createElement('a-scene');
-//         scene.id = 'ar-scene';
-//         scene.setAttribute('mindar', 'image: targets.mind; uiScanning: #scanning; uiLoading: #loading');
-//         scene.setAttribute('color-space', 'sRGB');
-//         scene.setAttribute('renderer', 'colorManagement: true, physicallyCorrectLights');
-//         scene.setAttribute('vr-mode-ui', 'enabled: false');
-//         scene.setAttribute('device-orientation-permission-ui', 'enabled: false');
-//         
-//         // Add camera
-//         const camera = document.createElement('a-camera');
-//         camera.setAttribute('position', '0 0 0');
-//         camera.setAttribute('look-controls', 'enabled: false');
-//         camera.setAttribute('cursor', 'rayOrigin: mouse');
-//         scene.appendChild(camera);
-//         
-//         // Add lighting
-//         const light = document.createElement('a-light');
-//         light.setAttribute('type', 'ambient');
-//         light.setAttribute('color', '#ffffff');
-//         light.setAttribute('intensity', '0.4');
-//         scene.appendChild(light);
-//         
-//         const directionalLight = document.createElement('a-light');
-//         directionalLight.setAttribute('type', 'directional');
-//         directionalLight.setAttribute('color', '#ffffff');
-//         directionalLight.setAttribute('intensity', '0.8');
-//         directionalLight.setAttribute('position', '0 1 0');
-//         scene.appendChild(directionalLight);
-//         
-//         // Add topic-specific content based on topicId
-//         this.addTopicContent(scene, topicId);
-//         
-//         // Store the scene
-//         this.currentScene = scene;
-//         this.sceneContainer.appendChild(scene);
-//         
-//         // Show the scene container
-//         this.sceneContainer.style.display = 'block';
-//         console.log(`AR scene created for topic: ${topicId}`);
-//         return scene;
-//     }
-//     
-//     // Add topic-specific content to the scene
-//     addTopicContent(scene, topicId) {
-//         // Create the main content entity
-//         const contentEntity = document.createElement('a-entity');
-//         contentEntity.id = 'topic-content';
-//         contentEntity.setAttribute('position', '0 0 -2');
-//         contentEntity.setAttribute('mindar-image-target', `targetIndex: ${this.getTargetIndex(topicId)}`);
-//         
-//         // Add topic-specific assets and animations
-//         switch(topicId) {
-//             case 'web':
-//                 this.addWebDevelopmentContent(contentEntity);
-//                 break;
-//             case 'marketing':
-//                 this.addDigitalMarketingContent(contentEntity);
-//                 break;
-//             case 'data':
-//                 this.addDataScienceContent(contentEntity);
-//                 break;
-//             case 'cyber':
-//                 this.addCybersecurityContent(contentEntity);
-//                 break;
-//             default:
-//                 console.warn(`Unknown topic: ${topicId}`);
-//         }
-//         
-//         scene.appendChild(contentEntity);
-//     }
-//     
-//     // Add web development content
-//     addWebDevelopmentContent(contentEntity) {
-//         // Create HTML structure visualization
-//         const htmlEntity = document.createElement('a-box');
-//         htmlEntity.setAttribute('position', '-1 0 0');
-//         htmlEntity.setAttribute('width', '0.5');
-//         htmlEntity.setAttribute('height', '0.5');
-//         htmlEntity.setAttribute('depth', '0.1');
-//         htmlEntity.setAttribute('color', '#e34c26');
-//         htmlEntity.setAttribute('text', 'value: HTML; color: white; width: 2');
-//         contentEntity.appendChild(htmlEntity);
-//         
-//         // Create CSS styling visualization
-//         const cssEntity = document.createElement('a-box');
-//         cssEntity.setAttribute('position', '0 0 0');
-//         cssEntity.setAttribute('width', '0.5');
-//         cssEntity.setAttribute('height', '0.5');
-//         cssEntity.setAttribute('depth', '0.1');
-//         cssEntity.setAttribute('color', '#264de4');
-//         cssEntity.setAttribute('text', 'value: CSS; color: white; width: 2');
-//         contentEntity.appendChild(cssEntity);
-//         
-//         // Create JavaScript functionality visualization
-//         const jsEntity = document.createElement('a-box');
-//         jsEntity.setAttribute('position', '1 0 0');
-//         jsEntity.setAttribute('width', '0.5');
-//         jsEntity.setAttribute('height', '0.5');
-//         jsEntity.setAttribute('depth', '0.1');
-//         jsEntity.setAttribute('color', '#f7df1e');
-//         jsEntity.setAttribute('text', 'value: JS; color: black; width: 2');
-//         contentEntity.appendChild(jsEntity);
-//         
-//         // Add animation
-//         this.addRotationAnimation(contentEntity);
-//     }
-//     
-//     // Add digital marketing content
-//     addDigitalMarketingContent(contentEntity) {
-//         // Create SEO visualization
-//         const seoEntity = document.createElement('a-sphere');
-//         seoEntity.setAttribute('position', '-1 0 0');
-//         seoEntity.setAttribute('radius', '0.3');
-//         seoEntity.setAttribute('color', '#4285f4');
-//         seoEntity.setAttribute('text', 'value: SEO; color: white; width: 2');
-//         contentEntity.appendChild(seoEntity);
-//         
-//         // Create social media visualization
-//         const socialEntity = document.createElement('a-sphere');
-//         socialEntity.setAttribute('position', '1 0 0');
-//         socialEntity.setAttribute('radius', '0.3');
-//         socialEntity.setAttribute('color', '#ea4335');
-//         socialEntity.setAttribute('text', 'value: Social; color: white; width: 2');
-//         contentEntity.appendChild(socialEntity);
-//         
-//         // Add animation
-//         this.addBounceAnimation(contentEntity);
-//     }
-//     
-//     // Add data science content
-//     addDataScienceContent(contentEntity) {
-//         // Create data visualization
-//         const dataEntity = document.createElement('a-cylinder');
-//         dataEntity.setAttribute('position', '0 0 0');
-//         dataEntity.setAttribute('radius', '0.3');
-//         dataEntity.setAttribute('height', '1');
-//         dataEntity.setAttribute('color', '#34a853');
-//         dataEntity.setAttribute('text', 'value: Data; color: white; width: 2');
-//         contentEntity.appendChild(dataEntity);
-//         
-//         // Add animation
-//         this.addScaleAnimation(contentEntity);
-//     }
-//     
-//     // Add cybersecurity content
-//     addCybersecurityContent(contentEntity) {
-//         // Create security shield visualization
-//         const shieldEntity = document.createElement('a-cone');
-//         shieldEntity.setAttribute('position', '0 0 0');
-//         shieldEntity.setAttribute('radius-bottom', '0.4');
-//         shieldEntity.setAttribute('height', '1');
-//         shieldEntity.setAttribute('color', '#ff6b35');
-//         shieldEntity.setAttribute('text', 'value: Security; color: white; width: 2');
-//         contentEntity.appendChild(shieldEntity);
-//         
-//         // Add animation
-//         this.addPulseAnimation(contentEntity);
-//     }
-//     
-//     // Add rotation animation
-//     addRotationAnimation(entity) {
-//         entity.setAttribute('animation', 'property: rotation; to: 0 360 0; dur: 5000; loop: true');
-//     }
-//     
-//     // Add bounce animation
-//     addBounceAnimation(entity) {
-//         entity.setAttribute('animation', 'property: position; to: 0 0.5 0; dur: 1000; loop: true; easing: easeInOutQuad');
-//     }
-//     
-//     // Add scale animation
-//     addScaleAnimation(entity) {
-//         entity.setAttribute('animation', 'property: scale; to: 1.5 1.5 1.5; dur: 2000; loop: true; easing: easeInOutQuad');
-//     }
-//     
-//     // Add pulse animation
-//     addPulseAnimation(entity) {
-//         entity.setAttribute('animation', 'property: scale; to: 1.2 1.2 1.2; dur: 1500; loop: true; easing: easeInOutQuad');
-//     }
-//     
-//     // Get target index for MindAR
-//     getTargetIndex(topicId) {
-//         const topicMap = {
-//             'web': 0,
-//             'marketing': 1,
-//             'data': 2,
-//             'cyber': 3
-//         };
-//         return topicMap[topicId] || 0;
-//     }
-//     
-//     // Show the AR scene
-//     showScene() {
-//         if (this.sceneContainer) {
-//             this.sceneContainer.style.display = 'block';
-//             console.log('AR scene shown');
-//         }
-//     }
-//     
-//     // Hide the AR scene
-//     hideScene() {
-//         if (this.sceneContainer) {
-//             this.sceneContainer.style.display = 'none';
-//             console.log('AR scene hidden');
-//         }
-//     }
-//     
-//     // Get current topic
-//     getCurrentTopic() {
-//         return this.currentTopic;
-//     }
-//     
-//     // Destroy current scene
-//     destroyCurrentScene() {
-//         if (this.currentScene) {
-//             this.sceneContainer.removeChild(this.currentScene);
-//             this.currentScene = null;
-//             console.log('Current AR scene destroyed');
-//         }
-//     }
-//     
-//     // Reset to initial state
-//     reset() {
-//         this.destroyCurrentScene();
-//         this.currentTopic = null;
-//         this.isInitialized = false;
-//     }
-// }
-// 
-// // Create and make arSceneManager available globally
-// window.arSceneManager = new ARSceneManager();
-*/
+class ARSceneManager {
+    constructor() {
+        this.currentScene = null;
+        this.isInitialized = false;
+        this.assetCache = new Map(); // topicId -> cached assets
+        this.stateManager = null;
+        
+        console.log('AR Scene Manager initialized');
+    }
+    
+    async initialize() {
+        if (typeof window.AFRAME === 'undefined') {
+            console.error('A-Frame library not loaded');
+            return false;
+        }
+        
+        this.createSceneContainer();
+        this.isInitialized = true;
+        console.log('AR Scene Manager initialized successfully');
+        return true;
+    }
+    
+    createSceneContainer() {
+        let container = document.getElementById('ar-scene-container');
+        if (!container) {
+            console.error('AR scene container not found in HTML');
+            return null;
+        }
+        
+        // Hide the placeholder and prepare for AR scene
+        const placeholder = document.getElementById('camera-placeholder');
+        if (placeholder) {
+            placeholder.style.display = 'none';
+        }
+        
+        return container;
+    }
+    
+    async createScene(topicId) {
+        if (!this.isInitialized) {
+            console.error('AR Scene Manager not initialized');
+            return false;
+        }
+        
+        this.disposeScene();
+        
+        // Check cache first
+        const cachedAssets = this.assetCache.get(topicId);
+        if (cachedAssets) {
+            console.log(`Using cached assets for topic ${topicId}`);
+            return this.buildSceneFromCache(topicId, cachedAssets);
+        }
+        
+        // Download and cache assets
+        const assets = await this.downloadAndCacheAssets(topicId);
+        return this.buildSceneFromCache(topicId, assets);
+    }
+    
+    async downloadAndCacheAssets(topicId) {
+        const assets = {
+            models: [],
+            textures: [],
+            timestamp: Date.now()
+        };
+        
+        // Placeholder assets - replace with actual URLs
+        assets.models = [
+            { id: `model_${topicId}_1`, url: `./assets/models/topic_${topicId}/model1.glb` }
+        ];
+        
+        this.assetCache.set(topicId, assets);
+        console.log(`Assets cached for topic ${topicId}`);
+        return assets;
+    }
+    
+    buildSceneFromCache(topicId, assets) {
+        const container = document.getElementById('ar-scene-container');
+        if (!container) return false;
+        
+        // Create A-Frame scene with MindAR for real camera feed
+        const sceneHTML = `
+            <a-scene 
+                id="ar-scene-${topicId}"
+                background="transparent"
+                embedded
+                vr-mode-ui="enabled: false"
+                renderer="logarithmicDepthBuffer: true; colorManagement: true; physicallyCorrectLights: true"
+                mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: no; uiScanning: no; uiError: no"
+                color-space="sRGB"
+                device-orientation-permission-ui="enabled: false">
+                
+                <!-- Camera for AR tracking -->
+                <a-camera 
+                    id="ar-camera-${topicId}"
+                    position="0 0 0"
+                    look-controls="enabled: false"
+                    wasd-controls="enabled: false"
+                    cursor="rayOrigin: mouse">
+                </a-camera>
+                
+                <!-- Lighting for 3D content -->
+                <a-light 
+                    type="ambient" 
+                    color="#404040" 
+                    intensity="0.6">
+                </a-light>
+                <a-light 
+                    type="directional" 
+                    color="#ffffff" 
+                    intensity="0.8"
+                    position="1 1 1">
+                </a-light>
+                
+                <!-- Topic-specific content container -->
+                <a-entity id="topic-content-${topicId}">
+                    <!-- 3D content will be added here when posters are detected -->
+                </a-entity>
+                
+            </a-scene>
+        `;
+        
+        container.innerHTML = sceneHTML;
+        this.currentScene = container.querySelector(`#ar-scene-${topicId}`);
+        
+        // Set up MindAR event listeners for this scene
+        this.setupMindARListeners(topicId);
+        
+        console.log(`AR scene created for topic ${topicId} with real camera feed`);
+        return true;
+    }
+    
+    // Set up MindAR event listeners for target detection
+    setupMindARListeners(topicId) {
+        if (!this.currentScene) return;
+        
+        // Listen for target found events
+        this.currentScene.addEventListener('targetFound', (event) => {
+            const targetIndex = event.detail.targetIndex;
+            console.log(`🎯 Target detected in AR scene: ${targetIndex}`);
+            this.handleTargetFound(targetIndex, topicId);
+        });
+        
+        // Listen for target lost events
+        this.currentScene.addEventListener('targetLost', (event) => {
+            const targetIndex = event.detail.targetIndex;
+            console.log(`📤 Target lost in AR scene: ${targetIndex}`);
+            this.handleTargetLost(targetIndex, topicId);
+        });
+        
+        console.log(`MindAR listeners set up for topic ${topicId}`);
+    }
+    
+    // Handle target found event
+    handleTargetFound(targetIndex, topicId) {
+        // Map target index to topic number (0-3 -> 1-4)
+        const topicMapping = {
+            0: 1, // Target 0 -> topic_1 (Web Development)
+            1: 2, // Target 1 -> topic_2 (Digital Marketing)  
+            2: 3, // Target 2 -> topic_3 (Data Science)
+            3: 4  // Target 3 -> topic_4 (Cybersecurity)
+        };
+        
+        const detectedTopicId = topicMapping[targetIndex];
+        if (detectedTopicId && detectedTopicId === topicId) {
+            console.log(`✅ Correct poster detected for topic ${topicId}`);
+            // Notify MindAR Manager about the detection
+            if (window.mindARManager) {
+                window.mindARManager.handleTargetFound(targetIndex);
+            }
+        } else {
+            console.log(`⚠️ Wrong poster detected. Expected topic ${topicId}, got target ${targetIndex}`);
+        }
+    }
+    
+    // Handle target lost event
+    handleTargetLost(targetIndex, topicId) {
+        console.log(`Target ${targetIndex} lost for topic ${topicId}`);
+        // Could implement logic to handle target loss if needed
+    }
+    
+    disposeScene() {
+        if (this.currentScene) {
+            const container = document.getElementById('ar-scene-container');
+            if (container) {
+                container.innerHTML = '';
+            }
+            
+            // Show the camera placeholder again
+            const placeholder = document.getElementById('camera-placeholder');
+            if (placeholder) {
+                placeholder.style.display = 'block';
+            }
+            
+            this.currentScene = null;
+            console.log('AR scene disposed (assets remain cached)');
+        }
+    }
+    
+    connectStateManager(stateManager) {
+        this.stateManager = stateManager;
+        
+        // Add state transition listeners
+        const originalChangeState = stateManager.changeState.bind(stateManager);
+        stateManager.changeState = (newState) => {
+            // Handle state exit
+            this.onStateExit(stateManager.getCurrentState());
+            
+            // Call original changeState
+            const result = originalChangeState(newState);
+            
+            // Handle state enter
+            this.onStateEnter(newState);
+            
+            return result;
+        };
+        
+        console.log('AR Scene Manager connected to State Manager');
+    }
+    
+    onStateEnter(state) {
+        console.log(`AR Scene Manager: Entering state ${state}`);
+        
+        switch (state) {
+            case 'scanning':
+                // Scene will be created when poster is detected
+                break;
+            case 'ar_ready':
+                // Scene should be ready
+                break;
+            case 'animating':
+                // Scene should be active
+                break;
+            default:
+                // Hide scene for other states
+                this.disposeScene();
+                break;
+        }
+    }
+    
+    onStateExit(state) {
+        console.log(`AR Scene Manager: Exiting state ${state}`);
+        
+        switch (state) {
+            case 'scanning':
+            case 'ar_ready':
+            case 'animating':
+                // Keep scene active
+                break;
+            default:
+                // Dispose scene when leaving AR states
+                this.disposeScene();
+                break;
+        }
+    }
+    
+    // Create scene when poster is detected (called by MindAR Manager)
+    async createSceneForDetectedTopic(topicId) {
+        console.log(`Creating AR scene for detected topic: ${topicId}`);
+        
+        if (!this.isInitialized) {
+            console.error('AR Scene Manager not initialized');
+            return false;
+        }
+        
+        try {
+            const success = await this.createScene(topicId);
+            if (success) {
+                console.log(`AR scene created successfully for topic ${topicId}`);
+                return true;
+            } else {
+                console.error(`Failed to create AR scene for topic ${topicId}`);
+                return false;
+            }
+        } catch (error) {
+            console.error(`Error creating AR scene for topic ${topicId}:`, error);
+            return false;
+        }
+    }
+    
+    getCacheStatus() {
+        return {
+            cachedTopics: Array.from(this.assetCache.keys()),
+            cacheSize: this.assetCache.size
+        };
+    }
+}
+
+// Create global instance
+window.arSceneManager = new ARSceneManager();
+console.log('AR Scene Manager loaded');

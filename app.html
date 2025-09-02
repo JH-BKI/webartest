@@ -110,9 +110,12 @@
                     <div class="corner bottom-right"></div>
                     <div class="scanning-line"></div>
                 </div>
-                <div class="camera-placeholder">
-                    <span class="camera-icon">📷</span>
-                    <p>Camera viewfinder</p>
+                <!-- AR Scene Container - will be populated by AR Scene Manager -->
+                <div id="ar-scene-container" class="ar-scene-container">
+                    <div class="camera-placeholder" id="camera-placeholder">
+                        <span class="camera-icon">📷</span>
+                        <p>Camera viewfinder</p>
+                    </div>
                 </div>
             </div>
             
@@ -311,12 +314,16 @@
     <script src="./core/js/topics.js?v=2.4"></script>
     <script src="./core/js/stateManager.js?v=2.4"></script>
     <script src="./core/js/progressManager.js?v=2.4"></script>
+    
+    <!-- A-Frame Library - Required for 3D scenes and AR functionality -->
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    
     <!-- MindAR Library - Required for AR functionality -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <script src="./core/js/mindarManager.js?v=2.6"></script>
+    <script src="./core/js/arSceneManager.js?v=2.7"></script>
     
-    <!-- Note: arSceneManager.js is temporarily disabled for Phase 1 UI development -->
-    <!-- MindAR integration now active for Phase 3A: Simulated AR Flow -->
+    <!-- Phase 4.5: Real AR Scene Implementation Active -->
     <script>
         /*
          * Main Application Script
@@ -449,6 +456,16 @@
             // Use state manager to transition to scanning state
             stateManager.changeState('scanning');
             
+            // Initialize AR Scene Manager
+            if (window.arSceneManager) {
+                window.arSceneManager.connectStateManager(stateManager);
+                window.arSceneManager.initialize().then(() => {
+                    console.log('AR Scene Manager ready');
+                }).catch(error => {
+                    console.error('Failed to initialize AR Scene Manager:', error);
+                });
+            }
+            
             // Initialize and start MindAR scanning
             if (window.mindARManager) {
                 // Connect MindAR manager to state manager
@@ -469,7 +486,8 @@
             // Use state manager to transition to animating state
             stateManager.changeState('animating');
             
-            // Start the AR loading simulation
+            // AR scene should already be created when poster was detected
+            // Just start the loading simulation
             setTimeout(() => {
                 simulateARLoading();
             }, 500);
