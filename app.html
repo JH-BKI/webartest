@@ -298,11 +298,11 @@
     </div>
 
     <!-- Core JavaScript Files - Load in dependency order -->
-    <script src="./core/js/topics.js?v=2.2"></script>
-    <script src="./core/js/stateManager.js?v=2.2"></script>
+    <script src="./core/js/topics.js?v=2.3"></script>
+    <script src="./core/js/stateManager.js?v=2.3"></script>
     <!-- MindAR Library - Required for AR functionality -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="./core/js/mindarManager.js?v=2.2"></script>
+    <script src="./core/js/mindarManager.js?v=2.3"></script>
     
     <!-- Note: arSceneManager.js is temporarily disabled for Phase 1 UI development -->
     <!-- MindAR integration now active for Phase 3A: Simulated AR Flow -->
@@ -428,8 +428,9 @@
         // Campus selection function
         function selectCampus(campus) {
             selectedCampus = campus;
-            // Use state manager to transition to topics
-            stateManager.changeState('topics');
+            // Use state manager to transition directly to menu
+            // AR scanning will automatically detect/simulate a topic
+            stateManager.changeState('menu');
         }
         
         // Start AR scanning function
