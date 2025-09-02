@@ -2,6 +2,8 @@
 const topicData = {
     topic_1: {
         title: 'Protecting Yourself Online',
+        icon: '💻', // Can be emoji or image path like './assets/icons/topic1.png'
+        videoUrl: 'https://player.vimeo.com/video/76979871', // Topic-specific video
         content: [
             'Welcome to web development! This course covers the three core technologies that power the modern web.',
             'HTML provides the structure and content of web pages, like the skeleton of a building.',
@@ -31,6 +33,8 @@ const topicData = {
     },
     topic_2: {
         title: 'Navigating Difficult Situations',
+        icon: '📱', // Can be emoji or image path
+        videoUrl: 'https://player.vimeo.com/video/76979871', // Topic-specific video (placeholder)
         content: [
             'Digital marketing is the practice of promoting products or services using digital technologies.',
             'Search Engine Optimization (SEO) helps websites rank higher in search results.',
@@ -60,6 +64,8 @@ const topicData = {
     },
     topic_3: {
         title: 'Respectful Relationships Online',
+        icon: '📊', // Can be emoji or image path
+        videoUrl: 'https://player.vimeo.com/video/76979871', // Topic-specific video (placeholder)
         content: [
             'Data science combines statistical analysis, programming, and domain expertise.',
             'Python and R are the most popular programming languages for data analysis.',
@@ -89,6 +95,8 @@ const topicData = {
     },
     topic_4: {
         title: 'Seeking Help and Support',
+        icon: '🔒', // Can be emoji or image path
+        videoUrl: 'https://player.vimeo.com/video/76979871', // Topic-specific video (placeholder)
         content: [
             'Cybersecurity protects systems, networks, and data from digital attacks.',
             'Malware includes viruses, worms, and ransomware that can damage systems.',
@@ -118,5 +126,60 @@ const topicData = {
     }
 };
 
-// Make topicData available globally
+// Helper functions for topic management
+function getTopicInfo(topicId) {
+  const topicKey = `topic_${topicId}`;
+  return topicData[topicKey] || null;
+}
+
+function getTopicTitle(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.title : 'Unknown Topic';
+}
+
+function getTopicContent(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.content : [];
+}
+
+function getTopicQuestion(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.question : 'No question available';
+}
+
+function getTopicAnswers(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.answers : [];
+}
+
+function getTopicFeedback(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.feedback : { perfect: '', partial: '' };
+}
+
+function getTopicSummary(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.summary : [];
+}
+
+function getTopicIcon(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.icon : '📚'; // Default icon if not found
+}
+
+function getTopicVideoUrl(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.videoUrl : null; // Return null if not found - let it fail gracefully
+}
+
+// Make topicData and helper functions available globally
 window.topicData = topicData;
+window.getTopicInfo = getTopicInfo;
+window.getTopicTitle = getTopicTitle;
+window.getTopicContent = getTopicContent;
+window.getTopicQuestion = getTopicQuestion;
+window.getTopicAnswers = getTopicAnswers;
+window.getTopicFeedback = getTopicFeedback;
+window.getTopicSummary = getTopicSummary;
+window.getTopicIcon = getTopicIcon;
+window.getTopicVideoUrl = getTopicVideoUrl;
