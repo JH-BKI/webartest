@@ -610,17 +610,7 @@ body {
     background-color: var(--bg-primary);
 }
 
-#version { position: fixed;
-    position: fixed;
-    width: 12px;
-    height: 12px;
-    top: 0;
-    right: 0;
-    font-size: 10px;
-    color: var(--text-secondary);
-    background-color: var(--bg-secondary);
-    padding: 2px;
-}
+
 
 .card {
     background: var(--bg-secondary);

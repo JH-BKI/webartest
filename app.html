@@ -7,6 +7,7 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="core/css/style.css">
+    <link rel="stylesheet" href="core/css/mobile-console.css">
     
     <!-- 
      * AR Learning App - Phase 1: UI Structure Complete
@@ -21,8 +22,15 @@
      -->
 </head>
 <body>
-    <div id="version">
-        [1]
+    <div id="debug">
+        <button id="debug-toggle" onclick="toggleDebugConsole()">
+            <span id="debug-info">v2.4 - loading</span>
+            <span id="debug-arrow">▼</span>
+        </button>
+        <div id="debug-console" class="hidden">
+            <div id="console-output"></div>
+            <button id="copy-console-btn" onclick="copyConsoleToClipboard()">📋 Copy Console</button>
+        </div>
     </div>
 
     <!-- Loading Section -->
@@ -318,14 +326,15 @@
     <script src="./core/js/topics.js?v=2.4"></script>
     <script src="./core/js/stateManager.js?v=2.4"></script>
     <script src="./core/js/progressManager.js?v=2.4"></script>
+    <script src="./core/js/mobile-console.js?v=2.4"></script>
     
     <!-- A-Frame Library - Required for 3D scenes and AR functionality -->
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
     
     <!-- MindAR Library - Required for AR functionality -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="./core/js/mindarManager.js?v=2.6"></script>
-    <script src="./core/js/arSceneManager.js?v=2.7"></script>
+    <script src="./core/js/mindarManager.js?v=2.4"></script>
+    <script src="./core/js/arSceneManager.js?v=2.4"></script>
     
     <!-- Phase 4.5: Real AR Scene Implementation Active -->
     <script>
@@ -344,10 +353,13 @@
          * - Content loading functions
          */
         
+        let version = '2.4';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
         let selectedCampus = '';
+        
+
         
         // Loading simulation function
         function simulateLoading() {
@@ -439,6 +451,11 @@
         
         // Start loading when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Set version in mobile console if it's available
+            if (window.mobileConsole) {
+                window.mobileConsole.setVersion(version);
+            }
+            
             simulateLoading();
             
             // Populate UI elements after a short delay to ensure topics.js is loaded
