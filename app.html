@@ -294,6 +294,9 @@
         <button class="btn" onclick="goHome()">Choose New Topic</button>
     </div>
 
+    <!-- AR Scene Container -->
+    <div id="ar-scene-container" class="ar-scene-container hidden"></div>
+
     <!-- AR Not Supported Modal -->
     <div id="ar-not-supported-message" class="ar-not-supported-message hidden">
         <div class="message-content">
@@ -328,7 +331,7 @@
          * - Content loading functions
          */
         
-        let version = '2.29';
+        let version = '2.30';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;

@@ -200,10 +200,14 @@ class ARSceneManager {
         
         // Listen for target found events
         sceneEl.addEventListener('targetFound', (event) => {
+            console.log('🎯 targetFound event received:', event);
+            console.log('🎯 Event detail:', event.detail);
+            
             if (!event.detail) {
                 console.warn('⚠️ AR Scene Manager: targetFound event has no detail');
                 return;
             }
+            
             const targetIndex = event.detail.targetIndex;
             console.log(`🎯 Target detected in AR scene: ${targetIndex}`);
             this.handleTargetFound(targetIndex);
@@ -268,6 +272,9 @@ class ARSceneManager {
     
     // Handle target found event
     handleTargetFound(targetIndex) {
+        console.log(`🎯 handleTargetFound called with targetIndex: ${targetIndex}`);
+        console.log(`🎯 Topic mapping:`, this.topicMapping);
+        
         const detectedTopicId = this.topicMapping[targetIndex];
         if (detectedTopicId) {
             console.log(`✅ Poster detected for topic ${detectedTopicId}`);
@@ -294,6 +301,7 @@ class ARSceneManager {
             }
         } else {
             console.log(`⚠️ Unknown target detected: ${targetIndex}`);
+            console.log(`⚠️ Available targets:`, Object.keys(this.topicMapping));
         }
     }
     
@@ -351,8 +359,9 @@ class ARSceneManager {
             
             const container = document.getElementById('ar-scene-container');
             if (container) {
-                console.log('🗑️ AR Scene Manager: Clearing container HTML');
+                console.log('🗑️ AR Scene Manager: Clearing container HTML and hiding container');
                 container.innerHTML = '';
+                container.classList.add('hidden');
             }
                        
             this.currentScene = null;
@@ -523,6 +532,13 @@ class ARSceneManager {
 
 
     injectARScene() {
+        // Show the AR scene container
+        const container = document.getElementById('ar-scene-container');
+        if (container) {
+            container.classList.remove('hidden');
+            console.log('AR scene container shown');
+        }
+        
         // Generate dynamic asset HTML for all topics (1-4)
         const assetHTML = this.generateAllTopicAssets();
         
@@ -533,7 +549,7 @@ class ARSceneManager {
             filterBeta: 0.001; 
             warmupTolerance: 1; 
             missTolerance: 1; 
-            maxTrack: 1;
+            maxTrack: 4;
             autoStart: true;" 
             timeline-controller
             color-space="sRGB" 
@@ -563,14 +579,19 @@ class ARSceneManager {
             <a-camera position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse"></a-camera>
         </a-scene>`;
 
-        document.body.insertAdjacentHTML('beforeend', arSceneHTML);
-        console.log('AR Scene has been injected with dynamic assets');
+        // Inject into the dedicated container instead of body
+        if (container) {
+            container.innerHTML = arSceneHTML;
+            console.log('AR Scene has been injected into dedicated container');
+        } else {
+            document.body.insertAdjacentHTML('beforeend', arSceneHTML);
+            console.log('AR Scene has been injected into body (fallback)');
+        }
 
         // Set up MindAR event listeners after scene is injected
         this.setupMindARListeners();
 
         const sceneEl = document.querySelector('a-scene');
-
     }
 
 }
