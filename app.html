@@ -361,9 +361,9 @@
       <!-- Scene 01 Character Assets -->
       <img id="s01-scene-01-Alex" src="./assets/s01-scene-01-Alex.png">
       <img id="s01-scene-01-Mia" src="./assets/s01-scene-01-Mia.png">
-      
-    
-
+      <img id="s01-speech-left" src="./assets/s01-speech-left.png">
+      <img id="s01-speech-right" src="./assets/s01-speech-right.png">
+      <img id="s01-floor" src="./assets/s01-floor.png">
     </a-assets>
     
     
@@ -374,53 +374,18 @@
      <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 0">
 
         <a-entity id="scenario-assets-scaler" position="0 0 -2">
-        <a-image id="s01-floor" src="#s01-floor" scale="2 1 2" position="0 -1 0" rotation="-90 0 0"></a-image>
-      <!-- <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane> -->
-          <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="-0.25 2.25 -2" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-          <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0.25 2.25 -2.1" rotation="0 0 0" visible="false" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01-floor" src="#s01-floor" scale="2 1 2" position="0 -1 0" rotation="-90 0 0"></a-image>
 
+              <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="-0.25 2.25 -2" rotation="0 0 0" visible="true" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0.25 2.25 -2.1" rotation="0 0 0" visible="true" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+    
+              <a-image id="s01s01-Alex" src="#s01-scene-01-Alex" scale="2 4 1" position="-2.5 0 -2" rotation="0 0 0" visible="true" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+              <a-image id="s01s01-Mia" src="#s01-scene-01-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="true" opacity="0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+    
         </a-entity>
     </a-entity>
 
-        <a-box id="up-button" 
-                 position="0 0.2 -1" 
-                 scale="0.1 0.1 0.1" 
-                 color="green"
-                 class="clickable"></a-box>
-          
-          <a-box id="down-button"
-                 position="0 -0.2 -1"
-                 scale="0.1 0.1 0.1"
-                 color="blue" 
-                 class="clickable"></a-box>
-          
-          <a-box id="left-button"
-                 position="-0.2 0 -1"
-                 scale="0.1 0.1 0.1"
-                 color="red"
-                 class="clickable"></a-box>
-          
-          <a-box id="right-button"
-                 position="0.2 0 -1"
-                 scale="0.1 0.1 0.1"
-                 color="yellow"
-                 class="clickable"></a-box>
-          
-          <a-box id="forward-button"
-                 position="0.2 0.2 -1"
-                 scale="0.1 0.1 0.1"
-                 color="purple"
-                 class="clickable"></a-box>
-                 
-          <a-box id="backward-button"
-                 position="0.2 -0.2 -1"
-                 scale="0.1 0.1 0.1"
-                 color="pink"
-                 class="clickable"></a-box>
-          </a-entity>
- 
-
-
+      
     <a-camera position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse"></a-camera>
   </a-scene>
 
