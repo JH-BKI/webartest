@@ -513,6 +513,14 @@ class ARSceneManager {
             console.error('❌ AR Scene Manager: MindAR system error', event.detail);
         });
         
+        this.currentScene.addEventListener('mindarLoaded', (event) => {
+            console.log('✅ AR Scene Manager: MindAR targets loaded successfully', event.detail);
+        });
+        
+        this.currentScene.addEventListener('mindarLoadError', (event) => {
+            console.error('❌ AR Scene Manager: MindAR target loading error', event.detail);
+        });
+        
         // Check if MindAR system is available
         setTimeout(() => {
             const mindarSystem = this.currentScene.systems['mindar-image-system'];
@@ -525,6 +533,17 @@ class ARSceneManager {
                     console.log('🔍 AR Scene Manager: MindAR is actively scanning for targets');
                 } else {
                     console.warn('⚠️ AR Scene Manager: MindAR is not scanning for targets');
+                    console.log('🔄 AR Scene Manager: Attempting to start MindAR scanning...');
+                    try {
+                        if (mindarSystem.start) {
+                            mindarSystem.start();
+                            console.log('✅ AR Scene Manager: MindAR scanning started');
+                        } else {
+                            console.warn('⚠️ AR Scene Manager: MindAR start method not available');
+                        }
+                    } catch (error) {
+                        console.error('❌ AR Scene Manager: Error starting MindAR scanning:', error);
+                    }
                 }
                 
                 // Check if targets are loaded
@@ -532,6 +551,21 @@ class ARSceneManager {
                     console.log(`📋 AR Scene Manager: ${mindarSystem.imageTargets.length} image targets loaded`);
                 } else {
                     console.warn('⚠️ AR Scene Manager: No image targets loaded');
+                    console.log('🔍 AR Scene Manager: Checking target file path...');
+                    console.log('📁 AR Scene Manager: Target file should be at: ./assets/targets/targets_4.mind');
+                    
+                    // Try to fetch the target file to verify it's accessible
+                    fetch('./assets/targets/targets_4.mind')
+                        .then(response => {
+                            if (response.ok) {
+                                console.log('✅ AR Scene Manager: Target file is accessible');
+                            } else {
+                                console.error('❌ AR Scene Manager: Target file not accessible:', response.status);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('❌ AR Scene Manager: Error accessing target file:', error);
+                        });
                 }
                 
                 // Check camera feed
