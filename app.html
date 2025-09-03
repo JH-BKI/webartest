@@ -497,7 +497,6 @@
                 console.log('🚀 App: Initializing AR Scene Manager...');
                 window.arSceneManager.initialize().then(() => {
                     
-                    window.arSceneManager.injectARScene();
                     console.log('✅ App: AR Scene Manager ready - transitioning to scanning state');
                     stateManager.changeState('scanning');
 
