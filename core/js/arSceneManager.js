@@ -7,6 +7,15 @@ class ARSceneManager {
         this.isInitialized = false;
         this.assetCache = new Map(); // topicId -> cached assets
         this.stateManager = null;
+        this.currentTopic = null;
+        
+        // Topic mapping: target index -> topic number
+        this.topicMapping = {
+            0: 1, // Target 0 -> topic_1 (Web Development)
+            1: 2, // Target 1 -> topic_2 (Digital Marketing)  
+            2: 3, // Target 2 -> topic_3 (Data Science)
+            3: 4  // Target 3 -> topic_4 (Cybersecurity)
+        };
         
         console.log('AR Scene Manager initialized');
     }
@@ -230,25 +239,18 @@ class ARSceneManager {
     
     // Handle target found event
     handleTargetFound(targetIndex, topicId) {
-        // Map target index to topic number (0-3 -> 1-4)
-        const topicMapping = {
-            0: 1, // Target 0 -> topic_1 (Web Development)
-            1: 2, // Target 1 -> topic_2 (Digital Marketing)  
-            2: 3, // Target 2 -> topic_3 (Data Science)
-            3: 4  // Target 3 -> topic_4 (Cybersecurity)
-        };
-        
-        const detectedTopicId = topicMapping[targetIndex];
+        const detectedTopicId = this.topicMapping[targetIndex];
         if (detectedTopicId && detectedTopicId === topicId) {
             console.log(`✅ Correct poster detected for topic ${topicId}`);
             
             // Start the animation timeline
             this.startAnimation(topicId);
             
-            // Notify MindAR Manager about the detection
-            if (window.mindARManager) {
-                window.mindARManager.handleTargetFound(targetIndex);
-            }
+            // Update global topic
+            this.setGlobalTopic(detectedTopicId);
+            
+            // Update UI
+            this.updateDetectedPosterUI(detectedTopicId);
         } else {
             console.log(`⚠️ Wrong poster detected. Expected topic ${topicId}, got target ${targetIndex}`);
         }
@@ -632,23 +634,22 @@ class ARSceneManager {
     handleBasicTargetFound(targetIndex) {
         console.log(`🔍 AR Scene Manager: Processing target found - Index: ${targetIndex}`);
         
-        // Map target index to topic number (0-3 -> 1-4)
-        const topicMapping = {
-            0: 1, // Target 0 -> topic_1 (Web Development)
-            1: 2, // Target 1 -> topic_2 (Digital Marketing)  
-            2: 3, // Target 2 -> topic_3 (Data Science)
-            3: 4  // Target 3 -> topic_4 (Cybersecurity)
-        };
-        
-        const detectedTopicId = topicMapping[targetIndex];
+        const detectedTopicId = this.topicMapping[targetIndex];
         console.log(`🗺️ AR Scene Manager: Target ${targetIndex} maps to Topic ${detectedTopicId}`);
         
         if (detectedTopicId) {
-            console.log(`✅ AR Scene Manager: Poster detected for topic ${detectedTopicId} - creating topic-specific scene`);
+            console.log(`✅ AR Scene Manager: Poster detected for topic ${detectedTopicId}`);
+            
+            // Set global topic
+            this.setGlobalTopic(detectedTopicId);
+            
+            // Update UI
+            this.updateDetectedPosterUI(detectedTopicId);
+            
             // Create topic-specific scene
             this.createSceneForDetectedTopic(detectedTopicId);
             
-            // Trigger state transition to ar_ready
+            // Trigger state transition
             if (this.stateManager) {
                 console.log(`🔄 AR Scene Manager: Transitioning to ar_ready state for topic ${detectedTopicId}`);
                 this.stateManager.changeState('ar_ready');
@@ -692,6 +693,55 @@ class ARSceneManager {
             cachedTopics: Array.from(this.assetCache.keys()),
             cacheSize: this.assetCache.size
         };
+    }
+    
+    // Update UI when poster is detected
+    updateDetectedPosterUI(topicId) {
+        const topicTitle = window.getTopicTitle ? window.getTopicTitle(topicId + 1) : `Topic ${topicId + 1}`;
+        
+        const titleElement = document.getElementById('detected-poster-title');
+        const nameElement = document.getElementById('detected-topic-name');
+        
+        if (titleElement) {
+            titleElement.textContent = `${topicTitle} Poster Detected`;
+        }
+        
+        if (nameElement) {
+            nameElement.textContent = topicTitle;
+        }
+        
+        console.log(`🎨 UI updated for topic: ${topicTitle}`);
+    }
+    
+    // Set global topic
+    setGlobalTopic(topicId) {
+        if (typeof setCurrentTopic === 'function') {
+            setCurrentTopic(`topic_${topicId}`);
+        }
+        
+        if (typeof window !== 'undefined') {
+            window.currentTopic = `topic_${topicId}`;
+        }
+        
+        this.currentTopic = topicId;
+        console.log(`📚 Topic set globally: ${topicId} (topic_${topicId})`);
+    }
+    
+    // Get current topic
+    getCurrentTopic() {
+        return this.currentTopic;
+    }
+    
+    // Reset for new scanning session
+    reset() {
+        this.currentTopic = null;
+        this.disposeScene();
+        console.log('AR Scene Manager reset');
+    }
+    
+    // Check if system is ready
+    isReady() {
+        return this.isInitialized;
     }
 }
 

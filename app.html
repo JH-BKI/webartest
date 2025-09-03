@@ -333,8 +333,8 @@
     
     <!-- MindAR Library - Required for AR functionality -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="./core/js/mindarManager.js?v=2.4"></script>
-    <script src="./core/js/arSceneManager.js?v=2.4"></script>
+
+    <script src="./core/js/arSceneManager.js?v=2.16"></script>
     
     <!-- Phase 4.5: Real AR Scene Implementation Active -->
     <script>
@@ -353,7 +353,7 @@
          * - Content loading functions
          */
         
-        let version = '2.15';
+        let version = '2.16';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -476,7 +476,6 @@
         function startARScanning() {
             console.log('🎬 App: Starting AR scanning process...');
             
-            // Initialize AR Scene Manager FIRST
             if (window.arSceneManager) {
                 console.log('✅ App: AR Scene Manager found, connecting to state manager');
                 window.arSceneManager.connectStateManager(stateManager);
@@ -484,22 +483,12 @@
                 console.log('🚀 App: Initializing AR Scene Manager...');
                 window.arSceneManager.initialize().then(() => {
                     console.log('✅ App: AR Scene Manager ready - transitioning to scanning state');
-                    // THEN transition to scanning state
                     stateManager.changeState('scanning');
                 }).catch(error => {
                     console.error('❌ App: Failed to initialize AR Scene Manager:', error);
                 });
             } else {
-                console.error('❌ App: AR Scene Manager not available - using fallback');
-                // Fallback if AR Scene Manager not available
-                stateManager.changeState('scanning');
-            }
-            
-            // MindAR Manager is now simplified - A-Frame handles everything
-            if (window.mindARManager) {
-                console.log('✅ App: MindAR Manager found (simplified)');
-                window.mindARManager.connectStateManager(stateManager);
-                window.mindARManager.initialize();
+                console.error('❌ App: AR Scene Manager not available');
             }
         }
         
