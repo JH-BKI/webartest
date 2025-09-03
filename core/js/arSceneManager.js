@@ -346,78 +346,23 @@ class ARSceneManager {
         }
     }
     
-    connectStateManager(stateManager) {
-        this.stateManager = stateManager;
-        
-        // Prevent duplicate connections
-        if (this.stateManagerConnected) {
-            console.log('AR Scene Manager already connected to State Manager');
-            return;
-        }
-        
-        // Add state transition listeners
-        const originalChangeState = stateManager.changeState.bind(stateManager);
-        stateManager.changeState = (newState) => {
-            // Handle state exit
-            this.onStateExit(stateManager.getCurrentState());
-            
-            // Call original changeState
-            const result = originalChangeState(newState);
-            
-            // Handle state enter
-            this.onStateEnter(newState);
-            
-            return result;
-        };
-        
-        this.stateManagerConnected = true;
-        console.log('AR Scene Manager connected to State Manager');
+    // Simplified: No automatic state management connection
+    // AR Scene Manager is now self-contained and responds to explicit method calls
+    
+    // Public API methods for explicit control
+    startScanning() {
+        console.log('🎬 AR Scene Manager: Starting AR scanning');
+        this.injectARScene();
     }
     
-    onStateEnter(state) {
-        console.log(`AR Scene Manager: Entering state ${state}`);
-        
-        // Prevent duplicate state transitions
-        if (this.currentState === state) {
-            console.log(`AR Scene Manager: Already in state ${state}, skipping`);
-            return;
-        }
-        
-        this.currentState = state;
-        
-        switch (state) {
-            case 'scanning':
-                // Create a basic AR scene for camera feed immediately
-                //this.createBasicARScene();
-                this.injectARScene();
-                break;
-            case 'ar_ready':
-                // Scene should be ready
-                break;
-            case 'animating':
-                // Scene should be active
-                break;
-            default:
-                // Hide scene for other states
-                this.disposeScene();
-                break;
-        }
+    stopScanning() {
+        console.log('⏹️ AR Scene Manager: Stopping AR scanning');
+        this.disposeScene();
     }
     
-    onStateExit(state) {
-        console.log(`AR Scene Manager: Exiting state ${state}`);
-        
-        switch (state) {
-            case 'scanning':
-            case 'ar_ready':
-            case 'animating':
-                // Keep scene active
-                break;
-            default:
-                // Dispose scene when leaving AR states
-                this.disposeScene();
-                break;
-        }
+    createSceneForTopic(topicId) {
+        console.log(`🎯 AR Scene Manager: Creating scene for topic ${topicId}`);
+        return this.createSceneForDetectedTopic(topicId);
     }
     
     // Create basic AR scene for camera feed (called when entering scanning state)
