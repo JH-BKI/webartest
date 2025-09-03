@@ -388,7 +388,8 @@ class ARSceneManager {
         switch (state) {
             case 'scanning':
                 // Create a basic AR scene for camera feed immediately
-                this.createBasicARScene();
+                //this.createBasicARScene();
+                this.injectARScene();
                 break;
             case 'ar_ready':
                 // Scene should be ready
@@ -766,6 +767,84 @@ class ARSceneManager {
     isReady() {
         return this.isInitialized;
     }
+
+
+    injectARScene() {
+        const arSceneHTML = `   <a-scene id="AR-scene"  enabled="false"
+    mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; 
+                 filterMinCF: 0.0001; 
+                 filterBeta: 0.001; 
+                 warmupTolerance: 1; 
+                 missTolerance: 1; 
+                 maxTrack: 1;
+                 autoStart: true;" 
+    color-space="sRGB" 
+    renderer="colorManagement: true, physicallyCorrectLights"
+    vr-mode-ui="enabled: false" 
+    device-orientation-permission-ui="enabled: false">  
+
+    <a-assets>   
+      <!-- Scene 01 Character Assets -->
+      <img id="s01-scene-01-Alex" src="./assets/topic_1/s01-scene-01-Alex.png">
+      <img id="s01-scene-01-Mia" src="./assets/topic_1/s01-scene-01-Mia.png">
+      <img id="s01-speech-left" src="./assets/topic_1/s01-speech-left.png">
+      <img id="s01-speech-right" src="./assets/topic_1/s01-speech-right.png">
+      <img id="s01-floor" src="./assets/topic_1/s01-floor.png">
+    </a-assets>
+
+    <!-- Anime.js Timeline Container -->
+    <div id="timelineContainer" style="display: none;"></div>
+    
+    <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 0">
+              <a-image id="s01-floor" src="#s01-floor" scale="2 1 2" position="0 -1 0" rotation="-90 0 0"></a-image>
+    
+    </a-entity>
+    <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 1">
+              <a-image id="s01s01-Mia" src="#s01-scene-01-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="true" opacity="1" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+    </a-entity>
+    <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 2">
+              <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="-0.25 2.25 -2" rotation="0 0 0" visible="true" opacity="1" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+    </a-entity>
+    <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 3">
+              <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0.25 2.25 -2.1" rotation="0 0 0" visible="true" opacity="1" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+    </a-entity>
+
+    <a-camera position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse"></a-camera>
+</a-scene>`;
+
+        document.body.insertAdjacentHTML('beforeend', arSceneHTML);
+        console.log('AR Scene has been injected into the document body');
+
+
+
+        const sceneEl = document.querySelector('a-scene');
+
+        sceneEl.addEventListener("targetFound", (event) => {
+          const targetEl = event.target; // the entity that fired the event
+          const targetIndex = targetEl.getAttribute("mindar-image-target").targetIndex;
+          console.log("Scene-level: found target index", targetIndex, "id:", targetEl.id);
+        });
+        
+        sceneEl.addEventListener("targetLost", (event) => {
+          const targetEl = event.target;
+          const targetIndex = targetEl.getAttribute("mindar-image-target").targetIndex;
+          console.log("Scene-level: lost target index", targetIndex, "id:", targetEl.id);
+        });
+
+
+
+        
+        sceneEl.addEventListener("arReady", (event) => {
+            console.log("MindAR is ready")
+        });
+
+        sceneEl.addEventListener("arError", (event) => {
+            console.log("MindAR failed to start")
+        });
+
+
+    }
+
 }
 
 // Create global instance

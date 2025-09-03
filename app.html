@@ -40,7 +40,7 @@
 
     <div id="debug">
         <button id="debug-toggle" onclick="toggleDebugConsole()">
-            <button class="" onclick="injectARScene()">Inject</button>
+            <button class="" onclick="window.arSceneManager.injectARScene()">Inject</button>
             <span id="debug-info">v2.4 - loading</span>
             <span id="debug-arrow">▼</span>
 
@@ -343,64 +343,14 @@
         </div>
     </div>
 
-
-
-
    
     <!-- Phase 4.5: Real AR Scene Implementation Active -->
     <script>
 
 
 
-function injectARScene() {
-        const arSceneHTML = `
-            <a-scene id="ARscene" 
-            timeline-controller 
-            state-tracker 
-            mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; 
-                         filterMinCF: 0.0001; 
-                         filterBeta: 0.001; 
-                         warmupTolerance: 1; 
-                         missTolerance: 1; 
-                         maxTrack: 1;" 
-            color-space="sRGB" 
-            renderer="colorManagement: true, physicallyCorrectLights"
-            vr-mode-ui="enabled: false" 
-            device-orientation-permission-ui="enabled: false">            
 
-            <a-assets>   
-              <!-- Scene 01 Character Assets -->
-              <img id="s01-scene-01-Alex" src="./assets/topic_1/s01-scene-01-Alex.png">
-              <img id="s01-scene-01-Mia" src="./assets/topic_1/s01-scene-01-Mia.png">
-              <img id="s01-speech-left" src="./assets/topic_1/s01-speech-left.png">
-              <img id="s01-speech-right" src="./assets/topic_1/s01-speech-right.png">
-              <img id="s01-floor" src="./assets/topic_1/s01-floor.png">
-            </a-assets>
 
-            <!-- Anime.js Timeline Container -->
-            <div id="timelineContainer" style="display: none;"></div>
-            
-            <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 0">
-                      <a-image id="s01-floor" src="#s01-floor" scale="2 1 2" position="0 -1 0" rotation="-90 0 0"></a-image>
-
-            
-            </a-entity>
-            <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 1">
-                      <a-image id="s01s01-Mia" src="#s01-scene-01-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="true" opacity="1" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-            </a-entity>
-            <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 2">
-                      <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="-0.25 2.25 -2" rotation="0 0 0" visible="true" opacity="1" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-            </a-entity>
-            <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 3">
-                      <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0.25 2.25 -2.1" rotation="0 0 0" visible="true" opacity="1" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
-            </a-entity>
-
-            <a-camera position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse"></a-camera>
-        </a-scene>`;
-
-        document.body.insertAdjacentHTML('beforeend', arSceneHTML);
-        console.log('AR Scene has been injected into the document body');
-    }
 
         /*
          * Main Application Script
@@ -520,7 +470,7 @@ function injectARScene() {
                 window.mobileConsole.setVersion(version);
             }
             
-            //simulateLoading();
+            simulateLoading();
             
             // Populate UI elements after a short delay to ensure topics.js is loaded
             setTimeout(() => {
@@ -546,8 +496,12 @@ function injectARScene() {
                 
                 console.log('🚀 App: Initializing AR Scene Manager...');
                 window.arSceneManager.initialize().then(() => {
+                    
+                    window.arSceneManager.injectARScene();
                     console.log('✅ App: AR Scene Manager ready - transitioning to scanning state');
                     stateManager.changeState('scanning');
+
+
                 }).catch(error => {
                     console.error('❌ App: Failed to initialize AR Scene Manager:', error);
                 });
