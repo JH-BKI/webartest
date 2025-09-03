@@ -1,8 +1,17 @@
 // Simple State Manager for the learning app
 class StateManager {
     constructor() {
-        this.currentState = 'loading'; // Start with loading state
+        this.currentState = 'none';  //'loading'; // Start with loading state
         this.states = {
+            none: {
+                onEnter: () => {
+                    console.log('Entering none state');
+                },
+                onExit: () => {
+                    console.log('Exiting none state');
+                }
+            },
+
             loading: {
                 onEnter: () => {
                     console.log('Entering loading state');

@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning App</title>
-    
+     <!-- Core JavaScript Files - Load in dependency order -->
+     <script src="./core/js/topics.js?v=2.4"></script>
+     <script src="./core/js/stateManager.js?v=2.4"></script>
+     <script src="./core/js/progressManager.js?v=2.4"></script>
+     <script src="./core/js/mobile-console.js?v=2.4"></script>
+     
+     <!-- A-Frame Library - Required for 3D scenes and AR functionality -->
+     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+     
+     <!-- MindAR Library - Required for AR functionality -->
+     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+ 
+     <script src="./core/js/arSceneManager.js?v=2.16"></script>
+     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="core/css/style.css">
     <link rel="stylesheet" href="core/css/mobile-console.css">
@@ -22,6 +35,77 @@
      -->
 </head>
 <body>
+
+
+    <a-scene 
+    id="ar-scene-0"
+    background="transparent"
+    embedded
+    vr-mode-ui="enabled: false"
+    renderer="logarithmicDepthBuffer: true; colorManagement: true"
+    mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: yes; uiScanning: yes; uiError: yes; autoStart: true"
+    timeline-controller
+    color-space="sRGB"
+    device-orientation-permission-ui="enabled: false">
+    
+    <!-- Camera for AR tracking -->
+    <a-camera 
+        id="ar-camera-0"
+        position="0 0 0"
+        look-controls="enabled: false"
+        wasd-controls="enabled: false"
+        cursor="rayOrigin: mouse"
+        raycaster="objects: [data-raycastable]">
+    </a-camera>
+    
+    <!-- Lighting for 3D content -->
+    <a-light 
+        type="ambient" 
+        color="#404040" 
+        intensity="0.6">
+    </a-light>
+    <a-light 
+        type="directional" 
+        color="#ffffff" 
+        intensity="0.8"
+        position="1 1 1">
+    </a-light>
+    
+    <!-- Topic-specific content containers for each target -->
+    <a-entity id="topic-0-assets" position="0 0 -2" mindar-image-target="targetIndex: 0">
+        <!-- Topic 0 3D content will be added here -->
+        <a-entity id="topic-0-content">
+            <!-- Basic 3D content for testing - will be enhanced by animation system -->
+            <a-box id="topic-0-cube" 
+                   position="0 0 0" 
+                   scale="0.5 0.5 0.5" 
+                   color="#e34c26" 
+                   visible="false" 
+                   opacity="0"
+                   data-raycastable>
+            </a-box>
+            <a-sphere id="topic-0-sphere" 
+                      position="1 0 0" 
+                      scale="0.5 0.5 0.5" 
+                      color="#264de4" 
+                      visible="false" 
+                      opacity="0"
+                      data-raycastable>
+            </a-sphere>
+            <a-pyramid id="topic-0-pyramid" 
+                       position="-1 0 0" 
+                       scale="0.5 0.5 0.5" 
+                       color="#f7df1e" 
+                       visible="false" 
+                       opacity="0"
+                       data-raycastable>
+            </a-pyramid>
+        </a-entity>
+    </a-entity>
+    
+    </a-scene>
+
+
     <div id="debug">
         <button id="debug-toggle" onclick="toggleDebugConsole()">
             <span id="debug-info">v2.4 - loading</span>
@@ -322,20 +406,7 @@
         </div>
     </div>
 
-    <!-- Core JavaScript Files - Load in dependency order -->
-    <script src="./core/js/topics.js?v=2.4"></script>
-    <script src="./core/js/stateManager.js?v=2.4"></script>
-    <script src="./core/js/progressManager.js?v=2.4"></script>
-    <script src="./core/js/mobile-console.js?v=2.4"></script>
-    
-    <!-- A-Frame Library - Required for 3D scenes and AR functionality -->
-    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-    
-    <!-- MindAR Library - Required for AR functionality -->
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-
-    <script src="./core/js/arSceneManager.js?v=2.16"></script>
-    
+   
     <!-- Phase 4.5: Real AR Scene Implementation Active -->
     <script>
         /*
@@ -353,7 +424,7 @@
          * - Content loading functions
          */
         
-        let version = '2.17';
+        let version = '2.18';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -456,7 +527,7 @@
                 window.mobileConsole.setVersion(version);
             }
             
-            simulateLoading();
+            //simulateLoading();
             
             // Populate UI elements after a short delay to ensure topics.js is loaded
             setTimeout(() => {

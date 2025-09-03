@@ -1,3 +1,75 @@
+/* Core Styles */
+:root {
+    /* Color Palette */
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --success-color: #28a745;
+    --success-hover: #1e7e34;
+    --secondary-color: #6c757d;
+    --secondary-hover: #545b62;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    
+    /* Background Colors */
+    --bg-primary: #f5f5f5;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f8f9fa;
+    --bg-success: #d4edda;
+    --bg-danger: #f8d7da;
+    --bg-warning: #fff3cd;
+    --bg-info: #f8f9fa;
+    
+    /* Text Colors */
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-success: #155724;
+    --text-danger: #721c24;
+    --text-warning: #856404;
+    
+    /* Border Colors */
+    --border-primary: #e9ecef;
+    --border-hover: #007bff;
+    --border-success: #28a745;
+    --border-danger: #dc3545;
+    --border-warning: #ffc107;
+    --border-info: #17a2b8;
+    
+    /* Spacing */
+    --spacing-xs: 5px;
+    --spacing-sm: 8px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+    
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --radius-xl: 10px;
+    --radius-xxl: 15px;
+    
+    /* Shadows */
+    --shadow-sm: 0 4px 6px rgba(0,0,0,0.1);
+    
+    /* Transitions */
+    --transition-fast: all 0.2s;
+    --transition-medium: all 0.3s;
+}
+
+html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden; /* prevents scrollbars */
+        box-sizing: border-box;
+        font-family: 'Open Sans', sans-serif;
+    max-width: 600px;
+    background-color: var(--bg-primary);
+}
+
+
 /* Loading Section Styles */
 .loading-content {
     text-align: center;
@@ -133,6 +205,8 @@
     height: 200px;
     border: 2px solid var(--primary-color);
     border-radius: var(--radius-lg);
+    pointer-events: none; /* Allow clicks to pass through */
+    z-index: 10; /* Above the camera feed but non-interactive */
 }
 
 .corner {
@@ -140,6 +214,7 @@
     width: 20px;
     height: 20px;
     border: 3px solid var(--primary-color);
+    pointer-events: none; /* Allow clicks to pass through */
 }
 
 .top-left {
@@ -178,6 +253,7 @@
     height: 2px;
     background: var(--primary-color);
     animation: scan 2s linear infinite;
+    pointer-events: none; /* Allow clicks to pass through */
 }
 
 @keyframes scan {
@@ -192,6 +268,23 @@
     transform: translate(-50%, -50%);
     text-align: center;
     color: var(--text-secondary);
+}
+
+/* AR Scene Container - ensures A-Frame scene fills the viewfinder */
+.ar-scene-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* A-Frame scene styling */
+.ar-scene-container a-scene {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
 }
 
 .camera-icon {
@@ -543,72 +636,6 @@
     font-size: 14px;
 }
 
-/* Core Styles */
-:root {
-    /* Color Palette */
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --success-color: #28a745;
-    --success-hover: #1e7e34;
-    --secondary-color: #6c757d;
-    --secondary-hover: #545b62;
-    --danger-color: #dc3545;
-    --warning-color: #ffc107;
-    --info-color: #17a2b8;
-    
-    /* Background Colors */
-    --bg-primary: #f5f5f5;
-    --bg-secondary: #ffffff;
-    --bg-tertiary: #f8f9fa;
-    --bg-success: #d4edda;
-    --bg-danger: #f8d7da;
-    --bg-warning: #fff3cd;
-    --bg-info: #f8f9fa;
-    
-    /* Text Colors */
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --text-success: #155724;
-    --text-danger: #721c24;
-    --text-warning: #856404;
-    
-    /* Border Colors */
-    --border-primary: #e9ecef;
-    --border-hover: #007bff;
-    --border-success: #28a745;
-    --border-danger: #dc3545;
-    --border-warning: #ffc107;
-    --border-info: #17a2b8;
-    
-    /* Spacing */
-    --spacing-xs: 5px;
-    --spacing-sm: 8px;
-    --spacing-md: 15px;
-    --spacing-lg: 20px;
-    --spacing-xl: 30px;
-    
-    /* Border Radius */
-    --radius-sm: 4px;
-    --radius-md: 6px;
-    --radius-lg: 8px;
-    --radius-xl: 10px;
-    --radius-xxl: 15px;
-    
-    /* Shadows */
-    --shadow-sm: 0 4px 6px rgba(0,0,0,0.1);
-    
-    /* Transitions */
-    --transition-fast: all 0.2s;
-    --transition-medium: all 0.3s;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: var(--spacing-lg);
-    background-color: var(--bg-primary);
-}
 
 
 

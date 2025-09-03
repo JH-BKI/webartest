@@ -26,10 +26,33 @@ class ARSceneManager {
             return false;
         }
         
+        // Add global error handler for MindAR errors
+        this.setupGlobalErrorHandler();
+        
         this.createSceneContainer();
         this.isInitialized = true;
         console.log('AR Scene Manager initialized successfully');
         return true;
+    }
+    
+    // Set up global error handler for MindAR issues
+    setupGlobalErrorHandler() {
+        // Handle unhandled promise rejections (common with MindAR)
+        window.addEventListener('unhandledrejection', (event) => {
+            if (event.reason && event.reason.message && event.reason.message.includes('dummyRun')) {
+                console.warn('⚠️ AR Scene Manager: MindAR dummyRun error caught globally - this is a known issue with MindAR 1.2.5');
+                console.log('ℹ️ AR Scene Manager: AR functionality may still work despite this error');
+                event.preventDefault(); // Prevent the error from showing in console
+            }
+        });
+        
+        // Handle general errors
+        window.addEventListener('error', (event) => {
+            if (event.message && event.message.includes('dummyRun')) {
+                console.warn('⚠️ AR Scene Manager: MindAR dummyRun error caught globally');
+                event.preventDefault();
+            }
+        });
     }
     
     createSceneContainer() {
@@ -537,14 +560,29 @@ class ARSceneManager {
                     console.warn('⚠️ AR Scene Manager: MindAR is not scanning for targets');
                     console.log('🔄 AR Scene Manager: Attempting to start MindAR scanning...');
                     try {
-                        if (mindarSystem.start) {
+                        // Add safety check for tracker object (fixes dummyRun error)
+                        if (mindarSystem.start && mindarSystem.tracker) {
                             mindarSystem.start();
                             console.log('✅ AR Scene Manager: MindAR scanning started');
+                        } else if (!mindarSystem.tracker) {
+                            console.warn('⚠️ AR Scene Manager: MindAR tracker not initialized yet, waiting...');
+                            // Retry after a longer delay
+                            setTimeout(() => {
+                                if (mindarSystem.tracker && mindarSystem.start) {
+                                    mindarSystem.start();
+                                    console.log('✅ AR Scene Manager: MindAR scanning started (delayed)');
+                                }
+                            }, 2000);
                         } else {
                             console.warn('⚠️ AR Scene Manager: MindAR start method not available');
                         }
                     } catch (error) {
                         console.error('❌ AR Scene Manager: Error starting MindAR scanning:', error);
+                        // Handle the dummyRun error specifically
+                        if (error.message && error.message.includes('dummyRun')) {
+                            console.log('ℹ️ AR Scene Manager: MindAR dummyRun error detected - this is a known issue with MindAR 1.2.5');
+                            console.log('ℹ️ AR Scene Manager: AR functionality may still work despite this error');
+                        }
                     }
                 }
                 
