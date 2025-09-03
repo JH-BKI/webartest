@@ -173,6 +173,10 @@ class ARSceneManager {
         
         // Listen for target found events
         this.currentScene.addEventListener('targetFound', (event) => {
+            if (!event.detail) {
+                console.warn('⚠️ AR Scene Manager: targetFound event has no detail');
+                return;
+            }
             const targetIndex = event.detail.targetIndex;
             console.log(`🎯 Target detected in AR scene: ${targetIndex}`);
             this.handleTargetFound(targetIndex, topicId);
@@ -180,6 +184,10 @@ class ARSceneManager {
         
         // Listen for target lost events
         this.currentScene.addEventListener('targetLost', (event) => {
+            if (!event.detail) {
+                console.warn('⚠️ AR Scene Manager: targetLost event has no detail');
+                return;
+            }
             const targetIndex = event.detail.targetIndex;
             console.log(`📤 Target lost in AR scene: ${targetIndex}`);
             this.handleTargetLost(targetIndex, topicId);
@@ -316,6 +324,12 @@ class ARSceneManager {
     connectStateManager(stateManager) {
         this.stateManager = stateManager;
         
+        // Prevent duplicate connections
+        if (this.stateManagerConnected) {
+            console.log('AR Scene Manager already connected to State Manager');
+            return;
+        }
+        
         // Add state transition listeners
         const originalChangeState = stateManager.changeState.bind(stateManager);
         stateManager.changeState = (newState) => {
@@ -331,6 +345,7 @@ class ARSceneManager {
             return result;
         };
         
+        this.stateManagerConnected = true;
         console.log('AR Scene Manager connected to State Manager');
     }
     
@@ -468,6 +483,10 @@ class ARSceneManager {
         console.log('🎧 AR Scene Manager: Adding targetFound event listener');
         // Listen for target found events
         this.currentScene.addEventListener('targetFound', (event) => {
+            if (!event.detail) {
+                console.warn('⚠️ AR Scene Manager: targetFound event has no detail');
+                return;
+            }
             const targetIndex = event.detail.targetIndex;
             console.log(`🎯 AR Scene Manager: Target detected - Index: ${targetIndex}`, event.detail);
             this.handleBasicTargetFound(targetIndex);
@@ -476,6 +495,10 @@ class ARSceneManager {
         console.log('🎧 AR Scene Manager: Adding targetLost event listener');
         // Listen for target lost events
         this.currentScene.addEventListener('targetLost', (event) => {
+            if (!event.detail) {
+                console.warn('⚠️ AR Scene Manager: targetLost event has no detail');
+                return;
+            }
             const targetIndex = event.detail.targetIndex;
             console.log(`📤 AR Scene Manager: Target lost - Index: ${targetIndex}`, event.detail);
             this.handleBasicTargetLost(targetIndex);
@@ -496,6 +519,20 @@ class ARSceneManager {
             if (mindarSystem) {
                 console.log('✅ AR Scene Manager: MindAR system found and active');
                 console.log('📊 AR Scene Manager: MindAR system status:', mindarSystem);
+                
+                // Check target detection status
+                if (mindarSystem.isScanning) {
+                    console.log('🔍 AR Scene Manager: MindAR is actively scanning for targets');
+                } else {
+                    console.warn('⚠️ AR Scene Manager: MindAR is not scanning for targets');
+                }
+                
+                // Check if targets are loaded
+                if (mindarSystem.imageTargets && mindarSystem.imageTargets.length > 0) {
+                    console.log(`📋 AR Scene Manager: ${mindarSystem.imageTargets.length} image targets loaded`);
+                } else {
+                    console.warn('⚠️ AR Scene Manager: No image targets loaded');
+                }
                 
                 // Check camera feed
                 const camera = this.currentScene.querySelector('a-camera');
@@ -523,14 +560,24 @@ class ARSceneManager {
         
         console.log('✅ AR Scene Manager: Basic MindAR listeners set up for camera feed');
         
+        // Add periodic target detection status check
+        setInterval(() => {
+            if (this.currentScene) {
+                const mindarSystem = this.currentScene.systems['mindar-image-system'];
+                if (mindarSystem && mindarSystem.isScanning) {
+                    console.log('🔍 AR Scene Manager: Still scanning for targets...');
+                }
+            }
+        }, 5000); // Check every 5 seconds
+        
         // Add test button for manual target detection (for debugging)
         setTimeout(() => {
             const testButton = document.createElement('button');
             testButton.textContent = 'Test Target Detection';
             testButton.style.position = 'fixed';
-            testButton.style.top = '10px';
+            testButton.style.top = '100px';
             testButton.style.right = '10px';
-            testButton.style.zIndex = '10000';
+            testButton.style.zIndex = '40000';
             testButton.style.padding = '10px';
             testButton.style.backgroundColor = '#007bff';
             testButton.style.color = 'white';
@@ -581,6 +628,12 @@ class ARSceneManager {
             console.log(`✅ AR Scene Manager: Poster detected for topic ${detectedTopicId} - creating topic-specific scene`);
             // Create topic-specific scene
             this.createSceneForDetectedTopic(detectedTopicId);
+            
+            // Trigger state transition to ar_ready
+            if (this.stateManager) {
+                console.log(`🔄 AR Scene Manager: Transitioning to ar_ready state for topic ${detectedTopicId}`);
+                this.stateManager.changeState('ar_ready');
+            }
         } else {
             console.error(`❌ AR Scene Manager: Invalid target index ${targetIndex}`);
         }
