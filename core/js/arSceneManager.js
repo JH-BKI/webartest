@@ -316,7 +316,8 @@ class ARSceneManager {
         
         switch (state) {
             case 'scanning':
-                // Scene will be created when poster is detected
+                // Create a basic AR scene for camera feed immediately
+                this.createBasicARScene();
                 break;
             case 'ar_ready':
                 // Scene should be ready
@@ -345,6 +346,114 @@ class ARSceneManager {
                 this.disposeScene();
                 break;
         }
+    }
+    
+    // Create basic AR scene for camera feed (called when entering scanning state)
+    createBasicARScene() {
+        console.log('Creating basic AR scene for camera feed');
+        
+        if (!this.isInitialized) {
+            console.error('AR Scene Manager not initialized');
+            return false;
+        }
+        
+        this.disposeScene();
+        
+        const container = document.getElementById('ar-scene-container');
+        if (!container) {
+            console.error('AR scene container not found');
+            return false;
+        }
+        
+        // Create basic A-Frame scene with MindAR for camera feed
+        const sceneHTML = `
+            <a-scene 
+                id="ar-scene-basic"
+                background="transparent"
+                embedded
+                vr-mode-ui="enabled: false"
+                renderer="logarithmicDepthBuffer: true; colorManagement: true; physicallyCorrectLights: true"
+                mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: no; uiScanning: no; uiError: no"
+                color-space="sRGB"
+                device-orientation-permission-ui="enabled: false">
+                
+                <!-- Camera for AR tracking -->
+                <a-camera 
+                    id="ar-camera-basic"
+                    position="0 0 0"
+                    look-controls="enabled: false"
+                    wasd-controls="enabled: false"
+                    cursor="rayOrigin: mouse">
+                </a-camera>
+                
+                <!-- Basic lighting -->
+                <a-light 
+                    type="ambient" 
+                    color="#404040" 
+                    intensity="0.6">
+                </a-light>
+                <a-light 
+                    type="directional" 
+                    color="#ffffff" 
+                    intensity="0.8"
+                    position="1 1 1">
+                </a-light>
+                
+            </a-scene>
+        `;
+        
+        container.innerHTML = sceneHTML;
+        this.currentScene = container.querySelector('#ar-scene-basic');
+        
+        // Set up MindAR event listeners for basic scene
+        this.setupBasicMindARListeners();
+        
+        console.log('Basic AR scene created for camera feed');
+        return true;
+    }
+    
+    // Set up basic MindAR event listeners for camera feed
+    setupBasicMindARListeners() {
+        if (!this.currentScene) return;
+        
+        // Listen for target found events
+        this.currentScene.addEventListener('targetFound', (event) => {
+            const targetIndex = event.detail.targetIndex;
+            console.log(`🎯 Target detected: ${targetIndex}`);
+            this.handleBasicTargetFound(targetIndex);
+        });
+        
+        // Listen for target lost events
+        this.currentScene.addEventListener('targetLost', (event) => {
+            const targetIndex = event.detail.targetIndex;
+            console.log(`📤 Target lost: ${targetIndex}`);
+            this.handleBasicTargetLost(targetIndex);
+        });
+        
+        console.log('Basic MindAR listeners set up for camera feed');
+    }
+    
+    // Handle target found in basic scene
+    handleBasicTargetFound(targetIndex) {
+        // Map target index to topic number (0-3 -> 1-4)
+        const topicMapping = {
+            0: 1, // Target 0 -> topic_1 (Web Development)
+            1: 2, // Target 1 -> topic_2 (Digital Marketing)  
+            2: 3, // Target 2 -> topic_3 (Data Science)
+            3: 4  // Target 3 -> topic_4 (Cybersecurity)
+        };
+        
+        const detectedTopicId = topicMapping[targetIndex];
+        if (detectedTopicId) {
+            console.log(`✅ Poster detected for topic ${detectedTopicId}`);
+            // Create topic-specific scene
+            this.createSceneForDetectedTopic(detectedTopicId);
+        }
+    }
+    
+    // Handle target lost in basic scene
+    handleBasicTargetLost(targetIndex) {
+        console.log(`Target ${targetIndex} lost - keeping basic scene active`);
     }
     
     // Create scene when poster is detected (called by MindAR Manager)
