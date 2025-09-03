@@ -89,6 +89,41 @@
     color: #4488ff;
 }
 
+.console-debug {
+    color: #888888;
+    font-style: italic;
+}
+
+.console-trace {
+    color: #ff88ff;
+    font-style: italic;
+}
+
+.console-table {
+    color: #88ff88;
+    font-style: italic;
+}
+
+.console-group {
+    color: #ffaa88;
+    font-weight: bold;
+}
+
+.console-groupEnd {
+    color: #ffaa88;
+    font-weight: bold;
+}
+
+.console-time {
+    color: #88aaff;
+    font-style: italic;
+}
+
+.console-timeEnd {
+    color: #88aaff;
+    font-style: italic;
+}
+
 #copy-console-btn {
     position: fixed;
     bottom: 0;

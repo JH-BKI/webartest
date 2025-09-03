@@ -87,7 +87,7 @@ class ARSceneManager {
                 background="transparent"
                 embedded
                 vr-mode-ui="enabled: false"
-                renderer="logarithmicDepthBuffer: true; colorManagement: true; physicallyCorrectLights: true"
+                renderer="logarithmicDepthBuffer: true; colorManagement: true"
                 mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: no; uiScanning: no; uiError: no"
                 timeline-controller
                 color-space="sRGB"
@@ -99,7 +99,8 @@ class ARSceneManager {
                     position="0 0 0"
                     look-controls="enabled: false"
                     wasd-controls="enabled: false"
-                    cursor="rayOrigin: mouse">
+                    cursor="rayOrigin: mouse"
+                    raycaster="objects: [data-raycastable]">
                 </a-camera>
                 
                 <!-- Lighting for 3D content -->
@@ -125,21 +126,24 @@ class ARSceneManager {
                                scale="0.5 0.5 0.5" 
                                color="#e34c26" 
                                visible="false" 
-                               opacity="0">
+                               opacity="0"
+                               data-raycastable>
                         </a-box>
                         <a-sphere id="topic${topicId}-sphere" 
                                   position="1 0 0" 
                                   scale="0.5 0.5 0.5" 
                                   color="#264de4" 
                                   visible="false" 
-                                  opacity="0">
+                                  opacity="0"
+                                  data-raycastable>
                         </a-sphere>
                         <a-pyramid id="topic${topicId}-pyramid" 
                                    position="-1 0 0" 
                                    scale="0.5 0.5 0.5" 
                                    color="#f7df1e" 
                                    visible="false" 
-                                   opacity="0">
+                                   opacity="0"
+                                   data-raycastable>
                         </a-pyramid>
                     </a-entity>
                 </a-entity>
@@ -268,14 +272,29 @@ class ARSceneManager {
     
     disposeScene() {
         if (this.currentScene) {
+            console.log('🧹 AR Scene Manager: Disposing current scene...');
+            
             // Stop any running animations
             const timelineController = this.currentScene.components['timeline-controller'];
             if (timelineController) {
+                console.log('⏹️ AR Scene Manager: Stopping timeline controller');
                 timelineController.reset();
+            }
+            
+            // Safely dispose MindAR components
+            try {
+                const mindarSystem = this.currentScene.systems['mindar-image-system'];
+                if (mindarSystem && mindarSystem.stop) {
+                    console.log('⏹️ AR Scene Manager: Stopping MindAR system');
+                    mindarSystem.stop();
+                }
+            } catch (error) {
+                console.warn('⚠️ AR Scene Manager: Error stopping MindAR system:', error);
             }
             
             const container = document.getElementById('ar-scene-container');
             if (container) {
+                console.log('🗑️ AR Scene Manager: Clearing container HTML');
                 container.innerHTML = '';
             }
             
@@ -286,7 +305,7 @@ class ARSceneManager {
             }
             
             this.currentScene = null;
-            console.log('AR scene disposed (assets remain cached)');
+            console.log('✅ AR Scene Manager: Scene disposed (assets remain cached)');
         }
     }
     
@@ -350,20 +369,23 @@ class ARSceneManager {
     
     // Create basic AR scene for camera feed (called when entering scanning state)
     createBasicARScene() {
-        console.log('Creating basic AR scene for camera feed');
+        console.log('🎬 AR Scene Manager: Creating basic AR scene for camera feed');
         
         if (!this.isInitialized) {
-            console.error('AR Scene Manager not initialized');
+            console.error('❌ AR Scene Manager not initialized');
             return false;
         }
         
+        console.log('🧹 AR Scene Manager: Disposing any existing scene');
         this.disposeScene();
         
         const container = document.getElementById('ar-scene-container');
         if (!container) {
-            console.error('AR scene container not found');
+            console.error('❌ AR scene container not found in DOM');
             return false;
         }
+        
+        console.log('✅ AR Scene Manager: Container found, creating A-Frame scene');
         
         // Create basic A-Frame scene with MindAR for camera feed
         const sceneHTML = `
@@ -372,7 +394,7 @@ class ARSceneManager {
                 background="transparent"
                 embedded
                 vr-mode-ui="enabled: false"
-                renderer="logarithmicDepthBuffer: true; colorManagement: true; physicallyCorrectLights: true"
+                renderer="logarithmicDepthBuffer: true; colorManagement: true"
                 mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: no; uiScanning: no; uiError: no"
                 color-space="sRGB"
                 device-orientation-permission-ui="enabled: false">
@@ -383,7 +405,8 @@ class ARSceneManager {
                     position="0 0 0"
                     look-controls="enabled: false"
                     wasd-controls="enabled: false"
-                    cursor="rayOrigin: mouse">
+                    cursor="rayOrigin: mouse"
+                    raycaster="objects: [data-raycastable]">
                 </a-camera>
                 
                 <!-- Basic lighting -->
@@ -402,39 +425,57 @@ class ARSceneManager {
             </a-scene>
         `;
         
+        console.log('📝 AR Scene Manager: Injecting A-Frame scene HTML into container');
         container.innerHTML = sceneHTML;
+        
+        console.log('🔍 AR Scene Manager: Looking for A-Frame scene element');
         this.currentScene = container.querySelector('#ar-scene-basic');
         
+        if (!this.currentScene) {
+            console.error('❌ AR Scene Manager: Failed to find A-Frame scene element');
+            return false;
+        }
+        
+        console.log('✅ AR Scene Manager: A-Frame scene element found');
+        
         // Set up MindAR event listeners for basic scene
+        console.log('🎧 AR Scene Manager: Setting up MindAR event listeners');
         this.setupBasicMindARListeners();
         
-        console.log('Basic AR scene created for camera feed');
+        console.log('🎉 AR Scene Manager: Basic AR scene created successfully for camera feed');
         return true;
     }
     
     // Set up basic MindAR event listeners for camera feed
     setupBasicMindARListeners() {
-        if (!this.currentScene) return;
+        if (!this.currentScene) {
+            console.error('❌ AR Scene Manager: No current scene for MindAR listeners');
+            return;
+        }
         
+        console.log('🎧 AR Scene Manager: Adding targetFound event listener');
         // Listen for target found events
         this.currentScene.addEventListener('targetFound', (event) => {
             const targetIndex = event.detail.targetIndex;
-            console.log(`🎯 Target detected: ${targetIndex}`);
+            console.log(`🎯 AR Scene Manager: Target detected - Index: ${targetIndex}`);
             this.handleBasicTargetFound(targetIndex);
         });
         
+        console.log('🎧 AR Scene Manager: Adding targetLost event listener');
         // Listen for target lost events
         this.currentScene.addEventListener('targetLost', (event) => {
             const targetIndex = event.detail.targetIndex;
-            console.log(`📤 Target lost: ${targetIndex}`);
+            console.log(`📤 AR Scene Manager: Target lost - Index: ${targetIndex}`);
             this.handleBasicTargetLost(targetIndex);
         });
         
-        console.log('Basic MindAR listeners set up for camera feed');
+        console.log('✅ AR Scene Manager: Basic MindAR listeners set up for camera feed');
     }
     
     // Handle target found in basic scene
     handleBasicTargetFound(targetIndex) {
+        console.log(`🔍 AR Scene Manager: Processing target found - Index: ${targetIndex}`);
+        
         // Map target index to topic number (0-3 -> 1-4)
         const topicMapping = {
             0: 1, // Target 0 -> topic_1 (Web Development)
@@ -444,10 +485,14 @@ class ARSceneManager {
         };
         
         const detectedTopicId = topicMapping[targetIndex];
+        console.log(`🗺️ AR Scene Manager: Target ${targetIndex} maps to Topic ${detectedTopicId}`);
+        
         if (detectedTopicId) {
-            console.log(`✅ Poster detected for topic ${detectedTopicId}`);
+            console.log(`✅ AR Scene Manager: Poster detected for topic ${detectedTopicId} - creating topic-specific scene`);
             // Create topic-specific scene
             this.createSceneForDetectedTopic(detectedTopicId);
+        } else {
+            console.error(`❌ AR Scene Manager: Invalid target index ${targetIndex}`);
         }
     }
     

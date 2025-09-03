@@ -49,14 +49,17 @@ class MindARManager {
   // Initialize the MindAR system based on mode
   async initialize() {
     try {
-      console.log(`Initializing MindAR system in ${this.mode} mode...`);
+      console.log(`🚀 MindAR Manager: Initializing MindAR system in ${this.mode} mode...`);
       
       if (this.mode === 'simulated') {
+        console.log('🎭 MindAR Manager: Using simulated mode');
         return await this.initializeSimulated();
       } else if (this.mode === 'real') {
+        console.log('📷 MindAR Manager: Using real mode');
         return await this.initializeReal();
       } else {
         // Auto mode: try real first, fallback to simulated
+        console.log('🔄 MindAR Manager: Using auto mode - trying real first, simulated fallback');
         return await this.initializeAuto();
       }
     } catch (error) {
@@ -79,25 +82,30 @@ class MindARManager {
 
   // Initialize in real mode
   async initializeReal() {
-    console.log('Initializing real MindAR system...');
+    console.log('📷 MindAR Manager: Initializing real MindAR system...');
     
     // Check if MindAR is available
+    console.log('🔍 MindAR Manager: Checking if MindAR library is loaded...');
     if (typeof window.MINDAR === 'undefined') {
-      console.error('MindAR library not loaded');
+      console.error('❌ MindAR Manager: MindAR library not loaded');
       this.showARNotSupported();
       return false;
     }
+    console.log('✅ MindAR Manager: MindAR library is loaded');
 
     // Check if camera is available
+    console.log('🔍 MindAR Manager: Checking camera availability...');
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      console.error('Camera not available on this device');
+      console.error('❌ MindAR Manager: Camera not available on this device');
       this.showARNotSupported();
       return false;
     }
+    console.log('✅ MindAR Manager: Camera is available');
 
     // Initialize MindAR with A-Frame (MindARImage)
     // Note: We'll let the AR Scene Manager handle the actual A-Frame scene creation
     // This manager will focus on detection logic and state management
+    console.log('📝 MindAR Manager: Setting up target listeners for A-Frame integration');
     
     // Set up event listeners for target detection
     this.setupTargetListeners();
@@ -109,20 +117,23 @@ class MindARManager {
 
   // Initialize in auto mode (try real, fallback to simulated)
   async initializeAuto() {
-    console.log('Attempting auto-initialization (real first, simulated fallback)...');
+    console.log('🔄 MindAR Manager: Attempting auto-initialization (real first, simulated fallback)...');
     
     try {
       // Try real mode first
+      console.log('📷 MindAR Manager: Trying real mode first...');
       const success = await this.initializeReal();
       if (success) {
         this.mode = 'real'; // Lock to real mode
+        console.log('✅ MindAR Manager: Real mode successful - locked to real mode');
         return true;
       }
     } catch (error) {
-      console.log('Real mode failed, falling back to simulated:', error.message);
+      console.log('⚠️ MindAR Manager: Real mode failed, falling back to simulated:', error.message);
     }
     
     // Fallback to simulated mode
+    console.log('🎭 MindAR Manager: Falling back to simulated mode');
     this.mode = 'simulated';
     return await this.initializeSimulated();
   }

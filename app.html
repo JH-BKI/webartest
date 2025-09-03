@@ -353,7 +353,7 @@
          * - Content loading functions
          */
         
-        let version = '2.5';
+        let version = '2.8';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -474,30 +474,42 @@
         
         // Start AR scanning function
         function startARScanning() {
-            // Use state manager to transition to scanning state
-            stateManager.changeState('scanning');
+            console.log('🎬 App: Starting AR scanning process...');
             
-            // Initialize AR Scene Manager
+            // Initialize AR Scene Manager FIRST
             if (window.arSceneManager) {
+                console.log('✅ App: AR Scene Manager found, connecting to state manager');
                 window.arSceneManager.connectStateManager(stateManager);
+                
+                console.log('🚀 App: Initializing AR Scene Manager...');
                 window.arSceneManager.initialize().then(() => {
-                    console.log('AR Scene Manager ready');
+                    console.log('✅ App: AR Scene Manager ready - transitioning to scanning state');
+                    // THEN transition to scanning state
+                    stateManager.changeState('scanning');
                 }).catch(error => {
-                    console.error('Failed to initialize AR Scene Manager:', error);
+                    console.error('❌ App: Failed to initialize AR Scene Manager:', error);
                 });
+            } else {
+                console.error('❌ App: AR Scene Manager not available - using fallback');
+                // Fallback if AR Scene Manager not available
+                stateManager.changeState('scanning');
             }
             
             // Initialize and start MindAR scanning
             if (window.mindARManager) {
+                console.log('✅ App: MindAR Manager found, connecting to state manager');
                 // Connect MindAR manager to state manager
                 window.mindARManager.connectStateManager(stateManager);
                 
+                console.log('🚀 App: Initializing MindAR system...');
                 // Initialize MindAR system
                 window.mindARManager.initialize().then(() => {
+                    console.log('✅ App: MindAR system ready');
+                    console.log('📷 App: Starting MindAR scanning...');
                     // Start scanning for posters
                     window.mindARManager.startScanning();
                 }).catch(error => {
-                    console.error('Failed to initialize MindAR:', error);
+                    console.error('❌ App: Failed to initialize MindAR:', error);
                 });
             }
         }
