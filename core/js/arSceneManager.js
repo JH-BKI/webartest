@@ -101,10 +101,10 @@ class ARSceneManager {
             timestamp: Date.now()
         };
         
-        // Placeholder assets - replace with actual URLs
-        assets.models = [
-            { id: `model_${topicId}_1`, url: `./assets/models/topic_${topicId}/model1.glb` }
-        ];
+        // Asset loading will be implemented when real assets are available
+        // assets.models = [
+        //     { id: `model_${topicId}_1`, url: `./assets/models/topic_${topicId}/model1.glb` }
+        // ];
         
         this.assetCache.set(topicId, assets);
         console.log(`Assets cached for topic ${topicId}`);
@@ -233,8 +233,8 @@ class ARSceneManager {
         try {
             // Load the animation file dynamically
             const script = document.createElement('script');
-            // Use test animation file for now
-            script.src = `./core/js/animations/timeline-topic-${topicId}-test.js?v=${Date.now()}`;
+            // Load topic-specific animation file
+            script.src = `./core/js/animations/timeline-topic-${topicId}.js?v=${Date.now()}`;
             script.onload = () => {
                 console.log(`Animation file loaded for topic ${topicId}`);
                 // Set the topic in the timeline controller
@@ -317,17 +317,7 @@ class ARSceneManager {
                 timelineController.reset();
             }
             
-            // Safely dispose MindAR components
-            try {
-                const mindarSystem = this.currentScene.systems['mindar-image-system'];
-                if (mindarSystem && mindarSystem.stop) {
-                    console.log('⏹️ AR Scene Manager: Stopping MindAR system');
-                    mindarSystem.stop();
-                }
-            } catch (error) {
-                console.warn('⚠️ AR Scene Manager: Error stopping MindAR system:', error);
-                // Continue with disposal even if MindAR stop fails
-            }
+            // MindAR disposal is handled automatically by A-Frame when scene is removed
             
             const container = document.getElementById('ar-scene-container');
             if (container) {
@@ -365,244 +355,7 @@ class ARSceneManager {
         return this.createSceneForDetectedTopic(topicId);
     }
     
-    // Create basic AR scene for camera feed (called when entering scanning state)
-    createBasicARScene() {
-        console.log('🎬 AR Scene Manager: Creating basic AR scene for camera feed');
-        
-        if (!this.isInitialized) {
-            console.error('❌ AR Scene Manager not initialized');
-            return false;
-        }
-        
-        console.log('🧹 AR Scene Manager: Disposing any existing scene');
-        this.disposeScene();
-        
-        const container = document.getElementById('ar-scene-container');
-        if (!container) {
-            console.error('❌ AR scene container not found in DOM');
-            return false;
-        }
-        
-        console.log('✅ AR Scene Manager: Container found, creating A-Frame scene');
-        
-        // Create basic A-Frame scene with MindAR for camera feed
-        const sceneHTML = `
-            <a-scene 
-                id="ar-scene-basic"
-                background="transparent"
-                embedded
-                vr-mode-ui="enabled: false"
-                renderer="logarithmicDepthBuffer: true; colorManagement: true"
-                mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: yes; uiScanning: yes; uiError: yes; autoStart: true"
-                color-space="sRGB"
-                device-orientation-permission-ui="enabled: false">
-                
-                <!-- Camera for AR tracking -->
-                <a-camera 
-                    id="ar-camera-basic"
-                    position="0 0 0"
-                    look-controls="enabled: false"
-                    wasd-controls="enabled: false"
-                    cursor="rayOrigin: mouse"
-                    raycaster="objects: [data-raycastable]">
-                </a-camera>
-                
-                <!-- Basic lighting -->
-                <a-light 
-                    type="ambient" 
-                    color="#404040" 
-                    intensity="0.6">
-                </a-light>
-                <a-light 
-                    type="directional" 
-                    color="#ffffff" 
-                    intensity="0.8"
-                    position="1 1 1">
-                </a-light>
-                
-            </a-scene>
-        `;
-        
-        console.log('📝 AR Scene Manager: Injecting A-Frame scene HTML into container');
-        container.innerHTML = sceneHTML;
-        
-        console.log('🔍 AR Scene Manager: Looking for A-Frame scene element');
-        this.currentScene = container.querySelector('#ar-scene-basic');
-        
-        if (!this.currentScene) {
-            console.error('❌ AR Scene Manager: Failed to find A-Frame scene element');
-            return false;
-        }
-        
-        console.log('✅ AR Scene Manager: A-Frame scene element found');
-        
-        // Set up MindAR event listeners for basic scene
-        console.log('🎧 AR Scene Manager: Setting up MindAR event listeners');
-        this.setupBasicMindARListeners();
-        
-        console.log('🎉 AR Scene Manager: Basic AR scene created successfully for camera feed');
-        return true;
-    }
-    
-    // Set up basic MindAR event listeners for camera feed
-    setupBasicMindARListeners() {
-        if (!this.currentScene) {
-            console.error('❌ AR Scene Manager: No current scene for MindAR listeners');
-            return;
-        }
-        
-        console.log('🎧 AR Scene Manager: Adding targetFound event listener');
-        // Listen for target found events
-        this.currentScene.addEventListener('targetFound', (event) => {
-            if (!event.detail) {
-                console.warn('⚠️ AR Scene Manager: targetFound event has no detail');
-                return;
-            }
-            const targetIndex = event.detail.targetIndex;
-            console.log(`🎯 AR Scene Manager: Target detected - Index: ${targetIndex}`, event.detail);
-            this.handleBasicTargetFound(targetIndex);
-        });
-        
-        console.log('🎧 AR Scene Manager: Adding targetLost event listener');
-        // Listen for target lost events
-        this.currentScene.addEventListener('targetLost', (event) => {
-            if (!event.detail) {
-                console.warn('⚠️ AR Scene Manager: targetLost event has no detail');
-                return;
-            }
-            const targetIndex = event.detail.targetIndex;
-            console.log(`📤 AR Scene Manager: Target lost - Index: ${targetIndex}`, event.detail);
-            this.handleBasicTargetLost(targetIndex);
-        });
-        
-        // Add MindAR system status listeners
-        this.currentScene.addEventListener('mindarReady', (event) => {
-            console.log('✅ AR Scene Manager: MindAR system ready for scanning', event.detail);
-        });
-        
-        this.currentScene.addEventListener('mindarError', (event) => {
-            console.error('❌ AR Scene Manager: MindAR system error', event.detail);
-        });
-        
-        this.currentScene.addEventListener('mindarLoaded', (event) => {
-            console.log('✅ AR Scene Manager: MindAR targets loaded successfully', event.detail);
-        });
-        
-        this.currentScene.addEventListener('mindarLoadError', (event) => {
-            console.error('❌ AR Scene Manager: MindAR target loading error', event.detail);
-        });
-        
-        // Check if MindAR system is available
-        setTimeout(() => {
-            const mindarSystem = this.currentScene.systems['mindar-image-system'];
-            if (mindarSystem) {
-                console.log('✅ AR Scene Manager: MindAR system found and active');
-                console.log('📊 AR Scene Manager: MindAR system status:', mindarSystem);
-                
-                // Check target detection status
-                if (mindarSystem.isScanning) {
-                    console.log('🔍 AR Scene Manager: MindAR is actively scanning for targets');
-                } else {
-                    console.warn('⚠️ AR Scene Manager: MindAR is not scanning for targets');
-                    console.log('🔄 AR Scene Manager: Attempting to start MindAR scanning...');
-                    try {
-                        // Add safety check for tracker object (fixes dummyRun error)
-                        if (mindarSystem.start && mindarSystem.tracker) {
-                            mindarSystem.start();
-                            console.log('✅ AR Scene Manager: MindAR scanning started');
-                        } else if (!mindarSystem.tracker) {
-                            console.warn('⚠️ AR Scene Manager: MindAR tracker not initialized yet, waiting...');
-                            // Retry after a longer delay
-                            setTimeout(() => {
-                                if (mindarSystem.tracker && mindarSystem.start) {
-                                    mindarSystem.start();
-                                    console.log('✅ AR Scene Manager: MindAR scanning started (delayed)');
-                                }
-                            }, 2000);
-                        } else {
-                            console.warn('⚠️ AR Scene Manager: MindAR start method not available');
-                        }
-                    } catch (error) {
-                        console.error('❌ AR Scene Manager: Error starting MindAR scanning:', error);
-                        // Handle the dummyRun error specifically
-                        if (error.message && error.message.includes('dummyRun')) {
-                            console.log('ℹ️ AR Scene Manager: MindAR dummyRun error detected - this is a known issue with MindAR 1.2.5');
-                            console.log('ℹ️ AR Scene Manager: AR functionality may still work despite this error');
-                        }
-                    }
-                }
-                
-                // Check if targets are loaded
-                if (mindarSystem.imageTargets && mindarSystem.imageTargets.length > 0) {
-                    console.log(`📋 AR Scene Manager: ${mindarSystem.imageTargets.length} image targets loaded`);
-                } else {
-                    console.log('⏳ AR Scene Manager: Targets still loading... (this is normal)');
-                }
-                
-                // Check camera feed
-                const camera = this.currentScene.querySelector('a-camera');
-                if (camera) {
-                    console.log('📷 AR Scene Manager: Camera element found');
-                    const video = camera.querySelector('video');
-                    if (video) {
-                        console.log('📹 AR Scene Manager: Video element found, dimensions:', video.videoWidth, 'x', video.videoHeight);
-                        if (video.videoWidth > 0 && video.videoHeight > 0) {
-                            console.log('✅ AR Scene Manager: Camera feed is active');
-                        } else {
-                            console.warn('⚠️ AR Scene Manager: Camera feed not active (0x0 dimensions)');
-                        }
-                    } else {
-                        console.warn('⚠️ AR Scene Manager: Video element not found in camera');
-                        console.log('ℹ️ AR Scene Manager: Camera feed may still be initializing...');
-                    }
-                } else {
-                    console.warn('⚠️ AR Scene Manager: Camera element not found');
-                }
-            } else {
-                console.warn('⚠️ AR Scene Manager: MindAR system not found');
-            }
-        }, 1000);
-        
-        console.log('✅ AR Scene Manager: Basic MindAR listeners set up for camera feed');
-        
-
-        
-
-    }
-    
-    // Handle target found in basic scene
-    handleBasicTargetFound(targetIndex) {
-        console.log(`🔍 AR Scene Manager: Processing target found - Index: ${targetIndex}`);
-        
-        const detectedTopicId = this.topicMapping[targetIndex];
-        console.log(`🗺️ AR Scene Manager: Target ${targetIndex} maps to Topic ${detectedTopicId}`);
-        
-        if (detectedTopicId) {
-            console.log(`✅ AR Scene Manager: Poster detected for topic ${detectedTopicId}`);
-            
-            // Set global topic
-            this.setGlobalTopic(detectedTopicId);
-            
-            // Update UI
-            this.updateDetectedPosterUI(detectedTopicId);
-            
-            // Create topic-specific scene
-            this.createSceneForDetectedTopic(detectedTopicId);
-            
-            // Trigger state transition
-            if (this.stateManager) {
-                console.log(`🔄 AR Scene Manager: Transitioning to ar_ready state for topic ${detectedTopicId}`);
-                this.stateManager.changeState('ar_ready');
-            }
-        } else {
-            console.error(`❌ AR Scene Manager: Invalid target index ${targetIndex}`);
-        }
-    }
-    
-    // Handle target lost in basic scene
-    handleBasicTargetLost(targetIndex) {
-        console.log(`Target ${targetIndex} lost - keeping basic scene active`);
-    }
+ 
     
     // Create scene when poster is detected (called by MindAR Manager)
     async createSceneForDetectedTopic(topicId) {
@@ -699,6 +452,7 @@ class ARSceneManager {
     vr-mode-ui="enabled: false" 
     device-orientation-permission-ui="enabled: false">  
 
+    <!-- Hardcoded test assets commented out - will be loaded dynamically based on topic
     <a-assets>   
       <!-- Scene 01 Character Assets -->
       <img id="s01-scene-01-Alex" src="./assets/topic_1/s01-scene-01-Alex.png">
@@ -707,6 +461,7 @@ class ARSceneManager {
       <img id="s01-speech-right" src="./assets/topic_1/s01-speech-right.png">
       <img id="s01-floor" src="./assets/topic_1/s01-floor.png">
     </a-assets>
+    -->
 
     <!-- Anime.js Timeline Container -->
     <div id="timelineContainer" style="display: none;"></div>
