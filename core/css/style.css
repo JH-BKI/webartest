@@ -1,4 +1,11 @@
-/* Core Styles */
+/* ==========================================================================
+   AR Learning App - Core Styles
+   ========================================================================== */
+
+/* ==========================================================================
+   1. CSS VARIABLES & ROOT STYLES
+   ========================================================================== */
+
 :root {
     /* Color Palette */
     --primary-color: #007bff;
@@ -57,26 +64,170 @@
     --transition-medium: all 0.3s;
 }
 
+/* ==========================================================================
+   2. BASE STYLES & LAYOUT
+   ========================================================================== */
+
 html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden; /* prevents scrollbars */
-        box-sizing: border-box;
-        font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* prevents scrollbars */
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
     max-width: 600px;
     background-color: var(--bg-primary);
 }
 
+h1, h2, h3 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
 
-/* Loading Section Styles */
+p {
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-md) 0;
+}
+
+ul {
+    margin-left: var(--spacing-lg);
+    color: var(--text-secondary);
+}
+
+li {
+    margin-bottom: var(--spacing-xs);
+}
+
+/* ==========================================================================
+   3. UTILITY CLASSES
+   ========================================================================== */
+
+.hidden {
+    display: none;
+}
+
+.card {
+    background: var(--bg-secondary);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xxl);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ==========================================================================
+   4. BUTTON COMPONENTS
+   ========================================================================== */
+
+.btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: var(--spacing-lg);
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    font-size: 18px;
+    padding: var(--spacing-lg) var(--spacing-xl);
+}
+
+.btn-success {
+    background: var(--success-color);
+}
+
+.btn-success:hover {
+    background: var(--success-hover);
+}
+
+.btn-secondary {
+    background: var(--secondary-color);
+    margin-bottom: var(--spacing-md);
+}
+
+.btn-secondary:hover {
+    background: var(--secondary-hover);
+}
+
+/* ==========================================================================
+   5. PROGRESS COMPONENTS
+   ========================================================================== */
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border-primary);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-lg);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary-color);
+    width: 33%;
+    transition: var(--transition-medium);
+}
+
+.progress-container {
+    margin-top: var(--spacing-xl);
+}
+
+.progress-text {
+    margin-top: var(--spacing-md);
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   6. LOADING SECTION STYLES
+   ========================================================================== */
+
+#loading-section {
+    /* Loading section specific styles */
+}
+
 .loading-content {
     text-align: center;
     padding: var(--spacing-xl);
 }
 
-/* Campus Selection Styles */
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--border-primary);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto var(--spacing-lg);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   7. CAMPUS SELECTION SECTION STYLES
+   ========================================================================== */
+
 .campus-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -84,7 +235,43 @@ html, body {
     margin-top: var(--spacing-lg);
 }
 
-/* Menu Section Styles */
+.campus-card {
+    background: var(--bg-tertiary);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid var(--border-primary);
+    transition: var(--transition-fast);
+}
+
+.campus-card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-info);
+}
+
+.campus-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+.campus-name {
+    font-weight: bold;
+    font-size: 18px;
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   8. MENU SECTION STYLES
+   ========================================================================== */
+
+#menu-section {
+    /* Menu section specific styles */
+}
+
 .completion-status {
     margin: var(--spacing-xl) 0;
 }
@@ -123,14 +310,6 @@ html, body {
     border-radius: 4px;
     margin-top: var(--spacing-md);
     overflow: hidden;
-}
-
-.progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-    border-radius: 4px;
-    transition: width 0.3s ease;
-    width: 0%;
 }
 
 .completed-topics {
@@ -175,123 +354,14 @@ html, body {
     font-size: 14px;
 }
 
-.btn-primary {
-    background: var(--primary-color);
-    font-size: 18px;
-    padding: var(--spacing-lg) var(--spacing-xl);
-}
+/* ==========================================================================
+   9. SCANNING SECTION STYLES
+   ========================================================================== */
 
-/* Scanning Section Styles */
-.camera-container {
-    margin: var(--spacing-xl) 0;
-}
 
-.viewfinder {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    background: var(--bg-tertiary);
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--spacing-lg);
-    overflow: hidden;
-}
 
-.viewfinder-frame {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    border: 2px solid var(--primary-color);
-    border-radius: var(--radius-lg);
-    pointer-events: none; /* Allow clicks to pass through */
-    z-index: 10; /* Above the camera feed but non-interactive */
-}
 
-.corner {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border: 3px solid var(--primary-color);
-    pointer-events: none; /* Allow clicks to pass through */
-}
 
-.top-left {
-    top: -3px;
-    left: -3px;
-    border-right: none;
-    border-bottom: none;
-}
-
-.top-right {
-    top: -3px;
-    right: -3px;
-    border-left: none;
-    border-bottom: none;
-}
-
-.bottom-left {
-    bottom: -3px;
-    left: -3px;
-    border-right: none;
-    border-top: none;
-}
-
-.bottom-right {
-    bottom: -3px;
-    right: -3px;
-    border-left: none;
-    border-top: none;
-}
-
-.scanning-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--primary-color);
-    animation: scan 2s linear infinite;
-    pointer-events: none; /* Allow clicks to pass through */
-}
-
-@keyframes scan {
-    0% { top: 0; }
-    100% { top: 100%; }
-}
-
-.camera-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: var(--text-secondary);
-}
-
-/* AR Scene Container - ensures A-Frame scene fills the viewfinder */
-.ar-scene-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-/* A-Frame scene styling */
-.ar-scene-container a-scene {
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
-}
-
-.camera-icon {
-    font-size: 48px;
-    display: block;
-    margin-bottom: var(--spacing-md);
-}
 
 .scanning-instructions {
     margin: var(--spacing-lg) 0;
@@ -311,16 +381,7 @@ html, body {
     font-size: 18px;
 }
 
-.permission-section {
-    text-align: center;
-    margin: var(--spacing-xl) 0;
-}
 
-.permission-note {
-    color: var(--text-secondary);
-    font-size: 14px;
-    margin-top: var(--spacing-md);
-}
 
 .error-section {
     margin: var(--spacing-xl) 0;
@@ -342,7 +403,10 @@ html, body {
     margin-bottom: var(--spacing-md);
 }
 
-/* AR Ready Section Styles */
+/* ==========================================================================
+   10. AR READY SECTION STYLES
+   ========================================================================== */
+
 .detection-success {
     background: var(--bg-success);
     border: 2px solid var(--border-success);
@@ -427,9 +491,10 @@ html, body {
     font-size: 14px;
 }
 
+/* ==========================================================================
+   11. ANIMATING SECTION STYLES
+   ========================================================================== */
 
-
-/* Animating Section Styles */
 .ar-loading-container {
     text-align: center;
     margin: var(--spacing-xl) 0;
@@ -582,70 +647,9 @@ html, body {
     font-size: 16px;
 }
 
-.campus-card {
-    background: var(--bg-tertiary);
-    padding: var(--spacing-xl);
-    border-radius: var(--radius-xl);
-    text-align: center;
-    cursor: pointer;
-    border: 2px solid var(--border-primary);
-    transition: var(--transition-fast);
-}
-
-.campus-card:hover {
-    border-color: var(--border-hover);
-    background: var(--bg-info);
-}
-
-.campus-logo {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    margin-bottom: var(--spacing-md);
-    border-radius: var(--radius-md);
-}
-
-.campus-name {
-    font-weight: bold;
-    font-size: 18px;
-    color: var(--text-primary);
-}
-
-.loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid var(--border-primary);
-    border-top: 4px solid var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto var(--spacing-lg);
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.progress-container {
-    margin-top: var(--spacing-xl);
-}
-
-.progress-text {
-    margin-top: var(--spacing-md);
-    color: var(--text-secondary);
-    font-size: 14px;
-}
-
-
-
-
-.card {
-    background: var(--bg-secondary);
-    padding: var(--spacing-xl);
-    border-radius: var(--radius-xxl);
-    box-shadow: var(--shadow-sm);
-    margin-bottom: var(--spacing-lg);
-}
+/* ==========================================================================
+   12. TOPIC SELECTION STYLES
+   ========================================================================== */
 
 .topic-grid {
     display: grid;
@@ -696,58 +700,9 @@ html, body {
     color: var(--text-secondary);
 }
 
-.btn {
-    background: var(--primary-color);
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    margin-top: var(--spacing-lg);
-}
-
-.btn:hover {
-    background: var(--primary-hover);
-}
-
-.btn-success {
-    background: var(--success-color);
-}
-
-.btn-success:hover {
-    background: var(--success-hover);
-}
-
-.btn-secondary {
-    background: var(--secondary-color);
-    margin-bottom: var(--spacing-md);
-}
-
-.btn-secondary:hover {
-    background: var(--secondary-hover);
-}
-
-.hidden {
-    display: none;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: var(--border-primary);
-    border-radius: var(--radius-sm);
-    margin-bottom: var(--spacing-lg);
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: var(--primary-color);
-    width: 33%;
-    transition: var(--transition-medium);
-}
+/* ==========================================================================
+   13. VIDEO SECTION STYLES
+   ========================================================================== */
 
 .video-container {
     position: relative;
@@ -765,6 +720,10 @@ html, body {
     height: 100%;
     border-radius: var(--radius-lg);
 }
+
+/* ==========================================================================
+   14. QUIZ SECTION STYLES
+   ========================================================================== */
 
 .question-box {
     background: var(--bg-tertiary);
@@ -830,6 +789,10 @@ html, body {
     border-left: 4px solid var(--border-info);
 }
 
+/* ==========================================================================
+   15. NAVIGATION & LINKS
+   ========================================================================== */
+
 .back-link {
     color: var(--primary-color);
     cursor: pointer;
@@ -842,32 +805,112 @@ html, body {
     color: var(--primary-hover);
 }
 
-h1, h2, h3 {
+/* ==========================================================================
+   16. AR NOT SUPPORTED MODAL
+   ========================================================================== */
+
+.ar-not-supported-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.ar-not-supported-message .message-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 400px;
+    margin: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.ar-not-supported-message h3 {
+    color: #e74c3c;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.ar-not-supported-message p {
+    color: #555;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.ar-not-supported-message .btn {
+    margin-top: 1rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.ar-not-supported-message .btn:hover {
+    background: #2980b9;
+}
+
+/* ==========================================================================
+   17. MOBILE CONSOLE STYLES
+   ========================================================================== */
+
+.console-log {
     color: var(--text-primary);
-    margin-bottom: var(--spacing-md);
+    background: var(--bg-secondary);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    border-left: 3px solid var(--info-color);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
 }
 
-p {
-    line-height: 1.6;
-    color: var(--text-secondary);
-    margin-bottom: var(--spacing-md);
+.console-warn {
+    color: var(--text-warning);
+    background: var(--bg-warning);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    border-left: 3px solid var(--warning-color);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: var(--radius-lg);
-    margin: var(--spacing-md) 0;
+.console-error {
+    color: var(--text-danger);
+    background: var(--bg-danger);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    border-left: 3px solid var(--danger-color);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
 }
 
-ul {
-    margin-left: var(--spacing-lg);
-    color: var(--text-secondary);
+.console-info {
+    color: var(--text-primary);
+    background: var(--bg-info);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    border-left: 3px solid var(--info-color);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
 }
 
-li {
-    margin-bottom: var(--spacing-xs);
-}
+/* ==========================================================================
+   18. RESPONSIVE DESIGN
+   ========================================================================== */
 
 @media (max-width: 600px) {
     .topic-grid {
@@ -877,56 +920,4 @@ li {
     .campus-grid {
         grid-template-columns: 1fr;
     }
-}
-
-/* AR Not Supported Message */
-.ar-not-supported-message {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.ar-not-supported-message .message-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 400px;
-  margin: 1rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.ar-not-supported-message h3 {
-  color: #e74c3c;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-}
-
-.ar-not-supported-message p {
-  color: #555;
-  margin-bottom: 1rem;
-  line-height: 1.5;
-}
-
-.ar-not-supported-message .btn {
-  margin-top: 1rem;
-  background: #3498db;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
-}
-
-.ar-not-supported-message .btn:hover {
-  background: #2980b9;
 }

@@ -17,6 +17,7 @@
      <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
  
      <script src="./core/js/arSceneManager.js?v=2.25"></script>
+     <script src="./core/js/timeline-controller.js?v=2.25"></script>
      
     <!-- Stylesheets -->
     <link rel="stylesheet" href="core/css/style.css">
@@ -40,8 +41,7 @@
 
     <div id="debug">
         <button id="debug-toggle" onclick="toggleDebugConsole()">
-            <button class="" onclick="window.arSceneManager.injectARScene()">Inject</button>
-            <span id="debug-info">v2.4 - loading</span>
+            <span id="debug-info">v2.26 - loading</span>
             <span id="debug-arrow">▼</span>
 
             
@@ -131,49 +131,21 @@
     
     <!-- Scanning Section -->
     <div id="scanning-section" class="card hidden">
-        <h1>AR Camera Scanner</h1>
-        <p>Point your camera at one of the learning posters</p>
-        
-        <div class="camera-container">
-            <div class="viewfinder">
-                <div class="viewfinder-frame">
-                    <div class="corner top-left"></div>
-                    <div class="corner top-right"></div>
-                    <div class="corner bottom-left"></div>
-                    <div class="corner bottom-right"></div>
-                    <div class="scanning-line"></div>
-                </div>
-                <!-- AR Scene Container - will be populated by AR Scene Manager -->
-                <div id="ar-scene-container" class="ar-scene-container">
-                    <div class="camera-placeholder" id="camera-placeholder">
-                        <span class="camera-icon">📷</span>
-                        <p>Camera viewfinder</p>
-                    </div>
-                </div>
-            </div>
-            
+        <div class="camera-container">           
+            <p>Find a poster and point your camera at it!</p>
             <div class="scanning-instructions">
-                <div class="instruction-step">
-                    <span class="step-icon">1️⃣</span>
-                    <span>Hold your device steady</span>
-                </div>
-                <div class="instruction-step">
-                    <span class="step-icon">2️⃣</span>
-                    <span>Point at a learning poster</span>
-                </div>
-                <div class="instruction-step">
-                    <span class="step-icon">3️⃣</span>
-                    <span>Wait for poster detection</span>
+                <div class="instruction-step">                
+                    <span><span class="step-icon">1️⃣</span> Hold your device steady</span>
+                    <span><span class="step-icon">2️⃣</span> Point at a learning poster</span>                    
+                    <span><span class="step-icon">3️⃣</span> Wait for poster detection</span>
                 </div>
             </div>
+            <button class="btn btn-secondary" onclick="goBackToMenu()">
+                ← Back to Menu
+            </button>
         </div>
         
-        <div class="permission-section">
-            <button id="request-camera-btn" class="btn btn-primary" onclick="requestCameraPermission()">
-                📱 Enable Camera Access
-            </button>
-            <p class="permission-note">Camera access is required for AR scanning</p>
-        </div>
+
         
 
         
@@ -182,9 +154,6 @@
                 <span class="error-icon">⚠️</span>
                 <p>Camera access denied. Please enable camera permissions to continue.</p>
             </div>
-            <button class="btn btn-secondary" onclick="goBackToMenu()">
-                ← Back to Menu
-            </button>
         </div>
     </div>
     
@@ -574,44 +543,9 @@
             }, 20);
         }
         
-        // Camera permission handling
-        let permissionAttempts = 0;
-        const MAX_PERMISSION_ATTEMPTS = 2;
-        
-        function requestCameraPermission() {
-            permissionAttempts++;
-            
-            if (permissionAttempts <= MAX_PERMISSION_ATTEMPTS) {
-                // Simulate permission request (placeholder for now)
-                const btn = document.getElementById('request-camera-btn');
-                btn.textContent = `📱 Requesting Camera Access... (${permissionAttempts}/${MAX_PERMISSION_ATTEMPTS})`;
-                btn.disabled = true;
-                
-                // Simulate permission check after 2 seconds
-                setTimeout(() => {
-                    if (permissionAttempts < MAX_PERMISSION_ATTEMPTS) {
-                        // Simulate permission denied, show retry
-                        btn.textContent = `📱 Try Again (${permissionAttempts}/${MAX_PERMISSION_ATTEMPTS})`;
-                        btn.disabled = false;
-                        btn.onclick = requestCameraPermission;
-                    } else {
-                        // Max attempts reached, show error
-                        showCameraError();
-                    }
-                }, 2000);
-            } else {
-                showCameraError();
-            }
-        }
-        
-        function showCameraError() {
-            document.querySelector('.permission-section').classList.add('hidden');
-            document.querySelector('.error-section').classList.remove('hidden');
-        }
+
         
         function goBackToMenu() {
-            // Reset permission attempts
-            permissionAttempts = 0;
             // Go back to menu state
             stateManager.changeState('menu');
         }
