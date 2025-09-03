@@ -353,7 +353,7 @@
          * - Content loading functions
          */
         
-        let version = '2.14';
+        let version = '2.15';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -495,22 +495,11 @@
                 stateManager.changeState('scanning');
             }
             
-            // Initialize and start MindAR scanning
+            // MindAR Manager is now simplified - A-Frame handles everything
             if (window.mindARManager) {
-                console.log('✅ App: MindAR Manager found, connecting to state manager');
-                // Connect MindAR manager to state manager
+                console.log('✅ App: MindAR Manager found (simplified)');
                 window.mindARManager.connectStateManager(stateManager);
-                
-                console.log('🚀 App: Initializing MindAR system...');
-                // Initialize MindAR system
-                window.mindARManager.initialize().then(() => {
-                    console.log('✅ App: MindAR system ready');
-                    console.log('📷 App: Starting MindAR scanning...');
-                    // Start scanning for posters
-                    window.mindARManager.startScanning();
-                }).catch(error => {
-                    console.error('❌ App: Failed to initialize MindAR:', error);
-                });
+                window.mindARManager.initialize();
             }
         }
         

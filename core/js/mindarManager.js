@@ -48,24 +48,9 @@ class MindARManager {
 
   // Initialize the MindAR system based on mode
   async initialize() {
-    try {
-      console.log(`🚀 MindAR Manager: Initializing MindAR system in ${this.mode} mode...`);
-      
-      if (this.mode === 'simulated') {
-        console.log('🎭 MindAR Manager: Using simulated mode');
-        return await this.initializeSimulated();
-      } else if (this.mode === 'real') {
-        console.log('📷 MindAR Manager: Using real mode');
-        return await this.initializeReal();
-      } else {
-        // Auto mode: try real first, fallback to simulated
-        console.log('🔄 MindAR Manager: Using auto mode - trying real first, simulated fallback');
-        return await this.initializeAuto();
-      }
-    } catch (error) {
-      console.error('Failed to initialize MindAR system:', error);
-      return false;
-    }
+    console.log('🚀 MindAR Manager: Starting A-Frame AR scene (simplified)');
+    // A-Frame will handle all MindAR operations
+    return Promise.resolve();
   }
 
   // Initialize in simulated mode
@@ -158,23 +143,15 @@ class MindARManager {
 
   // Set up target detection event listeners (real mode only)
   setupTargetListeners() {
-    // For A-Frame scenes, we'll listen to the scene events
-    // The AR Scene Manager will handle the actual A-Frame scene creation
-    console.log('Target listeners set up for A-Frame integration');
+    console.log('📝 MindAR Manager: A-Frame will handle target detection');
+    // A-Frame scene handles all target detection
   }
 
   // Start scanning based on current mode
   async startScanning() {
-    if (!this.isInitialized) {
-      console.error('MindAR system not initialized');
-      return false;
-    }
-
-    if (this.mode === 'simulated') {
-      return this.startSimulatedScanning();
-    } else {
-      return this.startRealScanning();
-    }
+    console.log('📷 MindAR Manager: A-Frame will handle scanning');
+    // A-Frame scene handles all scanning operations
+    return Promise.resolve();
   }
 
   // Start simulated scanning

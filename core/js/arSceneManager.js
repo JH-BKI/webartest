@@ -91,7 +91,7 @@ class ARSceneManager {
                 embedded
                 vr-mode-ui="enabled: false"
                 renderer="logarithmicDepthBuffer: true; colorManagement: true"
-                mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: no; uiScanning: no; uiError: no; autoStart: true"
+                mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: yes; uiScanning: yes; uiError: yes; autoStart: true"
                 timeline-controller
                 color-space="sRGB"
                 device-orientation-permission-ui="enabled: false">
@@ -422,7 +422,7 @@ class ARSceneManager {
                 embedded
                 vr-mode-ui="enabled: false"
                 renderer="logarithmicDepthBuffer: true; colorManagement: true"
-                mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: no; uiScanning: no; uiError: no; autoStart: true"
+                mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; maxTrack: 4; uiLoading: yes; uiScanning: yes; uiError: yes; autoStart: true"
                 color-space="sRGB"
                 device-orientation-permission-ui="enabled: false">
                 
@@ -550,35 +550,7 @@ class ARSceneManager {
                 if (mindarSystem.imageTargets && mindarSystem.imageTargets.length > 0) {
                     console.log(`📋 AR Scene Manager: ${mindarSystem.imageTargets.length} image targets loaded`);
                 } else {
-                    console.warn('⚠️ AR Scene Manager: No image targets loaded');
-                    console.log('🔍 AR Scene Manager: Checking target file path...');
-                    console.log('📁 AR Scene Manager: Target file should be at: ./assets/targets/targets_4.mind');
-                    
-                    // Try to fetch the target file to verify it's accessible
-                    fetch('./assets/targets/targets_4.mind')
-                        .then(response => {
-                            if (response.ok) {
-                                console.log('✅ AR Scene Manager: Target file is accessible');
-                                
-                                // Force MindAR to reload targets
-                                console.log('🔄 AR Scene Manager: Attempting to reload MindAR targets...');
-                                try {
-                                    if (mindarSystem.loadTargets) {
-                                        mindarSystem.loadTargets();
-                                        console.log('✅ AR Scene Manager: MindAR target reload initiated');
-                                    } else {
-                                        console.warn('⚠️ AR Scene Manager: MindAR loadTargets method not available');
-                                    }
-                                } catch (error) {
-                                    console.error('❌ AR Scene Manager: Error reloading targets:', error);
-                                }
-                            } else {
-                                console.error('❌ AR Scene Manager: Target file not accessible:', response.status);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('❌ AR Scene Manager: Error accessing target file:', error);
-                        });
+                    console.log('⏳ AR Scene Manager: Targets still loading... (this is normal)');
                 }
                 
                 // Check camera feed
@@ -607,29 +579,15 @@ class ARSceneManager {
         
         console.log('✅ AR Scene Manager: Basic MindAR listeners set up for camera feed');
         
-        // Add periodic target detection status check
+        // Simple periodic status check
         setInterval(() => {
             if (this.currentScene) {
                 const mindarSystem = this.currentScene.systems['mindar-image-system'];
-                if (mindarSystem) {
-                    if (mindarSystem.isScanning) {
-                        console.log('🔍 AR Scene Manager: Still scanning for targets...');
-                    }
-                    
-                    // Check if targets are still not loaded and retry
-                    if (!mindarSystem.imageTargets || mindarSystem.imageTargets.length === 0) {
-                        console.log('🔄 AR Scene Manager: Targets still not loaded, retrying...');
-                        try {
-                            if (mindarSystem.loadTargets) {
-                                mindarSystem.loadTargets();
-                            }
-                        } catch (error) {
-                            console.error('❌ AR Scene Manager: Error in target retry:', error);
-                        }
-                    }
+                if (mindarSystem && mindarSystem.isScanning) {
+                    console.log('🔍 AR Scene Manager: Still scanning for targets...');
                 }
             }
-        }, 5000); // Check every 5 seconds
+        }, 10000); // Check every 10 seconds
         
         // Add test button for manual target detection (for debugging)
         setTimeout(() => {
