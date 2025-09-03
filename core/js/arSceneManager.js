@@ -191,11 +191,15 @@ class ARSceneManager {
     }
     
     // Set up MindAR event listeners for target detection
-    setupMindARListeners(topicId) {
-        if (!this.currentScene) return;
+    setupMindARListeners() {
+        const sceneEl = document.querySelector('a-scene');
+        if (!sceneEl) {
+            console.error('❌ AR Scene Manager: No AR scene found for event listeners');
+            return;
+        }
         
         // Listen for target found events
-        this.currentScene.addEventListener('targetFound', (event) => {
+        sceneEl.addEventListener('targetFound', (event) => {
             if (!event.detail) {
                 console.warn('⚠️ AR Scene Manager: targetFound event has no detail');
                 return;
@@ -206,27 +210,27 @@ class ARSceneManager {
         });
         
         // Listen for target lost events
-        this.currentScene.addEventListener('targetLost', (event) => {
+        sceneEl.addEventListener('targetLost', (event) => {
             if (!event.detail) {
                 console.warn('⚠️ AR Scene Manager: targetLost event has no detail');
                 return;
             }
             const targetIndex = event.detail.targetIndex;
             console.log(`📤 Target lost in AR scene: ${targetIndex}`);
-            this.handleTargetLost(targetIndex, topicId);
+            this.handleTargetLost(targetIndex);
         });
         
         // Listen for AR ready events
-        this.currentScene.addEventListener('arReady', (event) => {
+        sceneEl.addEventListener('arReady', (event) => {
             console.log('✅ AR Scene Manager: MindAR is ready');
         });
         
         // Listen for AR error events
-        this.currentScene.addEventListener('arError', (event) => {
+        sceneEl.addEventListener('arError', (event) => {
             console.error('❌ AR Scene Manager: MindAR failed to start');
         });
         
-        console.log(`MindAR listeners set up for topic ${topicId}`);
+        console.log('🎯 AR Scene Manager: MindAR event listeners set up');
     }
     
     // Load topic-specific animation file
@@ -252,8 +256,9 @@ class ARSceneManager {
     
     // Set the topic in the timeline controller
     setTimelineTopic(topicId) {
-        if (this.currentScene) {
-            const timelineController = this.currentScene.components['timeline-controller'];
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController) {
                 timelineController.setTopic(topicId - 1); // Convert to 0-based index
                 console.log(`Timeline controller set to topic ${topicId}`);
@@ -294,8 +299,9 @@ class ARSceneManager {
     
     // Start animation for the detected topic
     startAnimation(topicId) {
-        if (this.currentScene) {
-            const timelineController = this.currentScene.components['timeline-controller'];
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController && timelineController.isTimelineReady()) {
                 console.log(`Starting animation for topic ${topicId}`);
                 timelineController.startAnimeTimeline();
@@ -316,14 +322,15 @@ class ARSceneManager {
     }
     
     // Handle target lost event
-    handleTargetLost(targetIndex, topicId) {
-        console.log(`Target ${targetIndex} lost for topic ${topicId}`);
+    handleTargetLost(targetIndex) {
+        console.log(`Target ${targetIndex} lost`);
         
         // Pause the animation when target is lost
-        if (this.currentScene) {
-            const timelineController = this.currentScene.components['timeline-controller'];
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController) {
-                console.log(`Pausing animation for topic ${topicId}`);
+                console.log(`Pausing animation`);
                 timelineController.quickPause();
             }
         }
@@ -559,17 +566,10 @@ class ARSceneManager {
         document.body.insertAdjacentHTML('beforeend', arSceneHTML);
         console.log('AR Scene has been injected with dynamic assets');
 
-
+        // Set up MindAR event listeners after scene is injected
+        this.setupMindARListeners();
 
         const sceneEl = document.querySelector('a-scene');
-
-
-
-
-
-        
-
-
 
     }
 
