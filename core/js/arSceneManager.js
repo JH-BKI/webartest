@@ -565,38 +565,9 @@ class ARSceneManager {
         
         console.log('✅ AR Scene Manager: Basic MindAR listeners set up for camera feed');
         
-        // Simple periodic status check
-        setInterval(() => {
-            if (this.currentScene) {
-                const mindarSystem = this.currentScene.systems['mindar-image-system'];
-                if (mindarSystem && mindarSystem.isScanning) {
-                    console.log('🔍 AR Scene Manager: Still scanning for targets...');
-                }
-            }
-        }, 10000); // Check every 10 seconds
+
         
-        // Add test button for manual target detection (for debugging)
-        setTimeout(() => {
-            const testButton = document.createElement('button');
-            testButton.textContent = 'Test Target Detection';
-            testButton.style.position = 'fixed';
-            testButton.style.top = '100px';
-            testButton.style.right = '10px';
-            testButton.style.zIndex = '40000';
-            testButton.style.padding = '10px';
-            testButton.style.backgroundColor = '#007bff';
-            testButton.style.color = 'white';
-            testButton.style.border = 'none';
-            testButton.style.borderRadius = '5px';
-            testButton.onclick = () => {
-                console.log('🧪 AR Scene Manager: Manual target detection test');
-                this.handleBasicTargetFound(0); // Simulate target 0 detection
-            };
-            document.body.appendChild(testButton);
-            console.log('🧪 AR Scene Manager: Test button added for manual target detection');
-            
-            // Simulated mode indicator removed - using real AR only
-        }, 2000);
+
     }
     
     // Handle target found in basic scene
