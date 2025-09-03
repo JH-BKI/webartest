@@ -34,6 +34,9 @@ class ARSceneManager {
         const placeholder = document.getElementById('camera-placeholder');
         if (placeholder) {
             placeholder.style.display = 'none';
+            console.log('📷 AR Scene Manager: Camera placeholder hidden');
+        } else {
+            console.warn('⚠️ AR Scene Manager: Camera placeholder not found');
         }
         
         return container;
@@ -290,6 +293,7 @@ class ARSceneManager {
                 }
             } catch (error) {
                 console.warn('⚠️ AR Scene Manager: Error stopping MindAR system:', error);
+                // Continue with disposal even if MindAR stop fails
             }
             
             const container = document.getElementById('ar-scene-container');
@@ -332,6 +336,14 @@ class ARSceneManager {
     
     onStateEnter(state) {
         console.log(`AR Scene Manager: Entering state ${state}`);
+        
+        // Prevent duplicate state transitions
+        if (this.currentState === state) {
+            console.log(`AR Scene Manager: Already in state ${state}, skipping`);
+            return;
+        }
+        
+        this.currentState = state;
         
         switch (state) {
             case 'scanning':
@@ -457,7 +469,7 @@ class ARSceneManager {
         // Listen for target found events
         this.currentScene.addEventListener('targetFound', (event) => {
             const targetIndex = event.detail.targetIndex;
-            console.log(`🎯 AR Scene Manager: Target detected - Index: ${targetIndex}`);
+            console.log(`🎯 AR Scene Manager: Target detected - Index: ${targetIndex}`, event.detail);
             this.handleBasicTargetFound(targetIndex);
         });
         
@@ -465,11 +477,89 @@ class ARSceneManager {
         // Listen for target lost events
         this.currentScene.addEventListener('targetLost', (event) => {
             const targetIndex = event.detail.targetIndex;
-            console.log(`📤 AR Scene Manager: Target lost - Index: ${targetIndex}`);
+            console.log(`📤 AR Scene Manager: Target lost - Index: ${targetIndex}`, event.detail);
             this.handleBasicTargetLost(targetIndex);
         });
         
+        // Add MindAR system status listeners
+        this.currentScene.addEventListener('mindarReady', (event) => {
+            console.log('✅ AR Scene Manager: MindAR system ready for scanning', event.detail);
+        });
+        
+        this.currentScene.addEventListener('mindarError', (event) => {
+            console.error('❌ AR Scene Manager: MindAR system error', event.detail);
+        });
+        
+        // Check if MindAR system is available
+        setTimeout(() => {
+            const mindarSystem = this.currentScene.systems['mindar-image-system'];
+            if (mindarSystem) {
+                console.log('✅ AR Scene Manager: MindAR system found and active');
+                console.log('📊 AR Scene Manager: MindAR system status:', mindarSystem);
+                
+                // Check camera feed
+                const camera = this.currentScene.querySelector('a-camera');
+                if (camera) {
+                    console.log('📷 AR Scene Manager: Camera element found');
+                    const video = camera.querySelector('video');
+                    if (video) {
+                        console.log('📹 AR Scene Manager: Video element found, dimensions:', video.videoWidth, 'x', video.videoHeight);
+                        if (video.videoWidth > 0 && video.videoHeight > 0) {
+                            console.log('✅ AR Scene Manager: Camera feed is active');
+                        } else {
+                            console.warn('⚠️ AR Scene Manager: Camera feed not active (0x0 dimensions)');
+                        }
+                    } else {
+                        console.warn('⚠️ AR Scene Manager: Video element not found in camera');
+                        console.log('ℹ️ AR Scene Manager: This is normal in simulated mode - no real camera feed');
+                    }
+                } else {
+                    console.warn('⚠️ AR Scene Manager: Camera element not found');
+                }
+            } else {
+                console.warn('⚠️ AR Scene Manager: MindAR system not found');
+            }
+        }, 1000);
+        
         console.log('✅ AR Scene Manager: Basic MindAR listeners set up for camera feed');
+        
+        // Add test button for manual target detection (for debugging)
+        setTimeout(() => {
+            const testButton = document.createElement('button');
+            testButton.textContent = 'Test Target Detection';
+            testButton.style.position = 'fixed';
+            testButton.style.top = '10px';
+            testButton.style.right = '10px';
+            testButton.style.zIndex = '10000';
+            testButton.style.padding = '10px';
+            testButton.style.backgroundColor = '#007bff';
+            testButton.style.color = 'white';
+            testButton.style.border = 'none';
+            testButton.style.borderRadius = '5px';
+            testButton.onclick = () => {
+                console.log('🧪 AR Scene Manager: Manual target detection test');
+                this.handleBasicTargetFound(0); // Simulate target 0 detection
+            };
+            document.body.appendChild(testButton);
+            console.log('🧪 AR Scene Manager: Test button added for manual target detection');
+            
+            // Add simulated mode indicator
+            const modeIndicator = document.createElement('div');
+            modeIndicator.textContent = 'SIMULATED MODE - No Camera Feed';
+            modeIndicator.style.position = 'fixed';
+            modeIndicator.style.top = '50px';
+            modeIndicator.style.right = '10px';
+            modeIndicator.style.zIndex = '10000';
+            modeIndicator.style.padding = '10px';
+            modeIndicator.style.backgroundColor = '#ffc107';
+            modeIndicator.style.color = 'black';
+            modeIndicator.style.border = 'none';
+            modeIndicator.style.borderRadius = '5px';
+            modeIndicator.style.fontSize = '12px';
+            modeIndicator.style.fontWeight = 'bold';
+            document.body.appendChild(modeIndicator);
+            console.log('ℹ️ AR Scene Manager: Simulated mode indicator added');
+        }, 2000);
     }
     
     // Handle target found in basic scene
