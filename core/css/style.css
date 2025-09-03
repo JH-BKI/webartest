@@ -76,7 +76,7 @@ html, body {
     overflow: hidden; /* prevents scrollbars */
     box-sizing: border-box;
     font-family: 'Open Sans', sans-serif;
-    max-width: 600px;
+    /* max-width: 600px; */
     background-color: var(--bg-primary);
 }
 
