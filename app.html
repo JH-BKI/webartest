@@ -42,9 +42,7 @@
     <div id="debug">
         <button id="debug-toggle" onclick="toggleDebugConsole()">
             <span id="debug-info">v2.26 - loading</span>
-            <span id="debug-arrow">▼</span>
-
-            
+            <span id="debug-arrow">▼</span>            
         </button>
         <div id="debug-console" class="hidden">
             <div id="console-output"></div>
@@ -53,7 +51,7 @@
     </div>
 
     <!-- Loading Section -->
-    <div id="loading-section" class="card">
+    <div id="loading-section" class="card section">
         <div class="loading-content">
             <div class="loading-spinner"></div>
             <h2>Loading Learning Experience</h2>
@@ -68,7 +66,7 @@
     </div>
 
     <!-- Campus Selection -->
-    <div id="campus-selection" class="card hidden">
+    <div id="campus-selection" class="card hidden section">
         <h1>Choose Your Campus</h1>
         <p>Select your preferred learning location</p>
         
@@ -85,7 +83,7 @@
     </div>
 
     <!-- Topic Selection -->
-    <div id="topics" class="card hidden">
+    <div id="topics" class="card hidden section">
         <h1>Choose Your Learning Topic</h1>
         <p>Select a topic to begin your interactive learning experience</p>
         
@@ -95,7 +93,7 @@
     </div>
     
     <!-- Menu Section -->
-    <div id="menu-section" class="card hidden">
+    <div id="menu-section" class="card hidden section">
         <h1>Ready to Start AR Learning?</h1>
         <p>Your interactive AR journey is about to begin</p>
         
@@ -130,35 +128,26 @@
     </div>
     
     <!-- Scanning Section -->
-    <div id="scanning-section" class="card hidden">
-        <div class="camera-container">           
+    <div id="scanning-section" class="card hidden section">
+        <div class="scanning-instruction">                
             <p>Find a poster and point your camera at it!</p>
-            <div class="scanning-instructions">
-                <div class="instruction-step">                
-                    <span><span class="step-icon">1️⃣</span> Hold your device steady</span>
-                    <span><span class="step-icon">2️⃣</span> Point at a learning poster</span>                    
-                    <span><span class="step-icon">3️⃣</span> Wait for poster detection</span>
-                </div>
-            </div>
-            <button class="btn btn-secondary" onclick="goBackToMenu()">
-                ← Back to Menu
-            </button>
+            <span><span class="step-icon">1️⃣</span> Hold your device steady</span>
+            <span><span class="step-icon">2️⃣</span> Point at a learning poster</span>                    
+            <span><span class="step-icon">3️⃣</span> Wait for poster detection</span>
+            <button class="btn btn-secondary" onclick="goBackToMenu()">← Back to Menu</button>
         </div>
-        
-
-        
-
-        
-        <div class="error-section hidden">
+    </div>
+                
+        <!-- <div class="error-section hidden">
             <div class="error-message">
                 <span class="error-icon">⚠️</span>
                 <p>Camera access denied. Please enable camera permissions to continue.</p>
             </div>
         </div>
-    </div>
+    </div> -->
     
     <!-- AR Ready Section -->
-    <div id="ar-ready-section" class="card hidden">
+    <div id="ar-ready-section" class="card hidden section">
         <h1>🎯 Poster Detected!</h1>
         <p>Great! We found a learning poster. Your AR experience is ready to begin.</p>
         
@@ -198,7 +187,7 @@
     </div>
     
     <!-- Animating Section -->
-    <div id="animating-section" class="card hidden">
+    <div id="animating-section" class="card hidden section">
         <h1>🚀 Loading AR Experience</h1>
         <p>Preparing your interactive learning environment...</p>
         
@@ -248,7 +237,7 @@
     </div>
     
     <!-- Progress Bar -->
-    <div id="progress" class="hidden">
+    <div id="progress" class="hidden section">
         <div class="back-link" onclick="goHome()">← Back to Topics</div>
         <div class="progress-bar">
             <div id="progress-bar" class="progress-fill"></div>
@@ -256,7 +245,7 @@
     </div>
     
     <!-- Video Section -->
-    <div id="video-section" class="card hidden">
+    <div id="video-section" class="card hidden section">
         <h2 id="video-title">Topic Title</h2>
         
         <div class="video-container">
@@ -271,7 +260,7 @@
     </div>
     
     <!-- Quiz Section -->
-    <div id="quiz-section" class="card hidden">
+    <div id="quiz-section" class="card hidden section">
         <h2>Quiz Time!</h2>
         
         <div class="question-box">
@@ -293,7 +282,7 @@
     </div>
     
     <!-- Summary Section -->
-    <div id="summary-section" class="card hidden">
+    <div id="summary-section" class="card hidden section">
         <h2>Great Work!</h2>
         <div id="summary-content">
             <!-- Summary will be loaded here -->
@@ -336,7 +325,7 @@
          * - Content loading functions
          */
         
-        let version = '2.26';
+        let version = '2.27';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
