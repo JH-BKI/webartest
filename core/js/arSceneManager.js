@@ -202,24 +202,62 @@ class ARSceneManager {
         sceneEl.addEventListener('targetFound', (event) => {
             console.log('🎯 targetFound event received:', event);
             console.log('🎯 Event detail:', event.detail);
+            console.log('🎯 Event target:', event.target);
             
-            if (!event.detail) {
-                console.warn('⚠️ AR Scene Manager: targetFound event has no detail');
+            let targetIndex = null;
+            
+            // Try to get targetIndex from event detail first
+            if (event.detail && event.detail.targetIndex !== undefined) {
+                targetIndex = event.detail.targetIndex;
+                console.log(`🎯 Target index from detail: ${targetIndex}`);
+            } else {
+                // Fallback: extract targetIndex from the target entity's mindar-image-target attribute
+                const targetEntity = event.target;
+                if (targetEntity && targetEntity.getAttribute) {
+                    const mindarTarget = targetEntity.getAttribute('mindar-image-target');
+                    if (mindarTarget && mindarTarget.targetIndex !== undefined) {
+                        targetIndex = mindarTarget.targetIndex;
+                        console.log(`🎯 Target index from entity attribute: ${targetIndex}`);
+                    }
+                }
+            }
+            
+            if (targetIndex === null) {
+                console.warn('⚠️ AR Scene Manager: Could not extract targetIndex from event');
                 return;
             }
             
-            const targetIndex = event.detail.targetIndex;
             console.log(`🎯 Target detected in AR scene: ${targetIndex}`);
             this.handleTargetFound(targetIndex);
         });
         
         // Listen for target lost events
         sceneEl.addEventListener('targetLost', (event) => {
-            if (!event.detail) {
-                console.warn('⚠️ AR Scene Manager: targetLost event has no detail');
+            console.log('📤 targetLost event received:', event);
+            
+            let targetIndex = null;
+            
+            // Try to get targetIndex from event detail first
+            if (event.detail && event.detail.targetIndex !== undefined) {
+                targetIndex = event.detail.targetIndex;
+                console.log(`📤 Target index from detail: ${targetIndex}`);
+            } else {
+                // Fallback: extract targetIndex from the target entity's mindar-image-target attribute
+                const targetEntity = event.target;
+                if (targetEntity && targetEntity.getAttribute) {
+                    const mindarTarget = targetEntity.getAttribute('mindar-image-target');
+                    if (mindarTarget && mindarTarget.targetIndex !== undefined) {
+                        targetIndex = mindarTarget.targetIndex;
+                        console.log(`📤 Target index from entity attribute: ${targetIndex}`);
+                    }
+                }
+            }
+            
+            if (targetIndex === null) {
+                console.warn('⚠️ AR Scene Manager: Could not extract targetIndex from targetLost event');
                 return;
             }
-            const targetIndex = event.detail.targetIndex;
+            
             console.log(`📤 Target lost in AR scene: ${targetIndex}`);
             this.handleTargetLost(targetIndex);
         });
