@@ -8,6 +8,8 @@ class ARSceneManager {
         this.assetCache = new Map(); // topicId -> cached assets
         this.stateManager = null;
         this.currentTopic = null;
+        this.tipInterval = null;
+        this.tipIndex = 0;
         
         // Topic mapping: target index -> topic number
         this.topicMapping = {
@@ -16,6 +18,15 @@ class ARSceneManager {
             2: 3, // Target 2 -> topic_3 (Data Science)
             3: 4  // Target 3 -> topic_4 (Cybersecurity)
         };
+        
+        // Tips for AR scanning
+        this.tips = [
+            "💡 <strong>Tip:</strong> Keep your device steady and follow the on-screen instructions",
+            "💡 <strong>Tip:</strong> Make sure your camera lens is clean for best results",
+            "💡 <strong>Tip:</strong> Good lighting helps the camera detect posters faster",
+            "💡 <strong>Tip:</strong> Move closer if the poster is not detected",
+            "💡 <strong>Tip:</strong> Try different angles if scanning is slow"
+        ];
         
         console.log('AR Scene Manager initialized');
     }
@@ -29,7 +40,6 @@ class ARSceneManager {
         // Add global error handler for MindAR errors
         this.setupGlobalErrorHandler();
         
-        this.createSceneContainer();
         this.isInitialized = true;
         console.log('AR Scene Manager initialized successfully');
         return true;
@@ -53,25 +63,6 @@ class ARSceneManager {
                 event.preventDefault();
             }
         });
-    }
-    
-    createSceneContainer() {
-        let container = document.getElementById('ar-scene-container');
-        if (!container) {
-            console.error('AR scene container not found in HTML');
-            return null;
-        }
-        
-        // Hide the placeholder and prepare for AR scene
-        const placeholder = document.getElementById('camera-placeholder');
-        if (placeholder) {
-            placeholder.style.display = 'none';
-            console.log('📷 AR Scene Manager: Camera placeholder hidden');
-        } else {
-            console.warn('⚠️ AR Scene Manager: Camera placeholder not found');
-        }
-        
-        return container;
     }
     
     async createScene(topicId) {
@@ -211,7 +202,7 @@ class ARSceneManager {
             }
             const targetIndex = event.detail.targetIndex;
             console.log(`🎯 Target detected in AR scene: ${targetIndex}`);
-            this.handleTargetFound(targetIndex, topicId);
+            this.handleTargetFound(targetIndex);
         });
         
         // Listen for target lost events
@@ -223,6 +214,16 @@ class ARSceneManager {
             const targetIndex = event.detail.targetIndex;
             console.log(`📤 Target lost in AR scene: ${targetIndex}`);
             this.handleTargetLost(targetIndex, topicId);
+        });
+        
+        // Listen for AR ready events
+        this.currentScene.addEventListener('arReady', (event) => {
+            console.log('✅ AR Scene Manager: MindAR is ready');
+        });
+        
+        // Listen for AR error events
+        this.currentScene.addEventListener('arError', (event) => {
+            console.error('❌ AR Scene Manager: MindAR failed to start');
         });
         
         console.log(`MindAR listeners set up for topic ${topicId}`);
@@ -261,19 +262,23 @@ class ARSceneManager {
     }
     
     // Handle target found event
-    handleTargetFound(targetIndex, topicId) {
+    handleTargetFound(targetIndex) {
         const detectedTopicId = this.topicMapping[targetIndex];
-        if (detectedTopicId && detectedTopicId === topicId) {
-            console.log(`✅ Correct poster detected for topic ${topicId}`);
-            
-            // Start the animation timeline
-            this.startAnimation(topicId);
+        if (detectedTopicId) {
+            console.log(`✅ Poster detected for topic ${detectedTopicId}`);
             
             // Update global topic
             this.setGlobalTopic(detectedTopicId);
             
+            // Add entities to the detected topic container
+            this.addEntitiesToTopic(detectedTopicId);
+            
+            // Set topic in timeline controller
+            this.setTimelineTopic(detectedTopicId);
+            
             // Update UI
             this.updateDetectedPosterUI(detectedTopicId);
+                     
             
             // Transition to ar_ready state
             if (window.stateManager) {
@@ -283,7 +288,7 @@ class ARSceneManager {
                 console.error('❌ AR Scene Manager: State manager not available');
             }
         } else {
-            console.log(`⚠️ Wrong poster detected. Expected topic ${topicId}, got target ${targetIndex}`);
+            console.log(`⚠️ Unknown target detected: ${targetIndex}`);
         }
     }
     
@@ -297,6 +302,16 @@ class ARSceneManager {
             } else {
                 console.log(`Timeline not ready for topic ${topicId}`);
             }
+        }
+    }
+    
+    // Start animation when user clicks "Start AR Experience"
+    startARExperience() {
+        if (this.currentTopic) {
+            console.log(`🎬 Starting AR experience for topic ${this.currentTopic}`);
+            this.startAnimation(this.currentTopic);
+        } else {
+            console.error('❌ No topic detected - cannot start AR experience');
         }
     }
     
@@ -332,13 +347,7 @@ class ARSceneManager {
                 console.log('🗑️ AR Scene Manager: Clearing container HTML');
                 container.innerHTML = '';
             }
-            
-            // Show the camera placeholder again
-            const placeholder = document.getElementById('camera-placeholder');
-            if (placeholder) {
-                placeholder.style.display = 'block';
-            }
-            
+                       
             this.currentScene = null;
             console.log('✅ AR Scene Manager: Scene disposed (assets remain cached)');
         }
@@ -436,6 +445,7 @@ class ARSceneManager {
     // Reset for new scanning session
     reset() {
         this.currentTopic = null;
+        this.stopTipsRotation();
         this.disposeScene();
         console.log('AR Scene Manager reset');
     }
@@ -444,9 +454,71 @@ class ARSceneManager {
     isReady() {
         return this.isInitialized;
     }
+    
+    // Start tips rotation
+    startTipsRotation() {
+        if (this.tipInterval) {
+            this.stopTipsRotation();
+        }
+        
+        this.tipInterval = setInterval(() => {
+            this.tipIndex = (this.tipIndex + 1) % this.tips.length;
+            const tipElement = document.getElementById('tip-text');
+            if (tipElement) {
+                tipElement.innerHTML = this.tips[this.tipIndex];
+            }
+        }, 2500);
+        
+        console.log('Tips rotation started');
+    }
+    
+    // Stop tips rotation
+    stopTipsRotation() {
+        if (this.tipInterval) {
+            clearInterval(this.tipInterval);
+            this.tipInterval = null;
+            console.log('Tips rotation stopped');
+        }
+    }
+    
+    // Generate asset HTML for all topics (1-4)
+    generateAllTopicAssets() {
+        let allAssetsHTML = '<a-assets>\n';
+        
+        // Generate assets for all topics
+        for (let topicId = 1; topicId <= 4; topicId++) {
+            if (window.generateTopicAssetHTML) {
+                const topicAssetHTML = window.generateTopicAssetHTML(topicId);
+                // Extract content between <a-assets> tags
+                const assetContent = topicAssetHTML.replace(/<\/?a-assets>/g, '').trim();
+                if (assetContent) {
+                    allAssetsHTML += `    <!-- Topic ${topicId} Assets -->\n`;
+                    allAssetsHTML += assetContent + '\n';
+                }
+            }
+        }
+        
+        allAssetsHTML += '</a-assets>';
+        return allAssetsHTML;
+    }
+    
+    // Add entities to specific topic container when detected
+    addEntitiesToTopic(topicId) {
+        const topicContainer = document.getElementById(`scenario-assets-topic-${topicId}`);
+        if (topicContainer && window.generateTopicEntityHTML) {
+            const entityHTML = window.generateTopicEntityHTML(topicId);
+            if (entityHTML) {
+                topicContainer.innerHTML = entityHTML;
+                console.log(`Added entities for topic ${topicId}`);
+            }
+        }
+    }
 
 
     injectARScene() {
+        // Generate dynamic asset HTML for all topics (1-4)
+        const assetHTML = this.generateAllTopicAssets();
+        
         const arSceneHTML = `   
         <a-scene id="AR-scene"  
             mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; 
@@ -455,70 +527,48 @@ class ARSceneManager {
             warmupTolerance: 1; 
             missTolerance: 1; 
             maxTrack: 1;
-            utoStart: true;" 
+            autoStart: true;" 
+            timeline-controller
             color-space="sRGB" 
             renderer="colorManagement: true, physicallyCorrectLights"
             xr-mode-ui="enabled: false" 
             loading-screen="enabled: false"
             device-orientation-permission-ui="enabled: false">  
 
-            <a-assets>   
-            <!-- Scene 01 Character Assets -->
-            <img id="s01-scene-01-Alex" src="./assets/topic_1/s01-scene-01-Alex.png">
-            <img id="s01-scene-01-Mia" src="./assets/topic_1/s01-scene-01-Mia.png">
-            <img id="s01-speech-left" src="./assets/topic_1/s01-speech-left.png">
-            <img id="s01-speech-right" src="./assets/topic_1/s01-speech-right.png">
-            <img id="s01-floor" src="./assets/topic_1/s01-floor.png">
-            </a-assets>
+            ${assetHTML}
 
             <div id="timelineContainer" style="display: none;"></div>
             
-            <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 0">
-                    <a-image id="s01-floor" src="#s01-floor" scale="2 1 2" position="0 -1 0" rotation="-90 0 0"></a-image>
-            
+            <!-- Topic containers - always present for MindAR detection -->
+            <a-entity id="scenario-assets-topic-1" position="0 0 -2" mindar-image-target="targetIndex: 0">
+                <!-- Topic 1 entities will be added dynamically -->
             </a-entity>
-            <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 1">
-                    <a-image id="s01s01-Mia" src="#s01-scene-01-Mia" scale="2 4 1" position="0.75 0 -2.1" rotation="0 0 0" visible="true" opacity="1" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+            <a-entity id="scenario-assets-topic-2" position="0 0 -2" mindar-image-target="targetIndex: 1">
+                <!-- Topic 2 entities will be added dynamically -->
             </a-entity>
-            <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 2">
-                    <a-image id="s01-speech-lt" src="#s01-speech-left" scale="1 1 1" position="-0.25 2.25 -2" rotation="0 0 0" visible="true" opacity="1" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+            <a-entity id="scenario-assets-topic-3" position="0 0 -2" mindar-image-target="targetIndex: 2">
+                <!-- Topic 3 entities will be added dynamically -->
             </a-entity>
-            <a-entity id="scenario-assets" position="0 0 -2" mindar-image-target="targetIndex: 3">
-                    <a-image id="s01-speech-rt" src="#s01-speech-right" scale="1 1 1" position="0.25 2.25 -2.1" rotation="0 0 0" visible="true" opacity="1" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal"></a-image>
+            <a-entity id="scenario-assets-topic-4" position="0 0 -2" mindar-image-target="targetIndex: 3">
+                <!-- Topic 4 entities will be added dynamically -->
             </a-entity>
 
             <a-camera position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse"></a-camera>
         </a-scene>`;
 
         document.body.insertAdjacentHTML('beforeend', arSceneHTML);
-        console.log('AR Scene has been injected into the document body');
+        console.log('AR Scene has been injected with dynamic assets');
 
 
 
         const sceneEl = document.querySelector('a-scene');
 
-        sceneEl.addEventListener("targetFound", (event) => {
-          const targetEl = event.target; // the entity that fired the event
-          const targetIndex = targetEl.getAttribute("mindar-image-target").targetIndex;
-          console.log("Scene-level: found target index", targetIndex, "id:", targetEl.id);
-        });
-        
-        sceneEl.addEventListener("targetLost", (event) => {
-          const targetEl = event.target;
-          const targetIndex = targetEl.getAttribute("mindar-image-target").targetIndex;
-          console.log("Scene-level: lost target index", targetIndex, "id:", targetEl.id);
-        });
+
 
 
 
         
-        sceneEl.addEventListener("arReady", (event) => {
-            console.log("MindAR is ready")
-        });
 
-        sceneEl.addEventListener("arError", (event) => {
-            console.log("MindAR failed to start")
-        });
 
 
     }

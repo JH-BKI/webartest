@@ -24,6 +24,7 @@ class MobileConsole {
             trace: console.trace
         };
         this.version = 'unknown'; // Will be set by the main app
+        this.isMobileDevice = this.detectMobileDevice();
         this.init();
     }
 
@@ -32,6 +33,22 @@ class MobileConsole {
         this.captureUncaughtErrors();
         this.updateDebugInfo();
         this.hookIntoStateChanges();
+    }
+
+    // Detect if we're on a mobile device
+    detectMobileDevice() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+        const isMobile = mobileRegex.test(userAgent);
+        
+        // Also check for touch capability and screen size
+        const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const isSmallScreen = window.innerWidth <= 768;
+        
+        const isMobileDevice = isMobile || (hasTouch && isSmallScreen);
+        
+        console.log(`🔍 Device Detection: Mobile=${isMobile}, Touch=${hasTouch}, SmallScreen=${isSmallScreen}, Final=${isMobileDevice}`);
+        return isMobileDevice;
     }
 
     // Override console methods to capture output
@@ -117,6 +134,11 @@ class MobileConsole {
 
     // Intercept browser's internal console methods to capture detailed errors
     interceptBrowserConsoleMethods() {
+        // Only intercept on mobile devices
+        if (!this.isMobileDevice) {
+            return;
+        }
+        
         // Store original console methods
         const originalConsole = {
             error: console.error,
@@ -193,6 +215,14 @@ class MobileConsole {
 
     // Comprehensive console method interception
     interceptAllConsoleMethods() {
+        // Only intercept console methods on mobile devices
+        if (!this.isMobileDevice) {
+            console.log('🖥️ Desktop detected - preserving original console behavior for debugging');
+            return;
+        }
+        
+        console.log('📱 Mobile detected - intercepting console methods for mobile console');
+        
         const methods = ['log', 'warn', 'error', 'info', 'debug', 'trace', 'table', 'group', 'groupEnd', 'time', 'timeEnd'];
         
         methods.forEach(method => {
@@ -316,15 +346,18 @@ class MobileConsole {
     toggleDebugConsole() {
         const console = document.getElementById('debug-console');
         const arrow = document.getElementById('debug-arrow');
-        
+        const toggle = document.getElementById('debug-toggle');
+
         this.debugConsoleOpen = !this.debugConsoleOpen;
         
         if (this.debugConsoleOpen) {
             console.classList.remove('hidden');
             arrow.classList.add('expanded');
+            toggle.style.width = '100%';
         } else {
             console.classList.add('hidden');
             arrow.classList.remove('expanded');
+            toggle.style.width = '170px';
         }
     }
 

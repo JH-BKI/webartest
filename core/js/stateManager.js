@@ -85,6 +85,10 @@ class StateManager {
             },
             animating: {
                 onEnter: () => {
+
+            // // Start the animation timeline
+            // this.startAnimation(topicId);
+
                     console.log('Entering animating state');
                     this.hideAllSections();
                     // Show animating section

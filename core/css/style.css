@@ -502,16 +502,26 @@ li {
     margin-right: var(--spacing-md);
 }
 
-.ar-note {
-    margin-top: var(--spacing-xl);
+.app-tip {
+    margin: var(--spacing-lg) 10%;
     text-align: center;
     background: var(--bg-info);
     border: 1px solid var(--border-info);
     border-radius: var(--radius-md);
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
-.ar-note p {
+.app-tip p {
     margin: 0;
     color: var(--text-secondary);
     font-size: 14px;

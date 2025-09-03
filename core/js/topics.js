@@ -29,7 +29,243 @@ const topicData = {
             '• CSS styles the appearance', 
             '• JavaScript adds functionality',
             '• These three work together to create modern websites'
-        ]
+        ],
+        
+        // AR Assets with entity properties for Topic 1
+        arAssets: {
+            images: [
+                // Speech bubbles
+                { 
+                    id: 's01-speech-lt', 
+                    src: './assets/topic_1/s01-speech-left.png',
+                    scale: '1 1 1',
+                    position: '-0.25 2.25 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01-speech-rt', 
+                    src: './assets/topic_1/s01-speech-right.png',
+                    scale: '1 1 1',
+                    position: '0.25 2.25 -2.1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 01 characters
+                { 
+                    id: 's01s01-Alex', 
+                    src: './assets/topic_1/s01-scene-01-Alex.png',
+                    scale: '2 4 1',
+                    position: '-2.5 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s01-Mia', 
+                    src: './assets/topic_1/s01-scene-01-Mia.png',
+                    scale: '2 4 1',
+                    position: '0.75 0 -2.1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 02 characters
+                { 
+                    id: 's01s02-Alex', 
+                    src: './assets/topic_1/s01-scene-02-Alex.png',
+                    scale: '2 4 1',
+                    position: '-0.55 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s02-Mia', 
+                    src: './assets/topic_1/s01-scene-02-Mia.png',
+                    scale: '2 4 1',
+                    position: '0.75 0 -2.1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 03 characters
+                { 
+                    id: 's01s03-Alex', 
+                    src: './assets/topic_1/s01-scene-03-Alex.png',
+                    scale: '2 4 1',
+                    position: '-0.55 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s03-Mia', 
+                    src: './assets/topic_1/s01-scene-03-Mia.png',
+                    scale: '2 4 1',
+                    position: '0.75 0 -2.1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 04 social media elements
+                { 
+                    id: 's01s04-post', 
+                    src: './assets/topic_1/s01-scene-04-post.png',
+                    scale: '2 3 1',
+                    position: '-0 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s04-heart', 
+                    src: './assets/topic_1/s01-scene-04-heart.png',
+                    scale: '1 1 1',
+                    position: '-0 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s04-like', 
+                    src: './assets/topic_1/s01-scene-04-like.png',
+                    scale: '1 1 1',
+                    position: '-0 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s04-share', 
+                    src: './assets/topic_1/s01-scene-04-share.png',
+                    scale: '1 1 1',
+                    position: '-0 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s04-smile', 
+                    src: './assets/topic_1/s01-scene-04-smile.png',
+                    scale: '1 1 1',
+                    position: '-0 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 05 characters
+                { 
+                    id: 's01s05-Alex', 
+                    src: './assets/topic_1/s01-scene-05-Alex.png',
+                    scale: '2 4 1',
+                    position: '-0.55 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s05-Mia', 
+                    src: './assets/topic_1/s01-scene-05-Mia.png',
+                    scale: '2 4 1',
+                    position: '0.75 0 -2.1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 06 characters
+                { 
+                    id: 's01s06-Alex', 
+                    src: './assets/topic_1/s01-scene-06-Alex.png',
+                    scale: '2 4 1',
+                    position: '-0.55 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s06-Mia', 
+                    src: './assets/topic_1/s01-scene-06-Mia.png',
+                    scale: '2 4 1',
+                    position: '0.75 0 -2.1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 07 characters
+                { 
+                    id: 's01s07-Alex', 
+                    src: './assets/topic_1/s01-scene-07-Alex.png',
+                    scale: '2 4 1',
+                    position: '-0.55 0 -2.1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s07-Mia', 
+                    src: './assets/topic_1/s01-scene-07-Mia.png',
+                    scale: '2 4 1',
+                    position: '0.5 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 08 action and status assets
+                { 
+                    id: 's01s08-profile', 
+                    src: './assets/topic_1/s01-scene-08-profile.png',
+                    scale: '2 3 1',
+                    position: '-0 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's01s08-random', 
+                    src: './assets/topic_1/s01-scene-08-random.png',
+                    scale: '1 1 1',
+                    position: '-0 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Floor
+                { 
+                    id: 's01-floor', 
+                    src: './assets/topic_1/s01-floor.png',
+                    scale: '2 1 2',
+                    position: '0 -1 0',
+                    rotation: '-90 0 0',
+                    visible: 'true',
+                    opacity: '1',
+                    material: ''
+                }
+            ]
+        }
     },
     topic_2: {
         title: 'Navigating Difficult Situations',
@@ -60,7 +296,45 @@ const topicData = {
             '• Social media builds community',
             '• Email marketing nurtures leads',
             '• Digital channels offer measurable results'
-        ]
+        ],
+        
+        // AR Assets with entity properties for Topic 2
+        arAssets: {
+            images: [
+                { 
+                    id: 's02-character-A', 
+                    src: './assets/topic_2/s02-character-A.png',
+                    scale: '1.5 3 1',
+                    position: '0 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02-character-B', 
+                    src: './assets/topic_2/s02-character-B.png',
+                    scale: '1.5 3 1',
+                    position: '1 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                }
+            ],
+            videos: [
+                { 
+                    id: 's02-video-intro', 
+                    src: './assets/topic_2/s02-video-intro.mp4',
+                    scale: '2 1.5 1',
+                    position: '0 1 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: ''
+                }
+            ]
+        }
     },
     topic_3: {
         title: 'Respectful Relationships Online',
@@ -91,7 +365,35 @@ const topicData = {
             '• Programming processes large datasets',
             '• Machine learning predicts outcomes',
             '• Domain expertise guides analysis'
-        ]
+        ],
+        
+        // AR Assets with entity properties for Topic 3
+        arAssets: {
+            models: [
+                { 
+                    id: 's03-3d-object', 
+                    src: './assets/topic_3/s03-3d-object.glb',
+                    scale: '1 1 1',
+                    position: '0 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: ''
+                }
+            ],
+            audio: [
+                { 
+                    id: 's03-background-music', 
+                    src: './assets/topic_3/s03-background-music.mp3',
+                    scale: '',
+                    position: '',
+                    rotation: '',
+                    visible: 'false',
+                    opacity: '0',
+                    material: ''
+                }
+            ]
+        }
     },
     topic_4: {
         title: 'Seeking Help and Support',
@@ -122,7 +424,47 @@ const topicData = {
             '• Phishing steals personal information',
             '• Strong passwords are essential',
             '• Prevention is better than recovery'
-        ]
+        ],
+        
+        // AR Assets with entity properties for Topic 4
+        arAssets: {
+            images: [
+                { 
+                    id: 's04-cyber-icon', 
+                    src: './assets/topic_4/s04-cyber-icon.png',
+                    scale: '1 1 1',
+                    position: '0 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                }
+            ],
+            videos: [
+                { 
+                    id: 's04-security-demo', 
+                    src: './assets/topic_4/s04-security-demo.mp4',
+                    scale: '2 1.5 1',
+                    position: '0 1 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: ''
+                }
+            ],
+            models: [
+                { 
+                    id: 's04-firewall-model', 
+                    src: './assets/topic_4/s04-firewall-model.glb',
+                    scale: '1 1 1',
+                    position: '0 0 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '0',
+                    material: ''
+                }
+            ]
+        }
     }
 };
 
@@ -172,6 +514,109 @@ function getTopicVideoUrl(topicId) {
   return topic ? topic.videoUrl : null; // Return null if not found - let it fail gracefully
 }
 
+// New helper function to get AR assets for a topic
+function getTopicARAssets(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic && topic.arAssets ? topic.arAssets : null;
+}
+
+// New helper function to generate asset HTML
+function generateTopicAssetHTML(topicId) {
+  const assets = getTopicARAssets(topicId);
+  if (!assets) {
+    console.warn(`No AR assets found for topic ${topicId}`);
+    return '<a-assets></a-assets>';
+  }
+  
+  let assetHTML = '<a-assets>\n';
+  
+  // Load images
+  if (assets.images) {
+    assets.images.forEach(asset => {
+      assetHTML += `    <img id="${asset.id}" src="${asset.src}">\n`;
+    });
+  }
+  
+  // Load videos
+  if (assets.videos) {
+    assets.videos.forEach(asset => {
+      assetHTML += `    <video id="${asset.id}" src="${asset.src}" autoplay="false" loop="false"></video>\n`;
+    });
+  }
+  
+  // Load audio
+  if (assets.audio) {
+    assets.audio.forEach(asset => {
+      assetHTML += `    <audio id="${asset.id}" src="${asset.src}" preload="auto"></audio>\n`;
+    });
+  }
+  
+  // Load 3D models
+  if (assets.models) {
+    assets.models.forEach(asset => {
+      assetHTML += `    <a-asset-item id="${asset.id}" src="${asset.src}"></a-asset-item>\n`;
+    });
+  }
+  
+  assetHTML += '</a-assets>';
+  return assetHTML;
+}
+
+// New helper function to generate entity HTML with properties
+function generateTopicEntityHTML(topicId) {
+  const assets = getTopicARAssets(topicId);
+  if (!assets) {
+    console.warn(`No AR assets found for topic ${topicId}`);
+    return '';
+  }
+  
+  let entityHTML = '';
+  
+  // Generate entities for images
+  if (assets.images) {
+    assets.images.forEach(asset => {
+      entityHTML += `    <a-image id="${asset.id}" src="#${asset.id}"`;
+      if (asset.scale) entityHTML += ` scale="${asset.scale}"`;
+      if (asset.position) entityHTML += ` position="${asset.position}"`;
+      if (asset.rotation) entityHTML += ` rotation="${asset.rotation}"`;
+      if (asset.visible) entityHTML += ` visible="${asset.visible}"`;
+      if (asset.opacity) entityHTML += ` opacity="${asset.opacity}"`;
+      if (asset.material) entityHTML += ` material="${asset.material}"`;
+      entityHTML += `></a-image>\n`;
+    });
+  }
+  
+  // Generate entities for videos
+  if (assets.videos) {
+    assets.videos.forEach(asset => {
+      entityHTML += `    <a-video id="${asset.id}" src="#${asset.id}"`;
+      if (asset.scale) entityHTML += ` scale="${asset.scale}"`;
+      if (asset.position) entityHTML += ` position="${asset.position}"`;
+      if (asset.rotation) entityHTML += ` rotation="${asset.rotation}"`;
+      if (asset.visible) entityHTML += ` visible="${asset.visible}"`;
+      if (asset.opacity) entityHTML += ` opacity="${asset.opacity}"`;
+      if (asset.material) entityHTML += ` material="${asset.material}"`;
+      entityHTML += `></a-video>\n`;
+    });
+  }
+  
+  // Generate entities for 3D models
+  if (assets.models) {
+    assets.models.forEach(asset => {
+      entityHTML += `    <a-entity id="${asset.id}" gltf-model="#${asset.id}"`;
+      if (asset.scale) entityHTML += ` scale="${asset.scale}"`;
+      if (asset.position) entityHTML += ` position="${asset.position}"`;
+      if (asset.rotation) entityHTML += ` rotation="${asset.rotation}"`;
+      if (asset.visible) entityHTML += ` visible="${asset.visible}"`;
+      if (asset.opacity) entityHTML += ` opacity="${asset.opacity}"`;
+      if (asset.material) entityHTML += ` material="${asset.material}"`;
+      entityHTML += `></a-entity>\n`;
+    });
+  }
+  
+  return entityHTML;
+}
+
 // Debug function to inspect topic details
 function debugTopic(topicId) {
   const topic = getTopicInfo(topicId);
@@ -219,6 +664,9 @@ window.getTopicFeedback = getTopicFeedback;
 window.getTopicSummary = getTopicSummary;
 window.getTopicIcon = getTopicIcon;
 window.getTopicVideoUrl = getTopicVideoUrl;
+window.getTopicARAssets = getTopicARAssets;
+window.generateTopicAssetHTML = generateTopicAssetHTML;
+window.generateTopicEntityHTML = generateTopicEntityHTML;
 window.debugTopic = debugTopic;
 window.debugCurrentTopic = debugCurrentTopic;
 

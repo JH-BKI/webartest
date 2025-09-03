@@ -173,9 +173,11 @@ AFRAME.registerComponent('timeline-controller', {
       },
       complete: () => {
         console.log('Timeline completed');
-        // Access the global appState to call setState
-        if (window.appState) {
-          window.appState.setState('Scenario-Video'); // or whatever state you want
+        // Transition to video state using the state manager
+        if (window.stateManager) {
+          window.stateManager.changeState('video');
+        } else {
+          console.error('State manager not available for timeline completion');
         }
       }
     });

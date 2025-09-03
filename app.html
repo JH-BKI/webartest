@@ -15,6 +15,9 @@
      
      <!-- MindAR Library - Required for AR functionality -->
      <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+     
+     <!-- Anime.js Library - Required for timeline animations -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
  
      <script src="./core/js/arSceneManager.js?v=2.25"></script>
      <script src="./core/js/timeline-controller.js?v=2.25"></script>
@@ -133,7 +136,7 @@
             <p>Find a poster and point your camera at it!</p>
             <span><span class="step-icon">1️⃣</span> Hold your device steady</span>
             <span><span class="step-icon">2️⃣</span> Point at a learning poster</span>                    
-            <span><span class="step-icon">3️⃣</span> Wait for poster detection</span>
+            <span><span class="step-icon">3️⃣</span> Wait for the scan to finish</span>
             <button class="btn btn-secondary" onclick="goBackToMenu()">← Back to Menu</button>
         </div>
     </div>
@@ -148,8 +151,11 @@
     
     <!-- AR Ready Section -->
     <div id="ar-ready-section" class="card hidden section">
-        <h1>🎯 Poster Detected!</h1>
-        <p>Great! We found a learning poster. Your AR experience is ready to begin.</p>
+      
+        <div class="app-tip" id="app-tip">
+            <p id="tip-text">💡 <strong>Tip:</strong> Keep your device steady and follow the on-screen instructions</p>
+        </div>
+
         
         <div class="detection-success">
             <div class="success-icon">✅</div>
@@ -181,9 +187,6 @@
             🚀 Start AR Experience
         </button>
         
-        <div class="ar-note">
-            <p>💡 <strong>Tip:</strong> Keep your device steady and follow the on-screen instructions</p>
-        </div>
     </div>
     
     <!-- Animating Section -->
@@ -325,7 +328,7 @@
          * - Content loading functions
          */
         
-        let version = '2.27';
+        let version = '2.28';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -467,8 +470,14 @@
             // Use state manager to transition to animating state
             stateManager.changeState('animating');
             
-            // AR scene should already be created when poster was detected
-            // Just start the loading simulation
+            // Start the AR animation
+            if (window.arSceneManager) {
+                window.arSceneManager.startARExperience();
+            } else {
+                console.error('❌ AR Scene Manager not available');
+            }
+            
+            // Start the loading simulation
             setTimeout(() => {
                 simulateARLoading();
             }, 500);
