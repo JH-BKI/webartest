@@ -569,7 +569,7 @@ class ARSceneManager {
                         }
                     } else {
                         console.warn('⚠️ AR Scene Manager: Video element not found in camera');
-                        console.log('ℹ️ AR Scene Manager: This is normal in simulated mode - no real camera feed');
+                        console.log('ℹ️ AR Scene Manager: Camera feed may still be initializing...');
                     }
                 } else {
                     console.warn('⚠️ AR Scene Manager: Camera element not found');
@@ -611,22 +611,7 @@ class ARSceneManager {
             document.body.appendChild(testButton);
             console.log('🧪 AR Scene Manager: Test button added for manual target detection');
             
-            // Add simulated mode indicator
-            const modeIndicator = document.createElement('div');
-            modeIndicator.textContent = 'SIMULATED MODE - No Camera Feed';
-            modeIndicator.style.position = 'fixed';
-            modeIndicator.style.top = '50px';
-            modeIndicator.style.right = '10px';
-            modeIndicator.style.zIndex = '10000';
-            modeIndicator.style.padding = '10px';
-            modeIndicator.style.backgroundColor = '#ffc107';
-            modeIndicator.style.color = 'black';
-            modeIndicator.style.border = 'none';
-            modeIndicator.style.borderRadius = '5px';
-            modeIndicator.style.fontSize = '12px';
-            modeIndicator.style.fontWeight = 'bold';
-            document.body.appendChild(modeIndicator);
-            console.log('ℹ️ AR Scene Manager: Simulated mode indicator added');
+            // Simulated mode indicator removed - using real AR only
         }, 2000);
     }
     
@@ -697,7 +682,7 @@ class ARSceneManager {
     
     // Update UI when poster is detected
     updateDetectedPosterUI(topicId) {
-        const topicTitle = window.getTopicTitle ? window.getTopicTitle(topicId + 1) : `Topic ${topicId + 1}`;
+        const topicTitle = window.getTopicTitle ? window.getTopicTitle(topicId) : `Topic ${topicId}`;
         
         const titleElement = document.getElementById('detected-poster-title');
         const nameElement = document.getElementById('detected-topic-name');
