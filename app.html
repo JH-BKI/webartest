@@ -57,8 +57,9 @@
     <div id="loading-section" class="card section">
         <div class="loading-content">
             <div class="loading-spinner"></div>
-            <h2>Loading Learning Experience</h2>
-            <p>Preparing your interactive AR journey...</p>
+            <p>BKI presents:</p>
+            <h3>National Child Protection Week 2025</h2>
+            <h2>Immersive Experience</h2>
             <div class="progress-container">
                 <div class="progress-bar">
                     <div id="loading-progress" class="progress-fill"></div>
@@ -69,20 +70,22 @@
     </div>
 
     <!-- Campus Selection -->
-    <div id="campus-selection" class="card hidden section">
-        <h1>Choose Your Campus</h1>
-        <p>Select your preferred learning location</p>
-        
-        <div class="campus-grid">
-            <div class="campus-card" onclick="selectCampus('broadmeadows')">
-                <img src="./assets/misc/kangan.png" alt="Broadmeadows Campus" class="campus-logo">
-                <div class="campus-name">Broadmeadows</div>
+    <div id="campus-section" class="card hidden section">
+        <div class="campus-content">
+            <h2>Choose Your Campus</h3>
+            <p>Where are you today?</p>
+            
+            <div class="campus-grid">
+                <div class="campus-card" onclick="selectCampus('broadmeadows')">
+                    <img src="./assets/misc/kangan.png" alt="Broadmeadows Campus" class="campus-logo">
+                    <div class="campus-name">Broadmeadows</div>
+                </div>
+                <div class="campus-card" onclick="selectCampus('bendigo')">
+                    <img src="./assets/misc/bendigo.png" alt="Bendigo Campus" class="campus-logo">
+                    <div class="campus-name">Bendigo</div>
+                </div>
             </div>
-            <div class="campus-card" onclick="selectCampus('bendigo')">
-                <img src="./assets/misc/bendigo.png" alt="Bendigo Campus" class="campus-logo">
-                <div class="campus-name">Bendigo</div>
-            </div>
-        </div>
+    </div>
     </div>
 
     <!-- Topic Selection -->
@@ -97,13 +100,16 @@
     
     <!-- Menu Section -->
     <div id="menu-section" class="card hidden section">
-        <h1>Ready to Start AR Learning?</h1>
-        <p>Your interactive AR journey is about to begin</p>
-        
+        <div class="menu-hero"></div>
+        <h2>Welcome!</h2>
+        <p>We hope yo uenjoy this Immersive Experience for National Child Protection Week 2025.</p>
+        <p>There are 4 posters to find, each representing a different topic related to #NCPW2025. </p>
+        <p>Look out for the characters you see above.</p>
+        <p>Use your phone to scan each poster to  unlock a different immersive AR experience.</p>
         <div class="completion-status">
             <div class="status-card">
-                <span class="status-icon">📊</span>
-                <div class="status-text">Progress</div>
+                <!-- <span class="status-icon">📊</span> -->
+                <p>Your progress:</p>
                 <div class="completion-count" id="progress-counter">0 of 4 completed</div>
                 <div class="progress-bar-container">
                     <div class="progress-bar" id="progress-bar"></div>
@@ -122,11 +128,11 @@
             🚀 Start AR Scanning
         </button>
         
-        
+<!--         
         <div class="menu-info">
             <p>📱 Point your camera at one of the learning posters</p>
             <p>🎯 Each poster will unlock a different learning experience</p>
-        </div>
+        </div> -->
     </div>
     
     <!-- Scanning Section -->

@@ -28,7 +28,7 @@ class StateManager {
                     console.log('Entering campus selection state');
                     this.hideAllSections();
                     // Show campus selection section
-                    const campusSection = document.getElementById('campus-selection');
+                    const campusSection = document.getElementById('campus-section');
                     if (campusSection) {
                         campusSection.classList.remove('hidden');
                     }
@@ -201,7 +201,7 @@ class StateManager {
             'quiz-section', 
             'summary-section', 
             'loading-section', 
-            'campus-selection', 
+            'campus-section', 
             'menu-section', 
             'scanning-section', 
             'ar-ready-section', 
