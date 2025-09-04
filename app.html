@@ -292,7 +292,7 @@
          * - Content loading functions
          */
         
-        let version = '2.35';
+        let version = '2.36';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -826,8 +826,11 @@
                     // Create intersection observer to watch for section visibility
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
-                            if (entry.isIntersecting && !button.dataset.countdownActive) {
+                            if (entry.isIntersecting && 
+                                !button.dataset.countdownActive && 
+                                !button.dataset.autoTriggered) {
                                 console.log('🎯 Auto-triggering countdown for button:', button.id);
+                                button.dataset.autoTriggered = 'true';
                                 // Small delay to ensure section is fully visible
                                 setTimeout(() => {
                                     handleCountdownButtonClick({ target: button });

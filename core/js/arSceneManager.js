@@ -198,6 +198,12 @@ class ARSceneManager {
             return;
         }
         
+        // Prevent duplicate event listeners
+        if (this.listenersSetup) {
+            console.log('🎯 AR Scene Manager: Event listeners already set up, skipping');
+            return;
+        }
+        
         // Listen for target found events
         sceneEl.addEventListener('targetFound', (event) => {
             console.log('🎯 targetFound event received:', event);
@@ -273,6 +279,7 @@ class ARSceneManager {
         });
         
         console.log('🎯 AR Scene Manager: MindAR event listeners set up');
+        this.listenersSetup = true;
     }
     
     // Load topic-specific animation file
@@ -330,68 +337,68 @@ class ARSceneManager {
             this.updateDetectedPosterUI(detectedTopicId);
                      
             
-            // Transition to ar_ready state
-            if (window.stateManager) {
+            // Only transition to ar_ready state if we're not already there
+            if (window.stateManager && window.stateManager.currentState !== 'ar_ready') {
                 console.log(`🔄 AR Scene Manager: Transitioning to ar_ready state`);
                 window.stateManager.changeState('ar_ready');
-                
-                // Debug: Check if ar-ready-section is visible
-                setTimeout(() => {
-                    const arReadySection = document.getElementById('ar-ready-section');
-                    if (arReadySection) {
-                        console.log('🔍 AR Ready Section found:', arReadySection);
-                        console.log('🔍 AR Ready Section classes:', arReadySection.className);
-                        console.log('🔍 AR Ready Section hidden?', arReadySection.classList.contains('hidden'));
-                        
-                        // Check all child elements
-                        const appTip = document.getElementById('app-tip');
-                        const detectionSuccess = arReadySection.querySelector('.detection-success');
-                        const arInstructions = arReadySection.querySelector('.ar-instructions');
-                        const startButton = arReadySection.querySelector('button');
-                        
-                        console.log('🔍 App Tip:', appTip, appTip ? appTip.offsetHeight : 'not found');
-                        console.log('🔍 Detection Success:', detectionSuccess, detectionSuccess ? detectionSuccess.offsetHeight : 'not found');
-                        console.log('🔍 AR Instructions:', arInstructions, arInstructions ? arInstructions.offsetHeight : 'not found');
-                        console.log('🔍 Start Button:', startButton, startButton ? startButton.offsetHeight : 'not found');
-                        
-                        // Check computed styles
-                        if (startButton) {
-                            const computedStyle = window.getComputedStyle(startButton);
-                            console.log('🔍 Button computed styles:', {
-                                display: computedStyle.display,
-                                visibility: computedStyle.visibility,
-                                opacity: computedStyle.opacity,
-                                position: computedStyle.position,
-                                zIndex: computedStyle.zIndex
-                            });
-                        }
-                        
-                        // Manual fallback: ensure the section is visible
-                        if (arReadySection.classList.contains('hidden')) {
-                            console.log('🔧 Manually showing AR Ready Section');
-                            arReadySection.classList.remove('hidden');
-                        }
-                        
-                        // Force show all child elements
-                        const allChildren = arReadySection.querySelectorAll('*');
-                        allChildren.forEach(child => {
-                            if (child.classList.contains('hidden')) {
-                                console.log('🔧 Removing hidden class from:', child);
-                                child.classList.remove('hidden');
-                            }
-                            // Force display block for any elements that might be hidden
-                            if (child.style.display === 'none') {
-                                console.log('🔧 Setting display block for:', child);
-                                child.style.display = 'block';
-                            }
-                        });
-                    } else {
-                        console.error('❌ AR Ready Section not found!');
-                    }
-                }, 100);
             } else {
-                console.error('❌ AR Scene Manager: State manager not available');
+                console.log(`🔄 AR Scene Manager: Already in ar_ready state, skipping transition`);
             }
+            
+            // Debug: Check if ar-ready-section is visible
+            setTimeout(() => {
+                const arReadySection = document.getElementById('ar-ready-section');
+                if (arReadySection) {
+                    console.log('🔍 AR Ready Section found:', arReadySection);
+                    console.log('🔍 AR Ready Section classes:', arReadySection.className);
+                    console.log('🔍 AR Ready Section hidden?', arReadySection.classList.contains('hidden'));
+                    
+                    // Check all child elements
+                    const appTip = document.getElementById('app-tip');
+                    const detectionSuccess = arReadySection.querySelector('.detection-success');
+                    const arInstructions = arReadySection.querySelector('.ar-instructions');
+                    const startButton = arReadySection.querySelector('button');
+                    
+                    console.log('🔍 App Tip:', appTip, appTip ? appTip.offsetHeight : 'not found');
+                    console.log('🔍 Detection Success:', detectionSuccess, detectionSuccess ? detectionSuccess.offsetHeight : 'not found');
+                    console.log('🔍 AR Instructions:', arInstructions, arInstructions ? arInstructions.offsetHeight : 'not found');
+                    console.log('🔍 Start Button:', startButton, startButton ? startButton.offsetHeight : 'not found');
+                    
+                    // Check computed styles
+                    if (startButton) {
+                        const computedStyle = window.getComputedStyle(startButton);
+                        console.log('🔍 Button computed styles:', {
+                            display: computedStyle.display,
+                            visibility: computedStyle.visibility,
+                            opacity: computedStyle.opacity,
+                            position: computedStyle.position,
+                            zIndex: computedStyle.zIndex
+                        });
+                    }
+                    
+                    // Manual fallback: ensure the section is visible
+                    if (arReadySection.classList.contains('hidden')) {
+                        console.log('🔧 Manually showing AR Ready Section');
+                        arReadySection.classList.remove('hidden');
+                    }
+                    
+                    // Force show all child elements
+                    const allChildren = arReadySection.querySelectorAll('*');
+                    allChildren.forEach(child => {
+                        if (child.classList.contains('hidden')) {
+                            console.log('🔧 Removing hidden class from:', child);
+                            child.classList.remove('hidden');
+                        }
+                        // Force display block for any elements that might be hidden
+                        if (child.style.display === 'none') {
+                            console.log('🔧 Setting display block for:', child);
+                            child.style.display = 'block';
+                        }
+                    });
+                } else {
+                    console.error('❌ AR Ready Section not found!');
+                }
+            }, 100);
         } else {
             console.log(`⚠️ Unknown target detected: ${targetIndex}`);
             console.log(`⚠️ Available targets:`, Object.keys(this.topicMapping));
