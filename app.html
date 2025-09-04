@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Noto+Sans&display=swap" rel="stylesheet">
      <!-- Core JavaScript Files - Load in dependency order -->
          <script src="./core/js/topics.js?v=2.25"></script>
     <script src="./core/js/stateManager.js?v=2.25"></script>
@@ -57,10 +60,7 @@
     <div id="loading-section" class="section">
         <div class="loading-content">
             <div class="loading-spinner"></div>
-            <p>BKI presents:</p>
-            <h4>National Child Protection Week 2025
-            <h2>Immersive Experience</h2>
-            </h4>
+            <h1>Loading...</h1>
             <div class="progress-container">
                 <div class="progress-bar">
                     <div id="loading-progress" class="progress-fill"></div>
@@ -73,9 +73,8 @@
     <!-- Campus Selection -->
     <div id="campus-section" class="hidden section">
         <div class="campus-content">
-            <h2>Choose Your Campus</h3>
-            <p>Where are you today?</p>
-            
+            <h1>Choose Your Campus</h1>
+            <p>Where are you today?</p>            
             <div class="campus-grid">
                 <div class="campus-card" onclick="selectCampus('broadmeadows')">
                     <img src="./assets/misc/kangan.png" alt="Broadmeadows Campus" class="campus-logo">
@@ -101,13 +100,13 @@
     
     <!-- Menu Section -->
     <div id="menu-section" class="hidden section">
-        <div class="menu-hero"></div>
+        <div class="hero"></div>
         <div class="menu-content card">
-            <h2>Welcome!</h2>
+            <h1>Welcome!</h1>
             <p>We hope you enjoy this Immersive Experience for National Child Protection Week 2025.</p>
             <p>There are <span>4 posters to find</span>, each representing a different #NCPW2025 topic. </p>
             <div class="completion-status">
-                <div class="status-card">
+                <div class="light-card">
                     <!-- <span class="status-icon">📊</span> -->
                     <p>Your progress:</p>
                     <div class="completion-count" id="progress-counter">0 of 4 completed</div>
@@ -123,10 +122,9 @@
                 </div>
             </div>
                         
-            <p>Use your phone to scan each poster to unlock a different immersive experience with the characters you see above.</p>
-            <p>When you find a poster, click the button below to begin.</p>
+            <p>Find and scan each of the 4 posters to unlock a different immersive experience.</p>
             <button class="btn btn-primary" onclick="startARScanning()">
-                🚀 Scan poster!
+                🚀 Let's Go!
             </button>
             
          
@@ -145,7 +143,7 @@
             <span><span class="step-icon">1️⃣</span> Hold your device steady</span>
             <span><span class="step-icon">2️⃣</span> Point at the characters in the poster</span>                    
             <span><span class="step-icon">3️⃣</span> Wait for the scan to finish</span>
-            <button class="btn btn-secondary" onclick="goBackToMenu()">← Back to Menu</button>
+            <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
         </div>
     </div>
                 
@@ -212,23 +210,30 @@
 
 
     <!-- Video Section -->
-    <div id="video-section" class="card hidden section">
-        <h2 id="video-title">Topic Title</h2>
+    <div id="video-section" class="hidden section">
+        <div class="hero"></div>
         
-        <div class="video-container">
-            <iframe src="" frameborder="0" allowfullscreen></iframe>
+        <div class="video-content card">
+
+            <h2 id="video-title">Topic Title</h2>
+            
+            <div class="video-container">
+                <iframe src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            
+            <div id="content-area">
+                <!-- Content will be loaded here -->
+            </div>
+            
+            <button class="btn btn-primary" onclick="goToQuiz()">Continue</button>
         </div>
-        
-        <div id="content-area">
-            <!-- Content will be loaded here -->
-        </div>
-        
-        <button class="btn" onclick="goToQuiz()">Continue to Quiz</button>
     </div>
     
     <!-- Quiz Section -->
-    <div id="quiz-section" class="card hidden section">
-        <h2>Quiz Time!</h2>
+    <div id="quiz-section" class="hidden section">
+        <div class="hero"></div>
+        <div class="quiz-content card">
+            <h2>Knowledge Check!</h2>
         
         <div class="question-box">
             <h3 id="question">Loading question...</h3>
@@ -239,23 +244,31 @@
             <!-- Answers will be loaded here -->
         </div>
         
-        <button id="submit-btn" class="btn" onclick="checkAnswers()">Submit Answer</button>
-        
-        <div id="results" class="hidden">
-            <div id="score" class="score-box">Score: 0%</div>
-            <div id="feedback" class="feedback-box">Feedback will appear here</div>
-            <button class="btn btn-success" onclick="goToSummary()">Continue</button>
+        <div id="answers-buttons">
+            <button class="btn btn-secondary" onclick="goBackToVideo()">Go Back</button>
+            <button id="submit-btn" class="btn btn-primary" onclick="checkAnswers()">Submit</button>
+        </div>        
+
+        <div id="results" class="light-card hidden">
+            <div id="score" class="score-box hidden">Results: 0 correct of 0.</div>
+            <div id="feedback">Feedback will appear here</div>
+                <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
+            </div>
         </div>
     </div>
     
     <!-- Summary Section -->
-    <div id="summary-section" class="card hidden section">
+    <div id="summary-section" class="hidden section">
+        <div class="hero"></div>
+        <div class="summary-content card">
         <h2>Great Work!</h2>
         <div id="summary-content">
             <!-- Summary will be loaded here -->
         </div>
-        <button class="btn btn-secondary" onclick="restartTopic()">Try Again</button>
-        <button class="btn" onclick="goHome()">Choose New Topic</button>
+        <div>
+            <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button>
+            <button class="btn btn-primary" onclick="goHome()">Continue</button>
+        </div>
     </div>
 
     <!-- AR Scene Container -->
@@ -453,7 +466,10 @@
             // Go back to menu state
             stateManager.changeState('menu');
         }
-        
+        function goBackToVideo() {
+            // Go back to menu state
+            stateManager.changeState('video');
+        }
         function startTopic(topic) {
             currentTopic = topic;
             selectedAnswers = [];
@@ -580,6 +596,7 @@
             });
             
             currentScore = Math.round((correct / total) * 100);
+            currentScoreText = `Results: ${correct} correct of ${total}.`;
             
             // Show results
             showQuizResults(correctAnswers);
@@ -607,10 +624,13 @@
                 } else if (!isCorrect && wasSelected) {
                     answer.classList.add('incorrect');
                 }
+                else {
+                    answer.classList.add('not-selected');
+                }
             }
             
             // Show score and feedback
-            document.getElementById('score').textContent = `Score: ${currentScore}%`;
+            document.getElementById('score').textContent = `${currentScoreText}`;
             
             const feedbackText = currentScore === 100 ? feedback.perfect : feedback.partial;
             document.getElementById('feedback').textContent = feedbackText;
@@ -638,12 +658,6 @@
                 summaryDiv.appendChild(p);
             });
             
-            // Add final score
-            const scoreP = document.createElement('div');
-            scoreP.className = 'score-box';
-            scoreP.textContent = `Final Score: ${currentScore}%`;
-            scoreP.style.marginTop = '20px';
-            summaryDiv.appendChild(scoreP);
             
             // Mark topic as completed when summary is viewed
             if (window.progressManager && topicId) {
