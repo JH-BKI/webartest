@@ -8,8 +8,8 @@
 
 :root {
     /* Color Palette */
-    --primary-color: #000;
-    --primary-hover: #3a3a3a;
+    --primary-color: #00c3ff;
+    --primary-hover: #1189a7;
     --success-color: #28a745;
     --success-hover: #1e7e34;
     --secondary-color: #6c757d;
@@ -70,6 +70,9 @@
     --ncpw-alt-green-lt1: #e6ffb3;
     --ncpw-green: #93c727;
 
+    --ncpw-alt-pink-dk: #b1007f;
+    --ncpw-alt-pink-lt: #ff52a3;
+    --ncpw-pink: #d61366;
     
 }
 
@@ -98,6 +101,7 @@ html, body {
 
 
 h1, h2, h3 {
+    color: #fff;
     margin-bottom: var(--spacing-md);
     text-shadow: 1px 1px 2px #000;
 }
@@ -105,6 +109,8 @@ h1, h2, h3 {
 p {
     line-height: 1.2;
     margin: var(--spacing-sm) 0;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 1px black;
 }
 
 img {
@@ -132,20 +138,28 @@ li {
 }
 
 .card {
-    background: var(--bg-secondary);
+    background: rgba(0, 0, 0, 0.9);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 50%, rgba(0, 0, 0, 0.9) 100%);
     padding: var(--spacing-lg);
-    /* border-radius: var(--radius-xxl); */
+    border-radius: var(--radius-xxl) var(--radius-xxl) 0 0;
     box-shadow: var(--shadow-sm);
-    /* margin-bottom: var(--spacing-lg); */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .section {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     padding: var(--spacing-lg);
     box-sizing: border-box;
     background: none;
+    z-index: 3;
+    overflow-y: auto;
+    color: #fff;
 }
 
 
@@ -153,10 +167,12 @@ li {
    4. BUTTON COMPONENTS
    ========================================================================== */
 
+ 
+
 .btn {
     background: var(--primary-color);
     color: white;
-    padding: 12px 24px;
+    padding: var(--spacing-md) var(--spacing-sm);
     border: none;
     border-radius: var(--radius-md);
     cursor: pointer;
@@ -166,13 +182,13 @@ li {
 }
 
 .btn:hover {
-    background: var(--primary-hover);
+    background: var(--ncpw-alt-pink-dk);
 }
 
 .btn-primary {
-    background: var(--primary-color);
+    background: var(--ncpw-pink);
     font-size: 18px;
-    padding: var(--spacing-lg) var(--spacing-xl);
+    padding: var(--spacing-md) var(--spacing-sm);
 }
 
 .btn-success {
@@ -185,7 +201,9 @@ li {
 
 .btn-secondary {
     background: var(--secondary-color);
-    /* margin-bottom: var(--spacing-md); */
+    width: 46%;
+    margin-left: 27%;
+    /* margin-right: 22%; */
 }
 
 .btn-secondary:hover {
@@ -333,32 +351,55 @@ li {
    ========================================================================== */
 
 #menu-section {
-    overflow-y: scroll;
+
 }
 
-.menu-hero{
-    background-image: url(../../assets/topic_1/s01-imagetarget.png);
+.menu-hero {
     width: 100%;
-    height: 150px;
-    background-size: cover;
+    height: 100%;
+    background-size: auto;
     background-blend-mode: soft-light;
-    background-position-y: top;
+    background-position: 50% 40%;
+    background-size: 240%;
     background-image: url(../../assets/topic_1/s01-imagetarget.png), linear-gradient(180deg, rgba(1, 52, 19, 1) 0, rgba(5, 129, 47, 1) 42%, rgba(147, 199, 39, 1) 100%);
-    border-radius: var(--radius-lg);
+    border-radius: 0 0px 8px 8px;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    margin: -20px -20px 0 -20px;
+    z-index: 1;
+    background-repeat: repeat;
 }
 
-.completion-status {
-    margin: var(--spacing-xl) 0;
+.menu-content {
+    padding: var(--spacing-xl);
+    text-align: left;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 2;
 }
+
+.menu-content h2 {
+    position: relative;
+    margin-top: -100px;
+    margin-bottom: 35px;
+    font-size: 3em;
+}
+
 
 .status-card {
     background: var(--bg-tertiary);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
     border-radius: var(--radius-lg);
     text-align: center;
     border: 2px solid var(--border-primary);
-    margin-bottom: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
     color: var(--text-primary);
+    text-shadow: none;
 }
 
 .status-icon {
@@ -377,6 +418,7 @@ li {
     font-size: 18px;
     color: var(--text-primary);
     font-weight: bold;
+    text-shadow: none;
 }
 
 .progress-bar-container {
@@ -384,7 +426,7 @@ li {
     height: 8px;
     background-color: var(--secondary-color);
     border-radius: 4px;
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-sm);
     overflow: hidden;
 }
 
@@ -434,43 +476,44 @@ li {
    9. SCANNING SECTION STYLES
    ========================================================================== */
 
+@media (min-aspect-ratio: 1 / 1) {
+    .mindar-ui-scanning .scanning {
+        width: 45vw;
+        height: 45vw;
+    }
+}
+@media (max-aspect-ratio: 1 / 1) {
+    .mindar-ui-scanning .scanning {
+        width: 45vw;
+        height: 45vw;
+    }
+}
 
-
-
+.mindar-ui-compatibility .content {
+    background: rgba(0, 0, 0, 0.8);
+    min-height: 30vh !important;
+}    
 
 
 #scanning-section {
-    /* Scanning section specific styles */
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 210px;
-    z-index: 3;
-    overflow-y: auto;
-    box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.95);
-    color: #000;
-}
 
-.scanning-instructions {
-    margin: var(--spacing-lg) 0;
 }
 
 .scanning-instruction {
     display: flex;
     align-items: flex-start;
-    background: var(--bg-tertiary);
-    border-radius: var(--radius-md);
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-evenly;
     align-content: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
 
 .step-icon {
     margin-right: var(--spacing-md);
-    font-size: 18px;
+    font-size: 20px;
 }
 
 
@@ -510,15 +553,10 @@ li {
 }
 
 .detection-success {
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    padding: var(--spacing-xl);
     text-align: center;
-    margin: 0;
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .success-icon {
@@ -529,15 +567,11 @@ li {
 }
 
 .poster-info h3 {
-    color: var(--text-success);
     margin-bottom: var(--spacing-sm);
 }
 
 .poster-info p {
-    color: var(--text-success);
-    font-size: 16px;
-    margin: 0;
-    text-align: center;
+    font-size: 18px;
 }
 
 /* #detected-topic-name {
@@ -589,7 +623,7 @@ li {
     margin-left: -25%;
     text-align: center;
     background: var(--bg-info);
-    border: 1px solid var(--border-info);
+    border: 1px solid var(--ncpw-alt-green);
     border-radius: var(--radius-md);
     padding: var(--spacing-sm);
     position: absolute;
@@ -597,12 +631,14 @@ li {
     left: 50%;
     width: 50%;
     max-width: 600px;
+    color: var(--text-primary);
 }
 
 .app-tip p {
     margin: 0;
     /* color: var(--text-secondary); */
     font-size: 14px;
+    text-shadow:none;
 }
 
 /* ==========================================================================

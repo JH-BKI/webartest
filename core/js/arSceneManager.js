@@ -530,7 +530,7 @@ class ARSceneManager {
         // const nameElement = document.getElementById('detected-topic-name');
         
         if (titleElement) {
-            titleElement.textContent = `${topicTitle} Poster Detected`;
+            titleElement.textContent = `Topic ${topicId}: ${topicTitle}`;
         }
         
         // if (nameElement) {

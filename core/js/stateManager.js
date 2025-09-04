@@ -114,6 +114,11 @@ class StateManager {
                 },
                 onExit: () => {
                     console.log('Exiting animating state');
+                    // Pause AR scene when showing fullscreen video
+                    console.log('Pausing AR scene when exiting animating state');
+                    if (window.arSceneManager) {
+                        window.arSceneManager.pauseScene();
+                    }
                 }
             },
             topics: {
@@ -141,10 +146,7 @@ class StateManager {
                         console.error('❌ Video section not found!');
                     }
                     
-                    // Pause AR scene when showing fullscreen video
-                    if (window.arSceneManager) {
-                        window.arSceneManager.pauseScene();
-                    }
+
                 },
                 onExit: () => {
                     console.log('Exiting video state');
