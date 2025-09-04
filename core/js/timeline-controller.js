@@ -176,6 +176,14 @@ AFRAME.registerComponent('timeline-controller', {
         // Transition to video state using the state manager
         if (window.stateManager) {
           window.stateManager.changeState('video');
+          
+          // Load video content after state transition
+          if (typeof window.loadVideoContent === 'function') {
+            console.log('🎬 Loading video content after timeline completion');
+            window.loadVideoContent();
+          } else {
+            console.error('❌ loadVideoContent function not available');
+          }
         } else {
           console.error('State manager not available for timeline completion');
         }

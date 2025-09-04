@@ -44,8 +44,8 @@ const topicData = {
                     scale: '1 1 1',
                     position: '-0.25 2.25 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -54,8 +54,8 @@ const topicData = {
                     scale: '1 1 1',
                     position: '0.25 2.25 -2.1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 01 characters
@@ -65,8 +65,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '-2.5 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -75,8 +75,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '0.75 0 -2.1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 02 characters
@@ -86,8 +86,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '-0.55 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -96,8 +96,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '0.75 0 -2.1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 03 characters
@@ -107,8 +107,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '-0.55 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -117,8 +117,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '0.75 0 -2.1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 04 social media elements
@@ -128,8 +128,8 @@ const topicData = {
                     scale: '2 3 1',
                     position: '-0 0 -1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -138,8 +138,8 @@ const topicData = {
                     scale: '1 1 1',
                     position: '-0 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -148,8 +148,8 @@ const topicData = {
                     scale: '1 1 1',
                     position: '-0 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -158,8 +158,8 @@ const topicData = {
                     scale: '1 1 1',
                     position: '-0 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -168,8 +168,8 @@ const topicData = {
                     scale: '1 1 1',
                     position: '-0 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 05 characters
@@ -179,8 +179,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '-0.55 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -189,8 +189,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '0.75 0 -2.1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 06 characters
@@ -200,8 +200,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '-0.55 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -210,8 +210,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '0.75 0 -2.1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 07 characters
@@ -221,8 +221,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '-0.55 0 -2.1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -231,8 +231,8 @@ const topicData = {
                     scale: '2 4 1',
                     position: '0.5 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 08 action and status assets
@@ -242,8 +242,8 @@ const topicData = {
                     scale: '2 3 1',
                     position: '-0 0 -1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -252,8 +252,8 @@ const topicData = {
                     scale: '1 1 1',
                     position: '-0 0 -2',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Floor
