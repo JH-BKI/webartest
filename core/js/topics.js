@@ -31,6 +31,8 @@ const topicData = {
             '• These three work together to create modern websites'
         ],
         targetImage: './assets/topic_1/s01-imagetarget.png',
+        leftProfileImage: './assets/topic_1/leftProfileImage.png',
+        rightProfileImage: './assets/topic_1/rightProfileImage.png',
         
         // AR Assets with entity properties for Topic 1
         arAssets: {
@@ -299,6 +301,8 @@ const topicData = {
             '• Digital channels offer measurable results'
         ],
         targetImage: './assets/topic_2/s02-imagetarget.png',
+        leftProfileImage: './assets/topic_2/leftProfileImage.png',
+        rightProfileImage: './assets/topic_2/rightProfileImage.png',
         
         // AR Assets with entity properties for Topic 2
         arAssets: {
@@ -369,6 +373,8 @@ const topicData = {
             '• Domain expertise guides analysis'
         ],
         targetImage: './assets/topic_3/s03-imagetarget.png',
+        leftProfileImage: './assets/topic_3/leftProfileImage.png',
+        rightProfileImage: './assets/topic_3/rightProfileImage.png',
         
         // AR Assets with entity properties for Topic 3
         arAssets: {
@@ -429,6 +435,8 @@ const topicData = {
             '• Prevention is better than recovery'
         ],
         targetImage: './assets/topic_4/s04-imagetarget.png',
+        leftProfileImage: './assets/topic_4/leftProfileImage.png',
+        rightProfileImage: './assets/topic_4/rightProfileImage.png',
         
         // AR Assets with entity properties for Topic 4
         arAssets: {
@@ -521,6 +529,16 @@ function getTopicVideoUrl(topicId) {
 function getTopicTargetImage(topicId) {
   const topic = getTopicInfo(topicId);
   return topic ? topic.targetImage : null; // Return null if not found
+}
+
+function getTopicLeftProfileImage(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.leftProfileImage : null; // Return null if not found
+}
+
+function getTopicRightProfileImage(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.rightProfileImage : null; // Return null if not found
 }
 
 // New helper function to get AR assets for a topic
@@ -674,6 +692,8 @@ window.getTopicSummary = getTopicSummary;
 window.getTopicIcon = getTopicIcon;
 window.getTopicVideoUrl = getTopicVideoUrl;
 window.getTopicTargetImage = getTopicTargetImage;
+window.getTopicLeftProfileImage = getTopicLeftProfileImage;
+window.getTopicRightProfileImage = getTopicRightProfileImage;
 window.getTopicARAssets = getTopicARAssets;
 window.generateTopicAssetHTML = generateTopicAssetHTML;
 window.generateTopicEntityHTML = generateTopicEntityHTML;

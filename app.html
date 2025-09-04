@@ -122,12 +122,6 @@
             🚀 Start AR Scanning
         </button>
         
-        <!-- Test Countdown Button - Always Visible for Testing -->
-        <button class="btn btn-secondary" id="test-countdown-button" data-original-onclick="testCountdownFunction()" data-countdown-duration="3">
-            🧪 Test Countdown (3s)
-        </button>
-        
-
         
         <div class="menu-info">
             <p>📱 Point your camera at one of the learning posters</p>
@@ -176,52 +170,24 @@
     
     <!-- Animating Section -->
     <div id="animating-section" class="card hidden section">
-        <h1>🚀 Loading AR Experience</h1>
-        <p>Preparing your interactive learning environment...</p>
-        
-        <div class="ar-loading-container">
-            <div class="ar-loading-animation">
-                <div class="ar-spinner"></div>
-                <div class="ar-pulse"></div>
-            </div>
-            
-            <div class="loading-steps">
-                <div class="loading-step" id="step-1">
-                    <span class="step-icon">🔍</span>
-                    <span class="step-text">Initializing AR scene...</span>
-                    <span class="step-status">⏳</span>
-                </div>
-                <div class="loading-step" id="step-2">
-                    <span class="step-icon">🎬</span>
-                    <span class="step-text">Loading assets...</span>
-                    <span class="step-status">⏳</span>
-                </div>
-                <div class="loading-step" id="step-3">
-                    <span class="step-icon">🎮</span>
-                    <span class="step-text">Setting up interactions...</span>
-                    <span class="step-status">⏳</span>
-                </div>
-                <div class="loading-step" id="step-4">
-                    <span class="step-icon">✨</span>
-                    <span class="step-text">Finalizing experience...</span>
-                    <span class="step-status">⏳</span>
-                </div>
-            </div>
-            
-            <div class="ar-progress-container">
-                <div class="ar-progress-bar">
-                    <div id="ar-progress-fill" class="ar-progress-fill"></div>
-                </div>
-                <div class="ar-progress-text">
-                    <span id="ar-progress-percentage">0%</span> Complete
-                </div>
+
+        <div id="scenario">
+            <div class="scenario-ui-prompt">
+              <div class="scenario-ui-prompt-speech left">
+                <span class="scenario-ui-prompt-speech-profile"><img src="./assets/s01-profile-alex.png"></span>
+                <span class="scenario-ui-prompt-speech-content"><span>Alex</span><span id="text-content-left">----</span></span>
+              </div >
+              <div class="scenario-ui-prompt-speech right">
+                <span class="scenario-ui-prompt-speech-profile"><img src="./assets/s01-profile-mia.png"></span>
+                <span class="scenario-ui-prompt-speech-content"><span>Mia</span><span id="text-content-right">----</span></span>
+              </div>
+              <div class="scenario-ui-prompt-button-area">
+                <button type="button" id="scenario-ui-prompt-button">Continue</button>
+              </div>
             </div>
         </div>
-        
-        <div class="ar-loading-note">
-            <p>🎯 <strong>Keep your device pointed at the poster</strong></p>
-            <p>This ensures the AR experience loads correctly</p>
-        </div>
+
+
     </div>
     
     <!-- Progress Bar -->
@@ -232,6 +198,16 @@
         </div>
     </div>
     
+    <!-- <div class="ar-progress-container">
+        <div class="ar-progress-bar">
+            <div id="ar-progress-fill" class="ar-progress-fill"></div>
+        </div>
+        <div class="ar-progress-text">
+            <span id="ar-progress-percentage">0%</span> Complete
+        </div>
+    </div> -->
+
+
     <!-- Video Section -->
     <div id="video-section" class="card hidden section">
         <h2 id="video-title">Topic Title</h2>
@@ -316,7 +292,7 @@
          * - Content loading functions
          */
         
-        let version = '2.33';
+        let version = '2.34';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -465,70 +441,9 @@
                 console.error('❌ AR Scene Manager not available');
             }
             
-            // Start the loading simulation
-            setTimeout(() => {
-                simulateARLoading();
-            }, 500);
+
         }
-        
-        // Simulate AR loading process
-        function simulateARLoading() {
-            let progress = 0;
-            const progressBar = document.getElementById('ar-progress-fill');
-            const progressText = document.getElementById('ar-progress-percentage');
-            
-            const loadingSteps = [
-                { step: 1, text: 'Initializing AR scene...', progress: 25 },
-                { step: 2, text: 'Loading assets...', progress: 50 },
-                { step: 3, text: 'Setting up interactions...', progress: 75 },
-                { step: 4, text: 'Finalizing experience...', progress: 100 }
-            ];
-            
-            let currentStep = 0;
-            
-            const interval = setInterval(() => {
-                progress += 1;
-                
-                // Update progress bar
-                progressBar.style.width = progress + '%';
-                progressText.textContent = progress + '%';
-                
-                // Check if we should move to next step
-                if (progress >= loadingSteps[currentStep].progress) {
-                    // Mark current step as completed
-                    const stepElement = document.getElementById(`step-${loadingSteps[currentStep].step}`);
-                    if (stepElement) {
-                        stepElement.classList.remove('active');
-                        stepElement.classList.add('completed');
-                        stepElement.querySelector('.step-status').textContent = '✅';
-                    }
-                    
-                    currentStep++;
-                    
-                    // If we have more steps, activate the next one
-                    if (currentStep < loadingSteps.length) {
-                        const nextStepElement = document.getElementById(`step-${loadingSteps[currentStep].step}`);
-                        if (nextStepElement) {
-                            nextStepElement.classList.add('active');
-                            nextStepElement.querySelector('.step-status').textContent = '🔄';
-                        }
-                    }
-                }
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        // Transition to video state after loading completes
-                        stateManager.changeState('video');
-                        
-                        // Load video content for the current topic
-                        loadVideoContent();
-                        updateProgress(33);
-                    }, 250);
-                }
-            }, 20);
-        }
-        
+              
 
         
         function goBackToMenu() {
@@ -554,23 +469,36 @@
         function loadVideoContent() {
             // Use topics.js helper functions to get topic information
             const topicId = currentTopic.replace('topic_', '');
+            console.log('🎬 Loading video content for topic:', currentTopic, 'topicId:', topicId);
+            
             const topicTitle = window.getTopicTitle ? window.getTopicTitle(topicId) : 'Learning Topic';
             const topicContent = window.getTopicContent ? window.getTopicContent(topicId) : ['Content will be loaded here.'];
             const topicVideoUrl = window.getTopicVideoUrl ? window.getTopicVideoUrl(topicId) : null;
+            
+            console.log('🎬 Video content data:', {
+                topicTitle: topicTitle,
+                topicVideoUrl: topicVideoUrl,
+                getTopicVideoUrl: typeof window.getTopicVideoUrl
+            });
             
             // Update video title
             document.getElementById('video-title').textContent = topicTitle;
             
             // Update video iframe source - let it fail if no URL
             const videoIframe = document.querySelector('#video-section iframe');
+            console.log('🎬 Video iframe element:', videoIframe);
+            
             if (videoIframe) {
                 if (topicVideoUrl) {
+                    console.log('🎬 Setting video iframe src to:', topicVideoUrl);
                     videoIframe.src = topicVideoUrl;
                 } else {
                     // No fallback - let the iframe remain empty/broken
+                    console.error(`❌ No video URL found for topic: ${currentTopic}`);
                     videoIframe.src = '';
-                    console.error(`No video URL found for topic: ${currentTopic}`);
                 }
+            } else {
+                console.error('❌ Video iframe element not found');
             }
             
             // Update content area
@@ -764,11 +692,7 @@
             document.getElementById('progress-bar').style.width = percent + '%';
         }
         
-        // Test function for countdown button
-        function testCountdownFunction() {
-            console.log('✅ Test countdown function executed!');
-            alert('🎉 Countdown test successful! The function was called after countdown completed.');
-        }
+
 
         /**
          * Reusable Countdown Timer Button

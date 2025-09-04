@@ -13,6 +13,17 @@ window.createTimeline = function(timelineController) {
   // Scene 01: Fade In (Mia and Alex simultaneously)
   ///////////////////////////////////////////////////////////////////////////////////////////
   timeline
+  .add({
+    targets: '#scenario',
+    opacity: [1, 1],
+    duration: 10, // Instant change
+    easing: 'linear',
+    begin: () => {
+      console.log(`Timeline Item ${itemNumber++}: Setting left/right profile pictures.`);
+      document.querySelector('#scenario .scenario-ui-prompt-speech.left img').setAttribute('src', getTopicLeftProfileImage(4));
+      document.querySelector('#scenario .scenario-ui-prompt-speech.right img').setAttribute('src', getTopicRightProfileImage(4));
+    }
+  })
     .add({
       targets: '#s01s01-Mia',
       opacity: [0, 1],
