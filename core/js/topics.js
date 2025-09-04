@@ -30,6 +30,7 @@ const topicData = {
             '• JavaScript adds functionality',
             '• These three work together to create modern websites'
         ],
+        targetImage: './assets/topic_1/s01-imagetarget.png',
         
         // AR Assets with entity properties for Topic 1
         arAssets: {
@@ -297,6 +298,7 @@ const topicData = {
             '• Email marketing nurtures leads',
             '• Digital channels offer measurable results'
         ],
+        targetImage: './assets/topic_2/s02-imagetarget.png',
         
         // AR Assets with entity properties for Topic 2
         arAssets: {
@@ -366,6 +368,7 @@ const topicData = {
             '• Machine learning predicts outcomes',
             '• Domain expertise guides analysis'
         ],
+        targetImage: './assets/topic_3/s03-imagetarget.png',
         
         // AR Assets with entity properties for Topic 3
         arAssets: {
@@ -425,6 +428,7 @@ const topicData = {
             '• Strong passwords are essential',
             '• Prevention is better than recovery'
         ],
+        targetImage: './assets/topic_4/s04-imagetarget.png',
         
         // AR Assets with entity properties for Topic 4
         arAssets: {
@@ -512,6 +516,11 @@ function getTopicIcon(topicId) {
 function getTopicVideoUrl(topicId) {
   const topic = getTopicInfo(topicId);
   return topic ? topic.videoUrl : null; // Return null if not found - let it fail gracefully
+}
+
+function getTopicTargetImage(topicId) {
+  const topic = getTopicInfo(topicId);
+  return topic ? topic.targetImage : null; // Return null if not found
 }
 
 // New helper function to get AR assets for a topic
@@ -664,6 +673,7 @@ window.getTopicFeedback = getTopicFeedback;
 window.getTopicSummary = getTopicSummary;
 window.getTopicIcon = getTopicIcon;
 window.getTopicVideoUrl = getTopicVideoUrl;
+window.getTopicTargetImage = getTopicTargetImage;
 window.getTopicARAssets = getTopicARAssets;
 window.generateTopicAssetHTML = generateTopicAssetHTML;
 window.generateTopicEntityHTML = generateTopicEntityHTML;

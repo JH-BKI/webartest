@@ -385,55 +385,6 @@ class ARSceneManager {
                                 child.style.display = 'block';
                             }
                         });
-                        
-                        // Check if elements are positioned off-screen
-                        const detectionSuccessRect = arReadySection.querySelector('.detection-success');
-                        const arInstructionsRect = arReadySection.querySelector('.ar-instructions');
-                        const startButtonRect = arReadySection.querySelector('button');
-                        
-                        if (detectionSuccessRect) {
-                            const rect = detectionSuccessRect.getBoundingClientRect();
-                            console.log('🔍 Detection Success position:', {
-                                top: rect.top,
-                                left: rect.left,
-                                bottom: rect.bottom,
-                                right: rect.right,
-                                width: rect.width,
-                                height: rect.height
-                            });
-                        }
-                        
-                        if (startButtonRect) {
-                            const rect = startButtonRect.getBoundingClientRect();
-                            console.log('🔍 Start Button position:', {
-                                top: rect.top,
-                                left: rect.left,
-                                bottom: rect.bottom,
-                                right: rect.right,
-                                width: rect.width,
-                                height: rect.height
-                            });
-                        }
-                        
-                        // Force position the elements to be visible
-                        if (detectionSuccessRect) {
-                            detectionSuccessRect.style.position = 'relative';
-                            detectionSuccessRect.style.zIndex = '10';
-                            console.log('🔧 Fixed detection success positioning');
-                        }
-                        
-                        if (arInstructionsRect) {
-                            arInstructionsRect.style.position = 'relative';
-                            arInstructionsRect.style.zIndex = '10';
-                            console.log('🔧 Fixed ar instructions positioning');
-                        }
-                        
-                        if (startButtonRect) {
-                            startButtonRect.style.position = 'relative';
-                            startButtonRect.style.zIndex = '10';
-                            startButtonRect.style.marginTop = '20px';
-                            console.log('🔧 Fixed start button positioning');
-                        }
                     } else {
                         console.error('❌ AR Ready Section not found!');
                     }
@@ -568,15 +519,15 @@ class ARSceneManager {
         const topicTitle = window.getTopicTitle ? window.getTopicTitle(topicId) : `Topic ${topicId}`;
         
         const titleElement = document.getElementById('detected-poster-title');
-        const nameElement = document.getElementById('detected-topic-name');
+        // const nameElement = document.getElementById('detected-topic-name');
         
         if (titleElement) {
             titleElement.textContent = `${topicTitle} Poster Detected`;
         }
         
-        if (nameElement) {
-            nameElement.textContent = topicTitle;
-        }
+        // if (nameElement) {
+        //     nameElement.textContent = topicTitle;
+        // }
         
         console.log(`🎨 UI updated for topic: ${topicTitle}`);
     }

@@ -122,6 +122,11 @@
             🚀 Start AR Scanning
         </button>
         
+        <!-- Test Countdown Button - Always Visible for Testing -->
+        <button class="btn btn-secondary" id="test-countdown-button" data-original-onclick="testCountdownFunction()" data-countdown-duration="3">
+            🧪 Test Countdown (3s)
+        </button>
+        
 
         
         <div class="menu-info">
@@ -157,36 +162,16 @@
         </div>
 
         
-        <div class="detection-success">
+        <div class="detection-success card">
             <div class="success-icon">✅</div>
             <div class="poster-info">
+                <p id="detected-poster-desc">You found:</p>
                 <h3 id="detected-poster-title">Learning Poster Detected</h3>
-                <p id="detected-poster-desc">Topic: <span id="detected-topic-name">Topic will be detected</span></p>
+                <button class="btn btn-primary" id="start-ar-button" data-original-onclick="startARExperience()" data-countdown-duration="5" data-auto-trigger="true">
+                    🚀 Start
+                </button>
             </div>
-        </div>
-        
-        <div class="ar-instructions">
-            <h3>What happens next?</h3>
-            <div class="instruction-list">
-                <div class="instruction-item">
-                    <span class="step-number">1</span>
-                    <span>AR scene will load with interactive content</span>
-                </div>
-                <div class="instruction-item">
-                    <span class="step-number">2</span>
-                    <span>Explore the 3D learning environment</span>
-                </div>
-                <div class="instruction-item">
-                    <span class="step-number">3</span>
-                    <span>Complete interactive activities</span>
-                </div>
-            </div>
-        </div>
-        
-        <button class="btn btn-primary" onclick="startARExperience()">
-            🚀 Start AR Experience
-        </button>
-        
+        </div>         
     </div>
     
     <!-- Animating Section -->
@@ -331,7 +316,7 @@
          * - Content loading functions
          */
         
-        let version = '2.32';
+        let version = '2.33';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -779,6 +764,156 @@
             document.getElementById('progress-bar').style.width = percent + '%';
         }
         
+        // Test function for countdown button
+        function testCountdownFunction() {
+            console.log('✅ Test countdown function executed!');
+            alert('🎉 Countdown test successful! The function was called after countdown completed.');
+        }
+
+        /**
+         * Reusable Countdown Timer Button
+         * 
+         * Usage: Add data-countdown-duration and data-original-onclick attributes to any button
+         * Example: <button data-countdown-duration="5" data-original-onclick="myFunction()">Start</button>
+         */
+        
+        // Initialize countdown timers when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCountdownButtons();
+            setupAutoTriggerOnVisibility();
+        });
+        
+        function initializeCountdownButtons() {
+            const countdownButtons = document.querySelectorAll('[data-countdown-duration]');
+            countdownButtons.forEach(button => {
+                button.addEventListener('click', handleCountdownButtonClick);
+            });
+        }
+        
+        function handleCountdownButtonClick(event) {
+            const button = event.target;
+            const duration = parseInt(button.getAttribute('data-countdown-duration'));
+            const originalOnclick = button.getAttribute('data-original-onclick');
+            
+            // If already counting down, cancel and execute immediately
+            if (button.dataset.countdownActive === 'true') {
+                cancelCountdown(button);
+                executeOriginalFunction(originalOnclick);
+                return;
+            }
+            
+            // Start countdown
+            startCountdown(button, duration, originalOnclick);
+        }
+        
+        function startCountdown(button, duration, originalOnclick) {
+            button.dataset.countdownActive = 'true';
+            button.disabled = false; // Keep button clickable for early cancellation
+            
+            let timeLeft = duration;
+            const originalText = button.textContent;
+            
+            // Update button text immediately
+            updateButtonText(button, timeLeft, originalText);
+            
+            const countdownInterval = setInterval(() => {
+                timeLeft--;
+                
+                if (timeLeft <= 0) {
+                    // Countdown finished
+                    clearInterval(countdownInterval);
+                    button.textContent = '🚀 Starting...';
+                    button.disabled = true;
+                    
+                    // Execute original function after a brief delay
+                    setTimeout(() => {
+                        executeOriginalFunction(originalOnclick);
+                        resetButton(button, originalText);
+                    }, 500);
+                } else {
+                    // Update button text
+                    updateButtonText(button, timeLeft, originalText);
+                }
+            }, 1000);
+            
+            // Store interval ID for potential cancellation
+            button.dataset.countdownInterval = countdownInterval;
+        }
+        
+        function cancelCountdown(button) {
+            const intervalId = button.dataset.countdownInterval;
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+            button.dataset.countdownActive = 'false';
+            button.dataset.countdownInterval = '';
+        }
+        
+        function updateButtonText(button, timeLeft, originalText) {
+            // Extract the emoji and base text from original text
+            const emojiMatch = originalText.match(/^(\p{Emoji}+)\s*(.*)/u);
+            if (emojiMatch) {
+                const emoji = emojiMatch[1];
+                const baseText = emojiMatch[2];
+                button.textContent = `${emoji} ${baseText} (${timeLeft}s)`;
+            } else {
+                button.textContent = `${originalText} (${timeLeft}s)`;
+            }
+        }
+        
+        function resetButton(button, originalText) {
+            button.textContent = originalText;
+            button.disabled = false;
+            button.dataset.countdownActive = 'false';
+            button.dataset.countdownInterval = '';
+        }
+        
+        function executeOriginalFunction(functionName) {
+            if (functionName) {
+                // Remove parentheses from function name if present
+                const cleanFunctionName = functionName.replace(/\(\)$/, '');
+                
+                if (typeof window[cleanFunctionName] === 'function') {
+                    window[cleanFunctionName]();
+                } else {
+                    console.error(`Function ${cleanFunctionName} not found`);
+                    console.log('Available functions:', Object.keys(window).filter(key => typeof window[key] === 'function'));
+                }
+            } else {
+                console.error('No function name provided');
+            }
+        }
+        
+        /**
+         * Auto-trigger countdown when section becomes visible
+         * 
+         * Usage: Add data-auto-trigger="true" to any countdown button
+         * The countdown will start automatically when the button's parent section becomes visible
+         */
+        function setupAutoTriggerOnVisibility() {
+            const autoTriggerButtons = document.querySelectorAll('[data-countdown-duration][data-auto-trigger="true"]');
+            
+            autoTriggerButtons.forEach(button => {
+                const parentSection = button.closest('.section');
+                if (parentSection) {
+                    // Create intersection observer to watch for section visibility
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting && !button.dataset.countdownActive) {
+                                console.log('🎯 Auto-triggering countdown for button:', button.id);
+                                // Small delay to ensure section is fully visible
+                                setTimeout(() => {
+                                    handleCountdownButtonClick({ target: button });
+                                }, 100);
+                            }
+                        });
+                    }, { threshold: 0.5 }); // Trigger when 50% of section is visible
+                    
+                    observer.observe(parentSection);
+                }
+            });
+        }
+
         /*
          * End of Main Application Script
          * 
