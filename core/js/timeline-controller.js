@@ -34,6 +34,16 @@ AFRAME.registerComponent('timeline-controller', {
     console.log('Press SPACE to start the timeline, or use other controls');
   },
 
+
+  setAllARAssestsInvisible: function(topicId) {  
+    const arAssets = document.querySelectorAll(`#AR-scene #scenario-assets-topic-${topicId} a-image`);
+    arAssets.forEach(asset => {
+      asset.setAttribute('visible', false);
+      asset.setAttribute('opacity', 0);
+    }); 
+  },
+
+  
   // Set the current topic and load the appropriate animation file
   setTopic: function(topicId) {
     if (topicId < 0 || topicId > 3) {

@@ -252,8 +252,8 @@ const topicData = {
                     scale: '1 1 1',
                     position: '-0 0 -2',
                     rotation: '0 0 0',
-                    visible: 'true',
-                    opacity: '1',
+                    visible: 'false',
+                    opacity: '0',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Floor
@@ -264,7 +264,7 @@ const topicData = {
                     position: '0 -1 0',
                     rotation: '-90 0 0',
                     visible: 'true',
-                    opacity: '1',
+                    opacity: '0',
                     material: ''
                 }
             ]
