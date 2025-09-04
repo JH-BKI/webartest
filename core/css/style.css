@@ -333,7 +333,7 @@ li {
    ========================================================================== */
 
 #menu-section {
-    /* Menu section specific styles */
+    overflow-y: scroll;
 }
 
 .menu-hero{
@@ -446,11 +446,11 @@ li {
     left: 0;
     width: 100%;
     height: 210px;
-    z-index: 2;
+    z-index: 3;
     overflow-y: auto;
     box-sizing: border-box;
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
+    color: #000;
 }
 
 .scanning-instructions {

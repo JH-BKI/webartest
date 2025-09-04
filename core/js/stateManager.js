@@ -64,6 +64,11 @@ class StateManager {
                     if (scanningSection) {
                         scanningSection.classList.remove('hidden');
                     }
+                    
+                    // Resume AR scene when entering scanning state
+                    if (window.arSceneManager) {
+                        window.arSceneManager.resumeScene();
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting scanning state');
@@ -77,6 +82,11 @@ class StateManager {
                     const arReadySection = document.getElementById('ar-ready-section');
                     if (arReadySection) {
                         arReadySection.classList.remove('hidden');
+                    }
+                    
+                    // Resume AR scene when entering ar_ready state
+                    if (window.arSceneManager) {
+                        window.arSceneManager.resumeScene();
                     }
                 },
                 onExit: () => {
@@ -95,6 +105,11 @@ class StateManager {
                     const animatingSection = document.getElementById('animating-section');
                     if (animatingSection) {
                         animatingSection.classList.remove('hidden');
+                    }
+                    
+                    // Resume AR scene when entering animating state
+                    if (window.arSceneManager) {
+                        window.arSceneManager.resumeScene();
                     }
                 },
                 onExit: () => {
@@ -118,7 +133,18 @@ class StateManager {
                     console.log('Entering video state');
                     this.hideAllSections();
                     document.getElementById('progress').classList.remove('hidden');
-                    document.getElementById('video-section').classList.remove('hidden');
+                    const videoSection = document.getElementById('video-section');
+                    if (videoSection) {
+                        videoSection.classList.remove('hidden');
+                        console.log('✅ Video section shown');
+                    } else {
+                        console.error('❌ Video section not found!');
+                    }
+                    
+                    // Pause AR scene when showing fullscreen video
+                    if (window.arSceneManager) {
+                        window.arSceneManager.pauseScene();
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting video state');
@@ -132,6 +158,11 @@ class StateManager {
                     this.hideAllSections();
                     document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('quiz-section').classList.remove('hidden');
+                    
+                    // Pause AR scene when showing fullscreen quiz
+                    if (window.arSceneManager) {
+                        window.arSceneManager.pauseScene();
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting quiz state');
@@ -144,6 +175,11 @@ class StateManager {
                     this.hideAllSections();
                     document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('summary-section').classList.remove('hidden');
+                    
+                    // Pause AR scene when showing fullscreen summary
+                    if (window.arSceneManager) {
+                        window.arSceneManager.pauseScene();
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting summary state');
@@ -280,5 +316,28 @@ function debugAppStatus() {
 // Create and make stateManager available globally
 window.stateManager = new StateManager();
 
+// Test function for AR scene pause/resume functionality
+function testARSceneControl() {
+    console.log('🧪 Testing AR Scene Control...');
+    
+    if (window.arSceneManager) {
+        const isPaused = window.arSceneManager.isScenePaused();
+        console.log(`Current pause state: ${isPaused ? 'PAUSED' : 'RUNNING'}`);
+        
+        if (isPaused) {
+            console.log('▶️ Resuming AR scene...');
+            window.arSceneManager.resumeScene();
+        } else {
+            console.log('⏸️ Pausing AR scene...');
+            window.arSceneManager.pauseScene();
+        }
+    } else {
+        console.error('❌ AR Scene Manager not available');
+    }
+}
+
 // Make debug function available globally
 window.debugAppStatus = debugAppStatus;
+
+// Make test function available globally
+window.testARSceneControl = testARSceneControl;

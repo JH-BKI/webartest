@@ -10,6 +10,7 @@ class ARSceneManager {
         this.currentTopic = null;
         this.tipInterval = null;
         this.tipIndex = 0;
+        this.isPaused = false; // Track pause state
         
         // Topic mapping: target index -> topic number
         this.topicMapping = {
@@ -335,7 +336,6 @@ class ARSceneManager {
             
             // Update UI
             this.updateDetectedPosterUI(detectedTopicId);
-                     
             
             // Only transition to ar_ready state if we're not already there
             if (window.stateManager && window.stateManager.currentState !== 'ar_ready') {
@@ -418,6 +418,7 @@ class ARSceneManager {
             }
         }
     }
+    
     
     // Start animation when user clicks "Start AR Experience"
     startARExperience() {
@@ -569,6 +570,85 @@ class ARSceneManager {
     // Check if system is ready
     isReady() {
         return this.isInitialized;
+    }
+    
+    // Pause AR scene (stop rendering and processing)
+    pauseScene() {
+        if (!this.currentScene) {
+            console.log('⚠️ AR Scene Manager: No scene to pause');
+            return false;
+        }
+        
+        if (this.isPaused) {
+            console.log('⚠️ AR Scene Manager: Scene already paused');
+            return true;
+        }
+        
+        console.log('⏸️ AR Scene Manager: Pausing AR scene...');
+        
+        // Pause timeline controller if available
+        const timelineController = this.currentScene.components['timeline-controller'];
+        if (timelineController) {
+            timelineController.quickPause();
+        }
+        
+        // Hide the AR scene container
+        const container = document.getElementById('ar-scene-container');
+        if (container) {
+            container.style.display = 'none';
+        }
+        
+        // Pause MindAR tracking
+        const mindarSystem = this.currentScene.systems['mindar-image'];
+        if (mindarSystem) {
+            mindarSystem.pause();
+        }
+        
+        this.isPaused = true;
+        console.log('✅ AR Scene Manager: Scene paused successfully');
+        return true;
+    }
+    
+    // Resume AR scene (restart rendering and processing)
+    resumeScene() {
+        if (!this.currentScene) {
+            console.log('⚠️ AR Scene Manager: No scene to resume');
+            return false;
+        }
+        
+        if (!this.isPaused) {
+            console.log('⚠️ AR Scene Manager: Scene not paused');
+            return true;
+        }
+        
+        console.log('▶️ AR Scene Manager: Resuming AR scene...');
+        
+        // Show the AR scene container
+        const container = document.getElementById('ar-scene-container');
+        if (container) {
+            container.style.display = 'block';
+        }
+        
+        // Resume MindAR tracking
+        const mindarSystem = this.currentScene.systems['mindar-image'];
+        if (mindarSystem) {
+            mindarSystem.resume();
+        }
+        
+        // Resume timeline controller if available
+        const timelineController = this.currentScene.components['timeline-controller'];
+        if (timelineController && timelineController.timeline && timelineController.timeline.paused) {
+            timelineController.timeline.play();
+        }
+        
+        this.isPaused = false;
+        console.log('✅ AR Scene Manager: Scene resumed successfully');
+        return true;
+    }
+    
+    // Check if scene is currently paused
+    isScenePaused() {
+        return this.isPaused;
     }
     
     // Start tips rotation
