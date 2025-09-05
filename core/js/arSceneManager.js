@@ -745,7 +745,8 @@ class ARSceneManager {
             <!-- Topic containers - always present for MindAR detection -->
             <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0">
         
-                <a-image id="s01-loading" src="#s01-loading" scale="2 2 1" position="0 0 0" rotation="-90 0 0" material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                <a-image id="s01-loading" src="./assets/topic_1/s01-loading.png" scale="2 2 1" position="0 0 0" rotation="0 0 0" 
+                    material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
         
                 <!-- Topic 1 entities will be added dynamically -->
                 <a-entity id="scenario-assets-topic-group-1" visible="false" position="0 0 0"></a-entity>                
