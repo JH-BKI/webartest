@@ -3,32 +3,47 @@ const topicData = {
     topic_1: {
         title: 'Protecting Yourself Online',
         icon: '💻', // Can be emoji or image path like './assets/icons/topic1.png'
-        videoUrl: 'https://player.vimeo.com/video/76979871', // Topic-specific video
+        videoUrl: 'https://vimeo.com/911432606?fl=pl&fe=sh', // Topic-specific video
         content: [
-            'Welcome to web development! This course covers the three core technologies that power the modern web.',
-            'HTML provides the structure and content of web pages, like the skeleton of a building.',
-            'CSS handles the visual styling and layout, making websites beautiful and user-friendly.',
-            'JavaScript adds interactivity and dynamic behavior, bringing websites to life.'
+
+            'Catfishing is when someone creates a fake social media account to scam or trick you.',
+            '',
+            'Signs of a catfish:',
+            '1. They ask lots of questions about you but avoid answering questions about themselves.',
+            '2. They seem a bit too… perfect.',
+            '3. They always have a reason why they can’t meet up.',
+            '4. They’re not keen on video chats.',
+            '5. Their stories don’t quite add up.',
+            '',
+            'Let’s continue to test your knowledge.'
         ],
-        question: 'Which are the core web development technologies?',
+        question: 'There are five signs of catfishing, below are three of these signs, select which three below',
         answers: [
-            {text: 'HTML', correct: true},
-            {text: 'Python', correct: false},
-            {text: 'CSS', correct: true},
-            {text: 'JavaScript', correct: true},
-            {text: 'Java', correct: false}
+            {text: 'They like to talk about themselves', correct: false},
+            {text: 'They seem a bit too… perfect', correct: true},
+            {text: 'They always have a reason why they can’t meet up', correct: true},
+            {text: 'They like to do video chats so you can see who they are', correct: false},
+            {text: 'Their stories don’t quite add up', correct: true}
         ],
         feedback: {
-            perfect: 'Excellent! HTML, CSS, and JavaScript are indeed the core web technologies.',
-            partial: 'Good try! Remember: HTML for structure, CSS for styling, JavaScript for interactivity.'
+            perfect: 'Well done! Your answers are correct.',
+            partial: 'Good try! Go back to watch the video again or move on to the topic summary.'
         },
         summary: [
-            'You completed the Web Development module!',
-            'Key takeaways:',
-            '• HTML structures web content',
-            '• CSS styles the appearance', 
-            '• JavaScript adds functionality',
-            '• These three work together to create modern websites'
+            'Let\'s recap what you learned:',
+            '',
+            'The 5 signs of a catfish:',
+            '1. They ask lots of questions about you but avoid answering questions about themselves.',
+            '2. They seem a bit too… perfect.',
+            '3. They always have a reason why they can’t meet up.',
+            '4. They’re not keen on video chats.',
+            '5. Their stories don’t quite add up.',
+            '',
+            '<b>Always be careful about what you say and share online.</b>',
+            '',
+            'Well done!',
+            'Topic 1: Protecting Yourself Online is complete.',
+            'Find all of the remaining posters to unlock a special reward.'
         ],
         targetImage: './assets/topic_1/s01-imagetarget.png',
         leftProfileImage: './assets/topic_1/leftProfileImage.png',

@@ -525,6 +525,24 @@ class ARSceneManager {
     // Public API methods for explicit control
     startScanning() {
         console.log('🎬 AR Scene Manager: Starting AR scanning');
+        
+        // Reset state tracking variables for new scanning session
+        this.previousState = null;
+        this.timelineWasRunning = false;
+        this.timelineWasCompleted = false;
+        
+        console.log('🔄 AR Scene Manager: State tracking variables reset for new session');
+        
+        // Reset timeline controller state for new session
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
+            if (timelineController) {
+                console.log('🔄 AR Scene Manager: Resetting timeline controller for new session');
+                timelineController.resetTimeline();
+            }
+        }
+        
         this.injectARScene();
     }
     
