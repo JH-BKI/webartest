@@ -238,6 +238,12 @@ AFRAME.registerComponent('timeline-controller', {
           this.timeline.play();
           console.log('Timescale set to 5.0x (5x speed)');
           break;
+          case '9':
+            this.currentTimescale = 9.0;
+            this.timeline.timescale = 9.0;
+            this.timeline.play();
+            console.log('Timescale set to 9.0x (9x speed)');
+            break;
         case ' ':
         case 'Space':
           // Start the timeline manually

@@ -1177,6 +1177,17 @@ li {
     /* Summary section specific styles */
 }
 
+
+.summary-content {
+    text-align: left;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+}
+
 /* ==========================================================================
    16. NAVIGATION & LINKS
    ========================================================================== */
