@@ -538,14 +538,14 @@ li {
 
 @media (min-aspect-ratio: 1 / 1) {
     .mindar-ui-scanning .scanning {
-        width: 45vw;
-        height: 45vw;
+        width: 45vw !important;
+        height: 45vw !important;
     }
 }
 @media (max-aspect-ratio: 1 / 1) {
     .mindar-ui-scanning .scanning {
-        width: 45vw;
-        height: 45vw;
+        width: 45vw !important;
+        height: 45vw !important;
     }
 }
 
