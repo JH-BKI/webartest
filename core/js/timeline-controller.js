@@ -13,6 +13,11 @@ AFRAME.registerComponent('timeline-controller', {
     this.currentTopic = null; // Will store the detected topic (0, 1, 2, 3)
     this.timelineLoaded = false; // Track if topic timeline is loaded
     
+    // ADD TIMELINE STATE TRACKING VARIABLES
+    this.timelineState = 'not_started'; // 'not_started', 'running', 'paused', 'completed'
+    this.timelineCreated = false;
+    this.timelineRunning = false;
+    
     // Wait for scene to be fully loaded before starting timeline
     this.el.addEventListener('loaded', this.onSceneLoaded.bind(this));
     
@@ -166,6 +171,23 @@ AFRAME.registerComponent('timeline-controller', {
       return;
     }
     
+    // NEW LOGIC: Check existing timeline state
+    if (this.timelineCreated && this.timeline) {
+      if (this.timelineState === 'paused') {
+        console.log(`Resuming existing paused timeline for topic ${this.currentTopic}`);
+        this.timeline.play();
+        this.timelineState = 'running';
+        this.timelineRunning = true;
+        return;
+      } else if (this.timelineState === 'running') {
+        console.log(`Timeline already running for topic ${this.currentTopic}`);
+        return;
+      } else if (this.timelineState === 'completed') {
+        console.log(`Timeline completed for topic ${this.currentTopic} - resetting and restarting`);
+        this.resetTimeline();
+      }
+    }
+    
     console.log(`Starting anime.js timeline for topic ${this.currentTopic}...`);
     
     // Create the main timeline
@@ -188,6 +210,9 @@ AFRAME.registerComponent('timeline-controller', {
       },
       complete: () => {
         console.log('Timeline completed');
+        this.timelineState = 'completed';
+        this.timelineRunning = false;
+        
         // Transition to video state using the state manager
         if (window.stateManager) {
           window.stateManager.changeState('video');
@@ -210,6 +235,11 @@ AFRAME.registerComponent('timeline-controller', {
       timeline: this.timeline,
       addPause: this.addPause.bind(this)
     });
+    
+    // UPDATE STATE TRACKING
+    this.timelineCreated = true;
+    this.timelineState = 'running';
+    this.timelineRunning = true;
   },
   
   handleKeyPress: function(event) {
@@ -274,7 +304,18 @@ AFRAME.registerComponent('timeline-controller', {
   
   quickPlay: function() {
     if (this.timeline) {
-      this.timeline.play();
+      if (this.timelineState === 'paused') {
+        console.log('Resuming paused timeline');
+        this.timeline.play();
+        this.timelineState = 'running';
+        this.timelineRunning = true;
+        this.isPaused = false;
+      } else if (this.timelineState === 'not_started') {
+        console.log('Starting new timeline');
+        this.startAnimeTimeline();
+      } else {
+        console.log('Timeline already running');
+      }
     } else {
       console.log('No timeline available - call startAnimeTimeline() first');
     }
@@ -282,9 +323,42 @@ AFRAME.registerComponent('timeline-controller', {
   
   quickPause: function() {
     if (this.timeline) {
+      console.log('Pausing animation');
       this.timeline.pause();
+      this.timelineState = 'paused';
+      this.timelineRunning = false;
+      this.isPaused = true;
     } else {
       console.log('No timeline available - call startAnimeTimeline() first');
+    }
+  },
+  
+  resetTimeline: function() {
+    if (this.timeline) {
+      console.log('Resetting timeline...');
+      
+      // Stop and dispose of existing timeline
+      this.timeline.pause();
+      this.timeline = null;
+      
+      // Reset state tracking
+      this.timelineCreated = false;
+      this.timelineState = 'not_started';
+      this.timelineRunning = false;
+      this.isPaused = false;
+      this.lastProgress = null;
+      
+      // Clear any existing timers
+      if (this.pauseTimer) {
+        clearTimeout(this.pauseTimer);
+        this.pauseTimer = null;
+      }
+      if (this.countdownInterval) {
+        clearInterval(this.countdownInterval);
+        this.countdownInterval = null;
+      }
+      
+      console.log('Timeline reset complete');
     }
   },
   
@@ -308,6 +382,9 @@ AFRAME.registerComponent('timeline-controller', {
       // Resume timeline immediately - no need to complete animation
       this.timeline.timescale = this.currentTimescale;
       this.timeline.play();
+      this.timelineState = 'running';
+      this.timelineRunning = true;
+      this.isPaused = false;
       // Reset button text
       this.uiButton.textContent = 'Continue';
       console.log('Timeline resumed by click');

@@ -749,7 +749,7 @@ class ARSceneManager {
                     material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
         
                 <!-- Topic 1 entities will be added dynamically -->
-                <a-entity id="scenario-assets-topic-group-1" visible="false" position="0 0 0"></a-entity>                
+                <a-entity id="scenario-assets-topic-group-1" opacity="0" position="0 0 0"></a-entity>                
 
             </a-entity>
             <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1">

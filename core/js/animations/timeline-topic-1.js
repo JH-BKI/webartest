@@ -31,7 +31,13 @@ window.createTimeline = function(timelineController) {
       duration: 10, // Instant change
       easing: 'linear',
       begin: () => {
-      
+        
+        
+        
+        document.getElementById('s01s01-Mia').setAttribute('visible', false);
+        document.getElementById('s01s01-Alex').setAttribute('visible', false);  
+
+
         document.getElementById('s01-speech-lt').setAttribute('opacity', 0);
         document.getElementById('s01-speech-rt').setAttribute('opacity', 0);
         document.getElementById('s01s01-Alex').setAttribute('opacity', 0);
@@ -67,10 +73,12 @@ window.createTimeline = function(timelineController) {
       duration: 10, // Instant change
       easing: 'linear',
       begin: () => {
-        console.log('scenario-assets-topic-group-1: visible false?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('visible'));
+        console.log('scenario-assets-topic-group-1: opacity false?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('opacity'));
+        console.log('scenario-assets-topic-group-1: visible true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('visible'));
         
-        document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', true)
+        document.getElementById('scenario-assets-topic-group-1').setAttribute('opacity', 1)
 
+        console.log('scenario-assets-topic-group-1: opacity true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('opacity'));
         console.log('scenario-assets-topic-group-1: visible true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('visible'));
 
         console.log(`Timeline Item ${itemNumber++}: Setting visibility of scenario-assets-topic-group-1 `);
