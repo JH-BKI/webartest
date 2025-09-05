@@ -7,7 +7,7 @@ const topicData = {
         content: `
             <p>Catfishing is when someone creates a fake social media account to scam or trick you.</p>
             
-            <h4>Signs of a catfish:</h4>
+            <p><strong>Signs of a catfish:</strong></p>
             <ol>
                 <li>They ask lots of questions about you but avoid answering questions about themselves.</li>
                 <li>They seem a bit too… perfect.</li>
@@ -33,7 +33,7 @@ const topicData = {
         summary: `
             <h3>Let's recap what you learned:</h3>
             
-            <h4>The 5 signs of a catfish:</h4>
+            <p><strong>The 5 signs of a catfish:</strong></p>
             <ol>
                 <li>They ask lots of questions about you but avoid answering questions about themselves.</li>
                 <li>They seem a bit too… perfect.</li>
@@ -46,9 +46,9 @@ const topicData = {
                 <p><strong>Always be careful about what you say and share online.</strong></p>
             </div>
             
-            <p>Well done!</p>
-            <p>Topic 1: Protecting Yourself Online is complete.</p>
-            <p>Find all of the remaining posters to unlock a special reward.</p>
+            <p>Well done! You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+            <p><i>Topic 1: Protecting Yourself Online</i> is complete.</p>
+            <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
         `,
         targetImage: './assets/topic_1/s01-imagetarget.png',
         leftProfileImage: './assets/topic_1/leftProfileImage.png',
