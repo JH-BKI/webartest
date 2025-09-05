@@ -343,6 +343,8 @@ class ARSceneManager {
             this.updateDetectedPosterUI(detectedTopicId);
             
             // Smart state transition based on previous timeline state
+            console.log(`🔄 AR Scene Manager: State transition decision - timelineWasCompleted: ${this.timelineWasCompleted}, timelineWasRunning: ${this.timelineWasRunning}, currentState: ${window.stateManager.currentState}`);
+            
             if (this.timelineWasCompleted) {
                 // Timeline was completed - do nothing, stay in current state
                 console.log(`🔄 AR Scene Manager: Timeline was completed - staying in current state (${window.stateManager.currentState})`);
@@ -448,7 +450,7 @@ class ARSceneManager {
     
     // Handle target lost event
     handleTargetLost(targetIndex) {
-        console.log(`Target ${targetIndex} lost`);
+        console.log(`🎯 handleTargetLost called with targetIndex: ${targetIndex}`);
         
         // Store current state and timeline status before pausing
         this.previousState = window.stateManager ? window.stateManager.currentState : null;
@@ -462,7 +464,7 @@ class ARSceneManager {
         if (sceneEl) {
             const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController) {
-                console.log(`Pausing animation`);
+                console.log(`⏸️ Pausing animation`);
                 timelineController.quickPause();
             }
         }
@@ -747,7 +749,7 @@ class ARSceneManager {
     
     // Add entities to specific topic container when detected
     addEntitiesToTopic(topicId) {
-        const topicContainer = document.getElementById(`scenario-assets-topic-${topicId}`);
+        const topicContainer = document.getElementById(`scenario-assets-topic-group-${topicId}`);
         if (topicContainer && window.generateTopicEntityHTML) {
             const entityHTML = window.generateTopicEntityHTML(topicId);
             if (entityHTML) {
@@ -796,7 +798,7 @@ class ARSceneManager {
                     material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
         
                 <!-- Topic 1 entities will be added dynamically -->
-
+                <a-entity id="scenario-assets-topic-group-1" position="0 0 0"></a-entity>
 
             </a-entity>
             <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1">
