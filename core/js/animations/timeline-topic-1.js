@@ -13,35 +13,47 @@ window.createTimeline = function(timelineController) {
   // Scene 01: Fade In (Mia and Alex simultaneously)
   ///////////////////////////////////////////////////////////////////////////////////////////
   timeline
-  .add({
-    targets: '#scenario',
-    opacity: [1, 1],
-    duration: 10, // Instant change
-    easing: 'linear',
-    begin: () => {
-    
-      setAllARAssestsInvisible(1);
+    .add({
+      targets: '#scenario',
+      opacity: [1, 1],
+      duration: 10, // Instant change
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: First timeline node completed.`);
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: First timeline node failed -`, error);
+      }  
+    })
+    .add({
+      targets: '#scenario',
+      opacity: [1, 1],
+      duration: 10, // Instant change
+      easing: 'linear',
+      begin: () => {
+      
+        setAllARAssestsInvisible(1);
 
-      console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
-    },
-    error: (error) => {
-      console.error(`Timeline Item ${itemNumber} Error: Setting vis/opacity of assets failed -`, error);
-    }  
-  })
-  .add({
-    targets: '#scenario-assets-topic-group-1',
-    opacity: [0, 1],
-    duration: 10, // Instant change
-    easing: 'linear',
-    begin: () => {
-      document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', true)
+        console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Setting vis/opacity of assets failed -`, error);
+      }  
+    })
+    .add({
+      targets: '#scenario-assets-topic-group-1',
+      opacity: [0, 1],
+      duration: 10, // Instant change
+      easing: 'linear',
+      begin: () => {
+        document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', true)
 
-      console.log(`Timeline Item ${itemNumber++}: Setting visibility of scenario-assets-topic-group-1 `);
-    },
-    error: (error) => {
-      console.error(`Timeline Item ${itemNumber} Error: Setting visibility of scenario-assets-topic-group-1 failed -`, error);
-    }
-  })
+        console.log(`Timeline Item ${itemNumber++}: Setting visibility of scenario-assets-topic-group-1 `);
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Setting visibility of scenario-assets-topic-group-1 failed -`, error);
+      }
+    })
     .add({
       targets: '#scenario',
       opacity: [1, 1],
@@ -55,6 +67,16 @@ window.createTimeline = function(timelineController) {
       },
       error: (error) => {
         console.error(`Timeline Item ${itemNumber} Error: Setting left/right profile pictures failed -`, error);
+      }
+    })
+    .add({
+      targets: ['#s01-loading'],
+      opacity: [1, 0],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 02)`);
+        document.getElementById('s01-loading').setAttribute('visible', false);
       }
     })
     .add({
