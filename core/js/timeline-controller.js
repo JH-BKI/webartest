@@ -25,6 +25,9 @@ AFRAME.registerComponent('timeline-controller', {
     // Add keyboard controls for timescale
     document.addEventListener('keydown', this.handleKeyPress.bind(this));
     
+    // Expose setAllARAssestsInvisible globally for timeline access
+    window.setAllARAssestsInvisible = this.setAllARAssestsInvisible.bind(this);
+    
     console.log('Timeline Controller initialized - ready for topic detection');
   },
   
