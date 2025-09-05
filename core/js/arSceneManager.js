@@ -533,17 +533,29 @@ class ARSceneManager {
         
         console.log('🔄 AR Scene Manager: State tracking variables reset for new session');
         
-        // Reset timeline controller state for new session
-        const sceneEl = document.querySelector('a-scene');
-        if (sceneEl) {
-            const timelineController = sceneEl.components['timeline-controller'];
-            if (timelineController) {
-                console.log('🔄 AR Scene Manager: Resetting timeline controller for new session');
-                timelineController.resetTimeline();
-            }
-        }
-        
         this.injectARScene();
+        
+        // Reset timeline controller state after scene is created
+        setTimeout(() => {
+            const sceneEl = document.querySelector('a-scene');
+            if (sceneEl) {
+                const timelineController = sceneEl.components['timeline-controller'];
+                if (timelineController) {
+                    console.log('🔄 AR Scene Manager: Resetting timeline controller for new session');
+                    timelineController.resetTimeline();
+                } else {
+                    console.log('⚠️ AR Scene Manager: Timeline controller not found, trying again...');
+                    // Try again after a longer delay
+                    setTimeout(() => {
+                        const timelineController = sceneEl.components['timeline-controller'];
+                        if (timelineController) {
+                            console.log('🔄 AR Scene Manager: Resetting timeline controller for new session (retry)');
+                            timelineController.resetTimeline();
+                        }
+                    }, 1000);
+                }
+            }
+        }, 100);
     }
     
     stopScanning() {

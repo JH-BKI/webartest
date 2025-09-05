@@ -309,7 +309,7 @@
          * - Content loading functions
          */
         
-        let version = '2.59';
+        let version = '2.60';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -523,13 +523,7 @@
             
             // Update content area
             const contentArea = document.getElementById('content-area');
-            contentArea.innerHTML = '';
-            
-            topicContent.forEach(paragraph => {
-                const p = document.createElement('p');
-                p.textContent = paragraph;
-                contentArea.appendChild(p);
-            });
+            contentArea.innerHTML = topicContent;
         }
         
         // Expose loadVideoContent globally for timeline controller
@@ -649,15 +643,9 @@
         
         function loadSummary() {
             const topicId = currentTopic.replace('topic_', '');
-            const summary = window.getTopicSummary ? window.getTopicSummary(topicId) : [];
+            const summary = window.getTopicSummary ? window.getTopicSummary(topicId) : '';
             const summaryDiv = document.getElementById('summary-content');
-            summaryDiv.innerHTML = '';
-            
-            summary.forEach(line => {
-                const p = document.createElement('p');
-                p.textContent = line;
-                summaryDiv.appendChild(p);
-            });
+            summaryDiv.innerHTML = summary;
             
             
             // Mark topic as completed when summary is viewed
