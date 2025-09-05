@@ -33,28 +33,28 @@ window.createTimeline = function(timelineController) {
       begin: () => {
         
         
-        document.getElementById('s01-speech-lt').setAttribute('opacity', 0);
-        document.getElementById('s01-speech-rt').setAttribute('opacity', 0);
-        document.getElementById('s01s01-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s01-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s02-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s02-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s03-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s03-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s04-post').setAttribute('opacity', 0);
-        document.getElementById('s01s04-heart').setAttribute('opacity', 0);
-        document.getElementById('s01s04-like').setAttribute('opacity', 0);
-        document.getElementById('s01s04-share').setAttribute('opacity', 0);
-        document.getElementById('s01s04-smile').setAttribute('opacity', 0);
-        document.getElementById('s01s05-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s05-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s06-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s06-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s07-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s07-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s08-profile').setAttribute('opacity', 0);
-        document.getElementById('s01s08-random').setAttribute('opacity', 0);
-        document.getElementById('s01-floor').setAttribute('opacity', 0);
+        // document.getElementById('s01-speech-lt').setAttribute('opacity', 0);
+        // document.getElementById('s01-speech-rt').setAttribute('opacity', 0);
+        // document.getElementById('s01s01-Alex').setAttribute('opacity', 0);
+        // document.getElementById('s01s01-Mia').setAttribute('opacity', 0);
+        // document.getElementById('s01s02-Alex').setAttribute('opacity', 0);
+        // document.getElementById('s01s02-Mia').setAttribute('opacity', 0);
+        // document.getElementById('s01s03-Alex').setAttribute('opacity', 0);
+        // document.getElementById('s01s03-Mia').setAttribute('opacity', 0);
+        // document.getElementById('s01s04-post').setAttribute('opacity', 0);
+        // document.getElementById('s01s04-heart').setAttribute('opacity', 0);
+        // document.getElementById('s01s04-like').setAttribute('opacity', 0);
+        // document.getElementById('s01s04-share').setAttribute('opacity', 0);
+        // document.getElementById('s01s04-smile').setAttribute('opacity', 0);
+        // document.getElementById('s01s05-Alex').setAttribute('opacity', 0);
+        // document.getElementById('s01s05-Mia').setAttribute('opacity', 0);
+        // document.getElementById('s01s06-Alex').setAttribute('opacity', 0);
+        // document.getElementById('s01s06-Mia').setAttribute('opacity', 0);
+        // document.getElementById('s01s07-Alex').setAttribute('opacity', 0);
+        // document.getElementById('s01s07-Mia').setAttribute('opacity', 0);
+        // document.getElementById('s01s08-profile').setAttribute('opacity', 0);
+        // document.getElementById('s01s08-random').setAttribute('opacity', 0);
+        // document.getElementById('s01-floor').setAttribute('opacity', 0);
 
         console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
       },

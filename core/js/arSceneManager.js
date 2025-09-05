@@ -12,6 +12,11 @@ class ARSceneManager {
         this.tipIndex = 0;
         this.isPaused = false; // Track pause state
         
+        // ADD TIMELINE STATE TRACKING VARIABLES
+        this.previousState = null;
+        this.timelineWasRunning = false;
+        this.timelineWasCompleted = false;
+        
         // Topic mapping: target index -> topic number
         this.topicMapping = {
             0: 1, // Target 0 -> topic_1 (Web Development)
@@ -337,12 +342,23 @@ class ARSceneManager {
             // Update UI
             this.updateDetectedPosterUI(detectedTopicId);
             
-            // Only transition to ar_ready state if we're not already there
-            if (window.stateManager && window.stateManager.currentState !== 'ar_ready') {
-                console.log(`🔄 AR Scene Manager: Transitioning to ar_ready state`);
-                window.stateManager.changeState('ar_ready');
+            // Smart state transition based on previous timeline state
+            if (this.timelineWasCompleted) {
+                // Timeline was completed - do nothing, stay in current state
+                console.log(`🔄 AR Scene Manager: Timeline was completed - staying in current state (${window.stateManager.currentState})`);
+                return;
+            } else if (this.timelineWasRunning) {
+                // Timeline was running - resume and go to animating state
+                console.log(`🔄 AR Scene Manager: Timeline was running - resuming and going to animating state`);
+                window.stateManager.changeState('animating');
             } else {
-                console.log(`🔄 AR Scene Manager: Already in ar_ready state, skipping transition`);
+                // No timeline was running - go to ar_ready state
+                if (window.stateManager && window.stateManager.currentState !== 'ar_ready') {
+                    console.log(`🔄 AR Scene Manager: No timeline was running - transitioning to ar_ready state`);
+                    window.stateManager.changeState('ar_ready');
+                } else {
+                    console.log(`🔄 AR Scene Manager: Already in ar_ready state, skipping transition`);
+                }
             }
             
             // Debug: Check if ar-ready-section is visible
@@ -434,6 +450,13 @@ class ARSceneManager {
     handleTargetLost(targetIndex) {
         console.log(`Target ${targetIndex} lost`);
         
+        // Store current state and timeline status before pausing
+        this.previousState = window.stateManager ? window.stateManager.currentState : null;
+        this.timelineWasRunning = this.isTimelineRunning();
+        this.timelineWasCompleted = this.isTimelineCompleted();
+        
+        console.log(`📊 Timeline state before loss - Running: ${this.timelineWasRunning}, Completed: ${this.timelineWasCompleted}, Previous State: ${this.previousState}`);
+        
         // Pause the animation when target is lost
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
@@ -443,6 +466,30 @@ class ARSceneManager {
                 timelineController.quickPause();
             }
         }
+    }
+    
+    // Helper method to check if timeline is running
+    isTimelineRunning() {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
+            if (timelineController) {
+                return timelineController.timelineRunning || (timelineController.timeline && timelineController.timelineState === 'running');
+            }
+        }
+        return false;
+    }
+    
+    // Helper method to check if timeline is completed
+    isTimelineCompleted() {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
+            if (timelineController) {
+                return timelineController.timelineState === 'completed';
+            }
+        }
+        return false;
     }
     
     disposeScene() {
