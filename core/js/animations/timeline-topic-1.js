@@ -42,7 +42,7 @@ window.createTimeline = function(timelineController) {
     })
     .add({
       targets: '#scenario-assets-topic-group-1',
-      opacity: [0, 1],
+      opacity: [1, 1],
       duration: 10, // Instant change
       easing: 'linear',
       begin: () => {
