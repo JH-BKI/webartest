@@ -234,25 +234,26 @@
         <div class="hero"></div>
         <div class="quiz-content card">
             <h2>Knowledge Check!</h2>
-        
-        <div class="question-box">
-            <h3 id="question">Loading question...</h3>
-            <p id="instructions">Select your answer(s):</p>
-        </div>
-        
-        <div id="answers">
-            <!-- Answers will be loaded here -->
-        </div>
-        
-        <div id="answers-buttons">
-            <button id="submit-btn" class="btn btn-primary" onclick="checkAnswers()">Submit</button>
-            <button class="btn btn-secondary" onclick="goBackToVideo()">Go Back</button>
-        </div>        
+            
+            <div class="question-box">
+                <h3 id="question">Loading question...</h3>
+                <p id="instructions">Select your answer(s):</p>
+            </div>
+            
+            <div id="answers">
+                <!-- Answers will be loaded here -->
+            </div>
+            
+            <div id="answers-buttons">
+                <button id="submit-btn" class="btn btn-primary" onclick="checkAnswers()">Submit</button>
+                <button class="btn btn-secondary" onclick="goBackToVideo()">Go Back</button>
+            </div>        
 
-        <div id="results" class="light-card hidden">
-            <div id="score" class="score-box hidden">Results: 0 correct of 0.</div>
-            <div id="feedback">Feedback will appear here</div>
-            <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
+            <div id="results" class="light-card hidden">
+                <div id="score" class="score-box hidden">Results: 0 correct of 0.</div>
+                <div id="feedback">Feedback will appear here</div>
+                <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
+            </div>
         </div>
     </div>
     
@@ -308,7 +309,7 @@
          * - Content loading functions
          */
         
-        let version = '2.44';
+        let version = '2.45';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
