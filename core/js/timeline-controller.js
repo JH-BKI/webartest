@@ -36,8 +36,10 @@ AFRAME.registerComponent('timeline-controller', {
 
 
   setAllARAssestsInvisible: function(topicId) {  
-    const arAssets = document.querySelectorAll(`#AR-scene #scenario-assets-topic-${topicId} a-image`);
+    const arAssets = document.querySelectorAll(`#AR-scene #scenario-assets-topic-group-${topicId} a-image`);
+    let itemNumber = 1;
     arAssets.forEach(asset => {
+      console.log(`${itemNumber++}: Setting ${asset.id} to invisible/transparent`);
       asset.setAttribute('visible', false);
       asset.setAttribute('opacity', 0);
     }); 

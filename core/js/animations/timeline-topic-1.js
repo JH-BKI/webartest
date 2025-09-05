@@ -19,15 +19,9 @@ window.createTimeline = function(timelineController) {
     duration: 10, // Instant change
     easing: 'linear',
     begin: () => {
-      document.getElementById('s01s01-Mia').setAttribute('visible', false)
-      document.getElementById('s01s01-Mia').setAttribute('opacity', 0);
-      document.getElementById('s01s01-Alex').setAttribute('visible', false)
-      document.getElementById('s01s01-Alex').setAttribute('opacity', 0);
-      document.getElementById('s01-speech-lt').setAttribute('visible', false)
-      document.getElementById('s01-speech-lt').setAttribute('opacity', 0);
-      document.getElementById('s01-speech-rt').setAttribute('visible', false)
-      document.getElementById('s01-speech-rt').setAttribute('opacity', 0);  
-      
+    
+      setAllARAssestsInvisible(1);
+
       console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
     },
     error: (error) => {
