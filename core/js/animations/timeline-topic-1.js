@@ -32,7 +32,28 @@ window.createTimeline = function(timelineController) {
       easing: 'linear',
       begin: () => {
       
-        setAllARAssestsInvisible(1);
+        document.getElementById('s01-speech-lt').setAttribute('visible', false);
+        document.getElementById('s01-speech-rt').setAttribute('visible', false);
+        document.getElementById('s01s01-Alex').setAttribute('visible', false);
+        document.getElementById('s01s01-Mia').setAttribute('visible', false);
+        document.getElementById('s01s02-Alex').setAttribute('visible', false);
+        document.getElementById('s01s02-Mia').setAttribute('visible', false);
+        document.getElementById('s01s03-Alex').setAttribute('visible', false);
+        document.getElementById('s01s03-Mia').setAttribute('visible', false);
+        document.getElementById('s01s04-post').setAttribute('visible', false);
+        document.getElementById('s01s04-heart').setAttribute('visible', false);
+        document.getElementById('s01s04-like').setAttribute('visible', false);
+        document.getElementById('s01s04-share').setAttribute('visible', false);
+        document.getElementById('s01s04-smile').setAttribute('visible', false);
+        document.getElementById('s01s05-Alex').setAttribute('visible', false);
+        document.getElementById('s01s05-Mia').setAttribute('visible', false);
+        document.getElementById('s01s06-Alex').setAttribute('visible', false);
+        document.getElementById('s01s06-Mia').setAttribute('visible', false);
+        document.getElementById('s01s07-Alex').setAttribute('visible', false);
+        document.getElementById('s01s07-Mia').setAttribute('visible', false);
+        document.getElementById('s01s08-profile').setAttribute('visible', false);
+        document.getElementById('s01s08-random').setAttribute('visible', false);
+        document.getElementById('s01-floor').setAttribute('visible', false);
 
         console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
       },
@@ -46,7 +67,11 @@ window.createTimeline = function(timelineController) {
       duration: 10, // Instant change
       easing: 'linear',
       begin: () => {
+        console.log('scenario-assets-topic-group-1: visible false?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('visible'));
+        
         document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', true)
+
+        console.log('scenario-assets-topic-group-1: visible true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('visible'));
 
         console.log(`Timeline Item ${itemNumber++}: Setting visibility of scenario-assets-topic-group-1 `);
       },
