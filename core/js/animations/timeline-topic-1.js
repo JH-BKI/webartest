@@ -71,7 +71,7 @@ window.createTimeline = function(timelineController) {
         console.log('scenario-assets-topic-group-1: opacity false?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('opacity'));
         console.log('scenario-assets-topic-group-1: visible true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('visible'));
         
-        document.getElementById('scenario-assets-topic-group-1').setAttribute('opacity', 1)
+        document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', true)
 
         console.log('scenario-assets-topic-group-1: opacity true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('opacity'));
         console.log('scenario-assets-topic-group-1: visible true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('visible'));
