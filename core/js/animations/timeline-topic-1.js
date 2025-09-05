@@ -13,18 +13,40 @@ window.createTimeline = function(timelineController) {
   // Scene 01: Fade In (Mia and Alex simultaneously)
   ///////////////////////////////////////////////////////////////////////////////////////////
   timeline
+  .add({
+    targets: '#scenario',
+    opacity: [1, 1],
+    duration: 10, // Instant change
+    easing: 'linear',
+    begin: () => {
+      document.getElementById('s01s01-Mia').setAttribute('visible', false)
+      document.getElementById('s01s01-Mia').setAttribute('opacity', 0);
+      document.getElementById('s01s01-Alex').setAttribute('visible', false)
+      document.getElementById('s01s01-Alex').setAttribute('opacity', 0);
+      document.getElementById('s01-speech-lt').setAttribute('visible', false)
+      document.getElementById('s01-speech-lt').setAttribute('opacity', 0);
+      document.getElementById('s01-speech-rt').setAttribute('visible', false)
+      document.getElementById('s01-speech-rt').setAttribute('opacity', 0);  
+      
+      console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
+    },
+    error: (error) => {
+      console.error(`Timeline Item ${itemNumber} Error: Setting vis/opacity of assets failed -`, error);
+    }
+  })
     .add({
       targets: '#scenario',
       opacity: [1, 1],
       duration: 10, // Instant change
       easing: 'linear',
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Setting left/right profile pictures.`);
         document.querySelector('#scenario .scenario-ui-prompt-speech.left img').setAttribute('src', getTopicLeftProfileImage(1));
         document.querySelector('#scenario .scenario-ui-prompt-speech.right img').setAttribute('src', getTopicRightProfileImage(1));
-        document.getElementById('s01s01-Mia').setAttribute('visible', false).setAttribute('opacity', 0);
-        document.getElementById('s01s01-Alex').setAttribute('visible', false).setAttribute('opacity', 0);
-
+        
+        console.log(`Timeline Item ${itemNumber++}: Setting left/right profile pictures.`);
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Setting left/right profile pictures failed -`, error);
       }
     })
     .add({
@@ -231,7 +253,7 @@ window.createTimeline = function(timelineController) {
           rotation: ['0 0 10', '0 0 5'],
           duration: 5000,
           easing: 'linear',
-          loop: true,
+          loop: 10,
           direction: 'alternate'
         });
 
@@ -241,7 +263,7 @@ window.createTimeline = function(timelineController) {
           position: ['-1 2.5 -3', '-1 -1.5 -3'],
           duration: 2000,
           easing: 'easeInOutQuad',
-          loop: true,
+          loop: 10,
           direction: 'alternate'
         },"-=1000");
 
@@ -251,7 +273,7 @@ window.createTimeline = function(timelineController) {
           position: ['0.5 2 -2.5', '0.5 -1.75 -2.5'],
           duration: 2500,
           easing: 'easeInOutQuad',
-          loop: true,
+          loop: 10,
           direction: 'alternate'
         },"-=500");
 
@@ -261,7 +283,7 @@ window.createTimeline = function(timelineController) {
           position: ['-0.5 2 -3', '-0.5 -1.5 -3.5'],
           duration: 3000,
           easing: 'easeInOutQuad',
-          loop: true,
+          loop: 10,
           direction: 'alternate'
         },"-=250");
         
@@ -271,9 +293,12 @@ window.createTimeline = function(timelineController) {
           position: ['1.25 2 -2.25', '1.25 -1.5 -2.25'],
           duration: 2750,
           easing: 'easeInOutQuad',
-          loop: true,
+          loop: 10,
           direction: 'alternate'
         },"-=750");
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Fading in social media post with spin and movement (Scene 03) failed -`, error);
       }
     },"-=1000")
     .add({
@@ -304,6 +329,9 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s01s04-heart').setAttribute('visible', false);
         document.getElementById('s01s04-share').setAttribute('visible', false);
         document.getElementById('s01s04-smile').setAttribute('visible', false);
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Fading out all social media elements (Scene 04) failed -`, error);
       }
     });
                 
@@ -323,6 +351,9 @@ window.createTimeline = function(timelineController) {
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Setting Mia's speech text about privacy concerns (Scene 05)`);
         document.getElementById('text-content-right').textContent = "Oh, you might want to take that down. People can figure out where you go to school from that.";
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Setting Mia's speech text about privacy concerns (Scene 05) failed -`, error);
       }
     })
     .add({
@@ -334,6 +365,9 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 05)`);
         document.getElementById('s01s05-Mia').setAttribute('visible', true);
         document.getElementById('s01s05-Alex').setAttribute('visible', true);
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Fading in Mia and Alex (Scene 05) failed -`, error);
       }
     },"-=1000")
     .add({
@@ -345,6 +379,9 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 05)`);
         document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
         document.getElementById('s01-speech-rt').setAttribute('visible', true);
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Fading in right speech bubble and Mia's speech UI (Scene 05) failed -`, error);
       }
     })
     .add({
@@ -361,6 +398,9 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s01-speech-rt').setAttribute('visible', false);
         document.getElementById('s01s05-Mia').setAttribute('visible', false);
         document.getElementById('s01s05-Alex').setAttribute('visible', false);
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Fading out speech bubble right and Mia and Alex (Scene 05) failed -`, error);
       }
     });  
               
@@ -381,6 +421,9 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 06)`);
         document.getElementById('s01s06-Mia').setAttribute('visible', true);
         document.getElementById('s01s06-Alex').setAttribute('visible', true);
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Fading in Mia and Alex (Scene 06) failed -`, error);
       }
     },"-=1000")
     .add({
@@ -391,6 +434,9 @@ window.createTimeline = function(timelineController) {
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Setting Alex's speech text about not thinking it's a big deal (Scene 06)`);
         document.getElementById('text-content-left').textContent = "Really? I didn't think it was a big deal.";
+      },
+      error: (error) => {
+        console.error(`Timeline Item ${itemNumber} Error: Setting Alex's speech text about not thinking it's a big deal (Scene 06) failed -`, error);
       }
     })
     .add({
