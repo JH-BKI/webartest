@@ -700,7 +700,7 @@ class ARSceneManager {
     
     // Add entities to specific topic container when detected
     addEntitiesToTopic(topicId) {
-        const topicContainer = document.getElementById(`scenario-assets-topic-${topicId}`);
+        const topicContainer = document.getElementById(`scenario-assets-topic-group-${topicId}`);
         if (topicContainer && window.generateTopicEntityHTML) {
             const entityHTML = window.generateTopicEntityHTML(topicId);
             if (entityHTML) {
@@ -743,16 +743,20 @@ class ARSceneManager {
             <div id="timelineContainer" style="display: none;"></div>
             
             <!-- Topic containers - always present for MindAR detection -->
-            <a-entity id="scenario-assets-topic-1" position="0 0 -2" mindar-image-target="targetIndex: 0">
+            <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0">
+                 <a-entity geometry="primitive: plane; width: 4; height: 0" material="color: blue" text="value: Loading Topic 1..."></a-entity>
                 <!-- Topic 1 entities will be added dynamically -->
+
+                <a-entity id="scenario-assets-topic-group-1" visible="false" position="0 0 0"></a-entity>                
+
             </a-entity>
-            <a-entity id="scenario-assets-topic-2" position="0 0 -2" mindar-image-target="targetIndex: 1">
+            <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1">
                 <!-- Topic 2 entities will be added dynamically -->
             </a-entity>
-            <a-entity id="scenario-assets-topic-3" position="0 0 -2" mindar-image-target="targetIndex: 2">
+            <a-entity id="scenario-assets-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2">
                 <!-- Topic 3 entities will be added dynamically -->
             </a-entity>
-            <a-entity id="scenario-assets-topic-4" position="0 0 -2" mindar-image-target="targetIndex: 3">
+            <a-entity id="scenario-assets-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3">
                 <!-- Topic 4 entities will be added dynamically -->
             </a-entity>
 
