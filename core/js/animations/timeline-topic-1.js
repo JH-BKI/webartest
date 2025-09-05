@@ -33,11 +33,6 @@ window.createTimeline = function(timelineController) {
       begin: () => {
         
         
-        
-        document.getElementById('s01s01-Mia').setAttribute('visible', false);
-        document.getElementById('s01s01-Alex').setAttribute('visible', false);  
-
-
         document.getElementById('s01-speech-lt').setAttribute('opacity', 0);
         document.getElementById('s01-speech-rt').setAttribute('opacity', 0);
         document.getElementById('s01s01-Alex').setAttribute('opacity', 0);

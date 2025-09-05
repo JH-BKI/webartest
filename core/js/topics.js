@@ -517,28 +517,28 @@ function generateTopicAssetHTML(topicId) {
   // Load images
   if (assets.images) {
     assets.images.forEach(asset => {
-      assetHTML += `    <img id="${asset.id}" src="${asset.src}">\n`;
+      assetHTML += `    <img id="asset_${asset.id}" src="${asset.src}">\n`;
     });
   }
   
   // Load videos
   if (assets.videos) {
     assets.videos.forEach(asset => {
-      assetHTML += `    <video id="${asset.id}" src="${asset.src}" autoplay="false" loop="false"></video>\n`;
+      assetHTML += `    <video id="asset_${asset.id}" src="${asset.src}" autoplay="false" loop="false"></video>\n`;
     });
   }
   
   // Load audio
   if (assets.audio) {
     assets.audio.forEach(asset => {
-      assetHTML += `    <audio id="${asset.id}" src="${asset.src}" preload="auto"></audio>\n`;
+      assetHTML += `    <audio id="asset_${asset.id}" src="${asset.src}" preload="auto"></audio>\n`;
     });
   }
   
   // Load 3D models
   if (assets.models) {
     assets.models.forEach(asset => {
-      assetHTML += `    <a-asset-item id="${asset.id}" src="${asset.src}"></a-asset-item>\n`;
+      assetHTML += `    <a-asset-item id="asset_${asset.id}" src="${asset.src}"></a-asset-item>\n`;
     });
   }
   
@@ -559,7 +559,7 @@ function generateTopicEntityHTML(topicId) {
   // Generate entities for images
   if (assets.images) {
     assets.images.forEach(asset => {
-      entityHTML += `    <a-image id="${asset.id}" src="#${asset.id}"`;
+      entityHTML += `    <a-image id="${asset.id}" src="#asset_${asset.id}"`;
       if (asset.scale) entityHTML += ` scale="${asset.scale}"`;
       if (asset.position) entityHTML += ` position="${asset.position}"`;
       if (asset.rotation) entityHTML += ` rotation="${asset.rotation}"`;
@@ -573,7 +573,7 @@ function generateTopicEntityHTML(topicId) {
   // Generate entities for videos
   if (assets.videos) {
     assets.videos.forEach(asset => {
-      entityHTML += `    <a-video id="${asset.id}" src="#${asset.id}"`;
+      entityHTML += `    <a-video id="${asset.id}" src="#asset_${asset.id}"`;
       if (asset.scale) entityHTML += ` scale="${asset.scale}"`;
       if (asset.position) entityHTML += ` position="${asset.position}"`;
       if (asset.rotation) entityHTML += ` rotation="${asset.rotation}"`;
@@ -587,7 +587,7 @@ function generateTopicEntityHTML(topicId) {
   // Generate entities for 3D models
   if (assets.models) {
     assets.models.forEach(asset => {
-      entityHTML += `    <a-entity id="${asset.id}" gltf-model="#${asset.id}"`;
+      entityHTML += `    <a-entity id="{asset.id}" gltf-model="#asset_${asset.id}"`;
       if (asset.scale) entityHTML += ` scale="${asset.scale}"`;
       if (asset.position) entityHTML += ` position="${asset.position}"`;
       if (asset.rotation) entityHTML += ` rotation="${asset.rotation}"`;
