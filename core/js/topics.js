@@ -261,7 +261,7 @@ const topicData = {
                     src: './assets/topic_1/s01-floor.png',                // Floor
                     scale: '2 1 2',
                     position: '0 -0.5 0',
-                    rotation: '0 0 0',
+                    rotation: '-90 0 0',
                     visible: 'true',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'

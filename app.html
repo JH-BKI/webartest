@@ -245,15 +245,14 @@
         </div>
         
         <div id="answers-buttons">
-            <button class="btn btn-secondary" onclick="goBackToVideo()">Go Back</button>
             <button id="submit-btn" class="btn btn-primary" onclick="checkAnswers()">Submit</button>
+            <button class="btn btn-secondary" onclick="goBackToVideo()">Go Back</button>
         </div>        
 
         <div id="results" class="light-card hidden">
             <div id="score" class="score-box hidden">Results: 0 correct of 0.</div>
             <div id="feedback">Feedback will appear here</div>
-                <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
-            </div>
+            <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
         </div>
     </div>
     
@@ -266,8 +265,8 @@
                 <!-- Summary will be loaded here -->
             </div>
             <div>
-                <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button>
                 <button class="btn btn-primary" onclick="goHome()">Continue</button>
+                <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button>
             </div>
         </div>
     </div>
@@ -309,7 +308,7 @@
          * - Content loading functions
          */
         
-        let version = '2.43';
+        let version = '2.44';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
