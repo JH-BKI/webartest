@@ -44,8 +44,8 @@ const topicData = {
                     scale: '0.5 0.5 0.5',
                     position: '-0.125 1.125 -1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -54,8 +54,8 @@ const topicData = {
                     scale: '0.5 0.5 0.5',
                     position: '0.125 1.125 -1.05',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 01 characters
@@ -65,8 +65,8 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '-1.25 0 -1',
                     rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
+                    visible: 'true',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 { 
@@ -76,7 +76,7 @@ const topicData = {
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
                     visible: 'false',
-                    opacity: '0',
+                    opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
                 // Scene 02 characters
@@ -261,7 +261,7 @@ const topicData = {
                     src: './assets/topic_1/s01-floor.png',                // Floor
                     scale: '2 1 2',
                     position: '0 -0.5 0',
-                    rotation: '-90 0 0',
+                    rotation: '0 0 0',
                     visible: 'true',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'

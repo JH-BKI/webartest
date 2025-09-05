@@ -22,6 +22,9 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Setting left/right profile pictures.`);
         document.querySelector('#scenario .scenario-ui-prompt-speech.left img').setAttribute('src', getTopicLeftProfileImage(1));
         document.querySelector('#scenario .scenario-ui-prompt-speech.right img').setAttribute('src', getTopicRightProfileImage(1));
+        document.getElementById('s01s01-Mia').setAttribute('visible', false).setAttribute('opacity', 0);
+        document.getElementById('s01s01-Alex').setAttribute('visible', false).setAttribute('opacity', 0);
+
       }
     })
     .add({
