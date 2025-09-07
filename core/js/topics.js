@@ -50,7 +50,7 @@ const topicData = {
             <p><i>Topic 1: Protecting Yourself Online</i> is complete.</p>
             <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
         `,
-        targetImage: './assets/topic_1/s01-imagetarget.png',
+        targetImage: './assets/topic_1/s01-image-marker.png',
         leftProfileImage: './assets/topic_1/leftProfileImage.png',
         rightProfileImage: './assets/topic_1/rightProfileImage.png',
         
@@ -291,109 +291,148 @@ const topicData = {
     },
     topic_2: {
         title: 'Navigating Difficult Situations',
-        icon: '📱', // Can be emoji or image path
-        videoUrl: 'https://player.vimeo.com/video/76979871', // Topic-specific video (placeholder)
-        content: [
-            'Digital marketing is the practice of promoting products or services using digital technologies.',
-            'Search Engine Optimization (SEO) helps websites rank higher in search results.',
-            'Social media marketing builds brand awareness and engages customers.',
-            'Email marketing maintains relationships and drives conversions.'
-        ],
-        question: 'What are key digital marketing channels?',
+        icon: '💻', // Can be emoji or image path like './assets/icons/topic1.png'
+        videoUrl: 'https://player.vimeo.com/video/720510220', // Topic-specific video
+        content: `       
+            <p><strong>Cyberbullying</strong></p>
+            <p>Cyberbullying is when someone uses technology like phones, social media, gaming or messenger apps to hurt, embarrass or intimidate another person.</p>
+            <p>It can happen in a lot of ways, including sending mean or threatening messages, posting hurtful comments or rumours online, sharing video or photos 
+                  without permission, excluding someone from a chat or game on purpose or pretending to be someone else to cause harm.</p>
+            <p>What can you do about it? Don’t respond, block and report, save any evidence , talk to a trusted adult and get help.</p>  
+            <p>Further information can be found here <a href="https://www.esafety.gov.au/young-people" target="_blank">Young People | eSafety Commissioner</a></p>
+            
+            <p>Let's continue to test your knowledge.</p>
+        `,
+        question: 'How can you support a friend who’s experiencing online hate?',
         answers: [
-            {text: 'SEO', correct: true},
-            {text: 'Print Ads', correct: false},
-            {text: 'Social Media', correct: true},
-            {text: 'Email Marketing', correct: true},
-            {text: 'Billboard Ads', correct: false}
+            {text: 'Listen without judgment, encourage them to seek help, and report the abuse together if needed', correct: true},
+            {text: 'Share the bullying post to show others', correct: false},
+            {text: 'Tell them to just delete their account', correct: false}
         ],
         feedback: {
-            perfect: 'Perfect! SEO, social media, and email are core digital channels.',
-            partial: 'Close! Focus on digital channels: SEO, social media, and email marketing.'
+            perfect: 'Well done! Your answers are correct.',
+            partial: 'Good try! Go back to watch the video again or move on to the topic summary.'
         },
-        summary: [
-            'Digital Marketing module complete!',
-            'What you learned:',
-            '• SEO improves search visibility',
-            '• Social media builds community',
-            '• Email marketing nurtures leads',
-            '• Digital channels offer measurable results'
-        ],
-        targetImage: './assets/topic_2/s02-imagetarget.png',
+        summary: `
+            <h3>Let's recap what you learned:</h3>
+            
+            <p>Cyberbullying happens when someone uses technology such as phones, social media, games, or messaging apps to deliberately hurt, embarrass, or intimidate others.</p>
+            <p>It can involve:</p> 
+            <ol>
+                <li>Sending mean or threatening messages</li>
+                <li>Spreading rumours</li>
+                <li>Sharing photos or videos without consent</li>
+                <li>Excluding people from online spaces</li>
+                <li>Impersonating someone to cause harm</li>
+            </ol>
+            <p>If it happens, the best steps are not to respond, block and report the behaviour, keep evidence, and seek support from a trusted adult. </p>
+            <p>More information is available from the <a href="https://www.esafety.gov.au/young-people" target="_blank">eSafety Commissioner’s website for young people</a>.</p>
+
+            <div class="highlight-message">
+                <p><strong>Remember the bullying is a reflection of the bully not you. 
+                <p>You are special, loved and amazing!</strong></p>
+            </div>
+            
+            <p>Well done! You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+            <p><i>Topic 2: Navigating Difficult Situations</i> is complete.</p>
+            <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
+        `,
+        targetImage: './assets/topic_2/s02-image-marker.png',
         leftProfileImage: './assets/topic_2/leftProfileImage.png',
         rightProfileImage: './assets/topic_2/rightProfileImage.png',
         
         // AR Assets with entity properties for Topic 2
         arAssets: {
             images: [
-                { 
-                    id: 's02-character-A', 
-                    src: './assets/topic_2/s02-character-A.png',
-                    scale: '1.5 3 1',
-                    position: '0 0 -2',
-                    rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
-                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-                },
-                { 
-                    id: 's02-character-B', 
-                    src: './assets/topic_2/s02-character-B.png',
-                    scale: '1.5 3 1',
-                    position: '1 0 -2',
-                    rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
-                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-                }
-            ],
-            videos: [
-                { 
-                    id: 's02-video-intro', 
-                    src: './assets/topic_2/s02-video-intro.mp4',
-                    scale: '2 1.5 1',
-                    position: '0 1 -2',
-                    rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
-                    material: ''
-                }
+                 // Speech bubbles
+                 { 
+                  id: 's01-speech-lt', 
+                  src: './assets/topic_1/s01-speech-left.png',
+                  scale: '0.5 0.5 0.5',
+                  position: '-0.125 1.125 -1',
+                  rotation: '0 0 0',
+                  visible: 'true',
+                  opacity: '1',
+                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+              },
+              { 
+                  id: 's01-speech-rt', 
+                  src: './assets/topic_1/s01-speech-right.png',
+                  scale: '0.5 0.5 0.5',
+                  position: '0.125 1.125 -1.05',
+                  rotation: '0 0 0',
+                                      visible: 'true',
+                  opacity: '1',
+                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+              },
+              // Scene 01 characters
+              { 
+                  id: 's01s01-Alex', 
+                  src: './assets/topic_1/s01-scene-01-Alex.png',
+                  scale: '1 2 0.5',
+                  position: '-1.25 0 -1',
+                  rotation: '0 0 0',
+                                      visible: 'true',
+                  opacity: '1',
+                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+              },
+              { 
+                  id: 's01s01-Mia', 
+                  src: './assets/topic_1/s01-scene-01-Mia.png',
+                  scale: '1 2 0.5',
+                  position: '0.375 0 -1.05',
+                  rotation: '0 0 0',
+                                      visible: 'true',
+                  opacity: '1',
+                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+              }
             ]
         }
     },
     topic_3: {
         title: 'Respectful Relationships Online',
         icon: '📊', // Can be emoji or image path
-        videoUrl: 'https://player.vimeo.com/video/76979871', // Topic-specific video (placeholder)
-        content: [
-            'Data science combines statistical analysis, programming, and domain expertise.',
-            'Python and R are the most popular programming languages for data analysis.',
-            'Statistical analysis helps identify patterns and trends in data.',
-            'Machine learning enables computers to learn from data without explicit programming.'
-        ],
-        question: 'What skills do data scientists need?',
-        answers: [
-            {text: 'Statistics', correct: true},
-            {text: 'Graphic Design', correct: false},
-            {text: 'Programming', correct: true},
-            {text: 'Machine Learning', correct: true},
-            {text: 'Video Editing', correct: false}
-        ],
-        feedback: {
-            perfect: 'Excellent! Statistics, programming, and ML are essential data science skills.',
-            partial: 'Good start! Data scientists need technical skills like statistics and programming.'
-        },
-        summary: [
-            'Data Science foundations established!',
-            'Core concepts covered:',
-            '• Statistics reveal data patterns',
-            '• Programming processes large datasets',
-            '• Machine learning predicts outcomes',
-            '• Domain expertise guides analysis'
-        ],
-        targetImage: './assets/topic_3/s03-imagetarget.png',
-        leftProfileImage: './assets/topic_3/leftProfileImage.png',
-        rightProfileImage: './assets/topic_3/rightProfileImage.png',
+        videoUrl: 'https://player.vimeo.com/video/771882772', // Topic-specific video (placeholder)
+        content: `       
+        <p><strong>Boundaries</strong></p>
+        <p>If you feel your relationship boundaries have been crossed, consider the four steps to reporting that behaviour:</p>
+        
+        <p><strong>Step One:</strong> Collect EvidenceThis can include things like screenshots, webpages, addresses (URLs) and account profiles or usernames. </p>
+        <p><strong>Step Two:</strong> Report Harmful ContentIn some cases, you can report directly to the social media page or online service.
+        If they don’t remove the content within 48 hours report to the safety commission.</p>
+        <p><strong>Step Three:</strong> Prevent further Contact Use in- app functions to ignore, mute or block the other person and check your privacy settings. </p>
+        <p><strong>Step Four:</strong> Get more helpFind counselling and support. The student services team at BKI offers student’s free and confidential counselling and can assist with online abuse issues.</p>
+        
+        <p>Let's continue to test your knowledge.</p>
+    `,
+    question: 'What does a respectful online relationship look like?',
+    answers: [
+        {text: 'Pressure to do something that makes you feel uncomfortable', correct: false},
+        {text: 'Feeling like you can’t be your unique self', correct: false},
+        {text: 'It involves mutual respect, consent, and feels safe', correct: true}
+    ],
+    feedback: {
+        perfect: 'Well done! Your answers are correct.',
+        partial: 'Good try! Go back to watch the video again or move on to the topic summary.'
+    },
+    summary: `
+        <h3>Let's recap what you learned:</h3>
+        
+        <p>Respectful relationships, especialy when online, involve mutual respect and setting boundaries.</p>
+        <p>Reporting online abuse involves four key steps: first, collect evidence such as screenshots, web pages, URLs, and usernames; second, report the harmful content to the platform, and if it isn’t removed within 48 hours, escalate it to the eSafety Commissioner; third, prevent further contact by using in-app tools to block, mute, or adjust privacy settings; and finally, seek additional help through free and confidential counselling and support services, such as student support teams.</p>
+        <p>More information is available from the <a href="https://www.esafety.gov.au/young-people" target="_blank">eSafety Commissioner’s website for young people</a>.</p>
+
+        <div class="highlight-message">
+            <p><strong>There are many characteristics of a respectful, healthy relationship. No matter whether you are online or offline, relationships should be always be respectful.</strong></p>
+        </div>
+        
+        <p>Well done! You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+        <p><i>Topic 3: Respectful Relationships Online</i> is complete.</p>
+        <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
+    `,
+    targetImage: './assets/topic_3/s03-image-marker.png',
+    leftProfileImage: './assets/topic_3/leftProfileImage.png',
+    rightProfileImage: './assets/topic_3/rightProfileImage.png',
         
         // AR Assets with entity properties for Topic 3
         arAssets: {
@@ -426,36 +465,46 @@ const topicData = {
     topic_4: {
         title: 'Seeking Help and Support',
         icon: '🔒', // Can be emoji or image path
-        videoUrl: 'https://player.vimeo.com/video/76979871', // Topic-specific video (placeholder)
-        content: [
-            'Cybersecurity protects systems, networks, and data from digital attacks.',
-            'Malware includes viruses, worms, and ransomware that can damage systems.',
-            'Phishing attacks trick users into revealing sensitive information.',
-            'Strong passwords and two-factor authentication provide basic protection.'
-        ],
-        question: 'What are common cyber threats?',
-        answers: [
-            {text: 'Malware', correct: true},
-            {text: 'Power Outages', correct: false},
-            {text: 'Phishing', correct: true},
-            {text: 'Ransomware', correct: true},
-            {text: 'Hardware Failure', correct: false}
-        ],
-        feedback: {
-            perfect: 'Perfect! Malware, phishing, and ransomware are major cyber threats.',
-            partial: 'Good awareness! Focus on digital threats like malware and phishing attacks.'
-        },
-        summary: [
-            'Cybersecurity awareness achieved!',
-            'Security principles learned:',
-            '• Malware threatens system integrity',
-            '• Phishing steals personal information',
-            '• Strong passwords are essential',
-            '• Prevention is better than recovery'
-        ],
-        targetImage: './assets/topic_4/s04-imagetarget.png',
-        leftProfileImage: './assets/topic_4/leftProfileImage.png',
-        rightProfileImage: './assets/topic_4/rightProfileImage.png',
+        videoUrl: 'https://player.vimeo.com/video/720517222', // Topic-specific video (placeholder)
+        content: `       
+        <p><strong>Opening Up</strong></p>
+        <p>Help is always available — don’t hesitate to reach out.</p>
+        <p>When something goes wrong online, it's important to speak up and get help, but it might not be obvious what you can report or how to get help.</p>
+        <p>Consider these four steps when reporting online abuse:</p>
+        <p><strong>Step One:</strong> Collect EvidenceThis can include things like screenshots, webpages, addresses (URLs) and account profiles or usernames</p>
+        <p><strong>Step Two:</strong> Report Harmful ContentIn some cases, you can report directly to the social media page or online service. If they don’t remove the content within 48 hours report to the <a href="https://www.esafety.gov.au/young-people" target="_blank">eSafety Commissioner</a>.</p>
+        <p><strong>Step Three:</strong> Prevent further Contact Use in- app functions to ignore, mute or block the other person and check your privacy settings. </p>
+        <p><strong>Step Four:</strong> Get more helpFind counselling and support. The student services team at BKI offers student’s free and confidential counselling and can assist with online abuse issues.</p>
+        
+        <p>Let's continue to test your knowledge.</p>
+    `,
+    question: 'Who can you talk to if something online makes you feel unsafe?',
+    answers: [
+        {text: 'A random person online', correct: false},
+        {text: 'A trusted adult like a parent, teacher, or counsellor. You can also report issues to the eSafety Commissioner', correct: true},
+        {text: 'No one — it’s better to keep it to yourself', correct: false}
+    ],
+    feedback: {
+        perfect: 'Well done! Your answers are correct.',
+        partial: 'Good try! Go back to watch the video again or move on to the topic summary.'
+    },
+    summary: `
+        <h3>Let's recap what you learned:</h3>
+        
+        <p>If something goes wrong online, it’s important to speak up and get support. Reporting online abuse involves four steps: collect evidence such as screenshots, web pages, or usernames; report harmful content to the platform, and if not removed within 48 hours, escalate it to the eSafety Commissioner; prevent further contact by blocking, muting, or adjusting privacy settings; and seek additional help through free, confidential counselling and support services, such as those offered by the BKI student services team.</p>
+        <p>More information is available from the <a href="https://www.esafety.gov.au/young-people" target="_blank">eSafety Commissioner’s website for young people</a>.</p>
+
+        <div class="highlight-message">
+            <p><strong>It’s important to call in other support - talk to a trusted adult like a parent, teacher or older sibling so they can help you work out what to do.</strong></p>
+        </div>
+        
+        <p>Well done! You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+        <p><i>Topic 4: Seeking Help and Support</i> is complete.</p>
+        <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
+    `,
+    targetImage: './assets/topic_4/s04-image-marker.png',
+    leftProfileImage: './assets/topic_4/leftProfileImage.png',
+    rightProfileImage: './assets/topic_4/rightProfileImage.png',
         
         // AR Assets with entity properties for Topic 4
         arAssets: {

@@ -824,7 +824,7 @@ class ARSceneManager {
             <!-- Topic containers - always present for MindAR detection -->
             <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0">
         
-                <a-image id="s01-loading" src="./assets/topic_1/s01-loading.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
+                <a-image id="s01-loading" src="./assets/topic_1/s01-image-marker.png" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0" 
                     material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
         
                 <!-- Topic 1 entities will be added dynamically -->
@@ -832,13 +832,32 @@ class ARSceneManager {
 
             </a-entity>
             <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1">
+
+                <a-image id="s02-loading" src="./assets/topic_2/s02-image-marker.png" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0" 
+                    material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+
                 <!-- Topic 2 entities will be added dynamically -->
+                <a-entity id="scenario-assets-topic-group-2" position="0 0 0"></a-entity>
+
+
             </a-entity>
             <a-entity id="scenario-assets-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2">
+
+                <a-image id="s03-loading" src="./assets/topic_3/s03-image-marker.png" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0" 
+                    material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+
                 <!-- Topic 3 entities will be added dynamically -->
+                <a-entity id="scenario-assets-topic-group-3" position="0 0 0"></a-entity>
+
             </a-entity>
             <a-entity id="scenario-assets-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3">
+
+                <a-image id="s04-loading" src="./assets/topic_4/s04-image-marker.png" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0" 
+                    material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+
                 <!-- Topic 4 entities will be added dynamically -->
+                <a-entity id="scenario-assets-topic-group-4" position="0 0 0"></a-entity>
+
             </a-entity>
 
             <a-camera position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
