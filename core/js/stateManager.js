@@ -164,11 +164,19 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering video state');
 
-                    // Stop AR scene and timeline when returning to menu
+                    // Stop AR scene and timeline when entering video state
                     if (window.arSceneManager) {
-                        console.log('🛑 Stopping AR scene and timeline when returning to menu');
-                        window.arSceneManager.stopMindAR();
-                        window.arSceneManager.disposeScene();
+                        console.log('🛑 Stopping AR scene and timeline when entering video state');
+                        try {
+                            window.arSceneManager.stopMindAR();
+                        } catch (error) {
+                            console.warn('⚠️ Error stopping MindAR:', error);
+                        }
+                        try {
+                            window.arSceneManager.disposeScene();
+                        } catch (error) {
+                            console.warn('⚠️ Error disposing scene:', error);
+                        }
                     }
 
                     this.hideAllSections();

@@ -327,6 +327,13 @@ class ARSceneManager {
         console.log(`🎯 handleTargetFound called with targetIndex: ${targetIndex}`);
         console.log(`🎯 Topic mapping:`, this.topicMapping);
         
+        // Don't process target found events when in video state or other non-AR states
+        const currentState = window.stateManager ? window.stateManager.currentState : null;
+        if (['video', 'quiz', 'summary', 'menu'].includes(currentState)) {
+            console.log(`🚫 Ignoring target found event in ${currentState} state`);
+            return;
+        }
+        
         const detectedTopicId = this.topicMapping[targetIndex];
         if (detectedTopicId) {
             console.log(`✅ Poster detected for topic ${detectedTopicId}`);
@@ -409,6 +416,13 @@ class ARSceneManager {
     // Handle target lost event
     handleTargetLost(targetIndex) {
         console.log(`🎯 handleTargetLost called with targetIndex: ${targetIndex}`);
+        
+        // Don't process target lost events when in video state or other non-AR states
+        const currentState = window.stateManager ? window.stateManager.currentState : null;
+        if (['video', 'quiz', 'summary', 'menu'].includes(currentState)) {
+            console.log(`🚫 Ignoring target lost event in ${currentState} state`);
+            return;
+        }
         
         // Always go back to scanning when tracking is lost
         window.stateManager.changeState('scanning');
