@@ -153,13 +153,6 @@ class StateManager {
                 },
                 onExit: () => {
                     console.log('Exiting animating state');
-                    // Stop MindAR camera and pause AR scene when showing fullscreen video
-                    console.log('Stopping MindAR camera and pausing AR scene when exiting animating state');
-                    if (window.arSceneManager) {
-                        window.arSceneManager.stopMindAR();
-                        window.arSceneManager.pauseScene();
-                    }
-                    
                     // Stop the timeline completely when transitioning to video
                     if (window.timelineController) {
                         console.log('🛑 Stopping timeline when transitioning to video state');

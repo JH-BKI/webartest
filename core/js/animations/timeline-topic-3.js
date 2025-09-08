@@ -32,9 +32,13 @@ window.createTimeline = function(timelineController) {
       easing: 'linear',
       complete: () => {
         document.querySelector('.scenario-ui-prompt-button-area').display = "none";
+        document.querySelector('.scenario-ui-prompt-button-area').setAttribute('opacity', 0);
         document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').setAttribute('opacity', 0);
         document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
-        
+        document.querySelector('.scenario-ui-prompt-speech.right').setAttribute('opacity', 0);
+
+
         document.getElementById('s03-speech-lt').setAttribute('opacity', 0);
         document.getElementById('s03-speech-rt').setAttribute('opacity', 0);
         document.getElementById('s03s01-Riley').setAttribute('opacity', 0);
