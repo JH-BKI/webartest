@@ -467,7 +467,20 @@ class ARSceneManager {
                 timelineController.reset();
             }
             
-            // MindAR disposal is handled automatically by A-Frame when scene is removed
+            // Clean up MindAR overlays that are created outside the container
+            const mindarOverlays = document.querySelectorAll('.mindar-ui-overlay');
+            mindarOverlays.forEach(overlay => {
+                console.log('🗑️ Removing MindAR overlay:', overlay.className);
+                overlay.remove();
+            });
+            
+            // Clean up any video elements that might be outside the container
+            const videos = document.querySelectorAll('video[autoplay][muted][playsinline]');
+            videos.forEach(video => {
+                console.log('🗑️ Stopping and removing video element');
+                video.srcObject = null; // Stop camera stream
+                video.remove();
+            });
             
             const container = document.getElementById('ar-scene-container');
             if (container) {
