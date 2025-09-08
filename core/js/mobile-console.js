@@ -510,7 +510,7 @@ class MobileConsole {
         return {
             deviceType: this.deviceType,
             isPhone: this.isPhone(),
-            isTablet: this.isTablet(),
+            isTablet: this.isTablet,
             isDesktop: this.isDesktop(),
             hasTouch: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
             screenWidth: window.innerWidth,
