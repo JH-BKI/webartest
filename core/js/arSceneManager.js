@@ -484,6 +484,10 @@ class ARSceneManager {
             if (timelineController) {
                 console.log('⏹️ AR Scene Manager: Stopping timeline controller');
                 timelineController.reset();
+                // Also explicitly stop any running timeline
+                if (timelineController.stopTimeline) {
+                    timelineController.stopTimeline();
+                }
             }
             
             const container = document.getElementById('ar-scene-container');
@@ -740,6 +744,20 @@ class ARSceneManager {
                     try {
                         console.log('📹 Starting MindAR camera and tracking');
                         mindarSystem.start();
+                        
+                        // Clean up any video elements MindAR might have created after starting
+                        setTimeout(() => {
+                            const newVideos = document.querySelectorAll('video');
+                            if (newVideos.length > 1) { // More than 1 means duplicates
+                                console.log(`🧹 AR Scene Manager: Found ${newVideos.length} video elements after MindAR start, cleaning up duplicates`);
+                                // Keep the first one, remove the rest
+                                for (let i = 1; i < newVideos.length; i++) {
+                                    newVideos[i].srcObject = null;
+                                    newVideos[i].pause();
+                                    newVideos[i].remove();
+                                }
+                            }
+                        }, 1000); // Give MindAR time to create video elements
                     } catch (error) {
                         console.warn('⚠️ MindAR start failed, retrying in 1000ms:', error.message);
                         // Only retry if not ready, with longer delay
@@ -747,6 +765,20 @@ class ARSceneManager {
                             try {
                                 console.log('📹 Retrying MindAR start...');
                                 mindarSystem.start();
+                                
+                                // Clean up any video elements MindAR might have created after retry
+                                setTimeout(() => {
+                                    const newVideos = document.querySelectorAll('video');
+                                    if (newVideos.length > 1) { // More than 1 means duplicates
+                                        console.log(`🧹 AR Scene Manager: Found ${newVideos.length} video elements after MindAR retry, cleaning up duplicates`);
+                                        // Keep the first one, remove the rest
+                                        for (let i = 1; i < newVideos.length; i++) {
+                                            newVideos[i].srcObject = null;
+                                            newVideos[i].pause();
+                                            newVideos[i].remove();
+                                        }
+                                    }
+                                }, 1000);
                             } catch (retryError) {
                                 console.error('❌ MindAR start failed after retry:', retryError.message);
                             }
@@ -760,6 +792,20 @@ class ARSceneManager {
                             try {
                                 console.log('📹 Starting MindAR camera and tracking (delayed)');
                                 mindarSystem.start();
+                                
+                                // Clean up any video elements MindAR might have created after delayed start
+                                setTimeout(() => {
+                                    const newVideos = document.querySelectorAll('video');
+                                    if (newVideos.length > 1) { // More than 1 means duplicates
+                                        console.log(`🧹 AR Scene Manager: Found ${newVideos.length} video elements after MindAR delayed start, cleaning up duplicates`);
+                                        // Keep the first one, remove the rest
+                                        for (let i = 1; i < newVideos.length; i++) {
+                                            newVideos[i].srcObject = null;
+                                            newVideos[i].pause();
+                                            newVideos[i].remove();
+                                        }
+                                    }
+                                }, 1000);
                             } catch (error) {
                                 console.error('❌ MindAR start failed after delay:', error.message);
                             }

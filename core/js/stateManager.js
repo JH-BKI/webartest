@@ -66,6 +66,7 @@ class StateManager {
                     if (window.progressManager) {
                         window.progressManager.updateMenuUI();
                     }
+                    
                 },
                 onExit: () => {
                     console.log('Exiting menu state');
@@ -89,6 +90,12 @@ class StateManager {
                 },
                 onExit: () => {
                     console.log('Exiting scanning state');
+                    // Stop AR scene and timeline when exiting scanning state
+                    if (window.arSceneManager) {
+                        console.log('🛑 Stopping AR scene and timeline when exiting scanning');
+                        window.arSceneManager.stopMindAR();
+                        window.arSceneManager.disposeScene();
+                    }
                 }
             },
             ar_ready: {
@@ -116,6 +123,16 @@ class StateManager {
                 },
                 onExit: () => {
                     console.log('Exiting AR ready state');
+                    // Stop any running countdown timer
+                    if (window.countdownTimer && window.countdownTimer.cancel) {
+                        window.countdownTimer.cancel();
+                    }
+                    // Stop AR scene and timeline when exiting ar_ready state
+                    if (window.arSceneManager) {
+                        console.log('🛑 Stopping AR scene and timeline when exiting ar_ready');
+                        window.arSceneManager.stopMindAR();
+                        window.arSceneManager.disposeScene();
+                    }
                 }
             },
             animating: {
