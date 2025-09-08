@@ -474,6 +474,13 @@ class ARSceneManager {
         // Always clean up MindAR elements, regardless of currentScene state
         console.log('🧹 AR Scene Manager: Cleaning up MindAR elements...');
         
+        // Stop MindAR first to ensure clean state
+        try {
+            this.stopMindAR();
+        } catch (error) {
+            console.warn('⚠️ Error stopping MindAR during dispose:', error);
+        }
+        
         // Clean up MindAR overlays that are created outside the container
         const mindarOverlays = document.querySelectorAll('.mindar-ui-overlay');
         mindarOverlays.forEach(overlay => {
@@ -525,6 +532,9 @@ class ARSceneManager {
     // Public API methods for explicit control
     startScanning() {
         console.log('🎬 AR Scene Manager: Starting AR scanning');
+        
+        // Ensure clean slate - dispose any existing scene first
+        this.disposeScene();
         
         // Reset state tracking variables for new scanning session
         this.previousState = null;
@@ -841,7 +851,12 @@ class ARSceneManager {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
             if (mindarSystem) {
                 console.log('📹 Stopping MindAR camera and tracking');
-                mindarSystem.stop();
+                try {
+                    mindarSystem.stop();
+                } catch (error) {
+                    console.warn('⚠️ Error stopping MindAR system:', error);
+                    // Continue with cleanup even if MindAR stop fails
+                }
             } else {
                 console.warn('⚠️ MindAR system not found - cannot stop camera');
             }

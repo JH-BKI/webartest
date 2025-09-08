@@ -330,7 +330,7 @@
          * - Content loading functions
          */
         
-        let version = '2.91';
+        let version = '2.92';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -409,7 +409,8 @@
                     clearInterval(interval);
                     setTimeout(() => {
                         // Use state manager to transition to campus selection
-                        stateManager.changeState('campus_selection');
+                        //stateManager.changeState('campus_selection');
+                        stateManager.changeState('menu');
                     }, 250);
                 }
             }, 20);
