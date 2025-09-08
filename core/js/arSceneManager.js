@@ -457,6 +457,24 @@ class ARSceneManager {
     }
     
     disposeScene() {
+        // Always clean up MindAR elements, regardless of currentScene state
+        console.log('🧹 AR Scene Manager: Cleaning up MindAR elements...');
+        
+        // Clean up MindAR overlays that are created outside the container
+        const mindarOverlays = document.querySelectorAll('.mindar-ui-overlay');
+        mindarOverlays.forEach(overlay => {
+            console.log('🗑️ Removing MindAR overlay:', overlay.className);
+            overlay.remove();
+        });
+        
+        // Clean up any video elements that might be outside the container
+        const videos = document.querySelectorAll('video[autoplay][muted][playsinline]');
+        videos.forEach(video => {
+            console.log('🗑️ Stopping and removing video element');
+            video.srcObject = null; // Stop camera stream
+            video.remove();
+        });
+        
         if (this.currentScene) {
             console.log('🧹 AR Scene Manager: Disposing current scene...');
             
@@ -466,21 +484,6 @@ class ARSceneManager {
                 console.log('⏹️ AR Scene Manager: Stopping timeline controller');
                 timelineController.reset();
             }
-            
-            // Clean up MindAR overlays that are created outside the container
-            const mindarOverlays = document.querySelectorAll('.mindar-ui-overlay');
-            mindarOverlays.forEach(overlay => {
-                console.log('🗑️ Removing MindAR overlay:', overlay.className);
-                overlay.remove();
-            });
-            
-            // Clean up any video elements that might be outside the container
-            const videos = document.querySelectorAll('video[autoplay][muted][playsinline]');
-            videos.forEach(video => {
-                console.log('🗑️ Stopping and removing video element');
-                video.srcObject = null; // Stop camera stream
-                video.remove();
-            });
             
             const container = document.getElementById('ar-scene-container');
             if (container) {
