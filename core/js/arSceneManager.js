@@ -803,7 +803,7 @@ class ARSceneManager {
         
         const arSceneHTML = `   
         <a-scene id="AR-scene"  
-            mindar-image="imageTargetSrc: ./assets/targets/targets_4.mind; 
+            mindar-image="imageTargetSrc: ./assets/targets/targets_4_final.mind; 
             filterMinCF: 0.0001; 
             filterBeta: 0.001; 
             warmupTolerance: 1; 
