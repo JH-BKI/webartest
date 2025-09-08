@@ -851,6 +851,9 @@ class ARSceneManager {
 
 
     injectARScene() {
+        // Clean up any previous AR scene before injecting new one
+        this.disposeScene();
+        
         // Show the AR scene container
         const container = document.getElementById('ar-scene-container');
         if (container) {

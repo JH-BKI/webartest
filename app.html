@@ -330,7 +330,7 @@
          * - Content loading functions
          */
         
-        let version = '2.83';
+        let version = '2.84';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -816,6 +816,7 @@
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('btn')) {
                 event.target.disabled = true;
+                console.log('Button disabled 1s for: ' + event.target.id + ' - ' + event.target.textContent);
                 setTimeout(() => {
                     event.target.disabled = false;
                 }, 1000);
