@@ -707,8 +707,8 @@ class ARSceneManager {
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
             if (mindarSystem) {
-                // Check if MindAR is fully initialized (no artificial delays)
-                if (mindarSystem.start && typeof mindarSystem.start === 'function' && mindarSystem.showLoading !== undefined) {
+                // Check if MindAR is ready (no artificial delays)
+                if (mindarSystem.start && typeof mindarSystem.start === 'function') {
                     try {
                         console.log('📹 Starting MindAR camera and tracking');
                         mindarSystem.start();
@@ -725,10 +725,10 @@ class ARSceneManager {
                         }, 1000);
                     }
                 } else {
-                    console.warn('⚠️ MindAR system not ready - showLoading not initialized');
+                    console.warn('⚠️ MindAR system not ready - start method not available');
                     // Wait for MindAR to be ready, then try once
                     setTimeout(() => {
-                        if (mindarSystem.showLoading !== undefined) {
+                        if (mindarSystem.start && typeof mindarSystem.start === 'function') {
                             try {
                                 console.log('📹 Starting MindAR camera and tracking (delayed)');
                                 mindarSystem.start();
