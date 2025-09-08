@@ -56,7 +56,16 @@ class StateManager {
             menu: {
                 onEnter: () => {
                     console.log('Entering menu state');
+                    
+                    // Stop AR scene and timeline when returning to menu
+                    if (window.arSceneManager) {
+                        console.log('🛑 Stopping AR scene and timeline when returning to menu');
+                        window.arSceneManager.stopMindAR();
+                        window.arSceneManager.disposeScene();
+                    }
+
                     this.hideAllSections();
+
                     // Show menu section
                     const menuSection = document.getElementById('menu-section');
                     if (menuSection) {
@@ -90,12 +99,6 @@ class StateManager {
                 },
                 onExit: () => {
                     console.log('Exiting scanning state');
-                    // Stop AR scene and timeline when exiting scanning state
-                    if (window.arSceneManager) {
-                        console.log('🛑 Stopping AR scene and timeline when exiting scanning');
-                        window.arSceneManager.stopMindAR();
-                        window.arSceneManager.disposeScene();
-                    }
                 }
             },
             ar_ready: {
@@ -126,12 +129,6 @@ class StateManager {
                     // Stop any running countdown timer
                     if (window.countdownTimer && window.countdownTimer.cancel) {
                         window.countdownTimer.cancel();
-                    }
-                    // Stop AR scene and timeline when exiting ar_ready state
-                    if (window.arSceneManager) {
-                        console.log('🛑 Stopping AR scene and timeline when exiting ar_ready');
-                        window.arSceneManager.stopMindAR();
-                        window.arSceneManager.disposeScene();
                     }
                 }
             },
@@ -173,6 +170,14 @@ class StateManager {
             video: {
                 onEnter: () => {
                     console.log('Entering video state');
+
+                    // Stop AR scene and timeline when returning to menu
+                    if (window.arSceneManager) {
+                        console.log('🛑 Stopping AR scene and timeline when returning to menu');
+                        window.arSceneManager.stopMindAR();
+                        window.arSceneManager.disposeScene();
+                    }
+
                     this.hideAllSections();
                     // document.getElementById('progress').classList.remove('hidden');
                     const videoSection = document.getElementById('video-section');

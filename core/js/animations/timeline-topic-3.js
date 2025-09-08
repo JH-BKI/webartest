@@ -31,7 +31,9 @@ window.createTimeline = function(timelineController) {
       duration: 10, // Instant change
       easing: 'linear',
       complete: () => {
-        
+        document.querySelector('.scenario-ui-prompt-button-area').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
         
         document.getElementById('s03-speech-lt').setAttribute('opacity', 0);
         document.getElementById('s03-speech-rt').setAttribute('opacity', 0);
@@ -417,7 +419,7 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
         const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
             infoElement.innerHTML = `<h4>Moving on...</h4>
-                                      <p>Now you have seen the conversation between Riley and Sam, let's find out more about what is a respectful relationships.</p>
+                                      <p>Now you have seen the conversation between Riley and Sam, let's find out more about having respectful relationships.</p>
                                       <p>Select the continue button below to move on.</p>`;
             infoElement.style.display = "block";
       },
