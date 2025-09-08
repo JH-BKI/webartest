@@ -130,17 +130,26 @@ window.createTimeline = function(timelineController) {
 
   timeline
     .add({
-      targets: ['#s03s02-Riley', '#s03s02-Sam'],
+      targets: ['#s03s02-Riley'],
+      opacity: [0, 1],
+      position: ['0.375 0 -1.05', '0.375 0 -1.05'],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 02)`);
+        document.getElementById('s03s02-Riley').setAttribute('visible', true);
+      }
+    },"-=1000")
+    .add({
+      targets: ['#s03s02-Sam'],
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 02)`);
-        document.getElementById('s01s02-Mia').setAttribute('visible', true);
-        document.getElementById('s01s02-Alex').setAttribute('visible', true);
+        document.getElementById('s03s02-Sam').setAttribute('visible', true);
       }
     },"-=1000")
-
     .add({
       targets: ['#s03-speech-rt', '.scenario-ui-prompt-speech.right'],
       opacity: [0, 1],
@@ -162,11 +171,11 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading in continue button area (Scene 02)`);
         document.querySelector('.scenario-ui-prompt-button-area').style.display = "flex";
       }
-    })               
-    .add(addPause(3))
+    }).add(addPause(3))
+    
     .add({
       targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
-                '#s01-speech-lt','#s01-speech-rt','#s01s02-Mia', '#s01s02-Alex'],
+                '#s03-speech-lt','#s03-speech-rt','#s03s02-Riley', '#s03s02-Sam'],
       opacity: [1, 0],
       duration: 1000,
       easing: 'linear',                  
@@ -174,18 +183,14 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubbles (Scene 02)`);
       },
       complete: () => {
-        const buttonArea = document.querySelector('.scenario-ui-prompt-button-area');
-        const speechLeft = document.querySelector('.scenario-ui-prompt-speech.left');
-        const speechRight = document.querySelector('.scenario-ui-prompt-speech.right');
-        
-        if (buttonArea) buttonArea.style.display = "none";
-        if (speechLeft) speechLeft.style.display = "none";
-        if (speechRight) speechRight.style.display = "none";
-        
-        document.getElementById('s01-speech-lt').setAttribute('visible', false);
-        document.getElementById('s01-speech-rt').setAttribute('visible', false);
-        document.getElementById('s01s02-Mia').setAttribute('visible', false);
-        document.getElementById('s01s02-Alex').setAttribute('visible', false);
+        document.querySelector('.scenario-ui-prompt-button-area').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
+
+        document.getElementById('s03-speech-lt').setAttribute('visible', false);
+        document.getElementById('s03-speech-rt').setAttribute('visible', false);
+        document.getElementById('s03s02-Riley').setAttribute('visible', false);
+        document.getElementById('s03s02-Sam').setAttribute('visible', false);
       }
     });
 
@@ -196,365 +201,203 @@ window.createTimeline = function(timelineController) {
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   
-  timeline.add({
-    targets: ['#s01s03-Mia', '#s01s03-Alex'],
-    opacity: [0, 1],
-    duration: 1000,
-    easing: 'linear',
-    begin: () => {                
-      console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 03)`);
-      document.getElementById('s01s03-Alex').setAttribute('visible', true);
-      document.getElementById('s01s03-Mia').setAttribute('visible', true);
-    }           
-  },"-=1000")
-    .add({
-      targets: '#text-content-left',
-      opacity: [1, 1],
-      duration: 10, // Instant change
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Setting Alex's speech text about new phone and TAFE logo (Scene 03)`);
-        document.getElementById('text-content-left').textContent = "I just got a new phone! I posted a selfie with it and my TAFE logo is showing.";
-      }
-    })
-    .add({
-      targets: ['#s01-speech-lt', '.scenario-ui-prompt-speech.left'],
+    timeline.add({
+      targets: ['#s03s03-Riley', '#s03s03-Sam'],
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Alex's speech UI (Scene 03)`);
-        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
-        document.getElementById('s01-speech-lt').setAttribute('visible', true);
-      }
-    })
-    .add({
-      targets: ['#s01-speech-lt','#s01s03-Mia', '#s01s03-Alex'],
-      opacity: [1, 0],
-      duration: 1000,
-      easing: 'linear',
-      delay: 3000,
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading out left speech bubble, Mia and Alex (Scene 03)`);
-      },
-      complete: () => {
-        document.getElementById('s01-speech-lt').setAttribute('visible', false);
-        document.getElementById('s01s03-Mia').setAttribute('visible', false);
-        document.getElementById('s01s03-Alex').setAttribute('visible', false);
-      }
-    }) 
-    .add({
-      targets: '#s01s04-post',
-      opacity: [0, 1],
-      position: ['0.5 -0.5 -2', '0.5 0 -1.25'],
-      rotation: ['0 0 0', '0 0 10'], // Spin while moving
-      duration: 1000,
-      easing: 'easeInOutQuad',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in social media post with spin and movement (Scene 03)`);
-        document.getElementById('s01s04-post').setAttribute('visible', true);
-      },
-      complete: () => {
-        console.log('Timeline: Starting social media reactions animations (Scene 03)');
-        document.getElementById('s01s04-like').setAttribute('visible', true);
-        document.getElementById('s01s04-heart').setAttribute('visible', true);
-        document.getElementById('s01s04-share').setAttribute('visible', true);
-        document.getElementById('s01s04-smile').setAttribute('visible', true);
-        // Start a separate looping animation when this completes
-        anime({
-          targets: '#s01s04-post',
-          rotation: ['0 0 10', '0 0 5'],
-          duration: 5000,
-          easing: 'linear',
-          loop: 10,
-          direction: 'alternate'
-        });
-
-        anime({
-          targets: '#s01s04-like',
-          opacity: [1, 0],
-          position: ['-1 2.5 -3', '-1 -1.5 -3'],
-          duration: 2000,
-          easing: 'easeInOutQuad',
-          loop: 10,
-          direction: 'alternate'
-        },"-=1000");
-
-        anime({
-          targets: '#s01s04-heart',
-          opacity: [1, 0],
-          position: ['0.5 2 -2.5', '0.5 -1.75 -2.5'],
-          duration: 2500,
-          easing: 'easeInOutQuad',
-          loop: 10,
-          direction: 'alternate'
-        },"-=500");
-
-        anime({
-          targets: '#s01s04-share',
-          opacity: [1, 0],
-          position: ['-0.5 2 -3', '-0.5 -1.5 -3.5'],
-          duration: 3000,
-          easing: 'easeInOutQuad',
-          loop: 10,
-          direction: 'alternate'
-        },"-=250");
-        
-        anime({
-          targets: '#s01s04-smile',
-          opacity: [1, 0],
-          position: ['1.25 2 -2.25', '1.25 -1.5 -2.25'],
-          duration: 2750,
-          easing: 'easeInOutQuad',
-          loop: 10,
-          direction: 'alternate'
-        },"-=750");
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading in social media post with spin and movement (Scene 03) failed -`, error);
-      }
+      begin: () => {                
+        console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 03)`);
+        document.getElementById('s03s03-Riley').setAttribute('visible', true);
+        document.getElementById('s03s03-Sam').setAttribute('visible', true);
+      }           
     },"-=1000")
     .add({
-      targets: '.scenario-ui-prompt-button-area',
+      targets: ['#s03-speech-lt', '.scenario-ui-prompt-speech.left'],
       opacity: [0, 1],
-      duration: 500,
-      easing: 'linear',
-      delay: 3000,
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in continue button area (Scene 03)`);
-        document.querySelector('.scenario-ui-prompt-button-area').style.display = "flex";
-      }
-    })               
-    .add(addPause(5))
-    .add({
-      targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','#s01s04-post','#s01s04-heart','#s01s04-like','#s01s04-share','#s01s04-smile'],
-      opacity: [1, 0],
       duration: 1000,
       easing: 'linear',
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading out all social media elements (Scene 04)`);
+        console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Riley's speech UI (Scene 03)`);
+        document.getElementById('text-content-left').textContent = "Hi Sam! What's going on...? You look upset.";
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
+        document.getElementById('s03-speech-lt').setAttribute('visible', true);
+      }
+    })
+    .add({
+      targets: ['#s03-speech-rt', '.scenario-ui-prompt-speech.right'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Sam's speech UI (Scene 03)`);
+        document.getElementById('text-content-right').textContent = "Hey Riley. Yeah...";
+        document.getElementById('s03-speech-rt').setAttribute('visible', true);
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
+      }
+    })
+    
+    .add({
+      targets: ['#s03s03-Riley', '#s03s03-Sam','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
+                '#s03-speech-lt','#s03-speech-rt'],
+      opacity: [1, 0],
+      duration: 1000,
+      easing: 'linear',                  
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading out Riley and Sam (Scene 03)`);
       },
       complete: () => {
-        const buttonArea = document.querySelector('.scenario-ui-prompt-button-area');
-        const speechLeft = document.querySelector('.scenario-ui-prompt-speech.left');
-        
-        if (buttonArea) buttonArea.style.display = "none";
-        if (speechLeft) speechLeft.style.display = "none";
-        
-        document.getElementById('s01s04-post').setAttribute('visible', false);
-        document.getElementById('s01s04-like').setAttribute('visible', false);
-        document.getElementById('s01s04-heart').setAttribute('visible', false);
-        document.getElementById('s01s04-share').setAttribute('visible', false);
-        document.getElementById('s01s04-smile').setAttribute('visible', false);
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading out all social media elements (Scene 04) failed -`, error);
+        document.getElementById('s03s03-Riley').setAttribute('visible', false);
+        document.getElementById('s03s03-Sam').setAttribute('visible', false);
+        document.getElementById('s03-speech-lt').setAttribute('visible', false);
+        document.getElementById('s03-speech-rt').setAttribute('visible', false);
+        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
       }
-    });
-                
+    })    
   ///////////////////////////////////////////////////////////////////////////////////////////
-  // Scene 05: Fade In (Mia and Alex simultaneously)
+  // Scene 04: 
   /////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
-
-  timeline
     .add({
-      targets: '#text-content-right',
-      opacity: [1, 1],
-      duration: 10, // Instant change
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Setting Mia's speech text about privacy concerns (Scene 05)`);
-        document.getElementById('text-content-right').textContent = "Oh, you might want to take that down. People can figure out where you go to school from that.";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Setting Mia's speech text about privacy concerns (Scene 05) failed -`, error);
-      }
-    })
-    .add({
-      targets: ['#s01s05-Mia', '#s01s05-Alex'],
+      targets: ['#s03s04-Riley', '#s03s04-Sam'],
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 05)`);
-        document.getElementById('s01s05-Mia').setAttribute('visible', true);
-        document.getElementById('s01s05-Alex').setAttribute('visible', true);
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading in Mia and Alex (Scene 05) failed -`, error);
+        console.log(`Timeline Item ${itemNumber++}: Fading in Riley and Sam (Scene 04)`);
+        document.getElementById('s03s04-Riley').setAttribute('visible', true);
+        document.getElementById('s03s04-Sam').setAttribute('visible', true);
       }
     },"-=1000")
     .add({
-      targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right'],
+      targets: ['#s03-speech-rt', '.scenario-ui-prompt-speech.right'],
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 05)`);
+        console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Sam's speech UI (Scene 03)`);
+        document.getElementById('text-content-right').textContent = "My friend keeps asking me to send pics I’m not comfortable with.";
+        document.getElementById('s03-speech-rt').setAttribute('visible', true);
         document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
-        document.getElementById('s01-speech-rt').setAttribute('visible', true);
+      }
+    })
+
+    .add({
+      targets: ['#s03s04-Riley', '#s03s04-Sam'],
+      opacity: [1, 0],
+      duration: 1000,
+      easing: 'linear',                  
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubbles (Scene 02)`);
       },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading in right speech bubble and Mia's speech UI (Scene 05) failed -`, error);
+      complete: () => {
+        document.getElementById('s03s04-Riley').setAttribute('visible', false);
+        document.getElementById('s03s04-Sam').setAttribute('visible', false);
+      }
+    })
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  // Scene 05: 
+  /////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+    timeline.add({
+      targets: ['#s03s05-Riley', '#s03s05-Sam'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {                
+        console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 03)`);
+        document.getElementById('s03s03-Riley').setAttribute('visible', true);
+        document.getElementById('s03s03-Sam').setAttribute('visible', true);
+      }           
+    },"-=1000")
+    .add({
+      targets: ['#s03-speech-lt', '.scenario-ui-prompt-speech.left'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Riley's speech UI (Scene 03)`);
+        document.getElementById('text-content-left').textContent = "That’s not okay. You don’t have to do anything you’re not comfortable with.";
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
+        document.getElementById('s03-speech-lt').setAttribute('visible', true);
+      }
+    })
+    .add(addPause(3))
+    .add({
+      targets: ['#s03s05-Riley', '#s03s05-Sam','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
+                '#s03-speech-lt','#s03-speech-rt'],
+      opacity: [1, 0],
+      duration: 1000,
+      easing: 'linear',                  
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading out Riley and Sam (Scene 03)`);
+      },
+      complete: () => {
+        document.getElementById('s03s05-Riley').setAttribute('visible', false);
+        document.getElementById('s03s05-Sam').setAttribute('visible', false);
+        document.getElementById('s03-speech-lt').setAttribute('visible', false);
+        document.getElementById('s03-speech-rt').setAttribute('visible', false);
+        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
+      }
+    })    
+    .add({
+      targets: ['#s03s06-Riley', '#s03s06-Sam'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in Riley and Sam (Scene 06)`);
+        document.getElementById('s03s06-Riley').setAttribute('visible', true);
+        document.getElementById('s03s06-Sam').setAttribute('visible', true);
+      }
+    },"-=1000")
+    .add({
+      targets: ['#s03-speech-rt', '.scenario-ui-prompt-speech.right'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Sam's speech UI (Scene 03)`);
+        document.getElementById('text-content-right').textContent = "I’m worried they’ll get mad.";
+        document.getElementById('s03-speech-rt').setAttribute('visible', true);
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
       }
     })
     .add({
-      targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right','#s01s05-Mia', '#s01s05-Alex'],
-      opacity: [1, 0],
+      targets: ['#s03-speech-lt', '.scenario-ui-prompt-speech.left'],
+      opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
-      delay: 3000,
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading out speech bubble right and Mia and Alex (Scene 05)`);
+        console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Riley's speech UI (Scene 03)`);
+        document.getElementById('text-content-left').textContent = "Real friends respect boundaries. You should block them and talk to someone you trust.";
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
+        document.getElementById('s03-speech-lt').setAttribute('visible', true);
+      }
+    })
+
+    .add({
+      targets: ['.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
+                '#s03-speech-lt','#s03-speech-rt'],
+      opacity: [1, 0],
+      duration: 1000,
+      easing: 'linear',                  
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading out Riley and Sam (Scene 03)`);
       },
       complete: () => {
-        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-        document.getElementById('s01-speech-rt').setAttribute('visible', false);
-        document.getElementById('s01s05-Mia').setAttribute('visible', false);
-        document.getElementById('s01s05-Alex').setAttribute('visible', false);
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading out speech bubble right and Mia and Alex (Scene 05) failed -`, error);
+        document.getElementById('s03-speech-lt').setAttribute('visible', false);
+        document.getElementById('s03-speech-rt').setAttribute('visible', false);
+        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
       }
     });  
-              
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  // Scene 06: Fade In (Mia and Alex simultaneously)
-  /////////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-
-  timeline
-    .add({
-      targets: ['#s01s06-Mia', '#s01s06-Alex'],
-      opacity: [0, 1],
-      duration: 1000,
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 06)`);
-        document.getElementById('s01s06-Mia').setAttribute('visible', true);
-        document.getElementById('s01s06-Alex').setAttribute('visible', true);
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading in Mia and Alex (Scene 06) failed -`, error);
-      }
-    },"-=1000")
-    .add({
-      targets: '#text-content-left',
-      opacity: [1, 1],
-      duration: 10, // Instant change
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Setting Alex's speech text about not thinking it's a big deal (Scene 06)`);
-        document.getElementById('text-content-left').textContent = "Really? I didn't think it was a big deal.";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Setting Alex's speech text about not thinking it's a big deal (Scene 06) failed -`, error);
-      }
-    })
-    .add({
-      targets: ['#s01-speech-lt', '.scenario-ui-prompt-speech.left'],
-      opacity: [0, 1],
-      duration: 1000,
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Alex's speech UI (Scene 06)`);
-        document.getElementById('s01-speech-lt').setAttribute('visible', true);
-        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading in left speech bubble and Alex's speech UI (Scene 06) failed -`, error);
-      }
-    })
-    .add({
-      targets: ['#s01-speech-lt', '.scenario-ui-prompt-speech.left','#s01s06-Mia', '#s01s06-Alex'],
-      opacity: [1, 0],
-      duration: 1000,
-      easing: 'linear',
-      delay: 3000,
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading out Mia and Alex (Scene 06)`);
-      },
-      complete: () => {
-        document.getElementById('s01-speech-lt').setAttribute('visible', false);
-        document.getElementById('s01s06-Mia').setAttribute('visible', false);
-        document.getElementById('s01s06-Alex').setAttribute('visible', false);
-        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading out Mia and Alex (Scene 06) failed -`, error);
-      }
-    });
-              
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  // Scene 07: Fade In (Mia and Alex simultaneously)
-  /////////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-
-  timeline
-    .add({
-      targets: ['#s01s07-Mia', '#s01s07-Alex'],
-      opacity: [0, 1],
-      duration: 1000,
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 07)`);
-        document.getElementById('s01s07-Mia').setAttribute('visible', true);
-        document.getElementById('s01s07-Alex').setAttribute('visible', true);
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading in Mia and Alex (Scene 07) failed -`, error);
-      }
-    },"-=1000")
-    .add({
-      targets: '#text-content-right',
-      opacity: [1, 1],
-      duration: 10, // Instant change
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Setting Mia's speech text about privacy and safety (Scene 07)`);
-        document.getElementById('text-content-right').textContent = "It can be. It's safer to keep stuff like your school and location private.";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Setting Mia's speech text about privacy and safety (Scene 07) failed -`, error);
-      }
-    })
-    .add({
-      targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right'],
-      opacity: [0, 1],
-      duration: 1000,
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 07)`);
-        document.getElementById('s01-speech-rt').setAttribute('visible', true);
-        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading in right speech bubble and Mia's speech UI (Scene 07) failed -`, error);
-      }
-    })
-    .add({
-      targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right'],
-      opacity: [1, 0],
-      duration: 1000,
-      easing: 'linear',
-      delay: 5000,      
-      complete: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading out Mia and Alex (Scene 07)`);
-        document.getElementById('s01-speech-rt').setAttribute('visible', false);
-        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading out Mia and Alex (Scene 07) failed -`, error);
-      }
-    }).add(addPause(3));
-
   ///////////////////////////////////////////////////////////////////////////////////////////
   // Scene 08: Fade In 
   /////////////////////////////////////////////////////////////////////////////////////////////
@@ -574,8 +417,7 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
         const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
             infoElement.innerHTML = `<h4>Moving on...</h4>
-                                      <p>Now you have seen the conversation between Alex and Mia, ask yourself the following questions:</p>
-                                      <p>How many photos have you posted publicly that could show where you live, work or go to school?</p><p>Why not remove them, set your account to private, check that you know the people you share content with?</p>
+                                      <p>Now you have seen the conversation between Riley and Sam, let's find out more about what is a respectful relationships.</p>
                                       <p>Select the continue button below to move on.</p>`;
             infoElement.style.display = "block";
       },
@@ -598,24 +440,21 @@ window.createTimeline = function(timelineController) {
     }) 
     .add(addPause(0))
     .add({
-      targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.info'],
+      targets: ['#s03s05-Riley', '#s03s05-Sam','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
+                '#s03-speech-lt','#s03-speech-rt'],
       opacity: [1, 0],
       duration: 1000,
-      easing: 'linear',
+      easing: 'linear',                  
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubble (Scene 08)`);
+        console.log(`Timeline Item ${itemNumber++}: Fading out Riley and Sam (Scene 03)`);
       },
       complete: () => {
-        const buttonArea = document.querySelector('.scenario-ui-prompt-button-area');
-        const speechLeft = document.querySelector('.scenario-ui-prompt-speech.left');
-        const speechInfo = document.querySelector('.scenario-ui-prompt-speech.info');
-        
-        if (buttonArea) buttonArea.style.display = "none";
-        if (speechLeft) speechLeft.style.display = "none";
-        if (speechInfo) speechInfo.style.display = "none";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading out button area and speech bubble (Scene 08) failed -`, error);
-      }
+        document.getElementById('s03s05-Riley').setAttribute('visible', false);
+        document.getElementById('s03s05-Sam').setAttribute('visible', false);
+        document.getElementById('s03-speech-lt').setAttribute('visible', false);
+        document.getElementById('s03-speech-rt').setAttribute('visible', false);
+        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
+      }   
     });
 }
