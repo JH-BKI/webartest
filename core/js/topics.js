@@ -344,48 +344,246 @@ const topicData = {
         // AR Assets with entity properties for Topic 2
         arAssets: {
             images: [
-                 // Speech bubbles
-                 { 
-                  id: 's02-speech-lt', 
-                  src: './assets/topic_2/s02-speech-left.png',
-                  scale: '0.5 0.5 0.5',
-                  position: '-0.125 1.125 -1',
-                  rotation: '0 0 0',
-                  visible: 'true',
-                  opacity: '1',
-                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-              },
-              { 
-                  id: 's02-speech-rt', 
-                  src: './assets/topic_2/s02-speech-right.png',
-                  scale: '0.5 0.5 0.5',
-                  position: '0.125 1.125 -1.05',
-                  rotation: '0 0 0',
-                                      visible: 'true',
-                  opacity: '1',
-                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-              },
-              { 
-                  id: 's02-s01-jordan', 
-                  src: './assets/topic_2/s02-01-Jordan.png',
-                  scale: '0.5 0.5 0.5',
-                  position: '-0.125 0 -1.15',
-                  rotation: '0 0 0',
-                  visible: 'true',
-                  opacity: '1',
-                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-              },
-              { 
-                id: 's02-s01-taylor', 
-                src: './assets/topic_2/s02-01-Taylor-sitting.png',
-                scale: '0.5 0.5 0.5',
-                position: '0.125 0 -1.25',
-                rotation: '0 0 0',
-                visible: 'true',
-                opacity: '1',
-                material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-            }
-              
+                // Speech bubbles
+                { 
+                    id: 's02-speech-lt', 
+                    src: './assets/topic_2/s02-speech-left.png',
+                    scale: '0.5 0.5 0.5',
+                    position: '-0.125 1.125 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02-speech-rt', 
+                    src: './assets/topic_2/s02-speech-right.png',
+                    scale: '0.5 0.5 0.5',
+                    position: '0.125 1.125 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 01 characters
+                { 
+                    id: 's02s01-Jordan', 
+                    src: './assets/topic_2/s02-01-Jordan.png',
+                    scale: '1 2 0.5',
+                    position: '-1.25 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02s01-Taylor-sitting', 
+                    src: './assets/topic_2/s02-01-Taylor-sitting.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 02 characters
+                { 
+                    id: 's02s02-Jordan', 
+                    src: './assets/topic_2/s02-02-Jordan.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02s02-Taylor-sitting', 
+                    src: './assets/topic_2/s02-02-Taylor-sitting.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 03 characters
+                { 
+                    id: 's02s03-Jordan', 
+                    src: './assets/topic_2/s02-03-Jordan.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02s03-Taylor-sitting', 
+                    src: './assets/topic_2/s02-03-Taylor-sitting.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 04 characters
+                { 
+                    id: 's02s04-Jordan', 
+                    src: './assets/topic_2/s02-04-Jordan.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02s04-Taylor', 
+                    src: './assets/topic_2/s02-04-Taylor.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 05 characters
+                { 
+                    id: 's02s05-Jordan', 
+                    src: './assets/topic_2/s02-05-Jordan.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02s05-Taylor', 
+                    src: './assets/topic_2/s02-05-Taylor.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 06 characters
+                { 
+                    id: 's02s06-Jordan', 
+                    src: './assets/topic_2/s02-06-Jordan.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02s06-Taylor', 
+                    src: './assets/topic_2/s02-06-Taylor.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 07 characters
+                { 
+                    id: 's02s07-Jordan', 
+                    src: './assets/topic_2/s02-07-Jordan.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02s07-Taylor', 
+                    src: './assets/topic_2/s02-07-Taylor.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 08 characters
+                { 
+                    id: 's02s08-Jordan', 
+                    src: './assets/topic_2/s02-08-Jordan.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Environment and props
+                { 
+                    id: 's02-desk-pc', 
+                    src: './assets/topic_2/s02-desk-pc.png',
+                    scale: '1.5 1 1',
+                    position: '0 0 -0.5',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02-phone', 
+                    src: './assets/topic_2/s02-phone.png',
+                    scale: '0.5 0.5 0.5',
+                    position: '0.5 0.5 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02-whiteboard', 
+                    src: './assets/topic_2/s02-whiteboard.png',
+                    scale: '1 1.5 0.5',
+                    position: '0 1 -1.5',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02-Furniture-01', 
+                    src: './assets/topic_2/s02-Furniture-01.png',
+                    scale: '1 1 1',
+                    position: '-1 0 -0.5',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02-Furniture-02', 
+                    src: './assets/topic_2/s02-Furniture-02.png',
+                    scale: '1 1 1',
+                    position: '1 0 -0.5',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's02-floor', 
+                    src: './assets/topic_2/s02-floor.png',
+                    scale: '2 1 2',
+                    position: '0 -0.5 0',
+                    rotation: '-90 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                }
             ]
         }
     },
@@ -436,49 +634,196 @@ const topicData = {
         
         // AR Assets with entity properties for Topic 3
         arAssets: {
-          images: [
-            // Speech bubbles
-            { 
-             id: 's03-speech-lt', 
-             src: './assets/topic_3/s03-speech-left.png',
-             scale: '0.5 0.5 0.5',
-             position: '-0.125 1.125 -1',
-             rotation: '0 0 0',
-             visible: 'true',
-             opacity: '1',
-             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-         },
-         { 
-             id: 's03-speech-rt', 
-             src: './assets/topic_3/s03-speech-right.png',
-             scale: '0.5 0.5 0.5',
-             position: '0.125 1.125 -1.05',
-             rotation: '0 0 0',
-              visible: 'true',
-             opacity: '1',
-             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-         },
-         { 
-             id: 's03-s01-riley', 
-             src: './assets/topic_3/s03-01-riley.png',
-             scale: '0.5 0.5 0.5',
-             position: '-0.125 0 -1.15',
-             rotation: '0 0 0',
-             visible: 'true',
-             opacity: '1',
-             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-         },
-         { 
-           id: 's03-s01-sam', 
-           src: './assets/topic_3/s03-01-sam.png',
-           scale: '0.5 0.5 0.5',
-           position: '0.125 0 -1.25',
-           rotation: '0 0 0',
-           visible: 'true',
-           opacity: '1',
-           material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-       }
-       ]
+            images: [
+                // Speech bubbles
+                { 
+                    id: 's03-speech-lt', 
+                    src: './assets/topic_3/s03-speech-left.png',
+                    scale: '0.5 0.5 0.5',
+                    position: '-0.125 1.125 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03-speech-rt', 
+                    src: './assets/topic_3/s03-speech-right.png',
+                    scale: '0.5 0.5 0.5',
+                    position: '0.125 1.125 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 01 characters
+                { 
+                    id: 's03s01-Riley', 
+                    src: './assets/topic_3/s03-01-riley.png',
+                    scale: '1 2 0.5',
+                    position: '-1.25 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03s01-Sam', 
+                    src: './assets/topic_3/s03-01-sam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 02 characters
+                { 
+                    id: 's03s02-Riley', 
+                    src: './assets/topic_3/s03-02-riley.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03s02-Sam', 
+                    src: './assets/topic_3/s03-02-sam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 03 characters
+                { 
+                    id: 's03s03-Riley', 
+                    src: './assets/topic_3/s03-03-riley.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03s03-Sam', 
+                    src: './assets/topic_3/s03-03-sam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 04 characters
+                { 
+                    id: 's03s04-Riley', 
+                    src: './assets/topic_3/s03-04-riley.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03s04-Sam', 
+                    src: './assets/topic_3/s03-04-sam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 05 characters
+                { 
+                    id: 's03s05-Riley', 
+                    src: './assets/topic_3/s03-05-riley.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03s05-Sam', 
+                    src: './assets/topic_3/s03-05-sam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 06 characters
+                { 
+                    id: 's03s06-Riley', 
+                    src: './assets/topic_3/s03-06-riley.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03s06-Sam', 
+                    src: './assets/topic_3/s03-06-sam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Environment and props
+                { 
+                    id: 's03-desk', 
+                    src: './assets/topic_3/s03-desk.png',
+                    scale: '1.5 1 1',
+                    position: '0 0 -0.5',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03-printer', 
+                    src: './assets/topic_3/s03-printer.png',
+                    scale: '0.8 0.8 0.8',
+                    position: '0.8 0.2 -0.8',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03-plant', 
+                    src: './assets/topic_3/s03-plant.png',
+                    scale: '0.6 0.8 0.6',
+                    position: '-0.8 0.2 -0.8',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's03-divider', 
+                    src: './assets/topic_3/s03-divider.png',
+                    scale: '0.1 1.5 1',
+                    position: '0 0.5 -1.2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                }
+            ]
         }
     },
     topic_4: {
@@ -527,49 +872,207 @@ const topicData = {
         
         // AR Assets with entity properties for Topic 4
         arAssets: {
-          images: [
-            // Speech bubbles
-            { 
-             id: 's04-speech-lt', 
-             src: './assets/topic_4/s04-speech-left.png',
-             scale: '0.5 0.5 0.5',
-             position: '-0.125 1.125 -1',
-             rotation: '0 0 0',
-             visible: 'true',
-             opacity: '1',
-             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-         },
-         { 
-             id: 's04-speech-rt', 
-             src: './assets/topic_4/s04-speech-right.png',
-             scale: '0.5 0.5 0.5',
-             position: '0.125 1.125 -1.05',
-             rotation: '0 0 0',
-              visible: 'true',
-             opacity: '1',
-             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-         },
-         { 
-             id: 's04-s01-ella', 
-             src: './assets/topic_4/s04-01-ella.png',
-             scale: '0.5 0.5 0.5',
-             position: '-0.125 0 -1.15',
-             rotation: '0 0 0',
-             visible: 'true',
-             opacity: '1',
-             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-         },
-         { 
-           id: 's04-s02-liam', 
-           src: './assets/topic_4/s04-02-liam.png',
-           scale: '0.5 0.5 0.5',
-           position: '0.125 0 -1.25',
-           rotation: '0 0 0',
-           visible: 'true',
-           opacity: '1',
-           material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-       }
-       ]
+            images: [
+                // Speech bubbles
+                { 
+                    id: 's04-speech-lt', 
+                    src: './assets/topic_4/s04-speech-left.png',
+                    scale: '0.5 0.5 0.5',
+                    position: '-0.125 1.125 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04-speech-rt', 
+                    src: './assets/topic_4/s04-speech-right.png',
+                    scale: '0.5 0.5 0.5',
+                    position: '0.125 1.125 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 01 characters
+                { 
+                    id: 's04s01-Ella', 
+                    src: './assets/topic_4/s04-01-ella.png',
+                    scale: '1 2 0.5',
+                    position: '-1.25 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 02 characters
+                { 
+                    id: 's04s02-Ella', 
+                    src: './assets/topic_4/s04-02-ella.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04s02-Liam', 
+                    src: './assets/topic_4/s04-02-liam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 03 characters
+                { 
+                    id: 's04s03-Ella', 
+                    src: './assets/topic_4/s04-03-ella.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04s03-Liam', 
+                    src: './assets/topic_4/s04-03-liam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 04 characters
+                { 
+                    id: 's04s04-Ella', 
+                    src: './assets/topic_4/s04-04-ella.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04s04-Liam', 
+                    src: './assets/topic_4/s04-04-liam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 05 characters
+                { 
+                    id: 's04s05-Ella', 
+                    src: './assets/topic_4/s04-05-ella.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04s05-Liam', 
+                    src: './assets/topic_4/s04-05-liam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 06 characters
+                { 
+                    id: 's04s06-Ella', 
+                    src: './assets/topic_4/s04-06-ella.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04s06-Liam', 
+                    src: './assets/topic_4/s04-06-liam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Scene 07 characters
+                { 
+                    id: 's04s07-Ella', 
+                    src: './assets/topic_4/s04-07-ella.png',
+                    scale: '1 2 0.5',
+                    position: '-0.275 0 -1',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04s07-Liam', 
+                    src: './assets/topic_4/s04-07-liam.png',
+                    scale: '1 2 0.5',
+                    position: '0.375 0 -1.05',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                // Environment and props
+                { 
+                    id: 's04-couch', 
+                    src: './assets/topic_4/s04-couch.png',
+                    scale: '1.2 1 1',
+                    position: '0 0 -0.5',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04-windows', 
+                    src: './assets/topic_4/s04-windows.png',
+                    scale: '2 1.5 1',
+                    position: '0 1.5 -2',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04-floor', 
+                    src: './assets/topic_4/s04-floor.png',
+                    scale: '3 1 3',
+                    position: '0 -0.5 0',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                    id: 's04-background-table', 
+                    src: './assets/topic_4/s04-background-table.png',
+                    scale: '1.5 1 1',
+                    position: '0 0 -1.5',
+                    rotation: '0 0 0',
+                    visible: 'false',
+                    opacity: '1',
+                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                }
+            ]
         }
     }
 };
