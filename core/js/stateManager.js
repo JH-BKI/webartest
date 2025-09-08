@@ -105,6 +105,14 @@ class StateManager {
                     if (window.arSceneManager) {
                         window.arSceneManager.resumeScene();
                     }
+                    
+                    // Auto-trigger countdown for start button
+                    const startButton = document.getElementById('start-ar-button');
+                    if (startButton && typeof window.countdownTimer === 'function') {
+                        setTimeout(() => {
+                            window.countdownTimer(5, window.startARExperience, startButton);
+                        }, 500);
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting AR ready state');

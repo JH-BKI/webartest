@@ -330,7 +330,7 @@
          * - Content loading functions
          */
         
-        let version = '2.80';
+        let version = '2.82';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -811,6 +811,21 @@
             // Return timer ID for potential cancellation
             return timer;
         }
+        
+        // Generic auto-trigger countdown for any button
+        function setupAutoTrigger(buttonId, duration, callback, delay = 500) {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                // Small delay to ensure section is fully visible
+                setTimeout(() => {
+                    countdownTimer(duration, callback, button);
+                }, delay);
+            }
+        }
+        
+        // Make functions globally available
+        window.countdownTimer = countdownTimer;
+        window.setupAutoTrigger = setupAutoTrigger;
 
         /*
          * End of Main Application Script
