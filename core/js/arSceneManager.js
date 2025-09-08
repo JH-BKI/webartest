@@ -707,14 +707,14 @@ class ARSceneManager {
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
             if (mindarSystem) {
-                // Check if MindAR is properly initialized
-                if (mindarSystem.start && typeof mindarSystem.start === 'function') {
+                // Check if MindAR is fully initialized (no artificial delays)
+                if (mindarSystem.start && typeof mindarSystem.start === 'function' && mindarSystem.showLoading !== undefined) {
                     try {
                         console.log('📹 Starting MindAR camera and tracking');
                         mindarSystem.start();
                     } catch (error) {
-                        console.warn('⚠️ MindAR start failed, retrying in 500ms:', error.message);
-                        // Retry once after a short delay
+                        console.warn('⚠️ MindAR start failed, retrying in 1000ms:', error.message);
+                        // Only retry if not ready, with longer delay
                         setTimeout(() => {
                             try {
                                 console.log('📹 Retrying MindAR start...');
@@ -722,10 +722,23 @@ class ARSceneManager {
                             } catch (retryError) {
                                 console.error('❌ MindAR start failed after retry:', retryError.message);
                             }
-                        }, 500);
+                        }, 1000);
                     }
                 } else {
-                    console.warn('⚠️ MindAR system not properly initialized - start method not available');
+                    console.warn('⚠️ MindAR system not ready - showLoading not initialized');
+                    // Wait for MindAR to be ready, then try once
+                    setTimeout(() => {
+                        if (mindarSystem.showLoading !== undefined) {
+                            try {
+                                console.log('📹 Starting MindAR camera and tracking (delayed)');
+                                mindarSystem.start();
+                            } catch (error) {
+                                console.error('❌ MindAR start failed after delay:', error.message);
+                            }
+                        } else {
+                            console.error('❌ MindAR never became ready');
+                        }
+                    }, 1000);
                 }
             } else {
                 console.warn('⚠️ MindAR system not found - cannot start camera');
