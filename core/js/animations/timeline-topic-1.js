@@ -619,21 +619,15 @@ window.createTimeline = function(timelineController) {
       opacity: [0, 1],
       duration: 1000, // Instant change
       easing: 'linear',
-      delay: 5000,
+      delay: 2000,
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
         const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
-        if (infoElement) {
             infoElement.innerHTML = `<h4>Moving on...</h4>
-<p>Now you have seen the conversation between Alex and Mia, ask yourself the following questions:</p>
-<p>How many photos have you posted publicly that could show where you live, work or go to school?</p><p>Why not remove them, set your account to private, check that you know the people you share content with?</p>
-<p>Select the continue button below to move on.</p>`;
-        } else {
-            console.warn('Element .scenario-ui-prompt-speech.info not found');
-        }
-        if (infoElement) {
+                                      <p>Now you have seen the conversation between Alex and Mia, ask yourself the following questions:</p>
+                                      <p>How many photos have you posted publicly that could show where you live, work or go to school?</p><p>Why not remove them, set your account to private, check that you know the people you share content with?</p>
+                                      <p>Select the continue button below to move on.</p>`;
             infoElement.style.display = "block";
-        }
       },
       error: (error) => {
         console.error(`Timeline Item ${itemNumber} Error: Setting Mia's speech text about privacy and safety (Scene 07) failed -`, error);
@@ -642,7 +636,7 @@ window.createTimeline = function(timelineController) {
     .add({
       targets: '.scenario-ui-prompt-button-area',
       opacity: [0, 1],
-      duration: 500,
+      duration: 1000,
       easing: 'linear',
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading in continue button area (Scene 08)`);
@@ -656,9 +650,8 @@ window.createTimeline = function(timelineController) {
     .add({
       targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.info'],
       opacity: [1, 0],
-      duration: 500,
+      duration: 1000,
       easing: 'linear',
-      delay: 500,
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubble (Scene 08)`);
       },

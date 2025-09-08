@@ -707,8 +707,26 @@ class ARSceneManager {
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
             if (mindarSystem) {
-                console.log('📹 Starting MindAR camera and tracking');
-                mindarSystem.start();
+                // Check if MindAR is properly initialized
+                if (mindarSystem.start && typeof mindarSystem.start === 'function') {
+                    try {
+                        console.log('📹 Starting MindAR camera and tracking');
+                        mindarSystem.start();
+                    } catch (error) {
+                        console.warn('⚠️ MindAR start failed, retrying in 500ms:', error.message);
+                        // Retry once after a short delay
+                        setTimeout(() => {
+                            try {
+                                console.log('📹 Retrying MindAR start...');
+                                mindarSystem.start();
+                            } catch (retryError) {
+                                console.error('❌ MindAR start failed after retry:', retryError.message);
+                            }
+                        }, 500);
+                    }
+                } else {
+                    console.warn('⚠️ MindAR system not properly initialized - start method not available');
+                }
             } else {
                 console.warn('⚠️ MindAR system not found - cannot start camera');
             }
@@ -851,19 +869,19 @@ class ARSceneManager {
             <div id="timelineContainer" style="display: none;"></div>
             
             <!-- Topic containers - always present for MindAR detection -->
-            <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0">
-        
-            <a-entity id="s01-loading" position="0 0 0">    
-                    <a-image id="s01-loading-panel" src="./assets/topic_1/s01-image-marker.png" scale="1 1 1" position="0 0 0.5" rotation="0 0 0" 
-                        material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                    <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0">
+                
+                        <a-entity id="s01-loading" position="0 0 0">    
+                            <a-image id="s01-loading-panel" src="./assets/topic_1/s01-image-marker.png" scale="1 1 1" position="0 0 0.25" rotation="0 0 0" 
+                                material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                        </a-entity>
+                
+                    <!-- Topic 1 entities will be added dynamically -->
+                        <a-entity id="scenario-assets-topic-group-1" position="0 -0.25 0"></a-entity>
 
-                    
+                    </a-entity>
 
-            </a-entity>
-                <!-- Topic 1 entities will be added dynamically -->
-                <a-entity id="scenario-assets-topic-group-1" position="0 -0.5 0"></a-entity>
 
-            </a-entity>
             <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1">
 
                 <a-image id="s02-loading" src="./assets/topic_2/s02-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
