@@ -959,6 +959,7 @@ li {
   }
   
   .scenario-ui-prompt-speech.info {
+    display: none;
     background: rgb(4 63 73);
     border: 1px solid #4ac6e6;
     /* width: auto; */
