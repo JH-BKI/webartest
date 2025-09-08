@@ -467,11 +467,12 @@ class ARSceneManager {
             overlay.remove();
         });
         
-        // Clean up any video elements that might be outside the container
-        const videos = document.querySelectorAll('video[autoplay][muted][playsinline]');
-        videos.forEach(video => {
+        // Clean up ALL video elements (MindAR creates them dynamically)
+        const allVideos = document.querySelectorAll('video');
+        allVideos.forEach(video => {
             console.log('🗑️ Stopping and removing video element');
             video.srcObject = null; // Stop camera stream
+            video.pause(); // Ensure video is paused
             video.remove();
         });
         
@@ -719,6 +720,17 @@ class ARSceneManager {
     
     // Start MindAR camera and tracking
     startMindAR() {
+        // Clean up any lingering video elements before starting MindAR
+        const existingVideos = document.querySelectorAll('video');
+        if (existingVideos.length > 0) {
+            console.log(`🧹 AR Scene Manager: Cleaning up ${existingVideos.length} existing video elements before starting MindAR`);
+            existingVideos.forEach(video => {
+                video.srcObject = null;
+                video.pause();
+                video.remove();
+            });
+        }
+        
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
