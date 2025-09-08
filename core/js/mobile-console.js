@@ -508,10 +508,10 @@ class MobileConsole {
     // Get device capabilities for AR/feature detection
     getDeviceCapabilities() {
         return {
-            deviceType: this.deviceType,
-            isPhone: this.isPhone(),
-            isTablet: this.isTablet,
-            isDesktop: this.isDesktop(),
+            deviceType: this.deviceType || 'unknown',
+            isPhone: this.deviceType === 'phone',
+            isTablet: this.isTablet || false,
+            isDesktop: this.isDesktop || false,
             hasTouch: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
             screenWidth: window.innerWidth,
             screenHeight: window.innerHeight,
