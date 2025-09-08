@@ -334,6 +334,8 @@ class StateManager {
     hideAllSections() {
         const sections = [
             'loading-section', 
+            'splash-section', 
+            'onboarding-section', 
             'campus-section', 
             'onboarding-section',
             'help',
