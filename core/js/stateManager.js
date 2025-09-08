@@ -137,7 +137,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering video state');
                     this.hideAllSections();
-                    document.getElementById('progress').classList.remove('hidden');
+                    // document.getElementById('progress').classList.remove('hidden');
                     const videoSection = document.getElementById('video-section');
                     if (videoSection) {
                         videoSection.classList.remove('hidden');
@@ -150,7 +150,7 @@ class StateManager {
                 },
                 onExit: () => {
                     console.log('Exiting video state');
-                    document.getElementById('progress').classList.add('hidden');
+                    //document.getElementById('progress').classList.add('hidden');
                     document.getElementById('video-section').classList.add('hidden');
                 }
             },
@@ -158,7 +158,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering quiz state');
                     this.hideAllSections();
-                    document.getElementById('progress').classList.remove('hidden');
+                    //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('quiz-section').classList.remove('hidden');
                     
                     // Pause AR scene when showing fullscreen quiz
@@ -175,7 +175,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering summary state');
                     this.hideAllSections();
-                    document.getElementById('progress').classList.remove('hidden');
+                    //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('summary-section').classList.remove('hidden');
                     
                     // Pause AR scene when showing fullscreen summary
@@ -234,7 +234,6 @@ class StateManager {
     hideAllSections() {
         const sections = [
             'topics', 
-            'progress', 
             'video-section', 
             'quiz-section', 
             'summary-section', 

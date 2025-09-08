@@ -330,11 +330,32 @@
          * - Content loading functions
          */
         
-        let version = '2.66';
+        let version = '2.68';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
         let selectedCampus = '';
+        
+        // URL parameter capture function - logs all tokens to console
+        function logUrlParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const params = {};
+            
+            // Capture all URL parameters
+            for (const [key, value] of urlParams.entries()) {
+                params[key] = value;
+            }
+            
+            // Log all parameters to console
+            if (Object.keys(params).length > 0) {
+                console.log('🔗 URL Parameters detected:', params);
+                console.log('📋 Full URL:', window.location.href);
+            } else {
+                console.log('🔗 No URL parameters found');
+            }
+            
+            return params;
+        }
         
 
         
@@ -428,6 +449,9 @@
         
         // Start loading when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Log URL parameters to console
+            logUrlParameters();
+            
             // Set version in mobile console if it's available
             if (window.mobileConsole) {
                 window.mobileConsole.setVersion(version);
@@ -549,6 +573,9 @@
         
         // Expose loadVideoContent globally for timeline controller
         window.loadVideoContent = loadVideoContent;
+        
+        // Expose URL parameter function globally
+        window.logUrlParameters = logUrlParameters;
         
         function goToQuiz() {
             stateManager.changeState('quiz');

@@ -580,7 +580,6 @@ window.createTimeline = function(timelineController) {
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
-      delay: 5000,      
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 07)`);
         document.getElementById('s01-speech-rt').setAttribute('visible', true);
@@ -595,6 +594,7 @@ window.createTimeline = function(timelineController) {
       opacity: [1, 0],
       duration: 1000,
       easing: 'linear',
+      delay: 5000,      
       complete: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading out Mia and Alex (Scene 07)`);
         document.getElementById('s01-speech-rt').setAttribute('visible', false);
