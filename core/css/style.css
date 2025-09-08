@@ -110,6 +110,7 @@ html, body {
     background-repeat: no-repeat;
     background-blend-mode: soft-light;
     color: var(--text-primary-alt);
+    overscroll-behavior: none;
 }
 
 
