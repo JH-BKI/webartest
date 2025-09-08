@@ -334,32 +334,52 @@ AFRAME.registerComponent('timeline-controller', {
   },
   
   resetTimeline: function() {
+    console.log('Resetting timeline...');
+    
+    // Stop and dispose of existing timeline if it exists
     if (this.timeline) {
-      console.log('Resetting timeline...');
-      
-      // Stop and dispose of existing timeline
       this.timeline.pause();
       this.timeline = null;
-      
-      // Reset state tracking
-      this.timelineCreated = false;
-      this.timelineState = 'not_started';
-      this.timelineRunning = false;
-      this.isPaused = false;
-      this.lastProgress = null;
-      
-      // Clear any existing timers
-      if (this.pauseTimer) {
-        clearTimeout(this.pauseTimer);
-        this.pauseTimer = null;
-      }
-      if (this.countdownInterval) {
-        clearInterval(this.countdownInterval);
-        this.countdownInterval = null;
-      }
-      
-      console.log('Timeline reset complete');
     }
+    
+    // Reset state tracking
+    this.timelineCreated = false;
+    this.timelineState = 'not_started';
+    this.timelineRunning = false;
+    this.isPaused = false;
+    this.lastProgress = null;
+    this.timelineLoaded = false;
+    
+    // Clear any existing timers
+    if (this.pauseTimer) {
+      clearTimeout(this.pauseTimer);
+      this.pauseTimer = null;
+    }
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+      this.countdownInterval = null;
+    }
+    
+    // Remove old animation script elements to prevent multiple instances
+    this.cleanupAnimationScripts();
+    
+    // Clear the global timeline creation function
+    if (window.createTimeline) {
+      delete window.createTimeline;
+    }
+    
+    console.log('Timeline reset complete');
+  },
+  
+  // Clean up old animation script elements
+  cleanupAnimationScripts: function() {
+    const scripts = document.querySelectorAll('script[src*="timeline-topic-"]');
+    scripts.forEach(script => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+        console.log('Removed old animation script:', script.src);
+      }
+    });
   },
   
   advanceTimeline: function() {
