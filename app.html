@@ -330,7 +330,7 @@
          * - Content loading functions
          */
         
-        let version = '2.82';
+        let version = '2.83';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -811,6 +811,16 @@
             // Return timer ID for potential cancellation
             return timer;
         }
+        
+        // Simple click debouncing - disable button for 1 second after click
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn')) {
+                event.target.disabled = true;
+                setTimeout(() => {
+                    event.target.disabled = false;
+                }, 1000);
+            }
+        });
         
         // Generic auto-trigger countdown for any button
         function setupAutoTrigger(buttonId, duration, callback, delay = 500) {
