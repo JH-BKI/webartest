@@ -162,7 +162,7 @@
             <div class="poster-info">
                 <p id="detected-poster-desc">You found:</p>
                 <h3 id="detected-poster-title">Learning Poster Detected</h3>
-                <button class="btn btn-primary" id="start-ar-button" data-original-onclick="startARExperience()" data-countdown-duration="5" data-auto-trigger="true">
+                <button class="btn btn-primary" id="start-ar-button" data-original-onclick="startARExperience()" data-countdown-duration="5" data-auto-trigger="true" data-original-text="🚀 Start">
                     🚀 Start
                 </button>
                 <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
@@ -330,7 +330,7 @@
          * - Content loading functions
          */
         
-        let version = '2.73';
+        let version = '2.74';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -878,8 +878,9 @@
             });
         }
         
-        // Make resetAllCountdownButtons available globally
+        // Make functions available globally
         window.resetAllCountdownButtons = resetAllCountdownButtons;
+        window.handleCountdownButtonClick = handleCountdownButtonClick;
         
         /**
          * Auto-trigger countdown when section becomes visible
@@ -896,6 +897,7 @@
                     // Create intersection observer to watch for section visibility
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
+                            console.log('🔍 Intersection observer triggered for section:', parentSection.id, 'isIntersecting:', entry.isIntersecting);
                             if (entry.isIntersecting && 
                                 !button.dataset.countdownActive && 
                                 !button.dataset.autoTriggered) {
@@ -903,14 +905,16 @@
                                 button.dataset.autoTriggered = 'true';
                                 // Small delay to ensure section is fully visible
                                 setTimeout(() => {
+                                    console.log('🎯 Executing auto-trigger countdown for button:', button.id);
                                     handleCountdownButtonClick({ target: button });
                                 }, 100);
                             } else if (!entry.isIntersecting) {
                                 // Reset auto-trigger flag when section becomes hidden
+                                console.log('🔄 Resetting auto-trigger flag for button:', button.id);
                                 button.dataset.autoTriggered = 'false';
                             }
                         });
-                    }, { threshold: 0.5 }); // Trigger when 50% of section is visible
+                    }, { threshold: 0.1 }); // Trigger when 10% of section is visible (more sensitive)
                     
                     observer.observe(parentSection);
                 }

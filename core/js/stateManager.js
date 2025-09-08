@@ -95,6 +95,20 @@ class StateManager {
                     if (window.arSceneManager) {
                         window.arSceneManager.resumeScene();
                     }
+                    
+                    // Trigger countdown button auto-start as fallback
+                    setTimeout(() => {
+                        const startButton = document.getElementById('start-ar-button');
+                        if (startButton && 
+                            !startButton.dataset.countdownActive && 
+                            !startButton.dataset.autoTriggered) {
+                            console.log('🎯 Fallback: Auto-triggering countdown for button:', startButton.id);
+                            startButton.dataset.autoTriggered = 'true';
+                            if (window.handleCountdownButtonClick) {
+                                window.handleCountdownButtonClick({ target: startButton });
+                            }
+                        }
+                    }, 200);
                 },
                 onExit: () => {
                     console.log('Exiting AR ready state');
