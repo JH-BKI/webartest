@@ -33,28 +33,24 @@ window.createTimeline = function(timelineController) {
       complete: () => {
         
         
-        document.getElementById('s01-speech-lt').setAttribute('opacity', 0);
-        document.getElementById('s01-speech-rt').setAttribute('opacity', 0);
-        document.getElementById('s01s01-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s01-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s02-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s02-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s03-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s03-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s04-post').setAttribute('opacity', 0);
-        document.getElementById('s01s04-heart').setAttribute('opacity', 0);
-        document.getElementById('s01s04-like').setAttribute('opacity', 0);
-        document.getElementById('s01s04-share').setAttribute('opacity', 0);
-        document.getElementById('s01s04-smile').setAttribute('opacity', 0);
-        document.getElementById('s01s05-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s05-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s06-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s06-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s07-Alex').setAttribute('opacity', 0);
-        document.getElementById('s01s07-Mia').setAttribute('opacity', 0);
-        document.getElementById('s01s08-profile').setAttribute('opacity', 0);
-        document.getElementById('s01s08-random').setAttribute('opacity', 0);
-        document.getElementById('s01-floor').setAttribute('opacity', 0);
+        document.getElementById('s03-speech-lt').setAttribute('opacity', 0);
+        document.getElementById('s03-speech-rt').setAttribute('opacity', 0);
+        document.getElementById('s03s01-Riley').setAttribute('opacity', 0);
+        document.getElementById('s03s01-Sam').setAttribute('opacity', 0);
+        document.getElementById('s03s02-Riley').setAttribute('opacity', 0);
+        document.getElementById('s03s02-Sam').setAttribute('opacity', 0);
+        document.getElementById('s03s03-Riley').setAttribute('opacity', 0);
+        document.getElementById('s03s03-Sam').setAttribute('opacity', 0);
+        document.getElementById('s03s04-Riley').setAttribute('opacity', 0);
+        document.getElementById('s03s04-Sam').setAttribute('opacity', 0);
+        document.getElementById('s03s05-Riley').setAttribute('opacity', 0);
+        document.getElementById('s03s05-Sam').setAttribute('opacity', 0);
+        document.getElementById('s03s06-Riley').setAttribute('opacity', 0);
+        document.getElementById('s03s06-Sam').setAttribute('opacity', 0);
+        document.getElementById('s03-desk').setAttribute('opacity', 0);
+        document.getElementById('s03-printer').setAttribute('opacity', 0);
+        document.getElementById('s03-plant').setAttribute('opacity', 0);
+        document.getElementById('s03-divider').setAttribute('opacity', 0);
 
         console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
       },
@@ -62,34 +58,18 @@ window.createTimeline = function(timelineController) {
         console.error(`Timeline Item ${itemNumber} Error: Setting vis/opacity of assets failed -`, error);
       }  
     })
-    // .add({
-    //   targets: '#scenario-assets-topic-group-1',
-    //   opacity: [1, 1],
-    //   duration: 10, // Instant change
-    //   easing: 'linear',
-    //   begin: () => {
-    //     console.log('scenario-assets-topic-group-1: opacity false?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('opacity'));
-    //     console.log('scenario-assets-topic-group-1: visible true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('visible'));
-        
-    //     document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', true)
 
-    //     console.log('scenario-assets-topic-group-1: opacity true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('opacity'));
-    //     console.log('scenario-assets-topic-group-1: visible true?: '+document.getElementById('scenario-assets-topic-group-1').getAttribute('visible'));
-
-    //     console.log(`Timeline Item ${itemNumber++}: Setting visibility of scenario-assets-topic-group-1 `);
-    //   },
-    //   error: (error) => {
-    //     console.error(`Timeline Item ${itemNumber} Error: Setting visibility of scenario-assets-topic-group-1 failed -`, error);
-    //   }
-    // })
     .add({
       targets: '#scenario',
       opacity: [1, 1],
       duration: 10, // Instant change
       easing: 'linear',
       begin: () => {
-        document.querySelector('#scenario .scenario-ui-prompt-speech.left img').setAttribute('src', getTopicLeftProfileImage(1));
-        document.querySelector('#scenario .scenario-ui-prompt-speech.right img').setAttribute('src', getTopicRightProfileImage(1));
+
+        document.getElementById('name-content-left').textContent = "Riley";
+        document.getElementById('name-content-right').textContent = "Sam";
+        document.querySelector('#scenario .scenario-ui-prompt-speech.left img').setAttribute('src', getTopicLeftProfileImage(3));
+        document.querySelector('#scenario .scenario-ui-prompt-speech.right img').setAttribute('src', getTopicRightProfileImage(3));
         
         console.log(`Timeline Item ${itemNumber++}: Setting left/right profile pictures`);
       },
@@ -98,47 +78,46 @@ window.createTimeline = function(timelineController) {
       }
     })
     .add({
-      targets: ['#s01-loading'],
+      targets: ['#s03-loading'],
       opacity: [1, 0],
       duration: 1000,
       easing: 'linear',
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 02)`);
-        document.getElementById('s01-loading').setAttribute('visible', false);
+        console.log(`Timeline Item ${itemNumber++}: Fading inRiley and Sam (Scene 02)`);
+        document.getElementById('s03-loading').setAttribute('visible', false);
       }
     })
     .add({
-      targets: '#s01s01-Mia',
+      targets: '#s03s01-Riley',
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in Mia (Scene 01)`);
-        document.getElementById('s01s01-Mia').setAttribute('visible', true);
+        console.log(`Timeline Item ${itemNumber++}: Fading in Riley (Scene 01)`);
+        document.getElementById('s03s01-Riley').setAttribute('visible', true);
       }
     })
     .add({
-      targets: '#s01s01-Alex',
+      targets: '#s03s01-Sam',
       opacity: [0, 1],
-      position: ['-2.5 0 -2', '-0.45 0 -2'],
       duration: 1500,
       easing: 'easeInOutQuad',
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in Alex and moving him from left to center (Scene 01)`);
-        document.getElementById('s01s01-Alex').setAttribute('visible', true);
+        console.log(`Timeline Item ${itemNumber++}: Fading in Sam (Scene 01)`);
+        document.getElementById('s03s01-Sam').setAttribute('visible', true);
       }
     })
     .add({
-      targets: ['#s01s01-Mia', '#s01s01-Alex'],
+      targets: ['#s03s01-Riley', '#s03s01-Sam'],
       opacity: [1, 0],
       duration: 1000,
       easing: 'linear',
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading out Mia and Alex (Scene 01)`);
+        console.log(`Timeline Item ${itemNumber++}: Fading out Riley and Sam (Scene 01)`);
       },
       complete: () => {
-        document.getElementById('s01s01-Mia').setAttribute('visible', false);
-        document.getElementById('s01s01-Alex').setAttribute('visible', false);                  
+        document.getElementById('s03s01-Riley').setAttribute('visible', false);
+        document.getElementById('s03s01-Sam').setAttribute('visible', false);                  
       }
     });
 
@@ -151,27 +130,7 @@ window.createTimeline = function(timelineController) {
 
   timeline
     .add({
-      targets: '#text-content-left',
-      opacity: [1, 1],
-      duration: 10, // Instant change
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Setting Alex's speech text to "Hey Mia!"`);
-        document.getElementById('text-content-left').textContent = "Hey Mia!";
-      }
-    })
-    .add({
-      targets: '#text-content-right',
-      opacity: [1, 1],
-      duration: 10, // Instant change
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Setting Mia's speech text to "Hi Alex!"`);
-        document.getElementById('text-content-right').textContent = "Hi Alex!";
-      }
-    })
-    .add({
-      targets: ['#s01s02-Mia', '#s01s02-Alex'],
+      targets: ['#s03s02-Riley', '#s03s02-Sam'],
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
@@ -181,25 +140,16 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s01s02-Alex').setAttribute('visible', true);
       }
     },"-=1000")
+
     .add({
-      targets: ['#s01-speech-lt', '.scenario-ui-prompt-speech.left'],
-      opacity: [0, 1],
-      duration: 1000,
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Alex's speech UI (Scene 02)`);
-        document.getElementById('s01-speech-lt').setAttribute('visible', true);
-        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
-      }
-    })
-    .add({
-      targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right'],
+      targets: ['#s03-speech-rt', '.scenario-ui-prompt-speech.right'],
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 02)`);
-        document.getElementById('s01-speech-rt').setAttribute('visible', true);
+        document.getElementById('text-content-right').textContent = "Ugghhh... Not again!";
+        document.getElementById('s03-speech-rt').setAttribute('visible', true);
         document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
       }
     })

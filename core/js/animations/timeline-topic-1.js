@@ -88,6 +88,8 @@ window.createTimeline = function(timelineController) {
       duration: 10, // Instant change
       easing: 'linear',
       begin: () => {
+        document.getElementById('name-content-left').textContent = "Alex";
+        document.getElementById('name-content-right').textContent = "Mia";
         document.querySelector('#scenario .scenario-ui-prompt-speech.left img').setAttribute('src', getTopicLeftProfileImage(1));
         document.querySelector('#scenario .scenario-ui-prompt-speech.right img').setAttribute('src', getTopicRightProfileImage(1));
         
