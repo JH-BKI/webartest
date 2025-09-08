@@ -37,6 +37,22 @@ class StateManager {
                     console.log('Exiting campus selection state');
                 }
             },
+            onboarding: {
+                onEnter: () => {
+                    console.log('Entering onboarding state');
+                },
+                onExit: () => {
+                    console.log('Exiting onboarding state');
+                }
+            },
+            help: {
+                onEnter: () => {
+                    console.log('Entering help state');
+                },
+                onExit: () => {
+                    console.log('Exiting help state');
+                }
+            },
             menu: {
                 onEnter: () => {
                     console.log('Entering menu state');
@@ -121,18 +137,12 @@ class StateManager {
                         window.arSceneManager.stopMindAR();
                         window.arSceneManager.pauseScene();
                     }
-                }
-            },
-            topics: {
-                onEnter: () => {
-                    console.log('Entering topics state');
-                    // Hide all sections except topics
-                    this.hideAllSections();
-                    document.getElementById('topics').classList.remove('hidden');
-                },
-                onExit: () => {
-                    console.log('Exiting topics state');
-                    document.getElementById('topics').classList.add('hidden');
+                    
+                    // Stop the timeline completely when transitioning to video
+                    if (window.timelineController) {
+                        console.log('🛑 Stopping timeline when transitioning to video state');
+                        window.timelineController.resetTimeline();
+                    }
                 }
             },
             video: {
@@ -172,6 +182,12 @@ class StateManager {
                         window.arSceneManager.stopMindAR();
                         window.arSceneManager.pauseScene();
                     }
+                    
+                    // Stop the timeline completely when transitioning to quiz
+                    if (window.timelineController) {
+                        console.log('🛑 Stopping timeline when transitioning to quiz state');
+                        window.timelineController.resetTimeline();
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting quiz state');
@@ -190,10 +206,48 @@ class StateManager {
                         window.arSceneManager.stopMindAR();
                         window.arSceneManager.pauseScene();
                     }
+                    
+                    // Stop the timeline completely when transitioning to summary
+                    if (window.timelineController) {
+                        console.log('🛑 Stopping timeline when transitioning to summary state');
+                        window.timelineController.resetTimeline();
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting summary state');
                     document.getElementById('summary-section').classList.add('hidden');
+                }
+            },
+            face_filter_setup: {
+                onEnter: () => {
+                    console.log('Entering face_filter state');
+                },
+                onExit: () => {
+                    console.log('Exiting face_filter state');
+                }
+            },
+            face_filter_scanning: {
+                onEnter: () => {
+                    console.log('Entering face_filter state');
+                },
+                onExit: () => {
+                    console.log('Exiting face_filter state');
+                }
+            },
+            face_filter_ready: {
+                onEnter: () => {
+                    console.log('Entering face_filter state');
+                },
+                onExit: () => {
+                    console.log('Exiting face_filter state');
+                }
+            },
+            face_filter_animating: {
+                onEnter: () => {
+                    console.log('Entering face_filter state');
+                },
+                onExit: () => {
+                    console.log('Exiting face_filter state');
                 }
             }
         };
@@ -241,16 +295,19 @@ class StateManager {
     // Helper method to hide all sections
     hideAllSections() {
         const sections = [
-            'topics', 
-            'video-section', 
-            'quiz-section', 
-            'summary-section', 
             'loading-section', 
             'campus-section', 
+            'onboarding-section',
+            'help',
             'menu-section', 
             'scanning-section', 
             'ar-ready-section', 
-            'animating-section'];
+            'animating-section',
+            'video-section', 
+            'quiz-section', 
+            'summary-section',
+            'face-filter'
+            ];
             
         sections.forEach(sectionId => {
             const element = document.getElementById(sectionId);
