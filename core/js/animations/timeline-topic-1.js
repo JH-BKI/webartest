@@ -27,7 +27,7 @@ window.createTimeline = function(timelineController) {
     })
     .add({
       targets: '#scenario-assets-topic-group-1',
-      opacity: [0, 1],
+      opacity: [0, 0],
       duration: 10, // Instant change
       easing: 'linear',
       complete: () => {
@@ -224,9 +224,14 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubbles (Scene 02)`);
       },
       complete: () => {
-        document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+        const buttonArea = document.querySelector('.scenario-ui-prompt-button-area');
+        const speechLeft = document.querySelector('.scenario-ui-prompt-speech.left');
+        const speechRight = document.querySelector('.scenario-ui-prompt-speech.right');
+        
+        if (buttonArea) buttonArea.style.display = "none";
+        if (speechLeft) speechLeft.style.display = "none";
+        if (speechRight) speechRight.style.display = "none";
+        
         document.getElementById('s01-speech-lt').setAttribute('visible', false);
         document.getElementById('s01-speech-rt').setAttribute('visible', false);
         document.getElementById('s01s02-Mia').setAttribute('visible', false);
@@ -370,7 +375,7 @@ window.createTimeline = function(timelineController) {
         document.querySelector('.scenario-ui-prompt-button-area').style.display = "flex";
       }
     })               
-    .add(addPause(10))
+    .add(addPause(5))
     .add({
       targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','#s01s04-post','#s01s04-heart','#s01s04-like','#s01s04-share','#s01s04-smile'],
       opacity: [1, 0],
@@ -380,8 +385,12 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading out all social media elements (Scene 04)`);
       },
       complete: () => {
-        document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        const buttonArea = document.querySelector('.scenario-ui-prompt-button-area');
+        const speechLeft = document.querySelector('.scenario-ui-prompt-speech.left');
+        
+        if (buttonArea) buttonArea.style.display = "none";
+        if (speechLeft) speechLeft.style.display = "none";
+        
         document.getElementById('s01s04-post').setAttribute('visible', false);
         document.getElementById('s01s04-like').setAttribute('visible', false);
         document.getElementById('s01s04-heart').setAttribute('visible', false);
@@ -571,6 +580,7 @@ window.createTimeline = function(timelineController) {
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
+      delay: 5000,      
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 07)`);
         document.getElementById('s01-speech-rt').setAttribute('visible', true);
@@ -581,22 +591,19 @@ window.createTimeline = function(timelineController) {
       }
     })
     .add({
-      targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right','#s01s07-Mia', '#s01s07-Alex'],
+      targets: ['#s01-speech-rt', '.scenario-ui-prompt-speech.right'],
       opacity: [1, 0],
       duration: 1000,
       easing: 'linear',
-      delay: 3000,
-      begin: () => {
+      complete: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading out Mia and Alex (Scene 07)`);
-        document.getElementById('s01s07-Mia').setAttribute('visible', false);
-        document.getElementById('s01s07-Alex').setAttribute('visible', false);
         document.getElementById('s01-speech-rt').setAttribute('visible', false);
         document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
       },
       error: (error) => {
         console.error(`Timeline Item ${itemNumber} Error: Fading out Mia and Alex (Scene 07) failed -`, error);
       }
-    });
+    }).add(addPause(3));
 
   ///////////////////////////////////////////////////////////////////////////////////////////
   // Scene 08: Fade In 
@@ -606,45 +613,32 @@ window.createTimeline = function(timelineController) {
   ///////////////////////////////////////////////////////////////////////////////////////////
 
   timeline
+           
     .add({
-      targets: '#s01s08-profile',
+      targets: '.scenario-ui-prompt-speech.info',
       opacity: [0, 1],
-      position: ['0.5 -0.5 -2', '0.5 0 -1.25'],
-      rotation: ['0 0 0', '0 0 10'], // Spin while moving
-      duration: 1000,
-      easing: 'easeInOutQuad',
+      duration: 1000, // Instant change
+      easing: 'linear',
+      delay: 5000,
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in profile icon with spin and movement (Scene 08)`);
-        document.getElementById('s01s08-profile').setAttribute('visible', true);
-      },
-      complete: () => {
-        console.log('Timeline: Starting profile and random icon animations (Scene 08)');
-        document.getElementById('s01s08-random').setAttribute('visible', true);
-        // Start a separate looping animation when this completes
-        anime({
-          targets: '#s01s08-profile',
-          rotation: ['0 0 10', '0 0 5'],
-          duration: 5000,
-          easing: 'linear',
-          loop: true,
-          direction: 'alternate'
-        });
-
-        anime({
-          targets: '#s01s08-random',
-          opacity: [1, 0],
-          position: ['-1 2.5 -3', '-1 -1.5 -3'],
-          duration: 2000,
-          easing: 'easeInOutQuad',
-          loop: true,
-          direction: 'alternate'
-        },"-=1000");
+        console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
+        const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
+        if (infoElement) {
+            infoElement.innerHTML = `<h4>Moving on...</h4>
+<p>Now you have seen the conversation between Alex and Mia, ask yourself the following questions:</p>
+<p>How many photos have you posted publicly that could show where you live, work or go to school?</p><p>Why not remove them, set your account to private, check that you know the people you share content with?</p>
+<p>Select the continue button below to move on.</p>`;
+        } else {
+            console.warn('Element .scenario-ui-prompt-speech.info not found');
+        }
+        if (infoElement) {
+            infoElement.style.display = "block";
+        }
       },
       error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading in profile icon with spin and movement (Scene 08) failed -`, error);
+        console.error(`Timeline Item ${itemNumber} Error: Setting Mia's speech text about privacy and safety (Scene 07) failed -`, error);
       }
-    },"-=1000")
-    .add(addPause(3))
+    })
     .add({
       targets: '.scenario-ui-prompt-button-area',
       opacity: [0, 1],
@@ -657,10 +651,10 @@ window.createTimeline = function(timelineController) {
       error: (error) => {
         console.error(`Timeline Item ${itemNumber} Error: Fading in continue button area (Scene 08) failed -`, error);
       }
-    })               
+    }) 
     .add(addPause(0))
     .add({
-      targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left'],
+      targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.info'],
       opacity: [1, 0],
       duration: 500,
       easing: 'linear',
@@ -669,8 +663,13 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubble (Scene 08)`);
       },
       complete: () => {
-        document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        const buttonArea = document.querySelector('.scenario-ui-prompt-button-area');
+        const speechLeft = document.querySelector('.scenario-ui-prompt-speech.left');
+        const speechInfo = document.querySelector('.scenario-ui-prompt-speech.info');
+        
+        if (buttonArea) buttonArea.style.display = "none";
+        if (speechLeft) speechLeft.style.display = "none";
+        if (speechInfo) speechInfo.style.display = "none";
       },
       error: (error) => {
         console.error(`Timeline Item ${itemNumber} Error: Fading out button area and speech bubble (Scene 08) failed -`, error);

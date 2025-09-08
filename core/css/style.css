@@ -192,6 +192,9 @@ li {
     text-shadow: none;
 }
 
+.light-card p {
+    text-shadow: none;
+}
 
 .section {
     position: fixed;
@@ -261,7 +264,7 @@ li {
     height: 65px;
     margin: var(--spacing-lg) 27% 0 27%;
     font-size: 1.5rem;
-    height: 60px;
+    height: 50px;
     line-height: 1.3rem;
 
 
@@ -421,7 +424,7 @@ li {
     background-blend-mode: soft-light;
     background-position: 50% 40%;
     background-size: 240%;
-    background-image: url(../../assets/topic_1/s01-imagetarget.png), linear-gradient(180deg, rgba(1, 52, 19, 1) 0, rgba(5, 129, 47, 1) 42%, rgba(147, 199, 39, 1) 100%);
+    background-image: url(../../assets/topic_1/s01-image-marker.png), linear-gradient(180deg, rgba(1, 52, 19, 1) 0, rgba(5, 129, 47, 1) 42%, rgba(147, 199, 39, 1) 100%);
     border-radius: 0 0px 8px 8px;
     position: absolute;
     top: 0;
@@ -954,6 +957,13 @@ li {
     border: 1px solid rgba(66, 97, 34, 0.9);
   }
   
+  .scenario-ui-prompt-speech.info {
+    background: rgb(4 63 73);
+    border: 1px solid #4ac6e6;
+    /* width: auto; */
+    padding: 16px;
+}
+
   .scenario-ui-prompt-speech.right .scenario-ui-prompt-speech-content {
     align-items: flex-end;  
   }
@@ -1038,7 +1048,7 @@ li {
     /* Video section specific styles */
 }
 
-#video-section .hero {
+#video-section .hero, #quiz-section .hero, #summary-section .hero {
     background-position: 50% 12%;
     background-size: 170%;
 }
@@ -1121,8 +1131,10 @@ li {
 }
 
 .answer.selected {
+
     border-color: var(--border-hover);
-    background: var(--bg-info);
+    background: rgb(0 123 255 / 50%);
+    border-left-width: 8px;    
 }
 
 .answer.correct {
@@ -1191,6 +1203,10 @@ li {
     width: 100%;
     height: auto;
     z-index: 2;
+}
+
+.highlight-message {
+    padding: 16px;
 }
 
 /* ==========================================================================

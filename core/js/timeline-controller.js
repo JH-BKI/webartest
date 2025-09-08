@@ -125,7 +125,7 @@ AFRAME.registerComponent('timeline-controller', {
               console.log(`Paused ${secondsElapsed}s`);
             } else {
               // Final second - show "Continue (0s)"
-              this.uiButton.textContent = `Continuing...`;
+              this.uiButton.textContent = `Next...`;
             }
           }, 1000);
         }

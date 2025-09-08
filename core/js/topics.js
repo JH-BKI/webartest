@@ -64,7 +64,7 @@ const topicData = {
                     scale: '0.5 0.5 0.5',
                     position: '-0.125 1.125 -1',
                     rotation: '0 0 0',
-                    visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -74,7 +74,7 @@ const topicData = {
                     scale: '0.5 0.5 0.5',
                     position: '0.125 1.125 -1.05',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -85,7 +85,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '-1.25 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -95,7 +95,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -106,7 +106,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '-0.275 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -116,7 +116,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -127,7 +127,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '-0.275 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -137,7 +137,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -148,7 +148,7 @@ const topicData = {
                     scale: '1 1.5 0.5',
                     position: '-0 0 -0.5',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -158,7 +158,7 @@ const topicData = {
                     scale: '0.5 0.5 0.5',
                     position: '-0 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -168,7 +168,7 @@ const topicData = {
                     scale: '0.5 0.5 0.5',
                     position: '-0 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -178,7 +178,7 @@ const topicData = {
                     scale: '0.5 0.5 0.5',
                     position: '-0 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -188,7 +188,7 @@ const topicData = {
                     scale: '0.5 0.5 0.5',
                     position: '-0 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -199,7 +199,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '-0.275 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -209,7 +209,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -220,7 +220,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '-0.275 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -230,7 +230,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -241,7 +241,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '-0.275 0 -1.05',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -251,7 +251,7 @@ const topicData = {
                     scale: '1 2 0.5',
                     position: '0.25 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -262,7 +262,7 @@ const topicData = {
                     scale: '1 1.5 0.5',
                     position: '-0 0 -0.5',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -272,7 +272,7 @@ const topicData = {
                     scale: '0.5 0.5 0.5',
                     position: '-0 0 -1',
                     rotation: '0 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 },
@@ -282,7 +282,7 @@ const topicData = {
                     scale: '2 1 2',
                     position: '0 -0.5 0',
                     rotation: '-90 0 0',
-                                        visible: 'true',
+                    visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 }
@@ -346,8 +346,8 @@ const topicData = {
             images: [
                  // Speech bubbles
                  { 
-                  id: 's01-speech-lt', 
-                  src: './assets/topic_1/s01-speech-left.png',
+                  id: 's02-speech-lt', 
+                  src: './assets/topic_2/s02-speech-left.png',
                   scale: '0.5 0.5 0.5',
                   position: '-0.125 1.125 -1',
                   rotation: '0 0 0',
@@ -356,8 +356,8 @@ const topicData = {
                   material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
               },
               { 
-                  id: 's01-speech-rt', 
-                  src: './assets/topic_1/s01-speech-right.png',
+                  id: 's02-speech-rt', 
+                  src: './assets/topic_2/s02-speech-right.png',
                   scale: '0.5 0.5 0.5',
                   position: '0.125 1.125 -1.05',
                   rotation: '0 0 0',
@@ -365,27 +365,27 @@ const topicData = {
                   opacity: '1',
                   material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
               },
-              // Scene 01 characters
               { 
-                  id: 's01s01-Alex', 
-                  src: './assets/topic_1/s01-scene-01-Alex.png',
-                  scale: '1 2 0.5',
-                  position: '-1.25 0 -1',
+                  id: 's02-s01-jordan', 
+                  src: './assets/topic_2/s02-01-Jordan.png',
+                  scale: '0.5 0.5 0.5',
+                  position: '-0.125 0 -1.15',
                   rotation: '0 0 0',
-                                      visible: 'true',
+                  visible: 'true',
                   opacity: '1',
                   material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
               },
               { 
-                  id: 's01s01-Mia', 
-                  src: './assets/topic_1/s01-scene-01-Mia.png',
-                  scale: '1 2 0.5',
-                  position: '0.375 0 -1.05',
-                  rotation: '0 0 0',
-                                      visible: 'true',
-                  opacity: '1',
-                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-              }
+                id: 's02-s01-taylor', 
+                src: './assets/topic_2/s02-01-taylor-sitting.png',
+                scale: '0.5 0.5 0.5',
+                position: '0.125 0 -1.25',
+                rotation: '0 0 0',
+                visible: 'true',
+                opacity: '1',
+                material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+            }
+              
             ]
         }
     },
@@ -436,30 +436,49 @@ const topicData = {
         
         // AR Assets with entity properties for Topic 3
         arAssets: {
-            models: [
-                { 
-                    id: 's03-3d-object', 
-                    src: './assets/topic_3/s03-3d-object.glb',
-                    scale: '1 1 1',
-                    position: '0 0 -2',
-                    rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
-                    material: ''
-                }
-            ],
-            audio: [
-                { 
-                    id: 's03-background-music', 
-                    src: './assets/topic_3/s03-background-music.mp3',
-                    scale: '',
-                    position: '',
-                    rotation: '',
-                    visible: 'false',
-                    opacity: '0',
-                    material: ''
-                }
-            ]
+          images: [
+            // Speech bubbles
+            { 
+             id: 's03-speech-lt', 
+             src: './assets/topic_3/s03-speech-left.png',
+             scale: '0.5 0.5 0.5',
+             position: '-0.125 1.125 -1',
+             rotation: '0 0 0',
+             visible: 'true',
+             opacity: '1',
+             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+         },
+         { 
+             id: 's03-speech-rt', 
+             src: './assets/topic_3/s03-speech-right.png',
+             scale: '0.5 0.5 0.5',
+             position: '0.125 1.125 -1.05',
+             rotation: '0 0 0',
+              visible: 'true',
+             opacity: '1',
+             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+         },
+         { 
+             id: 's03-s01-riley', 
+             src: './assets/topic_3/s03-01-riley.png',
+             scale: '0.5 0.5 0.5',
+             position: '-0.125 0 -1.15',
+             rotation: '0 0 0',
+             visible: 'true',
+             opacity: '1',
+             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+         },
+         { 
+           id: 's03-s01-sam', 
+           src: './assets/topic_3/s03-01-sam.png',
+           scale: '0.5 0.5 0.5',
+           position: '0.125 0 -1.25',
+           rotation: '0 0 0',
+           visible: 'true',
+           opacity: '1',
+           material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+       }
+       ]
         }
     },
     topic_4: {
@@ -508,42 +527,49 @@ const topicData = {
         
         // AR Assets with entity properties for Topic 4
         arAssets: {
-            images: [
-                { 
-                    id: 's04-cyber-icon', 
-                    src: './assets/topic_4/s04-cyber-icon.png',
-                    scale: '1 1 1',
-                    position: '0 0 -2',
-                    rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
-                    material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-                }
-            ],
-            videos: [
-                { 
-                    id: 's04-security-demo', 
-                    src: './assets/topic_4/s04-security-demo.mp4',
-                    scale: '2 1.5 1',
-                    position: '0 1 -2',
-                    rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
-                    material: ''
-                }
-            ],
-            models: [
-                { 
-                    id: 's04-firewall-model', 
-                    src: './assets/topic_4/s04-firewall-model.glb',
-                    scale: '1 1 1',
-                    position: '0 0 -2',
-                    rotation: '0 0 0',
-                    visible: 'false',
-                    opacity: '0',
-                    material: ''
-                }
-            ]
+          images: [
+            // Speech bubbles
+            { 
+             id: 's04-speech-lt', 
+             src: './assets/topic_4/s04-speech-left.png',
+             scale: '0.5 0.5 0.5',
+             position: '-0.125 1.125 -1',
+             rotation: '0 0 0',
+             visible: 'true',
+             opacity: '1',
+             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+         },
+         { 
+             id: 's04-speech-rt', 
+             src: './assets/topic_4/s04-speech-right.png',
+             scale: '0.5 0.5 0.5',
+             position: '0.125 1.125 -1.05',
+             rotation: '0 0 0',
+              visible: 'true',
+             opacity: '1',
+             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+         },
+         { 
+             id: 's04-s01-ella', 
+             src: './assets/topic_4/s04-01-ella.png',
+             scale: '0.5 0.5 0.5',
+             position: '-0.125 0 -1.15',
+             rotation: '0 0 0',
+             visible: 'true',
+             opacity: '1',
+             material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+         },
+         { 
+           id: 's04-s02-liam', 
+           src: './assets/topic_4/s04-02-liam.png',
+           scale: '0.5 0.5 0.5',
+           position: '0.125 0 -1.25',
+           rotation: '0 0 0',
+           visible: 'true',
+           opacity: '1',
+           material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+       }
+       ]
         }
     }
 };

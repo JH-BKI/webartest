@@ -182,9 +182,7 @@
                 <span class="scenario-ui-prompt-speech-profile"><img src="./assets/s01-profile-mia.png"></span>
                 <span class="scenario-ui-prompt-speech-content"><span>Mia</span><span id="text-content-right">----</span></span>
               </div>
-              <div class="scenario-ui-general-info">
-                <span class="scenario-ui-general-info-content"></span>
-              </div>
+              <div class="scenario-ui-prompt-speech info"></div>
               <div class="scenario-ui-prompt-button-area">
                 <button class="btn btn-primary" type="button" id="scenario-ui-prompt-button">Continue</button>
               </div>
@@ -245,18 +243,20 @@
             
             <div id="answers">
                 <!-- Answers will be loaded here -->
+            </div>                
+
+            <div id="results" class="hidden">
+                <div class="light-card">
+                    <div id="score" class="score-box hidden">Results: 0 correct of 0.</div>
+                    <div id="feedback">Feedback will appear here</div>
+                </div>
+                <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
             </div>
-            
+
             <div id="answers-buttons">
                 <button id="submit-btn" class="btn btn-primary" onclick="checkAnswers()">Submit</button>
                 <button class="btn btn-secondary" onclick="goBackToVideo()">Go Back</button>
-            </div>        
-
-            <div id="results" class="light-card hidden">
-                <div id="score" class="score-box hidden">Results: 0 correct of 0.</div>
-                <div id="feedback">Feedback will appear here</div>
-                <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
-            </div>
+            </div>            
         </div>
     </div>
     
@@ -274,6 +274,23 @@
             </div>
         </div>
     </div>
+
+    <!-- facefilter Section -->
+    <div id="filter-section" class="hidden section">
+        <div class="hero"></div>
+        <div class="filter-content card">
+            <h2>Filter TBC</h2>
+            <div id="filter-content">
+                Instructions - TBC
+            </div>
+            <div>
+                <button class="btn btn-primary" onclick="goHome()">Continue</button>
+                <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- AR Scene Container -->
     <div id="ar-scene-container" class="ar-scene-container hidden"></div>
@@ -312,7 +329,7 @@
          * - Content loading functions
          */
         
-        let version = '2.62';
+        let version = '2.63';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
