@@ -12,6 +12,10 @@ class ARSceneManager {
         this.tipIndex = 0;
         this.isPaused = false; // Track pause state
         
+        // Multi-poster workflow state tracking
+        this.lastDetectedTargetIndex = null; // Track last detected poster
+        this.isTimelinePaused = false; // Track if timeline is paused (not stopped)
+        
         // ADD TIMELINE STATE TRACKING VARIABLES
         this.previousState = null;
         this.timelineWasRunning = false;
@@ -330,6 +334,21 @@ class ARSceneManager {
         if (detectedTopicId) {
             console.log(`✅ Poster detected for topic ${detectedTopicId}`);
             
+            const isSamePoster = (this.lastDetectedTargetIndex === targetIndex);
+            
+            if (isSamePoster && this.isTimelinePaused) {
+                // Same poster + timeline was paused = RESUME
+                console.log(`🔄 Same poster detected - resuming paused timeline`);
+                this.resumeTimeline();
+                window.stateManager.changeState('animating');
+                return; // Skip the rest of the logic
+            } else {
+                // Different poster OR no paused timeline = START NEW
+                console.log(`🆕 Different poster or new session - starting fresh`);
+                this.stopCurrentTimeline();
+                this.lastDetectedTargetIndex = targetIndex;
+            }
+            
             // Update global topic
             this.setGlobalTopic(detectedTopicId);
             
@@ -452,6 +471,9 @@ class ARSceneManager {
     handleTargetLost(targetIndex) {
         console.log(`🎯 handleTargetLost called with targetIndex: ${targetIndex}`);
         
+        // Always go back to scanning when tracking is lost
+        window.stateManager.changeState('scanning');
+        
         // Store current state and timeline status before pausing
         this.previousState = window.stateManager ? window.stateManager.currentState : null;
         this.timelineWasRunning = this.isTimelineRunning();
@@ -459,13 +481,14 @@ class ARSceneManager {
         
         console.log(`📊 Timeline state before loss - Running: ${this.timelineWasRunning}, Completed: ${this.timelineWasCompleted}, Previous State: ${this.previousState}`);
         
-        // Pause the animation when target is lost
+        // Pause the animation when target is lost (don't stop/reset)
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController) {
-                console.log(`⏸️ Pausing animation`);
+                console.log(`⏸️ Pausing timeline for potential resume`);
                 timelineController.quickPause();
+                this.isTimelinePaused = true;
             }
         }
     }
@@ -513,6 +536,10 @@ class ARSceneManager {
                 container.innerHTML = '';
                 container.classList.add('hidden');
             }
+            
+            // Reset event listener state for next scene
+            this.listenersSetup = false;
+            console.log('🔄 AR Scene Manager: Event listener state reset for next scene');
                        
             this.currentScene = null;
             console.log('✅ AR Scene Manager: Scene disposed (assets remain cached)');
@@ -788,6 +815,32 @@ class ARSceneManager {
             }
         }
     }
+    
+    // Resume paused timeline (for same poster)
+    resumeTimeline() {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
+            if (timelineController) {
+                console.log(`▶️ Resuming paused timeline`);
+                timelineController.quickPlay(); // Use existing method
+                this.isTimelinePaused = false;
+            }
+        }
+    }
+    
+    // Stop current timeline (for different poster)
+    stopCurrentTimeline() {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
+            if (timelineController) {
+                console.log(`⏹️ Stopping current timeline for new topic`);
+                timelineController.resetTimeline(); // Use existing method
+                this.isTimelinePaused = false;
+            }
+        }
+    }
 
 
     injectARScene() {
@@ -824,7 +877,7 @@ class ARSceneManager {
             <!-- Topic containers - always present for MindAR detection -->
             <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0">
         
-                <a-image id="s01-loading" src="./assets/topic_1/s01-image-marker.png" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0" 
+                <a-image id="s01-loading" src="./assets/topic_1/s01-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
                     material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
         
                 <!-- Topic 1 entities will be added dynamically -->
@@ -833,7 +886,7 @@ class ARSceneManager {
             </a-entity>
             <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1">
 
-                <a-image id="s02-loading" src="./assets/topic_2/s02-image-marker.png" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0" 
+                <a-image id="s02-loading" src="./assets/topic_2/s02-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
                     material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
 
                 <!-- Topic 2 entities will be added dynamically -->
@@ -843,7 +896,7 @@ class ARSceneManager {
             </a-entity>
             <a-entity id="scenario-assets-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2">
 
-                <a-image id="s03-loading" src="./assets/topic_3/s03-image-marker.png" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0" 
+                <a-image id="s03-loading" src="./assets/topic_3/s03-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
                     material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
 
                 <!-- Topic 3 entities will be added dynamically -->
@@ -852,7 +905,7 @@ class ARSceneManager {
             </a-entity>
             <a-entity id="scenario-assets-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3">
 
-                <a-image id="s04-loading" src="./assets/topic_4/s04-image-marker.png" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0" 
+                <a-image id="s04-loading" src="./assets/topic_4/s04-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
                     material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
 
                 <!-- Topic 4 entities will be added dynamically -->

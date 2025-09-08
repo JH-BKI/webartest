@@ -377,7 +377,7 @@ const topicData = {
               },
               { 
                 id: 's02-s01-taylor', 
-                src: './assets/topic_2/s02-01-taylor-sitting.png',
+                src: './assets/topic_2/s02-01-Taylor-sitting.png',
                 scale: '0.5 0.5 0.5',
                 position: '0.125 0 -1.25',
                 rotation: '0 0 0',
