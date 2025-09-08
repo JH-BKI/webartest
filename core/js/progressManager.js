@@ -14,11 +14,17 @@
  */
 
 class ProgressManager {
-    constructor() {
+    constructor(expiryDays = null) {
         this.completedTopics = new Set(); // Use Set for efficient lookups
         this.storageKey = 'arLearningApp_progress';
+        this.expiryDays = expiryDays; // Number of days until expiry (null = no expiry)
         this.loadProgress();
         console.log('ProgressManager initialized. Completed topics:', Array.from(this.completedTopics));
+        if (this.expiryDays) {
+            console.log(`Progress will expire in ${this.expiryDays} days`);
+        } else {
+            console.log('Progress has no expiry (stored indefinitely)');
+        }
     }
 
     /**
@@ -88,6 +94,14 @@ class ProgressManager {
                 completedTopics: Array.from(this.completedTopics),
                 lastUpdated: new Date().toISOString()
             };
+            
+            // Add expiry date if configured
+            if (this.expiryDays) {
+                const expiryDate = new Date();
+                expiryDate.setDate(expiryDate.getDate() + this.expiryDays);
+                progressData.expiresAt = expiryDate.toISOString();
+            }
+            
             localStorage.setItem(this.storageKey, JSON.stringify(progressData));
             console.log('Progress saved to localStorage:', progressData);
         } catch (error) {
@@ -103,8 +117,24 @@ class ProgressManager {
             const savedData = localStorage.getItem(this.storageKey);
             if (savedData) {
                 const progressData = JSON.parse(savedData);
+                
+                // Check if data has expired
+                if (this.isDataExpired(progressData)) {
+                    console.log('Progress data has expired, starting fresh');
+                    this.completedTopics = new Set();
+                    this.clearExpiredData();
+                    return;
+                }
+                
                 this.completedTopics = new Set(progressData.completedTopics || []);
                 console.log('Progress loaded from localStorage:', progressData);
+                
+                // Log expiry info if applicable
+                if (progressData.expiresAt) {
+                    const expiryDate = new Date(progressData.expiresAt);
+                    const daysUntilExpiry = Math.ceil((expiryDate - new Date()) / (1000 * 60 * 60 * 24));
+                    console.log(`Progress expires in ${daysUntilExpiry} days (${expiryDate.toLocaleDateString()})`);
+                }
             } else {
                 console.log('No saved progress found, starting fresh');
             }
@@ -112,6 +142,77 @@ class ProgressManager {
             console.error('Failed to load progress:', error);
             this.completedTopics = new Set(); // Reset on error
         }
+    }
+
+    /**
+     * Check if stored data has expired
+     * @param {Object} progressData - The parsed progress data from localStorage
+     * @returns {boolean} - True if data has expired
+     */
+    isDataExpired(progressData) {
+        if (!progressData.expiresAt) {
+            return false; // No expiry date means data never expires
+        }
+        
+        const expiryDate = new Date(progressData.expiresAt);
+        const now = new Date();
+        return now > expiryDate;
+    }
+
+    /**
+     * Clear expired data from localStorage
+     */
+    clearExpiredData() {
+        try {
+            localStorage.removeItem(this.storageKey);
+            console.log('Expired progress data cleared from localStorage');
+        } catch (error) {
+            console.error('Failed to clear expired data:', error);
+        }
+    }
+
+    /**
+     * Set expiry days for progress data
+     * @param {number|null} days - Number of days until expiry (null = no expiry)
+     */
+    setExpiryDays(days) {
+        this.expiryDays = days;
+        if (days) {
+            console.log(`Progress expiry set to ${days} days`);
+            // Re-save current progress with new expiry
+            this.saveProgress();
+        } else {
+            console.log('Progress expiry disabled (stored indefinitely)');
+        }
+    }
+
+    /**
+     * Get expiry information for current data
+     * @returns {Object|null} - Expiry info or null if no expiry
+     */
+    getExpiryInfo() {
+        try {
+            const savedData = localStorage.getItem(this.storageKey);
+            if (savedData) {
+                const progressData = JSON.parse(savedData);
+                if (progressData.expiresAt) {
+                    const expiryDate = new Date(progressData.expiresAt);
+                    const now = new Date();
+                    const daysUntilExpiry = Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24));
+                    const isExpired = now > expiryDate;
+                    
+                    return {
+                        expiresAt: progressData.expiresAt,
+                        expiryDate: expiryDate,
+                        daysUntilExpiry: Math.max(0, daysUntilExpiry),
+                        isExpired: isExpired
+                    };
+                }
+            }
+        } catch (error) {
+            console.error('Failed to get expiry info:', error);
+        }
+        return null;
     }
 
     /**
@@ -195,7 +296,8 @@ class ProgressManager {
     }
 }
 
-// Create global instance
+// Create global instance with configurable expiry
+// To set expiry: new ProgressManager(30) for 30 days, or new ProgressManager() for no expiry
 window.progressManager = new ProgressManager();
 
 // Testing functions (available in console)
@@ -241,6 +343,43 @@ window.testProgress = {
     complete: (topicNumber) => {
         window.progressManager.markTopicCompleted(topicNumber);
         console.log(`Topic ${topicNumber} marked as completed. Call testProgress.show() to see current state.`);
+    },
+
+    /**
+     * Set expiry days for progress data
+     * @param {number|null} days - Number of days until expiry (null = no expiry)
+     */
+    setExpiry: (days) => {
+        window.progressManager.setExpiryDays(days);
+        console.log(`Expiry set to ${days ? days + ' days' : 'disabled'}. Call testProgress.expiry() to see current expiry info.`);
+    },
+
+    /**
+     * Show expiry information
+     */
+    expiry: () => {
+        const expiryInfo = window.progressManager.getExpiryInfo();
+        if (expiryInfo) {
+            console.log('Expiry Information:', expiryInfo);
+            console.log(`Progress expires in ${expiryInfo.daysUntilExpiry} days (${expiryInfo.expiryDate.toLocaleDateString()})`);
+        } else {
+            console.log('No expiry set - progress stored indefinitely');
+        }
+        return expiryInfo;
+    },
+
+    /**
+     * Simulate expired data (for testing)
+     */
+    simulateExpired: () => {
+        // Manually set an expired date in localStorage
+        const expiredData = {
+            completedTopics: [1, 2, 3],
+            lastUpdated: new Date().toISOString(),
+            expiresAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString() // Yesterday
+        };
+        localStorage.setItem('arLearningApp_progress', JSON.stringify(expiredData));
+        console.log('Simulated expired data. Reload the page to see expiry behavior.');
     }
 };
 

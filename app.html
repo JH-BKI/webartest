@@ -470,6 +470,11 @@
                 }
             }
             
+            // Example: Set progress expiry (uncomment to enable)
+            window.progressManager.setExpiryDays(30); // Expire in 30 days
+            // window.progressManager.setExpiryDays(7);  // Expire in 7 days
+            // window.progressManager.setExpiryDays(null); // No expiry (default)
+            
             simulateLoading();
             
             // Populate UI elements after a short delay to ensure topics.js is loaded
