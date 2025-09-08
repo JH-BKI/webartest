@@ -99,14 +99,23 @@ class StateManager {
                     // Trigger countdown button auto-start as fallback
                     setTimeout(() => {
                         const startButton = document.getElementById('start-ar-button');
-                        if (startButton && 
-                            !startButton.dataset.countdownActive && 
-                            !startButton.dataset.autoTriggered) {
-                            console.log('🎯 Fallback: Auto-triggering countdown for button:', startButton.id);
-                            startButton.dataset.autoTriggered = 'true';
-                            if (window.handleCountdownButtonClick) {
-                                window.handleCountdownButtonClick({ target: startButton });
+                        if (startButton) {
+                            console.log('🎯 Fallback: Checking button state - countdownActive:', startButton.dataset.countdownActive, 'autoTriggered:', startButton.dataset.autoTriggered);
+                            
+                            if (!startButton.dataset.countdownActive && 
+                                !startButton.dataset.autoTriggered) {
+                                console.log('🎯 Fallback: Auto-triggering countdown for button:', startButton.id);
+                                startButton.dataset.autoTriggered = 'true';
+                                if (window.handleCountdownButtonClick) {
+                                    window.handleCountdownButtonClick({ target: startButton });
+                                } else {
+                                    console.error('❌ Fallback: handleCountdownButtonClick not available');
+                                }
+                            } else {
+                                console.log('🎯 Fallback: Button already active or triggered, skipping');
                             }
+                        } else {
+                            console.error('❌ Fallback: Start button not found');
                         }
                     }, 200);
                 },

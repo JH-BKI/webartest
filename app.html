@@ -330,7 +330,7 @@
          * - Content loading functions
          */
         
-        let version = '2.74';
+        let version = '2.75';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -898,6 +898,8 @@
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
                             console.log('🔍 Intersection observer triggered for section:', parentSection.id, 'isIntersecting:', entry.isIntersecting);
+                            console.log('🔍 Button state - countdownActive:', button.dataset.countdownActive, 'autoTriggered:', button.dataset.autoTriggered);
+                            
                             if (entry.isIntersecting && 
                                 !button.dataset.countdownActive && 
                                 !button.dataset.autoTriggered) {
@@ -906,7 +908,11 @@
                                 // Small delay to ensure section is fully visible
                                 setTimeout(() => {
                                     console.log('🎯 Executing auto-trigger countdown for button:', button.id);
-                                    handleCountdownButtonClick({ target: button });
+                                    if (window.handleCountdownButtonClick) {
+                                        window.handleCountdownButtonClick({ target: button });
+                                    } else {
+                                        console.error('❌ handleCountdownButtonClick not available');
+                                    }
                                 }, 100);
                             } else if (!entry.isIntersecting) {
                                 // Reset auto-trigger flag when section becomes hidden

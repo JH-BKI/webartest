@@ -16,6 +16,10 @@ class ARSceneManager {
         this.lastDetectedTargetIndex = null; // Track last detected poster
         this.isTimelinePaused = false; // Track if timeline is paused (not stopped)
         
+        // MindAR stability tracking
+        this.mindarStartTimeout = null; // Track pending MindAR start
+        this.mindarStopTimeout = null; // Track pending MindAR stop
+        
         // ADD TIMELINE STATE TRACKING VARIABLES
         this.previousState = null;
         this.timelineWasRunning = false;
@@ -701,8 +705,27 @@ class ARSceneManager {
         return this.isPaused;
     }
     
-    // Start MindAR camera and tracking
+    // Start MindAR camera and tracking (debounced)
     startMindAR(retryCount = 0) {
+        // Clear any pending stop
+        if (this.mindarStopTimeout) {
+            clearTimeout(this.mindarStopTimeout);
+            this.mindarStopTimeout = null;
+        }
+        
+        // Clear any pending start
+        if (this.mindarStartTimeout) {
+            clearTimeout(this.mindarStartTimeout);
+        }
+        
+        // Debounce start by 100ms
+        this.mindarStartTimeout = setTimeout(() => {
+            this._doStartMindAR(retryCount);
+        }, 100);
+    }
+    
+    // Internal method to actually start MindAR
+    _doStartMindAR(retryCount = 0) {
         const maxRetries = 3;
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
@@ -716,7 +739,7 @@ class ARSceneManager {
                     if (retryCount < maxRetries) {
                         // Retry after a short delay
                         setTimeout(() => {
-                            this.startMindAR(retryCount + 1);
+                            this._doStartMindAR(retryCount + 1);
                         }, 1000);
                     } else {
                         console.error('❌ MindAR start failed after maximum retries');
@@ -727,7 +750,7 @@ class ARSceneManager {
                 if (retryCount < maxRetries) {
                     // Retry after a short delay
                     setTimeout(() => {
-                        this.startMindAR(retryCount + 1);
+                        this._doStartMindAR(retryCount + 1);
                     }, 1000);
                 } else {
                     console.error('❌ MindAR system not available after maximum retries');
@@ -736,8 +759,27 @@ class ARSceneManager {
         }
     }
     
-    // Stop MindAR camera and tracking
+    // Stop MindAR camera and tracking (debounced)
     stopMindAR() {
+        // Clear any pending start
+        if (this.mindarStartTimeout) {
+            clearTimeout(this.mindarStartTimeout);
+            this.mindarStartTimeout = null;
+        }
+        
+        // Clear any pending stop
+        if (this.mindarStopTimeout) {
+            clearTimeout(this.mindarStopTimeout);
+        }
+        
+        // Debounce stop by 100ms
+        this.mindarStopTimeout = setTimeout(() => {
+            this._doStopMindAR();
+        }, 100);
+    }
+    
+    // Internal method to actually stop MindAR
+    _doStopMindAR() {
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
