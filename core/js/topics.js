@@ -42,7 +42,7 @@ const topicData = {
                 <li>Their stories don't quite add up.</li>
             </ol>
             
-            <div class="highlight-message">
+            <div class="highlight-message light-card">
                 <p><strong>Always be careful about what you say and share online.</strong></p>
             </div>
             
@@ -328,7 +328,7 @@ const topicData = {
             <p>If it happens, the best steps are not to respond, block and report the behaviour, keep evidence, and seek support from a trusted adult. </p>
             <p>More information is available from the <a href="https://www.esafety.gov.au/young-people" target="_blank">eSafety Commissioner’s website for young people</a>.</p>
 
-            <div class="highlight-message">
+            <div class="highlight-message light-card">
                 <p><strong>Remember the bullying is a reflection of the bully not you. 
                 <p>You are special, loved and amazing!</strong></p>
             </div>
@@ -422,7 +422,7 @@ const topicData = {
         <p>Reporting online abuse involves four key steps: first, collect evidence such as screenshots, web pages, URLs, and usernames; second, report the harmful content to the platform, and if it isn’t removed within 48 hours, escalate it to the eSafety Commissioner; third, prevent further contact by using in-app tools to block, mute, or adjust privacy settings; and finally, seek additional help through free and confidential counselling and support services, such as student support teams.</p>
         <p>More information is available from the <a href="https://www.esafety.gov.au/young-people" target="_blank">eSafety Commissioner’s website for young people</a>.</p>
 
-        <div class="highlight-message">
+        <div class="highlight-message light-card">
             <p><strong>There are many characteristics of a respectful, healthy relationship. No matter whether you are online or offline, relationships should be always be respectful.</strong></p>
         </div>
         
@@ -513,7 +513,7 @@ const topicData = {
         <p>If something goes wrong online, it’s important to speak up and get support. Reporting online abuse involves four steps: collect evidence such as screenshots, web pages, or usernames; report harmful content to the platform, and if not removed within 48 hours, escalate it to the eSafety Commissioner; prevent further contact by blocking, muting, or adjusting privacy settings; and seek additional help through free, confidential counselling and support services, such as those offered by the BKI student services team.</p>
         <p>More information is available from the <a href="https://www.esafety.gov.au/young-people" target="_blank">eSafety Commissioner’s website for young people</a>.</p>
 
-        <div class="highlight-message">
+        <div class="highlight-message light-card">
             <p><strong>It’s important to call in other support - talk to a trusted adult like a parent, teacher or older sibling so they can help you work out what to do.</strong></p>
         </div>
         

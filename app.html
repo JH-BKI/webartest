@@ -165,6 +165,7 @@
                 <button class="btn btn-primary" id="start-ar-button" data-original-onclick="startARExperience()" data-countdown-duration="5" data-auto-trigger="true">
                     🚀 Start
                 </button>
+                <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
             </div>
         </div>         
     </div>
@@ -193,12 +194,12 @@
     </div>
     
     <!-- Progress Bar -->
-    <div id="progress" class="hidden section">
+    <!-- <div id="progress" class="hidden">
         <div class="back-link" onclick="goHome()">← Back to Topics</div>
         <div class="progress-bar">
             <div id="progress-bar" class="progress-fill"></div>
         </div>
-    </div>
+    </div> -->
     
     <!-- <div class="ar-progress-container">
         <div class="ar-progress-bar">
@@ -329,7 +330,7 @@
          * - Content loading functions
          */
         
-        let version = '2.64';
+        let version = '2.66';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;

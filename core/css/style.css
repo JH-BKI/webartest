@@ -1092,15 +1092,14 @@ li {
 
 .quiz-content {
     position: absolute;
-    top: 35%;
+    top: 50%;
     left: 0;
     width: 100%;
-    height: auto;
     z-index: 2;
 }
 
 .question-box {
-    background: var(--ncpw-alt-blue-dk-quarter);
+    /* background: var(--ncpw-alt-blue-dk-quarter); */
     padding: var(--spacing-md);
     margin: var(--spacing-xl) 0;
     border-left: 4px solid var(--border-info);
@@ -1136,6 +1135,7 @@ li {
     border-color: var(--border-hover);
     background: rgb(0 123 255 / 50%);
     border-left-width: 8px;    
+    font-weight: 600;
 }
 
 .answer.correct {
@@ -1199,7 +1199,7 @@ li {
 .summary-content {
     text-align: left;
     position: absolute;
-    bottom: 0;
+    top: 50%;
     left: 0;
     width: 100%;
     height: auto;
