@@ -183,6 +183,7 @@ This is an AR-enhanced learning app that combines:
 | On detection, animate the loading panel with text and particles | ⏳ Pending | Enhanced loading animation | 🟢 Low | **Requirement**: Animated loading panel during poster detection. **Implementation**: Text animation and particle effects. **Design**: Engaging loading experience. **UX**: Visual feedback during detection process. |
 | Dynamically add the profile pictures to the image elements in animation | ⏳ Pending | Dynamic profile images | 🔴 High | **Requirement**: Load profile pictures dynamically in animations. **Implementation**: Replace static images with dynamic loading. **Content**: Use actual profile images from assets. **Integration**: Connect to asset management system. |
 | Animation topic 1 is dragging at the end | ⏳ Pending | Fix animation performance | 🔴 High | **Requirement**: Smooth animation performance for topic 1. **Issue**: Animation becomes slow/dragging at the end. **Implementation**: Optimize animation timing and performance. **Fix**: Ensure smooth playback throughout entire animation. |
+| Update summary section, text "Well done! You have 3 more posters to find." to the actual amount left | ⏳ Pending | Dynamic poster count in summary | 🟡 Medium | **Requirement**: Show actual remaining poster count instead of hardcoded "3". **Implementation**: Calculate remaining posters based on completion status. **Integration**: Connect to progress tracking system. **UX**: Accurate feedback on remaining topics to complete. |
 
 ## Phase 6: Documentation & Cleanup
 

@@ -208,11 +208,8 @@ class ARSceneManager {
             return;
         }
         
-        // Prevent duplicate event listeners
-        if (this.listenersSetup) {
-            console.log('🎯 AR Scene Manager: Event listeners already set up, skipping');
-            return;
-        }
+        // Always set up listeners for the current scene
+        console.log('🎯 AR Scene Manager: Setting up MindAR event listeners for current scene');
         
         // Listen for target found events
         sceneEl.addEventListener('targetFound', (event) => {
@@ -289,7 +286,6 @@ class ARSceneManager {
         });
         
         console.log('🎯 AR Scene Manager: MindAR event listeners set up');
-        this.listenersSetup = true;
     }
     
     // Load topic-specific animation file
@@ -347,6 +343,10 @@ class ARSceneManager {
                 console.log(`🆕 Different poster or new session - starting fresh`);
                 this.stopCurrentTimeline();
                 this.lastDetectedTargetIndex = targetIndex;
+                
+                // Reset timeline state tracking for new topic
+                this.timelineWasRunning = false;
+                this.timelineWasCompleted = false;
             }
             
             // Update global topic
@@ -361,81 +361,13 @@ class ARSceneManager {
             // Update UI
             this.updateDetectedPosterUI(detectedTopicId);
             
-            // Smart state transition based on previous timeline state
-            console.log(`🔄 AR Scene Manager: State transition decision - timelineWasCompleted: ${this.timelineWasCompleted}, timelineWasRunning: ${this.timelineWasRunning}, currentState: ${window.stateManager.currentState}`);
-            
-            if (this.timelineWasCompleted) {
-                // Timeline was completed - do nothing, stay in current state
-                console.log(`🔄 AR Scene Manager: Timeline was completed - staying in current state (${window.stateManager.currentState})`);
-                return;
-            } else if (this.timelineWasRunning) {
-                // Timeline was running - resume and go to animating state
-                console.log(`🔄 AR Scene Manager: Timeline was running - resuming and going to animating state`);
-                window.stateManager.changeState('animating');
+            // For different poster, always go through AR Ready flow
+            if (window.stateManager && window.stateManager.currentState !== 'ar_ready') {
+                console.log(`🔄 AR Scene Manager: Different poster detected - transitioning to ar_ready state`);
+                window.stateManager.changeState('ar_ready');
             } else {
-                // No timeline was running - go to ar_ready state
-                if (window.stateManager && window.stateManager.currentState !== 'ar_ready') {
-                    console.log(`🔄 AR Scene Manager: No timeline was running - transitioning to ar_ready state`);
-                    window.stateManager.changeState('ar_ready');
-                } else {
-                    console.log(`🔄 AR Scene Manager: Already in ar_ready state, skipping transition`);
-                }
+                console.log(`🔄 AR Scene Manager: Already in ar_ready state, skipping transition`);
             }
-            
-            // Debug: Check if ar-ready-section is visible
-            setTimeout(() => {
-                const arReadySection = document.getElementById('ar-ready-section');
-                if (arReadySection) {
-                    console.log('🔍 AR Ready Section found:', arReadySection);
-                    console.log('🔍 AR Ready Section classes:', arReadySection.className);
-                    console.log('🔍 AR Ready Section hidden?', arReadySection.classList.contains('hidden'));
-                    
-                    // Check all child elements
-                    const appTip = document.getElementById('app-tip');
-                    const detectionSuccess = arReadySection.querySelector('.detection-success');
-                    const arInstructions = arReadySection.querySelector('.ar-instructions');
-                    const startButton = arReadySection.querySelector('button');
-                    
-                    console.log('🔍 App Tip:', appTip, appTip ? appTip.offsetHeight : 'not found');
-                    console.log('🔍 Detection Success:', detectionSuccess, detectionSuccess ? detectionSuccess.offsetHeight : 'not found');
-                    console.log('🔍 AR Instructions:', arInstructions, arInstructions ? arInstructions.offsetHeight : 'not found');
-                    console.log('🔍 Start Button:', startButton, startButton ? startButton.offsetHeight : 'not found');
-                    
-                    // Check computed styles
-                    if (startButton) {
-                        const computedStyle = window.getComputedStyle(startButton);
-                        console.log('🔍 Button computed styles:', {
-                            display: computedStyle.display,
-                            visibility: computedStyle.visibility,
-                            opacity: computedStyle.opacity,
-                            position: computedStyle.position,
-                            zIndex: computedStyle.zIndex
-                        });
-                    }
-                    
-                    // Manual fallback: ensure the section is visible
-                    if (arReadySection.classList.contains('hidden')) {
-                        console.log('🔧 Manually showing AR Ready Section');
-                        arReadySection.classList.remove('hidden');
-                    }
-                    
-                    // Force show all child elements
-                    const allChildren = arReadySection.querySelectorAll('*');
-                    allChildren.forEach(child => {
-                        if (child.classList.contains('hidden')) {
-                            console.log('🔧 Removing hidden class from:', child);
-                            child.classList.remove('hidden');
-                        }
-                        // Force display block for any elements that might be hidden
-                        if (child.style.display === 'none') {
-                            console.log('🔧 Setting display block for:', child);
-                            child.style.display = 'block';
-                        }
-                    });
-                } else {
-                    console.error('❌ AR Ready Section not found!');
-                }
-            }, 100);
         } else {
             console.log(`⚠️ Unknown target detected: ${targetIndex}`);
             console.log(`⚠️ Available targets:`, Object.keys(this.topicMapping));
@@ -537,9 +469,8 @@ class ARSceneManager {
                 container.classList.add('hidden');
             }
             
-            // Reset event listener state for next scene
-            this.listenersSetup = false;
-            console.log('🔄 AR Scene Manager: Event listener state reset for next scene');
+            // Event listeners will be set up fresh for the next scene
+            console.log('🔄 AR Scene Manager: Scene disposed - event listeners will be set up fresh for next scene');
                        
             this.currentScene = null;
             console.log('✅ AR Scene Manager: Scene disposed (assets remain cached)');
@@ -838,6 +769,10 @@ class ARSceneManager {
                 console.log(`⏹️ Stopping current timeline for new topic`);
                 timelineController.resetTimeline(); // Use existing method
                 this.isTimelinePaused = false;
+                
+                // Reset timeline state tracking
+                this.timelineWasRunning = false;
+                this.timelineWasCompleted = false;
             }
         }
     }
