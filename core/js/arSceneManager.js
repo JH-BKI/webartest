@@ -315,8 +315,9 @@ class ARSceneManager {
         if (sceneEl) {
             const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController) {
-                timelineController.setTopic(topicId - 1); // Convert to 0-based index
-                console.log(`Timeline controller set to topic ${topicId}`);
+                const zeroBasedTopicId = topicId - 1; // Convert to 0-based index
+                console.log(`Timeline controller: Setting topic ${topicId} (0-based: ${zeroBasedTopicId})`);
+                timelineController.setTopic(zeroBasedTopicId);
             }
         }
     }
@@ -347,6 +348,12 @@ class ARSceneManager {
                 // Reset timeline state tracking for new topic
                 this.timelineWasRunning = false;
                 this.timelineWasCompleted = false;
+                this.isTimelinePaused = false;
+                
+                // Reset countdown buttons for new topic
+                if (window.resetAllCountdownButtons) {
+                    window.resetAllCountdownButtons();
+                }
             }
             
             // Update global topic
@@ -493,6 +500,11 @@ class ARSceneManager {
         
         this.injectARScene();
         
+        // Start MindAR camera after scene is created
+        setTimeout(() => {
+            this.startMindAR();
+        }, 200);
+        
         // Reset timeline controller state after scene is created
         setTimeout(() => {
             const sceneEl = document.querySelector('a-scene');
@@ -518,6 +530,7 @@ class ARSceneManager {
     
     stopScanning() {
         console.log('⏹️ AR Scene Manager: Stopping AR scanning');
+        this.stopMindAR();
         this.disposeScene();
     }
     
@@ -686,6 +699,34 @@ class ARSceneManager {
     // Check if scene is currently paused
     isScenePaused() {
         return this.isPaused;
+    }
+    
+    // Start MindAR camera and tracking
+    startMindAR() {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const mindarSystem = sceneEl.systems['mindar-image-system'];
+            if (mindarSystem) {
+                console.log('📹 Starting MindAR camera and tracking');
+                mindarSystem.start();
+            } else {
+                console.warn('⚠️ MindAR system not found - cannot start camera');
+            }
+        }
+    }
+    
+    // Stop MindAR camera and tracking
+    stopMindAR() {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const mindarSystem = sceneEl.systems['mindar-image-system'];
+            if (mindarSystem) {
+                console.log('📹 Stopping MindAR camera and tracking');
+                mindarSystem.stop();
+            } else {
+                console.warn('⚠️ MindAR system not found - cannot stop camera');
+            }
+        }
     }
     
     // Start tips rotation

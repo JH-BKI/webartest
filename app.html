@@ -330,7 +330,7 @@
          * - Content loading functions
          */
         
-        let version = '2.71';
+        let version = '2.72';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -847,6 +847,7 @@
             button.disabled = false;
             button.dataset.countdownActive = 'false';
             button.dataset.countdownInterval = '';
+            button.dataset.autoTriggered = 'false'; // Reset auto-trigger flag
         }
         
         function executeOriginalFunction(functionName) {
@@ -864,6 +865,21 @@
                 console.error('No function name provided');
             }
         }
+        
+        // Reset all countdown buttons (called when switching topics)
+        function resetAllCountdownButtons() {
+            const countdownButtons = document.querySelectorAll('[data-countdown-duration]');
+            countdownButtons.forEach(button => {
+                cancelCountdown(button);
+                button.dataset.autoTriggered = 'false';
+                // Reset to original text
+                const originalText = button.getAttribute('data-original-text') || 'Start';
+                button.textContent = originalText;
+            });
+        }
+        
+        // Make resetAllCountdownButtons available globally
+        window.resetAllCountdownButtons = resetAllCountdownButtons;
         
         /**
          * Auto-trigger countdown when section becomes visible
@@ -889,6 +905,9 @@
                                 setTimeout(() => {
                                     handleCountdownButtonClick({ target: button });
                                 }, 100);
+                            } else if (!entry.isIntersecting) {
+                                // Reset auto-trigger flag when section becomes hidden
+                                button.dataset.autoTriggered = 'false';
                             }
                         });
                     }, { threshold: 0.5 }); // Trigger when 50% of section is visible

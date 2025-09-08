@@ -65,8 +65,9 @@ class StateManager {
                         scanningSection.classList.remove('hidden');
                     }
                     
-                    // Resume AR scene when entering scanning state
+                    // Start MindAR camera and resume AR scene when entering scanning state
                     if (window.arSceneManager) {
+                        window.arSceneManager.startMindAR();
                         window.arSceneManager.resumeScene();
                     }
                 },
@@ -84,7 +85,7 @@ class StateManager {
                         arReadySection.classList.remove('hidden');
                     }
                     
-                    // Resume AR scene when entering ar_ready state
+                    // Keep MindAR camera running and resume AR scene when entering ar_ready state
                     if (window.arSceneManager) {
                         window.arSceneManager.resumeScene();
                     }
@@ -107,16 +108,17 @@ class StateManager {
                         animatingSection.classList.remove('hidden');
                     }
                     
-                    // Resume AR scene when entering animating state
+                    // Keep MindAR camera running and resume AR scene when entering animating state
                     if (window.arSceneManager) {
                         window.arSceneManager.resumeScene();
                     }
                 },
                 onExit: () => {
                     console.log('Exiting animating state');
-                    // Pause AR scene when showing fullscreen video
-                    console.log('Pausing AR scene when exiting animating state');
+                    // Stop MindAR camera and pause AR scene when showing fullscreen video
+                    console.log('Stopping MindAR camera and pausing AR scene when exiting animating state');
                     if (window.arSceneManager) {
+                        window.arSceneManager.stopMindAR();
                         window.arSceneManager.pauseScene();
                     }
                 }
@@ -146,6 +148,10 @@ class StateManager {
                         console.error('❌ Video section not found!');
                     }
                     
+                    // Ensure MindAR camera is stopped for fullscreen video
+                    if (window.arSceneManager) {
+                        window.arSceneManager.stopMindAR();
+                    }
 
                 },
                 onExit: () => {
@@ -161,8 +167,9 @@ class StateManager {
                     //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('quiz-section').classList.remove('hidden');
                     
-                    // Pause AR scene when showing fullscreen quiz
+                    // Stop MindAR camera and pause AR scene when showing fullscreen quiz
                     if (window.arSceneManager) {
+                        window.arSceneManager.stopMindAR();
                         window.arSceneManager.pauseScene();
                     }
                 },
@@ -178,8 +185,9 @@ class StateManager {
                     //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('summary-section').classList.remove('hidden');
                     
-                    // Pause AR scene when showing fullscreen summary
+                    // Stop MindAR camera and pause AR scene when showing fullscreen summary
                     if (window.arSceneManager) {
+                        window.arSceneManager.stopMindAR();
                         window.arSceneManager.pauseScene();
                     }
                 },
