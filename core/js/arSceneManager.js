@@ -702,15 +702,36 @@ class ARSceneManager {
     }
     
     // Start MindAR camera and tracking
-    startMindAR() {
+    startMindAR(retryCount = 0) {
+        const maxRetries = 3;
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
-            if (mindarSystem) {
+            if (mindarSystem && mindarSystem.start) {
                 console.log('📹 Starting MindAR camera and tracking');
-                mindarSystem.start();
+                try {
+                    mindarSystem.start();
+                } catch (error) {
+                    console.warn('⚠️ MindAR start failed, will retry:', error.message);
+                    if (retryCount < maxRetries) {
+                        // Retry after a short delay
+                        setTimeout(() => {
+                            this.startMindAR(retryCount + 1);
+                        }, 1000);
+                    } else {
+                        console.error('❌ MindAR start failed after maximum retries');
+                    }
+                }
             } else {
-                console.warn('⚠️ MindAR system not found - cannot start camera');
+                console.warn('⚠️ MindAR system not found or not ready - cannot start camera');
+                if (retryCount < maxRetries) {
+                    // Retry after a short delay
+                    setTimeout(() => {
+                        this.startMindAR(retryCount + 1);
+                    }, 1000);
+                } else {
+                    console.error('❌ MindAR system not available after maximum retries');
+                }
             }
         }
     }

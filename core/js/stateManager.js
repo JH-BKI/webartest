@@ -65,10 +65,16 @@ class StateManager {
                         scanningSection.classList.remove('hidden');
                     }
                     
-                    // Start MindAR camera and resume AR scene when entering scanning state
+                    // Resume AR scene when entering scanning state
                     if (window.arSceneManager) {
-                        window.arSceneManager.startMindAR();
                         window.arSceneManager.resumeScene();
+                        
+                        // Start MindAR camera after a short delay to ensure scene is ready
+                        setTimeout(() => {
+                            if (window.arSceneManager) {
+                                window.arSceneManager.startMindAR();
+                            }
+                        }, 500);
                     }
                 },
                 onExit: () => {
