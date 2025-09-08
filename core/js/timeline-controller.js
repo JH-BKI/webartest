@@ -253,25 +253,33 @@ AFRAME.registerComponent('timeline-controller', {
         case '1':
           this.currentTimescale = 1.0;
           this.timeline.timescale = 1.0;
-          this.timeline.play();
+          if (this.timeline.paused) {
+            this.timeline.play();
+          }
           console.log('Timescale set to 1.0x (normal speed)');
           break;
         case '2':
           this.currentTimescale = 2.0;
           this.timeline.timescale = 2.0;
-          this.timeline.play();
+          if (this.timeline.paused) {
+            this.timeline.play();
+          }
           console.log('Timescale set to 2.0x (2x speed)');
           break;
         case '5':
           this.currentTimescale = 5.0;
           this.timeline.timescale = 5.0;
-          this.timeline.play();
+          if (this.timeline.paused) {
+            this.timeline.play();
+          }
           console.log('Timescale set to 5.0x (5x speed)');
           break;
           case '9':
             this.currentTimescale = 9.0;
             this.timeline.timescale = 9.0;
-            this.timeline.play();
+            if (this.timeline.paused) {
+              this.timeline.play();
+            }
             console.log('Timescale set to 9.0x (9x speed)');
             break;
         case ' ':

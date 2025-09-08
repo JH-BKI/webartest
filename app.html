@@ -455,6 +455,19 @@
             // Set version in mobile console if it's available
             if (window.mobileConsole) {
                 window.mobileConsole.setVersion(version);
+                
+                // Log device capabilities for debugging
+                const capabilities = window.mobileConsole.getDeviceCapabilities();
+                console.log('📱 Device Capabilities:', capabilities);
+                
+                // Example: Different behavior based on device type
+                if (window.mobileConsole.isPhone()) {
+                    console.log('📱 Phone detected - optimizing for mobile AR experience');
+                } else if (window.mobileConsole.isTablet()) {
+                    console.log('📱 Tablet detected - using tablet-optimized interface');
+                } else if (window.mobileConsole.isDesktop()) {
+                    console.log('🖥️ Desktop detected - using desktop interface with demo mode');
+                }
             }
             
             simulateLoading();

@@ -35,19 +35,63 @@ class MobileConsole {
         this.hookIntoStateChanges();
     }
 
-    // Detect if we're on a mobile device
+    // Enhanced device detection with better mobile vs desktop distinction
     detectMobileDevice() {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-        const isMobile = mobileRegex.test(userAgent);
+        const platform = navigator.platform || '';
         
-        // Also check for touch capability and screen size
+        // More comprehensive mobile device detection
+        const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i;
+        const tabletRegex = /ipad|android(?!.*mobile)|tablet/i;
+        
+        // Check user agent for mobile/tablet indicators
+        const isMobileUA = mobileRegex.test(userAgent);
+        const isTabletUA = tabletRegex.test(userAgent);
+        
+        // Check for touch capability
         const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-        const isSmallScreen = window.innerWidth <= 768;
         
-        const isMobileDevice = isMobile || (hasTouch && isSmallScreen);
+        // Get screen dimensions
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const screenRatio = screenWidth / screenHeight;
         
-        console.log(`🔍 Device Detection: Mobile=${isMobile}, Touch=${hasTouch}, SmallScreen=${isSmallScreen}, Final=${isMobileDevice}`);
+        // More precise screen size detection
+        const isSmallScreen = screenWidth <= 480; // Phone-sized
+        const isMediumScreen = screenWidth > 480 && screenWidth <= 1024; // Tablet-sized
+        const isLargeScreen = screenWidth > 1024; // Desktop-sized
+        
+        // Check for specific mobile characteristics
+        const isPortrait = screenHeight > screenWidth;
+        const isLandscape = screenWidth > screenHeight;
+        
+        // Detect if device is likely a phone (not tablet or desktop)
+        const isPhone = isMobileUA && (isSmallScreen || (isMediumScreen && isPortrait));
+        
+        // Detect if device is likely a tablet
+        const isTablet = isTabletUA || (hasTouch && isMediumScreen && isLandscape);
+        
+        // Detect if device is likely a desktop
+        const isDesktop = !isMobileUA && !isTabletUA && (isLargeScreen || (!hasTouch && isMediumScreen));
+        
+        // Final mobile device determination (phones only, not tablets)
+        const isMobileDevice = isPhone;
+        
+        // Enhanced logging for debugging
+        console.log(`🔍 Enhanced Device Detection:`);
+        console.log(`  User Agent Mobile: ${isMobileUA}`);
+        console.log(`  User Agent Tablet: ${isTabletUA}`);
+        console.log(`  Has Touch: ${hasTouch}`);
+        console.log(`  Screen: ${screenWidth}x${screenHeight} (${isPortrait ? 'Portrait' : 'Landscape'})`);
+        console.log(`  Screen Size: ${isSmallScreen ? 'Small' : isMediumScreen ? 'Medium' : 'Large'}`);
+        console.log(`  Device Type: ${isPhone ? 'Phone' : isTablet ? 'Tablet' : isDesktop ? 'Desktop' : 'Unknown'}`);
+        console.log(`  Final Mobile: ${isMobileDevice}`);
+        
+        // Store device type for other components to use
+        this.deviceType = isPhone ? 'phone' : isTablet ? 'tablet' : isDesktop ? 'desktop' : 'unknown';
+        this.isTablet = isTablet;
+        this.isDesktop = isDesktop;
+        
         return isMobileDevice;
     }
 
@@ -438,6 +482,42 @@ class MobileConsole {
     setVersion(version) {
         this.version = version;
         this.updateDebugInfo();
+    }
+
+    // Utility methods for device detection
+    getDeviceType() {
+        return this.deviceType || 'unknown';
+    }
+
+    isPhone() {
+        return this.deviceType === 'phone';
+    }
+
+    isTablet() {
+        return this.isTablet || false;
+    }
+
+    isDesktop() {
+        return this.isDesktop || false;
+    }
+
+    isMobileOrTablet() {
+        return this.isMobileDevice || this.isTablet;
+    }
+
+    // Get device capabilities for AR/feature detection
+    getDeviceCapabilities() {
+        return {
+            deviceType: this.deviceType,
+            isPhone: this.isPhone(),
+            isTablet: this.isTablet(),
+            isDesktop: this.isDesktop(),
+            hasTouch: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+            screenWidth: window.innerWidth,
+            screenHeight: window.innerHeight,
+            isPortrait: window.innerHeight > window.innerWidth,
+            userAgent: navigator.userAgent
+        };
     }
 }
 
