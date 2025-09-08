@@ -162,7 +162,7 @@
             <div class="poster-info">
                 <p id="detected-poster-desc">You found:</p>
                 <h3 id="detected-poster-title">Learning Poster Detected</h3>
-                <button class="btn btn-primary" id="start-ar-button" data-original-onclick="startARExperience()" data-countdown-duration="5" data-auto-trigger="true">
+                <button class="btn btn-primary" id="start-ar-button" onclick="countdownTimer(5, startARExperience, this)">
                     🚀 Start
                 </button>
                 <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
@@ -770,169 +770,46 @@
 
 
         /**
-         * Reusable Countdown Timer Button
+         * Simple Countdown Timer Function
          * 
-         * Usage: Add data-countdown-duration and data-original-onclick attributes to any button
-         * Example: <button data-countdown-duration="5" data-original-onclick="myFunction()">Start</button>
+         * Usage: onclick="countdownTimer(duration, callback, this)"
+         * Example: onclick="countdownTimer(5, startARExperience, this)"
          */
-        
-        // Initialize countdown timers when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeCountdownButtons();
-            setupAutoTriggerOnVisibility();
-        });
-        
-        function initializeCountdownButtons() {
-            const countdownButtons = document.querySelectorAll('[data-countdown-duration]');
-            countdownButtons.forEach(button => {
-                button.addEventListener('click', handleCountdownButtonClick);
-            });
-        }
-        
-        function handleCountdownButtonClick(event) {
-            const button = event.target;
-            const duration = parseInt(button.getAttribute('data-countdown-duration'));
-            const originalOnclick = button.getAttribute('data-original-onclick');
-            
-            // If already counting down, cancel and execute immediately
-            if (button.dataset.countdownActive === 'true') {
-                cancelCountdown(button);
-                executeOriginalFunction(originalOnclick);
-                return;
-            }
-            
-            // Start countdown
-            startCountdown(button, duration, originalOnclick);
-        }
-        
-        function startCountdown(button, duration, originalOnclick) {
-            button.dataset.countdownActive = 'true';
-            button.disabled = false; // Keep button clickable for early cancellation
+        function countdownTimer(duration, callback, buttonElement) {
+            // Always reset button to clean state first
+            const originalText = buttonElement.textContent.replace(/\(\d+s\)$/, '');
+            buttonElement.textContent = originalText;
+            buttonElement.disabled = false;
             
             let timeLeft = duration;
-            const originalText = button.textContent;
             
             // Update button text immediately
-            updateButtonText(button, timeLeft, originalText);
+            buttonElement.textContent = `${originalText} (${timeLeft}s)`;
+            buttonElement.disabled = true;
             
-            const countdownInterval = setInterval(() => {
+            const timer = setInterval(() => {
                 timeLeft--;
                 
                 if (timeLeft <= 0) {
                     // Countdown finished
-                    clearInterval(countdownInterval);
-                    button.textContent = '🚀 Starting...';
-                    button.disabled = true;
+                    clearInterval(timer);
+                    buttonElement.textContent = '🚀 Starting...';
                     
-                    // Execute original function after a brief delay
+                    // Execute callback after brief delay
                     setTimeout(() => {
-                        executeOriginalFunction(originalOnclick);
-                        resetButton(button, originalText);
+                        callback();
+                        // Reset button
+                        buttonElement.textContent = originalText;
+                        buttonElement.disabled = false;
                     }, 500);
                 } else {
-                    // Update button text
-                    updateButtonText(button, timeLeft, originalText);
+                    // Update countdown display
+                    buttonElement.textContent = `${originalText} (${timeLeft}s)`;
                 }
             }, 1000);
             
-            // Store interval ID for potential cancellation
-            button.dataset.countdownInterval = countdownInterval;
-        }
-        
-        function cancelCountdown(button) {
-            const intervalId = button.dataset.countdownInterval;
-            if (intervalId) {
-                clearInterval(intervalId);
-            }
-            button.dataset.countdownActive = 'false';
-            button.dataset.countdownInterval = '';
-        }
-        
-        function updateButtonText(button, timeLeft, originalText) {
-            // Extract the emoji and base text from original text
-            const emojiMatch = originalText.match(/^(\p{Emoji}+)\s*(.*)/u);
-            if (emojiMatch) {
-                const emoji = emojiMatch[1];
-                const baseText = emojiMatch[2];
-                button.textContent = `${emoji} ${baseText} (${timeLeft}s)`;
-            } else {
-                button.textContent = `${originalText} (${timeLeft}s)`;
-            }
-        }
-        
-        function resetButton(button, originalText) {
-            button.textContent = originalText;
-            button.disabled = false;
-            button.dataset.countdownActive = 'false';
-            button.dataset.countdownInterval = '';
-            button.dataset.autoTriggered = 'false'; // Reset auto-trigger flag
-        }
-        
-        function executeOriginalFunction(functionName) {
-            if (functionName) {
-                // Remove parentheses from function name if present
-                const cleanFunctionName = functionName.replace(/\(\)$/, '');
-                
-                if (typeof window[cleanFunctionName] === 'function') {
-                    window[cleanFunctionName]();
-                } else {
-                    console.error(`Function ${cleanFunctionName} not found`);
-                    console.log('Available functions:', Object.keys(window).filter(key => typeof window[key] === 'function'));
-                }
-            } else {
-                console.error('No function name provided');
-            }
-        }
-        
-        // Reset all countdown buttons (called when switching topics)
-        function resetAllCountdownButtons() {
-            const countdownButtons = document.querySelectorAll('[data-countdown-duration]');
-            countdownButtons.forEach(button => {
-                cancelCountdown(button);
-                button.dataset.autoTriggered = 'false';
-                // Reset to original text
-                const originalText = button.getAttribute('data-original-text') || 'Start';
-                button.textContent = originalText;
-            });
-        }
-        
-        // Make resetAllCountdownButtons available globally
-        window.resetAllCountdownButtons = resetAllCountdownButtons;
-        
-        /**
-         * Auto-trigger countdown when section becomes visible
-         * 
-         * Usage: Add data-auto-trigger="true" to any countdown button
-         * The countdown will start automatically when the button's parent section becomes visible
-         */
-        function setupAutoTriggerOnVisibility() {
-            const autoTriggerButtons = document.querySelectorAll('[data-countdown-duration][data-auto-trigger="true"]');
-            
-            autoTriggerButtons.forEach(button => {
-                const parentSection = button.closest('.section');
-                if (parentSection) {
-                    // Create intersection observer to watch for section visibility
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting && 
-                                !button.dataset.countdownActive && 
-                                !button.dataset.autoTriggered) {
-                                console.log('🎯 Auto-triggering countdown for button:', button.id);
-                                button.dataset.autoTriggered = 'true';
-                                // Small delay to ensure section is fully visible
-                                setTimeout(() => {
-                                    handleCountdownButtonClick({ target: button });
-                                }, 100);
-                            } else if (!entry.isIntersecting) {
-                                // Reset auto-trigger flag when section becomes hidden
-                                button.dataset.autoTriggered = 'false';
-                            }
-                        });
-                    }, { threshold: 0.5 }); // Trigger when 50% of section is visible
-                    
-                    observer.observe(parentSection);
-                }
-            });
+            // Return timer ID for potential cancellation
+            return timer;
         }
 
         /*
