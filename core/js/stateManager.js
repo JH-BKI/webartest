@@ -152,6 +152,13 @@ class StateManager {
                     // document.getElementById('progress').classList.remove('hidden');
                     const videoSection = document.getElementById('video-section');
                     if (videoSection) {
+                        // Load video content after state transition
+                        if (typeof window.loadVideoContent === 'function') {
+                            console.log('🎬 Loading video content after timeline completion');
+                            window.loadVideoContent();
+                        } else {
+                            console.error('❌ loadVideoContent function not available');
+                        }
                         videoSection.classList.remove('hidden');
                         console.log('✅ Video section shown');
                     } else {
@@ -162,7 +169,7 @@ class StateManager {
                     if (window.arSceneManager) {
                         window.arSceneManager.stopMindAR();
                     }
-
+                    
                 },
                 onExit: () => {
                     console.log('Exiting video state');

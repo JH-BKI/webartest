@@ -183,8 +183,8 @@ AFRAME.registerComponent('timeline-controller', {
         console.log(`Timeline already running for topic ${this.currentTopic}`);
         return;
       } else if (this.timelineState === 'completed') {
-        console.log(`Timeline completed for topic ${this.currentTopic} - resetting and restarting`);
-        this.resetTimeline();
+        console.log(`Timeline completed for topic ${this.currentTopic} - doing nothing`);
+        return;
       }
     }
     
@@ -217,13 +217,7 @@ AFRAME.registerComponent('timeline-controller', {
         if (window.stateManager) {
           window.stateManager.changeState('video');
           
-          // Load video content after state transition
-          if (typeof window.loadVideoContent === 'function') {
-            console.log('🎬 Loading video content after timeline completion');
-            window.loadVideoContent();
-          } else {
-            console.error('❌ loadVideoContent function not available');
-          }
+          // Timeline completed - state transition will handle video loading
         } else {
           console.error('State manager not available for timeline completion');
         }
