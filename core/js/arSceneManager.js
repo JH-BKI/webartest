@@ -453,7 +453,7 @@ class ARSceneManager {
             }
             
             // Track timeline state before transitioning
-            if (currentState === 'animating') {
+            if (currentState === 'animating' || currentState === 'ar_ready') {
                 console.log(`📊 Timeline state before loss - Running: ${this.timelineController?.isRunning}, Completed: ${this.timelineController?.isCompleted}, Previous State: ${currentState}`);
                 this.isTimelinePaused = true;
                 this.timelineWasRunning = this.timelineController?.isRunning || false;
