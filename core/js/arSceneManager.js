@@ -348,6 +348,7 @@ class ARSceneManager {
         const detectedTopicId = this.topicMapping[targetIndex];
         if (detectedTopicId) {
             console.log(`✅ Poster detected for topic ${detectedTopicId}`);
+            this.stopScanning();
             
             const isSamePoster = (this.lastDetectedTargetIndex === targetIndex);
             
