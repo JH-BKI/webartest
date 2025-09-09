@@ -31,6 +31,10 @@ window.createTimeline = function(timelineController) {
       duration: 10, // Instant change
       easing: 'linear',
       complete: () => {
+
+        document.getElementById('scenario-assets-topic-group-3').setAttribute('opacity', 0);
+        document.getElementById('scenario-assets-topic-group-3').setAttribute('visible', false);   
+
         document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
         document.querySelector('.scenario-ui-prompt-button-area').setAttribute('opacity', 0);
         document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
@@ -56,7 +60,27 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s03-desk').setAttribute('opacity', 0);
         document.getElementById('s03-printer').setAttribute('opacity', 0);
         document.getElementById('s03-plant').setAttribute('opacity', 0);
-        document.getElementById('s03-divider').setAttribute('opacity', 0);
+
+        document.getElementById('s03-divider').setAttribute('visible', false);    
+        document.getElementById('s03-speech-lt').setAttribute('visible', false);
+        document.getElementById('s03-speech-rt').setAttribute('visible', false);
+        document.getElementById('s03s01-Riley').setAttribute('visible', false);
+        document.getElementById('s03s01-Sam').setAttribute('visible', false);
+        document.getElementById('s03s02-Riley').setAttribute('visible', false);
+        document.getElementById('s03s02-Sam').setAttribute('visible', false);
+        document.getElementById('s03s03-Riley').setAttribute('visible', false);
+        document.getElementById('s03s03-Sam').setAttribute('visible', false);
+        document.getElementById('s03s04-Riley').setAttribute('visible', false);
+        document.getElementById('s03s04-Sam').setAttribute('visible', false);
+        document.getElementById('s03s05-Riley').setAttribute('visible', false);
+        document.getElementById('s03s05-Sam').setAttribute('visible', false);
+        document.getElementById('s03s06-Riley').setAttribute('visible', false);
+        document.getElementById('s03s06-Sam').setAttribute('visible', false);
+        document.getElementById('s03-desk').setAttribute('visible', false);
+        document.getElementById('s03-printer').setAttribute('visible', false);
+        document.getElementById('s03-plant').setAttribute('visible', false);
+        document.getElementById('s03-divider').setAttribute('visible', false);
+
 
         console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
       },
@@ -461,6 +485,8 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s03-speech-rt').setAttribute('visible', false);
         document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
         document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+        document.getElementById('scenario-assets-topic-group-3').setAttribute('opacity', 0);
+        document.getElementById('scenario-assets-topic-group-3').setAttribute('visible', false);   
       }   
     });
 }
