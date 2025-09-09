@@ -351,6 +351,10 @@ class ARSceneManager {
                 // Same poster + timeline was paused = RESUME (but still go through ar_ready)
                 console.log(`🔄 Same poster detected - will resume paused timeline after ar_ready`);
                 // Don't resume immediately, let ar_ready handle the countdown first
+            } else if (isSamePoster && !this.isTimelinePaused) {
+                // Same poster + timeline already running = IGNORE (don't restart)
+                console.log(`🔄 Same poster detected - timeline already running, staying in current state`);
+                return; // Don't change state
             } else {
                 // Different poster OR no paused timeline = START NEW
                 console.log(`🆕 Different poster or new session - starting fresh`);

@@ -660,7 +660,7 @@ const topicData = {
                 { 
                     id: 's03s01-Riley', 
                     src: './assets/topic_3/s03-01-riley.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '-1.25 0 -1',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -670,7 +670,7 @@ const topicData = {
                 { 
                     id: 's03s01-Sam', 
                     src: './assets/topic_3/s03-01-sam.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -681,7 +681,7 @@ const topicData = {
                 { 
                     id: 's03s02-Riley', 
                     src: './assets/topic_3/s03-02-riley.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '-0.275 0 -1',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -691,7 +691,7 @@ const topicData = {
                 { 
                     id: 's03s02-Sam', 
                     src: './assets/topic_3/s03-02-sam.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -702,7 +702,7 @@ const topicData = {
                 { 
                     id: 's03s03-Riley', 
                     src: './assets/topic_3/s03-03-riley.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '-0.275 0 -1',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -712,7 +712,7 @@ const topicData = {
                 { 
                     id: 's03s03-Sam', 
                     src: './assets/topic_3/s03-03-sam.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -723,7 +723,7 @@ const topicData = {
                 { 
                     id: 's03s04-Riley', 
                     src: './assets/topic_3/s03-04-riley.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '-0.275 0 -1',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -733,7 +733,7 @@ const topicData = {
                 { 
                     id: 's03s04-Sam', 
                     src: './assets/topic_3/s03-04-sam.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -744,7 +744,7 @@ const topicData = {
                 { 
                     id: 's03s05-Riley', 
                     src: './assets/topic_3/s03-05-riley.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '-0.275 0 -1',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -754,7 +754,7 @@ const topicData = {
                 { 
                     id: 's03s05-Sam', 
                     src: './assets/topic_3/s03-05-sam.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -765,7 +765,7 @@ const topicData = {
                 { 
                     id: 's03s06-Riley', 
                     src: './assets/topic_3/s03-06-riley.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '-0.275 0 -1',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -775,7 +775,7 @@ const topicData = {
                 { 
                     id: 's03s06-Sam', 
                     src: './assets/topic_3/s03-06-sam.png',
-                    scale: '1 2 0.5',
+                    scale: '1 1 1',
                     position: '0.375 0 -1.05',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -786,7 +786,7 @@ const topicData = {
                 { 
                     id: 's03-desk', 
                     src: './assets/topic_3/s03-desk.png',
-                    scale: '1.5 1 1',
+                    scale: '0.5 0.5 0.5',
                     position: '0 0 -0.5',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -796,7 +796,7 @@ const topicData = {
                 { 
                     id: 's03-printer', 
                     src: './assets/topic_3/s03-printer.png',
-                    scale: '0.8 0.8 0.8',
+                    scale: '0.5 0.5 0.5',
                     position: '0.8 0.2 -0.8',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -806,7 +806,7 @@ const topicData = {
                 { 
                     id: 's03-plant', 
                     src: './assets/topic_3/s03-plant.png',
-                    scale: '0.6 0.8 0.6',
+                    scale: '0.5 0.5 0.5',
                     position: '-0.8 0.2 -0.8',
                     rotation: '0 0 0',
                     visible: 'false',
@@ -816,7 +816,7 @@ const topicData = {
                 { 
                     id: 's03-divider', 
                     src: './assets/topic_3/s03-divider.png',
-                    scale: '0.1 1.5 1',
+                    scale: '0.5 0.5 0.5',
                     position: '0 0.5 -1.2',
                     rotation: '0 0 0',
                     visible: 'false',
