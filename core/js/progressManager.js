@@ -37,6 +37,11 @@ class ProgressManager {
             this.saveProgress();
             this.updateMenuUI();
             console.log(`Topic ${topicNumber} marked as completed. Total completed: ${this.completedTopics.size}/4`);
+            
+            // Check for completion celebration
+            if (this.completedTopics.size === 4) {
+                this.triggerCompletionCelebration();
+            }
         } else {
             console.error('Invalid topic number:', topicNumber);
         }
@@ -293,6 +298,15 @@ class ProgressManager {
             completionPercentage: this.getCompletionPercentage(),
             totalTopics: 4
         };
+    }
+
+    /**
+     * Trigger completion celebration when all topics are completed
+     */
+    triggerCompletionCelebration() {
+        console.log('🎉 All topics completed! Triggering celebration...');
+        // Dispatch custom event for celebration
+        window.dispatchEvent(new CustomEvent('allTopicsCompleted'));
     }
 }
 

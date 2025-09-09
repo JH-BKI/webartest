@@ -53,6 +53,21 @@ class StateManager {
                     console.log('Exiting help state');
                 }
             },
+            celebration: {
+                onEnter: () => {
+                    console.log('Entering celebration state');
+                    this.hideAllSections();
+                    const celebrationSection = document.getElementById('celebration-section');
+                    if (celebrationSection) {
+                        celebrationSection.classList.remove('hidden');
+                    }
+                    // Trigger celebration animations
+                    this.startCelebrationAnimations();
+                },
+                onExit: () => {
+                    console.log('Exiting celebration state');
+                }
+            },
             menu: {
                 onEnter: () => {
                     console.log('Entering menu state');
@@ -333,6 +348,7 @@ class StateManager {
             'video-section', 
             'quiz-section', 
             'summary-section',
+            'celebration-section',
             'face-filter'
             ];
             
@@ -351,6 +367,34 @@ class StateManager {
             onExit: onExit || (() => {})
         };
         console.log(`Added new state: ${stateName}`);
+    }
+
+    // Celebration animation methods
+    startCelebrationAnimations() {
+        console.log('🎉 Starting celebration animations...');
+        this.createConfetti();
+        // Optional: Add sound effects here
+        // this.playCelebrationSound();
+    }
+
+    createConfetti() {
+        const container = document.getElementById('confetti-container');
+        if (!container) return;
+        
+        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b'];
+        
+        // Clear any existing confetti
+        container.innerHTML = '';
+        
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti-piece';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.animationDelay = Math.random() * 3 + 's';
+            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            container.appendChild(confetti);
+        }
     }
 }
 

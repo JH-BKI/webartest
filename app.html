@@ -139,6 +139,49 @@
         </div>
     </div>
     
+    <!-- Celebration Section -->
+    <div id="celebration-section" class="hidden section">
+        <div class="celebration-content">
+            <div class="celebration-animation">
+                <div class="confetti-container" id="confetti-container"></div>
+                <div class="celebration-icon">🏆</div>
+            </div>
+            
+            <div class="celebration-text">
+                <h1 class="celebration-title">Congratulations!</h1>
+                <h2 class="celebration-subtitle">You've completed all 4 topics!</h2>
+                <p class="celebration-message">
+                    You've successfully completed the National Child Protection Week 2025 
+                    Immersive Experience. Thank you for your dedication to learning about 
+                    these important topics.
+                </p>
+                <p class="celebration-message">
+                    As a reward for your efforts, you can now access an exclusive face filter.
+                </p>
+            </div>
+            
+            <div class="celebration-stats hidden">
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Topics Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Progress</div>
+                </div>
+            </div>
+            
+            <div class="celebration-actions">
+                <button class="btn btn-primary celebration-btn" onclick="shareAchievement()">
+                    Exclusive Face Filter!
+                </button>
+                <button class="btn btn-secondary" onclick="goBackToMenu()">
+                    Go Back
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Scanning Section -->
     <div id="scanning-section" class="hidden section">
 
@@ -338,7 +381,7 @@
          * - Content loading functions
          */
         
-        let version = '2.96';
+        let version = '2.97';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -848,6 +891,45 @@
         window.setupAutoTrigger = setupAutoTrigger;
 
         /*
+         * Celebration Functions
+         */
+        
+        // Share achievement function
+        function shareAchievement() {
+            // if (navigator.share) {
+            //     navigator.share({
+            //         title: 'NCPW 2025 Achievement',
+            //         text: 'I just completed all 4 topics in the National Child Protection Week 2025 Immersive Experience!',
+            //         url: window.location.href
+            //     }).catch(error => {
+            //         console.log('Error sharing:', error);
+            //         // Fallback: copy to clipboard
+            //         copyAchievementToClipboard();
+            //     });
+            // } else {
+            //     // Fallback: copy to clipboard
+            //     copyAchievementToClipboard();
+            // }
+        }
+        
+        // Copy achievement to clipboard (fallback)
+        function copyAchievementToClipboard() {
+            const text = 'I completed all 4 topics in the NCPW 2025 Immersive Experience! 🎉';
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Achievement copied to clipboard!');
+            }).catch(error => {
+                console.error('Failed to copy to clipboard:', error);
+                alert('Achievement: ' + text);
+            });
+        }
+        
+        // Event listener for completion celebration
+        window.addEventListener('allTopicsCompleted', () => {
+            console.log('🎉 Celebration event received, transitioning to celebration state');
+            stateManager.changeState('celebration');
+        });
+        
+        /**
          * End of Main Application Script
          * 
          * All UI sections, state management, and user interactions are now implemented
