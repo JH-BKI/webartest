@@ -577,8 +577,8 @@
             // window.progressManager.setExpiryDays(7);  // Expire in 7 days
             // window.progressManager.setExpiryDays(null); // No expiry (default)
             
-            simulateLoading();
-            
+            //simulateLoading();
+            stateManager.changeState('menu');
             // Populate UI elements after a short delay to ensure topics.js is loaded
             setTimeout(() => {
                 populateTopicCards();
@@ -887,7 +887,7 @@
             
             // Update button text immediately
             buttonElement.textContent = `${originalText} (${timeLeft}s)`;
-            buttonElement.disabled = true;
+            
             
             const timer = setInterval(() => {
                 timeLeft--;

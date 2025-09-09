@@ -348,7 +348,6 @@ class ARSceneManager {
         const detectedTopicId = this.topicMapping[targetIndex];
         if (detectedTopicId) {
             console.log(`✅ Poster detected for topic ${detectedTopicId}`);
-            this.stopScanning();
             
             const isSamePoster = (this.lastDetectedTargetIndex === targetIndex);
             
@@ -440,10 +439,10 @@ class ARSceneManager {
     handleTargetLost(targetIndex) {
         console.log(`🎯 handleTargetLost called with targetIndex: ${targetIndex}`);
         
-        // Don't process target lost events when in video state or other non-AR states
+        // Don't process target lost events when in video state, animating state, or other non-AR states
         const currentState = window.stateManager ? window.stateManager.currentState : null;
-        if (['video', 'quiz', 'summary', 'menu'].includes(currentState)) {
-            console.log(`🚫 Ignoring target lost event in ${currentState} state`);
+        if (['video', 'quiz', 'summary', 'menu', 'animating'].includes(currentState)) {
+            console.log(`🚫 Ignoring target lost event in ${currentState} state (2D mode)`);
             return;
         }
         
@@ -647,6 +646,39 @@ class ARSceneManager {
         // Scene disposal removed - keeping scene alive
     }
     
+    /**
+     * Stop only MindAR tracking but keep camera feed running
+     */
+    stopTrackingOnly() {
+        console.log('🛑 AR Scene Manager: Stopping MindAR tracking only (keeping camera)');
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const mindarSystem = sceneEl.systems['mindar-image-system'];
+            if (mindarSystem) {
+                try {
+                    // Stop tracking but keep camera running
+                    mindarSystem.stop();
+                    console.log('✅ MindAR tracking stopped, camera still running');
+                } catch (error) {
+                    console.warn('⚠️ Error stopping MindAR tracking:', error);
+                }
+            } else {
+                console.warn('⚠️ MindAR system not found - cannot stop tracking');
+            }
+        }
+        
+        // Reset camera to straight position for 2D mode
+        const gyroCam = document.querySelector("#gyroCam");
+        const mindarCam = document.querySelector("#mindarCam");
+        mindarCam.setAttribute("camera", "active", false);
+        gyroCam.setAttribute("camera", "active", true);
+         if (gyroCam) {
+             gyroCam.setAttribute('position', '0 2 5');
+             gyroCam.setAttribute('rotation', '0 0 0');
+             console.log('✅ Camera reset to straight position for 2D mode');
+         }
+    }
+    
     createSceneForTopic(topicId) {
         console.log(`🎯 AR Scene Manager: Creating scene for topic ${topicId}`);
         return this.createSceneForDetectedTopic(topicId);
@@ -816,24 +848,26 @@ class ARSceneManager {
     
     // Start MindAR camera and tracking
     startMindAR() {
-        // Clean up any lingering video elements before starting MindAR
+        // Check for existing video elements but don't clean them up unnecessarily
         const existingVideos = document.querySelectorAll('video');
         console.log(`📊 VIDEO COUNT: Found ${existingVideos.length} video elements before starting MindAR`);
-        if (existingVideos.length > 0) {
-            console.log(`🧹 AR Scene Manager: Cleaning up ${existingVideos.length} existing video elements before starting MindAR`);
-            existingVideos.forEach(video => {
-                video.srcObject = null;
-                video.pause();
-                video.remove();
-            });
+        // Only clean up if there are multiple video elements (duplicates)
+        if (existingVideos.length > 1) {
+            console.log(`🧹 AR Scene Manager: Cleaning up ${existingVideos.length - 1} duplicate video elements`);
+            // Keep the first one, remove the rest
+            for (let i = 1; i < existingVideos.length; i++) {
+                existingVideos[i].srcObject = null;
+                existingVideos[i].pause();
+                existingVideos[i].remove();
+            }
         }
         
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
             if (mindarSystem) {
-                // Check if MindAR is ready (no artificial delays)
-                if (mindarSystem.start && typeof mindarSystem.start === 'function') {
+                // Check if MindAR controller is ready
+                if (mindarSystem.controller) {
                     try {
                         console.log('📹 Starting MindAR camera and tracking');
                         mindarSystem.start();
@@ -878,10 +912,10 @@ class ARSceneManager {
                         }, 1000);
                     }
                 } else {
-                    console.warn('⚠️ MindAR system not ready - start method not available');
-                    // Wait for MindAR to be ready, then try once
+                    console.warn('⚠️ MindAR not ready yet, wait for scene "loaded" event');
+                    // Wait for MindAR controller to be ready, then try once
                     setTimeout(() => {
-                        if (mindarSystem.start && typeof mindarSystem.start === 'function') {
+                        if (mindarSystem.controller) {
                             try {
                                 console.log('📹 Starting MindAR camera and tracking (delayed)');
                                 mindarSystem.start();
@@ -1112,8 +1146,8 @@ class ARSceneManager {
                 <a-entity id="scenario-assets-topic-group-4" position="0 0 0"></a-entity>
 
             </a-entity>
-            <a-entity id="gyroCam" camera look-controls position="0 0 2"></a-entity>
-            <a-camera id="mindarCam" position="0 0 2" look-controls="enabled: true" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
+            <a-entity id="gyroCam" camera look-controls position="0 0 5" rotation="0 0 0" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-entity>
+            <a-camera id="mindarCam" position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
         </a-scene>`;
 
         // Inject into the dedicated container instead of body
