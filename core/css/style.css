@@ -1406,7 +1406,55 @@ a {
 }
 
 /* ==========================================================================
-   8. CELEBRATION SECTION STYLES
+   8. TOPIC-SPECIFIC BODY CLASSES
+   ========================================================================== */
+
+/* Topic 1 - Protecting Yourself Online */
+body.topic_1 {
+    --topic-primary-color: #4CAF50; /* Green */
+    --topic-secondary-color: #8BC34A;
+    --topic-accent-color: #2E7D32;
+}
+
+body.topic_1 .section {
+    border-left: 4px solid var(--topic-primary-color);
+}
+
+/* Topic 2 - Navigating Difficult Situations */
+body.topic_2 {
+    --topic-primary-color: #FF9800; /* Orange */
+    --topic-secondary-color: #FFB74D;
+    --topic-accent-color: #F57C00;
+}
+
+body.topic_2 .section {
+    border-left: 4px solid var(--topic-primary-color);
+}
+
+/* Topic 3 - Respectful Relationships Online */
+body.topic_3 {
+    --topic-primary-color: #9C27B0; /* Purple */
+    --topic-secondary-color: #BA68C8;
+    --topic-accent-color: #7B1FA2;
+}
+
+body.topic_3 .section {
+    border-left: 4px solid var(--topic-primary-color);
+}
+
+/* Topic 4 - Seeking Help and Support */
+body.topic_4 {
+    --topic-primary-color: #2196F3; /* Blue */
+    --topic-secondary-color: #64B5F6;
+    --topic-accent-color: #1976D2;
+}
+
+body.topic_4 .section {
+    border-left: 4px solid var(--topic-primary-color);
+}
+
+/* ==========================================================================
+   9. CELEBRATION SECTION STYLES
    ========================================================================== */
 
 #celebration-section {

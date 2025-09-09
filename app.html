@@ -659,6 +659,7 @@
             const topicId = `topic_${topicNumber}`;
             window.currentTopic = topicId;
             currentTopic = topicId; // Also update local variable
+            updateBodyTopicClass(topicId);
             console.log(`📚 App: Topic changed to ${topicId}`);
             
             // If we're already in animating state, restart the animation
@@ -688,6 +689,8 @@
 
         
         function goBackToMenu() {
+            // Clear topic class when returning to menu
+            updateBodyTopicClass(null);
             // Go back to menu state
             stateManager.changeState('menu');
         }
@@ -697,8 +700,10 @@
         }
         function startTopic(topic) {
             currentTopic = topic;
+            window.currentTopic = topic; // Also set global variable
             selectedAnswers = [];
             currentScore = 0;
+            updateBodyTopicClass(topic);
             
             // Use state manager to change to menu state
             stateManager.changeState('menu');
@@ -708,7 +713,29 @@
         function setCurrentTopic(topic) {
             currentTopic = topic;
             window.currentTopic = topic; // Also set global variable
+            updateBodyTopicClass(topic);
             console.log(`🎯 Current topic set to: ${currentTopic}`);
+        }
+        
+        // Function to update body class based on current topic
+        function updateBodyTopicClass(topic) {
+            const body = document.body;
+            
+            // Remove all existing topic classes
+            body.classList.remove('topic_1', 'topic_2', 'topic_3', 'topic_4');
+            
+            // Add the current topic class
+            if (topic) {
+                body.classList.add(topic);
+                console.log(`🎨 Body class updated to: ${topic}`);
+            } else {
+                console.log(`🎨 Body class cleared - no topic selected`);
+            }
+        }
+        
+        // Function to clear topic class (useful for menu state)
+        function clearTopicClass() {
+            updateBodyTopicClass(null);
         }
         
         function loadVideoContent() {

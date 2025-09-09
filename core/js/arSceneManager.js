@@ -799,16 +799,35 @@ class ARSceneManager {
     
     // Set global topic
     setGlobalTopic(topicId) {
+        const topicName = `topic_${topicId}`;
+        
         if (typeof setCurrentTopic === 'function') {
-            setCurrentTopic(`topic_${topicId}`);
+            setCurrentTopic(topicName);
         }
         
         if (typeof window !== 'undefined') {
-            window.currentTopic = `topic_${topicId}`;
+            window.currentTopic = topicName;
         }
+        
+        // Update body class
+        this.updateBodyTopicClass(topicName);
         
         this.currentTopic = topicId;
         console.log(`📚 Topic set globally: ${topicId} (topic_${topicId})`);
+    }
+    
+    // Update body class based on current topic
+    updateBodyTopicClass(topic) {
+        const body = document.body;
+        
+        // Remove all existing topic classes
+        body.classList.remove('topic_1', 'topic_2', 'topic_3', 'topic_4');
+        
+        // Add the current topic class
+        if (topic) {
+            body.classList.add(topic);
+            console.log(`🎨 Body class updated to: ${topic}`);
+        }
     }
     
     // Get current topic

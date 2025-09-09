@@ -147,6 +147,17 @@ window.createTimeline = function(timelineController) {
   }
   })
   
+  .add({
+  targets: ['#s02s01-Taylor-sitting','#s02-desk-pc'],
+  opacity: [0, 1],
+  duration: 1000,
+  easing: 'easeInOutQuad',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading in Taylor (Scene 01)`);
+  document.getElementById('s02s01-Taylor-sitting').setAttribute('visible', true);
+  document.getElementById('s02-desk-pc').setAttribute('visible', true);
+  }
+  })
     .add({
       targets: '#s02s01-Jordan',
       opacity: [0, 1],
@@ -156,21 +167,8 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading in Jordan (Scene 01)`);
         document.getElementById('s02s01-Jordan').setAttribute('visible', true);
       }
-    },"-=1000")
-  
-  
-  
-  .add({
-  targets: ['#s02s01-Taylor-sitting','#s02-desk-pc'],
-  opacity: [0, 1],
-  duration: 1500,
-  easing: 'easeInOutQuad',
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading in Taylor (Scene 01)`);
-  document.getElementById('s02s01-Taylor-sitting').setAttribute('visible', true);
-  document.getElementById('s02-desk-pc').setAttribute('visible', true);
-  }
-  })
+    })
+    
   .add({
   targets: ['#s02s01-Jordan', '#s02s01-Taylor-sitting'],
   opacity: [1, 0],
@@ -193,30 +191,21 @@ window.createTimeline = function(timelineController) {
   ///////////////////////////////////////////////////////////////////////////////////////////
   
   .add({
-  targets: ['#s02s02-Taylor-sitting','#s02s02-Jordan'],
+  targets: ['#s02s02-Taylor-sitting'],
   opacity: [0, 1],
   duration: 1000,
   easing: 'linear',
   begin: () => {
   console.log(`Timeline Item ${itemNumber++}: Fading in Taylor and Jordan (Scene 02)`);
   document.getElementById('s02s02-Taylor-sitting').setAttribute('visible', true);
+  document.getElementById('s02s02-Jordan').setAttribute('visible', true);
   }
   },"-=1000")
-  .add({
-  targets: ['#s02-speech-rt', '.scenario-ui-prompt-speech.right'],
-  opacity: [0, 1],
-  duration: 1000,
-  easing: 'linear',
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Mia's speech UI (Scene 02)`);
-  document.getElementById('text-content-right').textContent = "Ugghhh... Not again!";
-  document.getElementById('s02-speech-rt').setAttribute('visible', true);
-  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
-  }
-  })
+  
   .add({
     targets: ['#s02s02-Jordan'],
-    position: ['-0.6 0.1 -2.5', '-0.225 0 0'],  
+    opacity: [0, 1],
+    position: ['-0.8 0 -0.6', '-0.370 0.1 0'],  
     duration: 3000,
     easing: 'linear',
     begin: () => {
@@ -224,45 +213,21 @@ window.createTimeline = function(timelineController) {
     document.getElementById('s02s02-Jordan').setAttribute('visible', true);
     }
     })
-  .add({
-  targets: '.scenario-ui-prompt-button-area',
-  opacity: [0, 1],
-  duration: 1000,
-  easing: 'linear',
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading in continue button area (Scene 02)`);
-  document.querySelector('.scenario-ui-prompt-button-area').style.display = "flex";
-  }
-  }).add(addPause(3))
   
   .add({
-  targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
-      '#s02-speech-lt','#s02-speech-rt','#s02s02-Jordan', '#s02s02-Taylor-sitting'],
-  opacity: [1, 0],
-  duration: 1000,
-  easing: 'linear',                  
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubbles (Scene 02)`);
-  },
-  complete: () => {
-  document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
-  document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-  
-  document.getElementById('s02-speech-lt').setAttribute('visible', false);
-  document.getElementById('s02-speech-rt').setAttribute('visible', false);
-  document.getElementById('s02s02-Jordan').setAttribute('visible', false);
-  document.getElementById('s02s02-Taylor-sitting').setAttribute('visible', false);
-  }
-  })
-  
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  // Scene 03: Fade In (Taylor and Jordan simultaneously)
-  /////////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  
+      targets: ['#s02s02-Jordan', '#s02s02-Taylor-sitting'],
+      opacity: [1, 0],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+      console.log(`Timeline Item ${itemNumber++}: Fading out Jordan and Taylor (Scene 03)`);
+      },
+      complete: () => {
+      document.getElementById('s02s02-Jordan').setAttribute('visible', false);
+      document.getElementById('s02s02-Taylor-sitting').setAttribute('visible', false);
+      }
+      })  
+
   .add({
   targets: ['#s02s03-Jordan', '#s02s03-Taylor-sitting'],
   opacity: [0, 1],
@@ -275,33 +240,64 @@ window.createTimeline = function(timelineController) {
   }           
   },"-=1000")
   .add({
-  targets: ['#s02-speech-lt', '.scenario-ui-prompt-speech.left'],
+  targets: ['#s02-speech-rt', '.scenario-ui-prompt-speech.right'],
   opacity: [0, 1],
   duration: 1000,
   easing: 'linear',
   begin: () => {
   console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Jordan's speech UI (Scene 03)`);
-  document.getElementById('text-content-left').textContent = "Hi Taylor! What's going on...? You look upset.";
-  document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
-  document.getElementById('s02-speech-lt').setAttribute('visible', true);
-  }
-  })
-  .add({
-  targets: ['#s02-speech-rt', '.scenario-ui-prompt-speech.right'],
-  opacity: [0, 1],
-  duration: 1000,
-  easing: 'linear',
-  delay:1000,    
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Taylor's speech UI (Scene 03)`);
-  document.getElementById('text-content-right').textContent = "Hey Jordan. Yeah...";
-  document.getElementById('s02-speech-rt').setAttribute('visible', true);
+  document.getElementById('text-content-right').textContent = "Hi Jordan! What's going on...? You look upset.";
   document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
+  document.getElementById('s02-speech-rt').setAttribute('visible', true);
   }
   })
+  .add(addPause(3))
+  .add({
+    targets: ['#s02s03-Jordan', '#s02s03-Taylor-sitting','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
+        '#s02-speech-lt','#s02-speech-rt'],
+    opacity: [1, 0],
+    duration: 1000,
+    easing: 'linear',
+    begin: () => {
+    console.log(`Timeline Item ${itemNumber++}: Fading out Jordan and Taylor (Scene 03)`);
+    },
+    complete: () => {
+    document.getElementById('s02s03-Jordan').setAttribute('visible', false);
+    document.getElementById('s02s03-Taylor-sitting').setAttribute('visible', false);
+    document.getElementById('s02-speech-rt').setAttribute('visible', false);
+    document.getElementById('s02-speech-lt').setAttribute('visible', false);
+    document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+    document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+    }
+    })  
+
+    .add({
+      targets: ['#s02s04-Jordan', '#s02s04-Taylor'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {                
+      console.log(`Timeline Item ${itemNumber++}: Fading in Taylor and Jordan (Scene 03)`);
+        document.getElementById('s02s04-Jordan').setAttribute('visible', true);
+        document.getElementById('s02s04-Taylor').setAttribute('visible', true);
+      }           
+      },"-=1000")
+
+    .add({
+    targets: ['#s02-speech-lt', '.scenario-ui-prompt-speech.left'],
+    opacity: [0, 1],
+    duration: 1000,
+    easing: 'linear',
+    begin: () => {
+    console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Taylor's speech UI (Scene 03)`);
+    document.getElementById('text-content-left').textContent = "Someone made a fake account pretending to be me and is posting mean stuff.";
+    document.getElementById('s02-speech-lt').setAttribute('visible', true);
+    document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
+    }
+    })
   
   .add({
-  targets: ['#s02s03-Jordan', '#s02s03-Taylor-sitting','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
+  targets: ['#s02s04-Jordan', '#s02s04-Taylor','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
       '#s02-speech-lt','#s02-speech-rt'],
   opacity: [1, 0],
   duration: 1000,
@@ -311,8 +307,8 @@ window.createTimeline = function(timelineController) {
   console.log(`Timeline Item ${itemNumber++}: Fading out Jordan and Taylor (Scene 03)`);
   },
   complete: () => {
-  document.getElementById('s02s03-Jordan').setAttribute('visible', false);
-  document.getElementById('s02s03-Taylor-sitting').setAttribute('visible', false);
+  document.getElementById('s02s04-Jordan').setAttribute('visible', false);
+  document.getElementById('s02s04-Taylor').setAttribute('visible', false);
   document.getElementById('s02-speech-lt').setAttribute('visible', false);
   document.getElementById('s02-speech-rt').setAttribute('visible', false);
   document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
@@ -326,101 +322,14 @@ window.createTimeline = function(timelineController) {
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   .add({
-  targets: ['#s02s04-Jordan', '#s02s04-Taylor'],
+  targets: ['#s02s05-Jordan', '#s02s05-Taylor'],
   opacity: [0, 1],
   duration: 1000,
   easing: 'linear',
   begin: () => {
   console.log(`Timeline Item ${itemNumber++}: Fading in Jordan and Taylor (Scene 04)`);
-  document.getElementById('s02s04-Jordan').setAttribute('visible', true);
-  document.getElementById('s02s04-Taylor').setAttribute('visible', true);
-  }
-  },"-=1000")
-  .add({
-  targets: ['#s02-speech-rt', '.scenario-ui-prompt-speech.right'],
-  opacity: [0, 1],
-  duration: 1000,
-  easing: 'linear',
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Taylor's speech UI (Scene 03)`);
-  document.getElementById('text-content-right').textContent = "My friend keeps asking me to send pics I’m not comfortable with.";
-  document.getElementById('s02-speech-rt').setAttribute('visible', true);
-  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
-  }
-  })
-  
-  .add({
-  targets: ['#s02s04-Jordan', '#s02s04-Taylor'],
-  opacity: [1, 0],
-  duration: 1000,
-  easing: 'linear', 
-  delay:3000,                     
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubbles (Scene 02)`);
-  },
-  complete: () => {
-  document.getElementById('s02s04-Jordan').setAttribute('visible', false);
-  document.getElementById('s02s04-Taylor').setAttribute('visible', false);
-  }
-  })
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  // Scene 05: 
-  /////////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  .add({
-  targets: ['#s02s05-Jordan', '#s02s05-Taylor'],
-  opacity: [0, 1],
-  duration: 1000,
-  easing: 'linear',
-  begin: () => {                
-  console.log(`Timeline Item ${itemNumber++}: Fading in Taylor and Jordan (Scene 03)`);
   document.getElementById('s02s05-Jordan').setAttribute('visible', true);
   document.getElementById('s02s05-Taylor').setAttribute('visible', true);
-  }           
-  },"-=1000")
-  .add({
-  targets: ['#s02-speech-lt', '.scenario-ui-prompt-speech.left'],
-  opacity: [0, 1],
-  duration: 1000,
-  easing: 'linear',
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Jordan's speech UI (Scene 03)`);
-  document.getElementById('text-content-left').textContent = "That’s not okay. You don’t have to do anything you’re not comfortable with.";
-  document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
-  document.getElementById('s02-speech-lt').setAttribute('visible', true);
-  }
-  })
-  .add(addPause(3))
-  .add({
-  targets: ['#s02s05-Jordan', '#s02s05-Taylor','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
-      '#s02-speech-lt','#s02-speech-rt'],
-  opacity: [1, 0],
-  duration: 1000,
-  easing: 'linear',    
-  delay:3000,                  
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading out Jordan and Taylor (Scene 03)`);
-  },
-  complete: () => {
-  document.getElementById('s02s05-Jordan').setAttribute('visible', false);
-  document.getElementById('s02s05-Taylor').setAttribute('visible', false);
-  document.getElementById('s02-speech-lt').setAttribute('visible', false);
-  document.getElementById('s02-speech-rt').setAttribute('visible', false);
-  document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-  }
-  })    
-  .add({
-  targets: ['#s02s06-Jordan', '#s02s06-Taylor'],
-  opacity: [0, 1],
-  duration: 1000,
-  easing: 'linear',
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading in Jordan and Taylor (Scene 06)`);
-  document.getElementById('s02s06-Jordan').setAttribute('visible', true);
-  document.getElementById('s02s06-Taylor').setAttribute('visible', true);
   }
   },"-=1000")
   .add({
@@ -430,42 +339,108 @@ window.createTimeline = function(timelineController) {
   easing: 'linear',
   begin: () => {
   console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Taylor's speech UI (Scene 03)`);
-  document.getElementById('text-content-right').textContent = "I’m worried they’ll get mad.";
+  document.getElementById('text-content-right').textContent = "That’s awful. Have you told anyone?";
   document.getElementById('s02-speech-rt').setAttribute('visible', true);
   document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
   }
   })
   .add({
-  targets: ['#s02-speech-lt', '.scenario-ui-prompt-speech.left'],
-  opacity: [0, 1],
-  duration: 1000,
-  easing: 'linear',
-  delay:3000,
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Jordan's speech UI (Scene 03)`);
-  document.getElementById('text-content-left').textContent = "Real friends respect boundaries. You should block them and talk to someone you trust.";
-  document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
-  document.getElementById('s02-speech-lt').setAttribute('visible', true);
-  }
-  })
-  
-  .add({
-  targets: ['.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
-      '#s02-speech-lt','#s02-speech-rt'],
-  opacity: [1, 0],
-  duration: 1000,
-  easing: 'linear', 
-  delay:3000,                  
-  begin: () => {
-  console.log(`Timeline Item ${itemNumber++}: Fading out Jordan and Taylor (Scene 03)`);
-  },
-  complete: () => {
-  document.getElementById('s02-speech-lt').setAttribute('visible', false);
-  document.getElementById('s02-speech-rt').setAttribute('visible', false);
-  document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-  }
-  })  
+    targets: ['#s02s05-Jordan', '#s02s05-Taylor','.scenario-ui-prompt-speech.right','#s02-speech-rt'],
+    opacity: [1, 0],
+    duration: 1000,
+    easing: 'linear',
+    delay:3000,                  
+    begin: () => {
+    console.log(`Timeline Item ${itemNumber++}: Fading out Jordan and Taylor (Scene 03)`);
+    },
+    complete: () => {
+    document.getElementById('s02s05-Jordan').setAttribute('visible', false);
+    document.getElementById('s02s05-Taylor').setAttribute('visible', false);
+    document.getElementById('s02-speech-rt').setAttribute('visible', false);
+    document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+    }
+    })     
+    .add({
+      targets: ['#s02s06-Jordan', '#s02s06-Taylor'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+      console.log(`Timeline Item ${itemNumber++}: Fading in Jordan and Taylor (Scene 04)`);
+      document.getElementById('s02s06-Jordan').setAttribute('visible', true);
+      document.getElementById('s02s06-Taylor').setAttribute('visible', true);
+      }
+      },"-=1000")
+      .add({
+      targets: ['#s02-speech-lt', '.scenario-ui-prompt-speech.left'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+      console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Taylor's speech UI (Scene 03)`);
+      document.getElementById('text-content-right').textContent = "Not yet. I don’t want to make it worse.";
+      document.getElementById('s02-speech-rt').setAttribute('visible', true);
+      document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
+      }
+      })
+      .add({
+        targets: ['#s02s06-Jordan', '#s02s06-Taylor','.scenario-ui-prompt-speech.left','#s02-speech-lt'],
+        opacity: [1, 0],
+        duration: 1000,
+        easing: 'linear',
+        delay:3000,                  
+        begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading out Jordan and Taylor (Scene 03)`);
+        },
+        complete: () => {
+        document.getElementById('s02s06-Jordan').setAttribute('visible', false);
+        document.getElementById('s02s06-Taylor').setAttribute('visible', false);
+        document.getElementById('s02-speech-lt').setAttribute('visible', false);
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        }
+        }) 
+
+
+        .add({
+          targets: ['#s02s07-Jordan', '#s02s07-Taylor'],
+          opacity: [0, 1],
+          duration: 1000,
+          easing: 'linear',
+          begin: () => {
+          console.log(`Timeline Item ${itemNumber++}: Fading in Jordan and Taylor (Scene 04)`);
+          document.getElementById('s02s07-Jordan').setAttribute('visible', true);
+          document.getElementById('s02s07-Taylor').setAttribute('visible', true);
+          }
+          },"-=1000")
+          .add({
+          targets: ['#s02-speech-rt', '.scenario-ui-prompt-speech.right'],
+          opacity: [0, 1],
+          duration: 1000,
+          easing: 'linear',
+          begin: () => {
+          console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Taylor's speech UI (Scene 03)`);
+          document.getElementById('text-content-right').textContent = "You should talk to a teacher or your parents. You can also report it to the platform and eSafety.”";
+          document.getElementById('s02-speech-rt').setAttribute('visible', true);
+          document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
+          }
+          })
+          .add({
+            targets: ['.scenario-ui-prompt-speech.right','#s02-speech-rt'],
+            opacity: [1, 0],
+            duration: 1000,
+            easing: 'linear',
+            delay:3000,                  
+            begin: () => {
+            console.log(`Timeline Item ${itemNumber++}: Fading out Jordan and Taylor (Scene 03)`);
+            },
+            complete: () => {
+            document.getElementById('s02s07-Jordan').setAttribute('visible', false);
+            document.getElementById('s02s07-Taylor').setAttribute('visible', false);
+            document.getElementById('s02-speech-rt').setAttribute('visible', false);
+            document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+            }
+            }) 
+ 
   ///////////////////////////////////////////////////////////////////////////////////////////
   // Scene 08: Fade In 
   /////////////////////////////////////////////////////////////////////////////////////////////
@@ -484,7 +459,7 @@ window.createTimeline = function(timelineController) {
   console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
   const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
   infoElement.innerHTML = `<h4>Moving on...</h4>
-                            <p>Now you have seen the conversation between Jordan and Taylor, let's find out more about having respectful relationships.</p>
+                            <p>If you experience a situation like Jordan's, it's best to get that fake account taken down and check that it has been done.</p>
                             <p>Select the continue button below to move on.</p>`;
   infoElement.style.display = "block";
   },
@@ -507,7 +482,7 @@ window.createTimeline = function(timelineController) {
   }) 
   .add(addPause(0))
   .add({
-  targets: ['#s02s06-Jordan', '#s02s06-Taylor','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right','.scenario-ui-prompt-speech.info',
+  targets: ['#s02s06-Jordan', '#s02s06-Taylor','#s02-desk-pc','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right','.scenario-ui-prompt-speech.info',
       '#s02-speech-lt','#s02-speech-rt','#s02-background'],
   opacity: [1, 0],
   duration: 1000,
@@ -516,8 +491,9 @@ window.createTimeline = function(timelineController) {
   console.log(`Timeline Item ${itemNumber++}: Fading out Jordan and Taylor (Scene 03)`);
   },
   complete: () => {
-  document.getElementById('s02s06-Jordan').setAttribute('visible', false);
-  document.getElementById('s02s06-Taylor').setAttribute('visible', false);
+  document.getElementById('s02s07-Jordan').setAttribute('visible', false);
+  document.getElementById('s02s07-Taylor').setAttribute('visible', false);
+  document.getElementById('s02-desk-pc').setAttribute('visible', false);
   document.getElementById('s02-speech-lt').setAttribute('visible', false);
   document.getElementById('s02-speech-rt').setAttribute('visible', false);
   document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";

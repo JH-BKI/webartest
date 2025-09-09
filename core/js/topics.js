@@ -357,7 +357,7 @@ const topicData = {
                     id: 's02-speech-lt', 
                     src: './assets/topic_2/s02-speech-left.png',
                     scale: '0.75 0.75 0.75',
-                    position: '-0.125 1.125 -1',
+                    position: '-0.125 1.425 -1',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -367,7 +367,7 @@ const topicData = {
                     id: 's02-speech-rt', 
                     src: './assets/topic_2/s02-speech-right.png',
                     scale: '0.75 0.75 0.75',
-                    position: '0.125 1.125 -1.05',
+                    position: '0.125 1.425 -1.05',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -378,7 +378,7 @@ const topicData = {
                     id: 's02s01-Jordan', 
                     src: './assets/topic_2/s02-01-Jordan.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-1.35 0 -1.2',
+                    position: '-0.8 0 -0.6',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -443,7 +443,7 @@ const topicData = {
                     id: 's02s04-Jordan', 
                     src: './assets/topic_2/s02-04-Jordan.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-1.25 0 0',
+                    position: '-0.24 0 0',
 
                     rotation: '0 0 0',
                     visible: 'false',
@@ -454,7 +454,7 @@ const topicData = {
                     id: 's02s04-Taylor', 
                     src: './assets/topic_2/s02-04-Taylor.png',
                     scale: '1.5 1.5 1.5',
-                    position: '1.25 0 0',
+                    position: '0.28 0 0',
 
                     rotation: '0 0 0',
                     visible: 'false',
@@ -466,7 +466,7 @@ const topicData = {
                     id: 's02s05-Jordan', 
                     src: './assets/topic_2/s02-05-Jordan.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-1.25 0 0',
+                    position: '-0.24 0 0',
 
                     rotation: '0 0 0',
                     visible: 'false',
@@ -477,7 +477,8 @@ const topicData = {
                     id: 's02s05-Taylor', 
                     src: './assets/topic_2/s02-05-Taylor.png',
                     scale: '1.5 1.5 1.5',
-                    position: '1.25 0 0',
+                    position: '0.28 0 0',
+
 
                     rotation: '0 0 0',
                     visible: 'false',
@@ -489,7 +490,7 @@ const topicData = {
                     id: 's02s06-Jordan', 
                     src: './assets/topic_2/s02-06-Jordan.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-1.25 0 0',
+                    position: '-0.24 0 0',
 
                     rotation: '0 0 0',
                     visible: 'false',
@@ -500,7 +501,7 @@ const topicData = {
                     id: 's02s06-Taylor', 
                     src: './assets/topic_2/s02-06-Taylor.png',
                     scale: '1.5 1.5 1.5',
-                    position: '1.25 0 0',
+                    position: '0.28 0 0',
 
                     rotation: '0 0 0',
                     visible: 'false',
@@ -512,7 +513,7 @@ const topicData = {
                     id: 's02s07-Jordan', 
                     src: './assets/topic_2/s02-07-Jordan.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-1.25 0 0',
+                    position: '-0.24 0 0',
 
                     rotation: '0 0 0',
                     visible: 'false',
@@ -523,7 +524,7 @@ const topicData = {
                     id: 's02s07-Taylor', 
                     src: './assets/topic_2/s02-07-Taylor.png',
                     scale: '1.5 1.5 1.5',
-                    position: '1.25 0 0',
+                    position: '0.28 0 0',
 
                     rotation: '0 0 0',
                     visible: 'false',
@@ -535,7 +536,7 @@ const topicData = {
                     id: 's02s08-Jordan', 
                     src: './assets/topic_2/s02-08-Jordan.png',
                     scale: '1.5 1.5 1.5',
-                    position: '1.25 0 0',
+                    position: '-0.24 0 0',
 
                     rotation: '0 0 0',
                     visible: 'false',
@@ -601,8 +602,8 @@ const topicData = {
                 { 
                     id: 's02-floor', 
                     src: './assets/topic_2/s02-floor.png',
-                    scale: '1 1 1',
-                    position: '0 0 0',
+                    scale: '7.66 4.65 5.90',
+                    position: '0 -0.83 -2.12',
 
                     rotation: '-90 0 0',
                     visible: 'false',
@@ -612,10 +613,8 @@ const topicData = {
                 { 
                   id: 's02-background', 
                   src: './assets/topic_2/background.png',
-                  // scale: '8.5 2.2 1',
-                  // position: '0 0.75 -10',
-                  scale: '0.1 0.1 0.1',
-                  position: '0 0 0',
+                  scale: '12.5 5 1',
+                  position: '0 1.5 -5',
                   rotation: '0 0 0',
                   visible: 'false',
                   opacity: '1',
