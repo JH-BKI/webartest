@@ -337,7 +337,7 @@
 
             <div id="results" class="hidden">
                 <div class="light-card">
-                    <div id="score" class="score-box hidden">Results: 0 correct of 0.</div>
+                    <div id="score" class="score-box">0 correct of 0.</div>
                     <div id="feedback">Feedback will appear here</div>
                 </div>
                 <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
@@ -422,7 +422,7 @@
          * - Content loading functions
          */
         
-        let version = '3.02';
+        let version = '3.03';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -758,7 +758,7 @@
             });
             
             currentScore = Math.round((correct / total) * 100);
-            currentScoreText = `Results: ${correct} correct of ${total}.`;
+            currentScoreText = `${correct} correct of ${total}.`;
             
             // Show results
             showQuizResults(correctAnswers);

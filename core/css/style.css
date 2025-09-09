@@ -1119,12 +1119,13 @@ li {
 }
 
 .answer {
-    background: var(--ncpw-alt-blue-dk-half);
+    background: var(--ncpw-alt-blue-dk-half); */
     padding: var(--spacing-md);
     margin: var(--spacing-md) 0;
-    border-left: 4px solid var(--ncpw-blue);
+    border: 1px solid var(--ncpw-blue);
     cursor: pointer;
     transition: all var(--transition-fast);
+    border-radius: 8px;
 }
 
 .answer:hover {
@@ -1134,9 +1135,10 @@ li {
 .answer.selected {
 
     border-color: var(--border-hover);
-    background: rgb(0 123 255 / 50%);
-    border-left-width: 8px;    
-    font-weight: 600;
+    background: rgb(0 121 255 / 50%);
+    border-left-width: 8px;
+    /* font-weight: 600; */
+    border-radius: 8px;
 }
 
 .answer.correct {
@@ -1146,8 +1148,13 @@ li {
     border-left-width: 8px;
     pointer-events: none;
     cursor:not-allowed;
+    padding-left: 3rem;
 }
-
+.answer.correct::after {
+    content: "✔️";
+    position: absolute;
+    left: 2.5rem;
+}
 .answer.incorrect {
     border-color: var(--border-danger);
     background: var(--bg-danger);
@@ -1155,6 +1162,12 @@ li {
     border-left-width: 8px;
     pointer-events: none;
     cursor:not-allowed;
+    padding-left: 3rem;
+}
+.answer.incorrect::after {
+    content: "❌";
+    position: absolute;
+    left: 2.5rem;
 }
 
 .answer.missed {
@@ -1163,17 +1176,25 @@ li {
     color: var(--text-warning);
     border-left-width: 8px;
     cursor:not-allowed;
+    padding-left: 3rem;
 }
+.answer.missed::after {
+    content: "✔️";
+    position: absolute;
+    left: 2.5rem;
+}
+
 
 .answer.not-selected {
     pointer-events: none;
     cursor:not-allowed;
+    padding-left: 3rem;
 }
 
 .score-box {
-    background: var(--bg-warning);
+    /* background: none
     border: 1px solid var(--border-warning);
-    color: var(--text-warning);
+    color: var(--text-warning); */
     padding: var(--spacing-md);
     border-radius: var(--radius-md);
     text-align: center;
