@@ -163,7 +163,10 @@ li {
     margin-bottom: var(--spacing-xs);
 }
 
+a {
 
+    color: #3fba6c;
+}
 /* ==========================================================================
    3. UTILITY CLASSES
    ========================================================================== */
@@ -1139,6 +1142,7 @@ li {
     border-left-width: 8px;
     /* font-weight: 600; */
     border-radius: 8px;
+    
 }
 
 .answer.correct {
@@ -1154,6 +1158,7 @@ li {
     content: "✔️";
     position: absolute;
     left: 2.5rem;
+    margin-top: -10px;
 }
 .answer.incorrect {
     border-color: var(--border-danger);
@@ -1168,6 +1173,7 @@ li {
     content: "❌";
     position: absolute;
     left: 2.5rem;
+    margin-top: -10px;
 }
 
 .answer.missed {
@@ -1182,6 +1188,7 @@ li {
     content: "✔️";
     position: absolute;
     left: 2.5rem;
+    margin-top: -10px;
 }
 
 
@@ -1195,8 +1202,6 @@ li {
     /* background: none
     border: 1px solid var(--border-warning);
     color: var(--text-warning); */
-    padding: var(--spacing-md);
-    border-radius: var(--radius-md);
     text-align: center;
     font-weight: bold;
     margin: var(--spacing-md) 0;

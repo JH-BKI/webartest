@@ -28,7 +28,7 @@ const topicData = {
         ],
         feedback: {
             perfect: 'Well done! Your answers are correct.',
-            partial: 'Good try! Go back to watch the video again or move on to the topic summary.'
+            partial: 'Good try! Move on to the topic summary to review.'
         },
         summary: `
             <h3>Let's recap what you learned:</h3>
@@ -320,7 +320,7 @@ const topicData = {
         ],
         feedback: {
             perfect: 'Well done! Your answers are correct.',
-            partial: 'Good try! Go back to watch the video again or move on to the topic summary.'
+            partial: 'Good try! Move on to the topic summary to review.'
         },
         summary: `
             <h3>Let's recap what you learned:</h3>
@@ -629,7 +629,7 @@ const topicData = {
     ],
     feedback: {
         perfect: 'Well done! Your answers are correct.',
-        partial: 'Good try! Go back to watch the video again or move on to the topic summary.'
+        partial: 'Good try! Move on to the topic summary to review.'
     },
     summary: `
         <h3>Let's recap what you learned:</h3>
@@ -876,7 +876,7 @@ const topicData = {
     ],
     feedback: {
         perfect: 'Well done! Your answers are correct.',
-        partial: 'Good try! Go back to watch the video again or move on to the topic summary.'
+        partial: 'Good try! Move on to the topic summary to review.'
     },
     summary: `
         <h3>Let's recap what you learned:</h3>
