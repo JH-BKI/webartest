@@ -137,13 +137,8 @@ class StateManager {
                     // }
                     
                     // NEW 2D CODE
-                    // Create 2D scene and start MindAR detection when entering scanning state
-                    if (window.sceneManager2D) {
-                        console.log('🔄 SCANNING STATE: Creating 2D scene and starting detection');
-                        window.sceneManager2D.create2DScene();
-                        window.sceneManager2D.startDetection();
-                        console.log('🔄 SCANNING STATE: 2D scene and detection setup complete');
-                    }
+                    // 2D scene creation and detection is handled by startARScanning() function
+                    // No need to duplicate here
                 },
                 onExit: () => {
                     console.log('Exiting scanning state');
