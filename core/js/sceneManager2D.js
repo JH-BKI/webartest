@@ -283,7 +283,10 @@ class SceneManager2D {
             script.src = `./core/js/animations/timeline-topic-${topicId}.js?v=${Date.now()}`;
             script.onload = () => {
                 console.log(`2D Animation file loaded for topic ${topicId}`);
-                this.setTimelineTopic(topicId);
+                // Wait for timeline controller to initialize
+                setTimeout(() => {
+                    this.setTimelineTopic(topicId);
+                }, 100);
             };
             script.onerror = () => {
                 console.error(`Failed to load 2D animation file for topic ${topicId}`);
@@ -299,13 +302,19 @@ class SceneManager2D {
      */
     setTimelineTopic(topicId) {
         const sceneEl = document.querySelector('#AR-scene');
+        console.log(`2D setTimelineTopic: Looking for #AR-scene, found:`, sceneEl);
         if (sceneEl) {
             const timelineController = sceneEl.components['timeline-controller'];
+            console.log(`2D setTimelineTopic: Timeline controller found:`, timelineController);
             if (timelineController) {
                 const zeroBasedTopicId = topicId - 1;
                 console.log(`2D Timeline controller: Setting topic ${topicId} (0-based: ${zeroBasedTopicId})`);
                 timelineController.setTopic(zeroBasedTopicId);
+            } else {
+                console.log(`2D setTimelineTopic: Timeline controller not found on scene`);
             }
+        } else {
+            console.log(`2D setTimelineTopic: #AR-scene not found in document`);
         }
     }
     
