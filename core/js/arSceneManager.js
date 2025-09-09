@@ -673,7 +673,7 @@ class ARSceneManager {
         mindarCam.setAttribute("camera", "active", false);
         gyroCam.setAttribute("camera", "active", true);
          if (gyroCam) {
-             gyroCam.setAttribute('position', '0 2 5');
+             gyroCam.setAttribute('position', '0 0 2');
              gyroCam.setAttribute('rotation', '0 0 0');
              console.log('✅ Camera reset to straight position for 2D mode');
          }
@@ -1146,8 +1146,8 @@ class ARSceneManager {
                 <a-entity id="scenario-assets-topic-group-4" position="0 0 0"></a-entity>
 
             </a-entity>
-            <a-entity id="gyroCam" camera look-controls position="0 0 5" rotation="0 0 0" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-entity>
-            <a-camera id="mindarCam" position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
+            <a-entity id="gyroCam" camera look-controls position="0 0 2" rotation="0 0 0" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-entity>
+            <a-camera id="mindarCam" position="0 0 0" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
         </a-scene>`;
 
         // Inject into the dedicated container instead of body
