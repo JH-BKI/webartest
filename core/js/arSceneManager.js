@@ -421,6 +421,16 @@ class ARSceneManager {
         if (this.currentTopic) {
             console.log(`🎬 Starting AR experience for topic ${this.currentTopic}`);
             
+            const gyroCam = document.querySelector("#gyroCam");
+            const mindarCam = document.querySelector("#mindarCam");
+            mindarCam.setAttribute("camera", "active", false);
+            gyroCam.setAttribute("camera", "active", true);
+             if (gyroCam) {
+                 gyroCam.setAttribute('position', '0 0.05 1.2');
+                 gyroCam.setAttribute('rotation', '0 0 0');
+                 console.log('✅ Camera reset to straight position for 2D mode');
+             }
+
             // Check if we should resume a paused timeline
             if (this.isTimelinePaused && this.timelineWasRunning) {
                 console.log(`🔄 Resuming paused timeline for topic ${this.currentTopic}`);
@@ -596,10 +606,7 @@ class ARSceneManager {
         
         // Scene injection removed - scene stays alive
         
-        // Start MindAR camera after scene is created
-        setTimeout(() => {
-            this.startMindAR();
-        }, 200);
+        // MindAR camera will be started by enableCamera() callv
         
         // Reset timeline controller state after scene is created
         setTimeout(() => {
@@ -637,6 +644,7 @@ class ARSceneManager {
     // gyroCam.setAttribute("camera", "active", false);
     // mindarCam.setAttribute("camera", "active", true);
 
+        // Reset camera to straight position for 2D mode
 
 
     mindarCam.setAttribute("camera", "active", false);
@@ -667,16 +675,7 @@ class ARSceneManager {
             }
         }
         
-        // Reset camera to straight position for 2D mode
-        const gyroCam = document.querySelector("#gyroCam");
-        const mindarCam = document.querySelector("#mindarCam");
-        mindarCam.setAttribute("camera", "active", false);
-        gyroCam.setAttribute("camera", "active", true);
-         if (gyroCam) {
-             gyroCam.setAttribute('position', '0 0 2');
-             gyroCam.setAttribute('rotation', '0 0 0');
-             console.log('✅ Camera reset to straight position for 2D mode');
-         }
+
     }
     
     createSceneForTopic(topicId) {
@@ -868,9 +867,11 @@ class ARSceneManager {
             if (mindarSystem) {
                 // Check if MindAR controller is ready
                 if (mindarSystem.controller) {
-                    try {
-                        console.log('📹 Starting MindAR camera and tracking');
-                        mindarSystem.start();
+                    // Check if controller is fully ready
+                    if (mindarSystem.controller.dummyRun !== undefined) {
+                        try {
+                            console.log('📹 Starting MindAR camera and tracking');
+                            mindarSystem.start();
                         
                         // Clean up any video elements MindAR might have created after starting
                         setTimeout(() => {
@@ -910,6 +911,22 @@ class ARSceneManager {
                                 console.error('❌ MindAR start failed after retry:', retryError.message);
                             }
                         }, 1000);
+                    }
+                    } else {
+                        // Controller exists but not fully ready, wait and retry
+                        console.log('⏳ MindAR controller not fully ready, waiting...');
+                        setTimeout(() => {
+                            if (mindarSystem.controller && mindarSystem.controller.dummyRun !== undefined) {
+                                try {
+                                    console.log('📹 Starting MindAR camera and tracking (delayed)');
+                                    mindarSystem.start();
+                                } catch (error) {
+                                    console.warn('⚠️ MindAR delayed start failed:', error.message);
+                                }
+                            } else {
+                                console.warn('⚠️ MindAR never became fully ready');
+                            }
+                        }, 200);
                     }
                 } else {
                     console.warn('⚠️ MindAR not ready yet, wait for scene "loaded" event');
@@ -952,16 +969,17 @@ class ARSceneManager {
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
-            if (mindarSystem) {
+            if (mindarSystem && typeof mindarSystem.stop === 'function') {
                 console.log('📹 Stopping MindAR camera and tracking');
                 try {
                     mindarSystem.stop();
+                    console.log('✅ MindAR system stopped successfully');
                 } catch (error) {
                     console.warn('⚠️ Error stopping MindAR system:', error);
                     // Continue with cleanup even if MindAR stop fails
                 }
             } else {
-                console.warn('⚠️ MindAR system not found - cannot stop camera');
+                console.log('ℹ️ MindAR system already stopped or not available');
             }
         }
     }
@@ -1068,6 +1086,20 @@ class ARSceneManager {
                 container.classList.remove('hidden');
                 console.log('AR scene container shown');
             }
+            
+            // Ensure MindAR is running for reuse (without aggressive restart)
+            const mindarSystem = existingScene.systems['mindar-image-system'];
+            if (mindarSystem && mindarSystem.controller) {
+                console.log('🔄 AR Scene Manager: Ensuring MindAR is running for reuse');
+                // Only start if not already running
+                if (typeof mindarSystem.start === 'function' && !mindarSystem.isRunning) {
+                    mindarSystem.start();
+                    console.log('✅ MindAR camera started for reuse');
+                } else {
+                    console.log('ℹ️ MindAR already running for reuse');
+                }
+            }
+            
             return;
         }
         
@@ -1129,15 +1161,15 @@ class ARSceneManager {
 
             </a-entity>
             <a-entity id="scenario-assets-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2">
-
                 <a-image id="s03-loading" src="./assets/topic_3/s03-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
                     material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+            </a-entity>
 
-                <!-- Topic 3 entities will be added dynamically -->
+            <!-- Topic 3 entities will be added dynamically -->
                 <a-entity id="scenario-assets-topic-group-3" position="0 0 0"></a-entity>
 
-            </a-entity>
-            <a-entity id="scenario-assets-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3">
+
+                <a-entity id="scenario-assets-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3">
 
                 <a-image id="s04-loading" src="./assets/topic_4/s04-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
                     material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   

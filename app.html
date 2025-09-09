@@ -252,7 +252,7 @@
             <div class="poster-info">
                 <p id="detected-poster-desc">You found:</p>
                 <h3 id="detected-poster-title">Learning Poster Detected</h3>
-                <button class="btn btn-primary" id="start-ar-button" onclick="countdownTimer(5, startARExperience, this)">
+                <button class="btn btn-primary" id="start-ar-button" onclick="startARExperience()">
                     🚀 Start
                 </button>
                 <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
@@ -423,7 +423,7 @@
          * - Content loading functions
          */
         
-        let version = '3.06';
+        let version = '3.07';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -598,6 +598,9 @@
             console.log('🎬 App: Starting AR scanning process...');
             
             if (window.arSceneManager) {
+
+
+
                 console.log('🚀 App: Initializing AR Scene Manager...');
                 window.arSceneManager.initialize().then(() => {
                     console.log('✅ App: AR Scene Manager ready - starting scanning');
