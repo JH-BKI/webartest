@@ -348,11 +348,9 @@ class ARSceneManager {
             const isSamePoster = (this.lastDetectedTargetIndex === targetIndex);
             
             if (isSamePoster && this.isTimelinePaused) {
-                // Same poster + timeline was paused = RESUME
-                console.log(`🔄 Same poster detected - resuming paused timeline`);
-                this.resumeTimeline();
-                window.stateManager.changeState('animating');
-                return; // Skip the rest of the logic
+                // Same poster + timeline was paused = RESUME (but still go through ar_ready)
+                console.log(`🔄 Same poster detected - will resume paused timeline after ar_ready`);
+                // Don't resume immediately, let ar_ready handle the countdown first
             } else {
                 // Different poster OR no paused timeline = START NEW
                 console.log(`🆕 Different poster or new session - starting fresh`);
@@ -414,7 +412,16 @@ class ARSceneManager {
     startARExperience() {
         if (this.currentTopic) {
             console.log(`🎬 Starting AR experience for topic ${this.currentTopic}`);
-            this.startAnimation(this.currentTopic);
+            
+            // Check if we should resume a paused timeline
+            if (this.isTimelinePaused && this.timelineWasRunning) {
+                console.log(`🔄 Resuming paused timeline for topic ${this.currentTopic}`);
+                this.resumeTimeline();
+                window.stateManager.changeState('animating');
+            } else {
+                console.log(`🆕 Starting fresh animation for topic ${this.currentTopic}`);
+                this.startAnimation(this.currentTopic);
+            }
         } else {
             console.error('❌ No topic detected - cannot start AR experience');
         }
