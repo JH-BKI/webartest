@@ -69,8 +69,10 @@ class SceneManager2D {
                 stats="false"
                 embedded="true">  
 
-                <!-- 2D Camera for browser viewing (not AR camera) -->
-                <a-camera position="0 0 5" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
+                <!-- OLD AR Camera -->
+                <!-- <a-camera position="0 0 5" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera> -->
+                <!-- MindAR Camera for detection (shows camera feed) -->
+                <a-camera mindar-camera="cameraParam: auto; maxTrack: 4;" position="0 0 0" look-controls="enabled: false"></a-camera>
                 
                 <!-- Lighting for 2D content -->
                 <a-light type="ambient" color="#404040" intensity="0.8"></a-light>
