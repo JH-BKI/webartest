@@ -618,19 +618,18 @@
         
         // Start AR scanning function (now uses 2D detection)
         function startARScanning() {
-            console.log('🎬 App: Starting 2D detection process...');
-            
-            if (window.sceneManager2D) {
-                console.log('🚀 App: Initializing 2D Scene Manager...');
-                window.sceneManager2D.initialize().then(() => {
-                    console.log('✅ App: 2D Scene Manager ready - starting detection');
-                    window.sceneManager2D.startDetection();
+            console.log('🎬 App: Starting AR scanning process...');
+            if (window.arSceneManager) {
+                console.log('🚀 App: Initializing AR Scene Manager...');
+                window.arSceneManager.initialize().then(() => {
+                    console.log('✅ App: AR Scene Manager ready - starting scanning');
+                    window.arSceneManager.startScanning();
                     stateManager.changeState('scanning');
                 }).catch(error => {
-                    console.error('❌ App: Failed to initialize 2D Scene Manager:', error);
+                    console.error('❌ App: Failed to initialize AR Scene Manager:', error);
                 });
             } else {
-                console.error('❌ App: 2D Scene Manager not available');
+                console.error('❌ App: AR Scene Manager not available');
             }
         }
         

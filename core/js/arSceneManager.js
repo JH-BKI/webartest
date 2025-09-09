@@ -391,6 +391,8 @@ class ARSceneManager {
             // For different poster, always go through AR Ready flow
             if (window.stateManager && window.stateManager.currentState !== 'ar_ready') {
                 console.log(`🔄 AR Scene Manager: Different poster detected - transitioning to ar_ready state`);
+                // Stop MindAR tracking for 2D mode
+                this.stopTracking();
                 window.stateManager.changeState('ar_ready');
             } else {
                 console.log(`🔄 AR Scene Manager: Already in ar_ready state, skipping transition`);
@@ -628,6 +630,20 @@ class ARSceneManager {
         console.log('⏹️ AR Scene Manager: Stopping AR scanning');
         this.stopMindAR();
         // Scene disposal removed - keeping scene alive
+    }
+    
+    /**
+     * Stop MindAR tracking after detection (for 2D mode)
+     */
+    stopTracking() {
+        console.log('🛑 AR Scene Manager: Stopping MindAR tracking for 2D mode');
+        if (this.currentScene) {
+            const mindarSystem = this.currentScene.systems['mindar-image'];
+            if (mindarSystem) {
+                mindarSystem.stop();
+                console.log('✅ MindAR tracking stopped');
+            }
+        }
     }
     
     createSceneForTopic(topicId) {
@@ -1143,9 +1159,9 @@ class ARSceneManager {
 
 }
 
-// Create global instance (commented out for 2D mode)
-// window.arSceneManager = new ARSceneManager();
-console.log('AR Scene Manager v2.27 loaded - auto-instantiation DISABLED for 2D mode');
+// Create global instance
+window.arSceneManager = new ARSceneManager();
+console.log('AR Scene Manager v2.27 loaded - ready for 2D mode');
 
 // Expose performance helpers globally (commented out for 2D mode)
 // window.batchUpdateElements = window.arSceneManager.batchUpdateElements.bind(window.arSceneManager);
