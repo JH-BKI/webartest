@@ -75,34 +75,20 @@
     <div id="splash-section" class="hidden section">
         <div class="splash-content">
             <div class="splash-actions">
-                <img src="./assets/misc/call-to-action.png" alt="National Child Protection Week 2025" class="splash-logo">
+                <img style="margin-top: -56px;" src="./assets/misc/call-to-action.png" alt="National Child Protection Week 2025" class="splash-logo">
                 <h1>Welcome!</h1>
                 <h2>#NCPW2025</h2>
                 <h4>National Child Protection Week 2025</h2>
-                <h4>Immersive Augmented Reality Experience</h4>
             </div>
-                <h2 style="text-align: center;">⬇️</h2>
-        <div class="splash-actions">
-            <h4>How to use the app: (TBC)</h4>
-            <p>Jesse note: add images here for onboarding</p>
-            <ul>
-                <li>Scan the posters to unlock the immersive AR experience</li>
-                <li>Watch the videos to learn about the topics</li>
-                <li>Answer the questions to test your knowledge</li>
-                <li>Find all 4 and unlock an exclusive reward!</li>
-            </ul>
-        </div>
-            <h2 style="text-align: center;">⬇️</h2>
-        <div class="splash-actions">
-            <h4 style="text-align: center;">Ready?</h4>
-                <p style="text-align: center;">Let's go!</p>
+            <BR>
+            <h4>How to use the app:</h4>
+                <p>Watch the animated scenarios and videos to learn about each topic.</p>
+                <p>Then answer the questions to test your knowledge.</p>
+
                     <button id="start-app-button" class="btn btn-primary">
-                     🚀 Get Started 
+                     🚀 Let's begin!
                 </button>
-                <BR>
-                    <BR>
-                        <BR>
-                        </div>
+
         </div>
     </div>
 
@@ -155,10 +141,11 @@
                     </div>
                     <!-- Celebration button - only shown when all topics completed -->
                     <div id="celebration-button-container" class="celebration-button-container" style="display: none;">
-                        <button id="celebration-button" class="celebration-button" onclick="triggerCelebration()">
+                        <!-- <button id="celebration-button" class="celebration-button" onclick="triggerCelebration()">
                             <span class="celebration-icon">🏆</span>
                             <span class="celebration-text">Your Reward!</span>
-                        </button>
+                        </button> -->
+                        <h2>Well done! You found all 4 posters!</h2>
                     </div>
                 </div>
                 <div class="completed-topics" id="completed-topics-section" style="display: none;">
@@ -361,8 +348,8 @@
                 <!-- Summary will be loaded here -->
             </div>
             <div>
-                <p>You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
-                <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
+                <p style="display:none">You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+                <p id="progress-left-message">Find all of the remaining posters to learn more!</p>
                 <BR><BR>
                 <button class="btn btn-primary" onclick="goHome()">Continue</button>
                 <!-- <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button> -->
@@ -465,7 +452,7 @@
                 console.error('Loading elements not found, skipping simulation');
                 // Fallback: just transition to campus selection
                 setTimeout(() => {
-                    stateManager.changeState('campus_selection');
+                    //stateManager.changeState('campus_selection');
                 }, 500);
                 return;
             }
@@ -578,8 +565,8 @@
             // window.progressManager.setExpiryDays(7);  // Expire in 7 days
             // window.progressManager.setExpiryDays(null); // No expiry (default)
             
-            //simulateLoading();
-            stateManager.changeState('menu');
+            simulateLoading();
+            
             // Populate UI elements after a short delay to ensure topics.js is loaded
             setTimeout(() => {
                 populateTopicCards();
@@ -620,8 +607,8 @@
             console.log('🎬 App: Starting direct animation (bypassing MindAR)...');
             
             // Set topic 3 as default (1-based topic number)
-            window.currentTopic = 'topic_2';
-            console.log('📚 App: Set current topic to topic_2');
+            window.currentTopic = 'topic_1';
+            console.log('📚 App: Set current topic to topic_1');
             
             // Initialize AR Scene Manager but skip scanning
             if (window.arSceneManager) {

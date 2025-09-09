@@ -1281,7 +1281,7 @@ class ARSceneManager {
                 </a-entity>
 
                 <!-- Topic 4 entities will be added dynamically -->
-                <a-entity id="scenario-assets-topic-group-4" position="0 0 0"></a-entity>
+                <a-entity id="scenario-assets-topic-group-4" position="0 0 0.40"></a-entity>
 
             </a-entity>
 
