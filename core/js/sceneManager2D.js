@@ -52,7 +52,7 @@ class SceneManager2D {
         
         // Create A-Frame scene with MindAR for detection only (no AR camera)
         const sceneHTML = `
-            <a-scene id="2d-scene"  
+            <a-scene id="scene-2d"  
                 mindar-image="imageTargetSrc: ./assets/targets/targets_4_final.mind; 
                 filterMinCF: 0.0001; 
                 filterBeta: 0.001; 
@@ -98,7 +98,7 @@ class SceneManager2D {
             </a-scene>`;
 
         container.innerHTML = sceneHTML;
-        this.currentScene = container.querySelector('#2d-scene');
+        this.currentScene = container.querySelector('#scene-2d');
         
         // Set up MindAR event listeners for detection only
         this.setupDetectionListeners();
@@ -111,7 +111,7 @@ class SceneManager2D {
      * Set up MindAR listeners for detection only (no tracking)
      */
     setupDetectionListeners() {
-        const sceneEl = document.querySelector('#2d-scene');
+        const sceneEl = document.querySelector('#scene-2d');
         if (!sceneEl) {
             console.error('❌ 2D Scene Manager: No 2D scene found for event listeners');
             return;
@@ -365,7 +365,7 @@ class SceneManager2D {
      * Start MindAR for detection only
      */
     startMindARDetection() {
-        const sceneEl = document.querySelector('#2d-scene');
+        const sceneEl = document.querySelector('#scene-2d');
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
             if (mindarSystem) {
@@ -386,7 +386,7 @@ class SceneManager2D {
      */
     stopDetection() {
         console.log('⏹️ 2D Scene Manager: Stopping detection');
-        const sceneEl = document.querySelector('#2d-scene');
+        const sceneEl = document.querySelector('#scene-2d');
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
             if (mindarSystem) {
