@@ -102,6 +102,7 @@ class StateManager {
                     }
 
                     this.hideAllSections();
+                    this.scrollToTop();
 
                     // Show menu section
                     const menuSection = document.getElementById('menu-section');
@@ -122,6 +123,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering scanning state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     // Show scanning section
                     const scanningSection = document.getElementById('scanning-section');
                     if (scanningSection) {
@@ -144,6 +146,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering AR ready state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     // Show AR ready section
                     const arReadySection = document.getElementById('ar-ready-section');
                     if (arReadySection) {
@@ -176,6 +179,7 @@ class StateManager {
 
                     console.log('Entering animating state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     // Show animating section
                     const animatingSection = document.getElementById('animating-section');
                     if (animatingSection) {
@@ -196,7 +200,6 @@ class StateManager {
             video: {
                 onEnter: () => {
                     console.log('Entering video state');
-
                     // Stop AR camera when entering video state
                     if (window.arSceneManager) {
                         console.log('🛑 VIDEO STATE: Disabling camera');
@@ -209,6 +212,7 @@ class StateManager {
                     }
 
                     this.hideAllSections();
+                    this.scrollToTop();
                     // document.getElementById('progress').classList.remove('hidden');
                     const videoSection = document.getElementById('video-section');
                     if (videoSection) {
@@ -254,6 +258,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering quiz state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('quiz-section').classList.remove('hidden');
                     
@@ -277,6 +282,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering summary state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('summary-section').classList.remove('hidden');
                     
@@ -299,6 +305,7 @@ class StateManager {
             face_filter_setup: {
                 onEnter: () => {
                     console.log('Entering face_filter state');
+                    this.scrollToTop();
                 },
                 onExit: () => {
                     console.log('Exiting face_filter state');
@@ -307,6 +314,7 @@ class StateManager {
             face_filter_scanning: {
                 onEnter: () => {
                     console.log('Entering face_filter state');
+                    this.scrollToTop();
                 },
                 onExit: () => {
                     console.log('Exiting face_filter state');
@@ -315,6 +323,7 @@ class StateManager {
             face_filter_ready: {
                 onEnter: () => {
                     console.log('Entering face_filter state');
+                    this.scrollToTop();
                 },
                 onExit: () => {
                     console.log('Exiting face_filter state');
@@ -323,6 +332,7 @@ class StateManager {
             face_filter_animating: {
                 onEnter: () => {
                     console.log('Entering face_filter state');
+                    this.scrollToTop();
                 },
                 onExit: () => {
                     console.log('Exiting face_filter state');
@@ -395,6 +405,13 @@ class StateManager {
             if (element) {
                 element.classList.add('hidden');
             }
+        });
+    }
+
+    // Scroll all sections to top
+    scrollToTop() {
+        document.querySelectorAll('.section').forEach(section => {
+            section.scrollTop = 0;
         });
     }
 

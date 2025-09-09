@@ -318,9 +318,8 @@ class ARSceneManager {
         if (sceneEl) {
             const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController) {
-                const zeroBasedTopicId = topicId - 1; // Convert to 0-based index
-                console.log(`Timeline controller: Setting topic ${topicId} (0-based: ${zeroBasedTopicId})`);
-                timelineController.setTopic(zeroBasedTopicId);
+                console.log(`Timeline controller: Setting topic ${topicId} (0-based)`);
+                timelineController.setTopic(topicId);
             }
         }
     }
@@ -418,30 +417,87 @@ class ARSceneManager {
     
     // Start animation when user clicks "Start AR Experience"
     startARExperience() {
-        if (this.currentTopic) {
-            console.log(`🎬 Starting AR experience for topic ${this.currentTopic}`);
-            
-            const gyroCam = document.querySelector("#gyroCam");
-            const mindarCam = document.querySelector("#mindarCam");
-            mindarCam.setAttribute("camera", "active", false);
+        // Get topic from currentTopic (set by direct animation flow)
+        const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
+        console.log(`🎬 Starting AR experience for topic ${topicId}`);
+        
+        // Set the current topic in AR Scene Manager (1-based topic number)
+        this.currentTopic = parseInt(topicId);
+        
+        // Switch to gyro camera for 2D mode (skip MindAR camera)
+        const gyroCam = document.querySelector("#gyroCam");
+        const mindarCam = document.querySelector("#mindarCam");
+        if (mindarCam) mindarCam.setAttribute("camera", "active", false);
+        if (gyroCam) {
             gyroCam.setAttribute("camera", "active", true);
-             if (gyroCam) {
-                 gyroCam.setAttribute('position', '0 0.05 1.2');
-                 gyroCam.setAttribute('rotation', '0 0 0');
-                 console.log('✅ Camera reset to straight position for 2D mode');
-             }
+            gyroCam.setAttribute('position', '0 0.05 1.2');
+            gyroCam.setAttribute('rotation', '0 0 0');
+            console.log('✅ Camera reset to straight position for 2D mode');
+        }
 
-            // Check if we should resume a paused timeline
-            if (this.isTimelinePaused && this.timelineWasRunning) {
-                console.log(`🔄 Resuming paused timeline for topic ${this.currentTopic}`);
-                this.resumeTimeline();
-                window.stateManager.changeState('animating');
-            } else {
-                console.log(`🆕 Starting fresh animation for topic ${this.currentTopic}`);
-                this.startAnimation(this.currentTopic);
+        // Set the topic in timeline controller (convert to 0-based index)
+        this.setTimelineTopic(this.currentTopic - 1);
+        
+        // Add entities for the current topic
+        this.addEntitiesToTopic(this.currentTopic);
+        
+        // Wait for timeline to load, then start animation
+        console.log(`🆕 Loading timeline for topic ${this.currentTopic}, then starting animation`);
+        this.loadAndStartAnimation(this.currentTopic);
+    }
+    
+    // Load timeline and start animation
+    async loadAndStartAnimation(topicId) {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            // Wait for timeline controller to be available
+            let timelineController = null;
+            let attempts = 0;
+            const maxAttempts = 50; // 5 seconds max wait
+            
+            while (!timelineController && attempts < maxAttempts) {
+                timelineController = sceneEl.components['timeline-controller'];
+                if (!timelineController) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    attempts++;
+                }
             }
-        } else {
-            console.error('❌ No topic detected - cannot start AR experience');
+            
+            if (timelineController) {
+                try {
+                    // Load the topic animation file
+                    await timelineController.loadTopicAnimation(topicId - 1); // Convert to 0-based
+                    console.log(`✅ Timeline loaded for topic ${topicId}`);
+                    
+                    // Wait for timeline to be ready with retry mechanism
+                    let retryCount = 0;
+                    const maxRetries = 10;
+                    const checkTimelineReady = () => {
+                        console.log(`🔍 Debug timeline readiness for topic ${topicId} (attempt ${retryCount + 1}):`);
+                        console.log(`  - currentTopic: ${timelineController.currentTopic}`);
+                        console.log(`  - timelineLoaded: ${timelineController.timelineLoaded}`);
+                        console.log(`  - window.createTimeline: ${typeof window.createTimeline}`);
+                        
+                        if (timelineController.isTimelineReady()) {
+                            console.log(`🎬 Starting animation for topic ${topicId}`);
+                            timelineController.startAnimeTimeline();
+                        } else if (retryCount < maxRetries) {
+                            retryCount++;
+                            console.log(`⏳ Timeline not ready yet, retrying in 200ms... (${retryCount}/${maxRetries})`);
+                            setTimeout(checkTimelineReady, 200);
+                        } else {
+                            console.error(`❌ Timeline still not ready for topic ${topicId} after ${maxRetries} attempts`);
+                        }
+                    };
+                    
+                    // Start checking after a short delay
+                    setTimeout(checkTimelineReady, 100);
+                } catch (error) {
+                    console.error(`❌ Failed to load timeline for topic ${topicId}:`, error);
+                }
+            } else {
+                console.error('❌ Timeline controller not found after waiting');
+            }
         }
     }
     
@@ -1116,15 +1172,26 @@ class ARSceneManager {
         // Generate dynamic asset HTML for all topics (1-4)
         const assetHTML = this.generateAllTopicAssets();
         
+
+
+        // <!-- <a-scene id="AR-scene"  
+        // mindar-image="imageTargetSrc: ./assets/targets/targets_4_final.mind; 
+        // filterMinCF: 0.0001; 
+        // filterBeta: 0.001; 
+        // warmupTolerance: 1; 
+        // missTolerance: 1; 
+        // maxTrack: 4;
+        // autoStart: true;" 
+        // timeline-controller
+        // color-space="sRGB" 
+        // renderer="colorManagement: true, physicallyCorrectLights"
+        // xr-mode-ui="enabled: false" 
+        // loading-screen="enabled: false"
+        // device-orientation-permission-ui="enabled: false">  -->   
+
+
         const arSceneHTML = `   
         <a-scene id="AR-scene"  
-            mindar-image="imageTargetSrc: ./assets/targets/targets_4_final.mind; 
-            filterMinCF: 0.0001; 
-            filterBeta: 0.001; 
-            warmupTolerance: 1; 
-            missTolerance: 1; 
-            maxTrack: 4;
-            autoStart: true;" 
             timeline-controller
             color-space="sRGB" 
             renderer="colorManagement: true, physicallyCorrectLights"
@@ -1132,55 +1199,72 @@ class ARSceneManager {
             loading-screen="enabled: false"
             device-orientation-permission-ui="enabled: false">  
 
+         
+
             ${assetHTML}
 
             <div id="timelineContainer" style="display: none;"></div>
             
-            <!-- Topic containers - always present for MindAR detection -->
-                    <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0">
-                
-                        <a-entity id="s01-loading" position="0 0 0">    
-                            <a-image id="s01-loading-panel" src="./assets/topic_1/s01-image-marker.png" scale="1 1 1" position="0 0 0.25" rotation="0 0 0" 
-                                material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
-                        </a-entity>
-                
-                    <!-- Topic 1 entities will be added dynamically -->
-                        <a-entity id="scenario-assets-topic-group-1" position="0 -0.25 0"></a-entity>
+            <!-- Topic containers - for direct animation mode -->
+            <!-- <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0"> -->
+            <a-entity id="scenario-assets-topic-1" position="0 0 0">
 
-                    </a-entity>
+                <a-entity id="s01-loading" position="0 0 0" visible="false">   
+                    <a-image id="s01-loading-panel" src="./assets/topic_1/s01-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
+                        material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                </a-entity>
+
+                <!-- Topic 1 entities will be added dynamically -->
+                <a-entity id="scenario-assets-topic-group-1" position="0 0 0"></a-entity>
+
+            </a-entity>
 
 
-            <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1">
+            <!-- <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1"> -->
+            <a-entity id="scenario-assets-topic-2" position="0 0 0">
 
-                <a-image id="s02-loading" src="./assets/topic_2/s02-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
-                    material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                <a-entity id="s02-loading" position="0 0 0" visible="false">    
+                    <a-image id="s02-loading-panel" src="./assets/topic_2/s02-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
+                        material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                </a-entity>
 
                 <!-- Topic 2 entities will be added dynamically -->
                 <a-entity id="scenario-assets-topic-group-2" position="0 0 0"></a-entity>
 
-
-            </a-entity>
-            <a-entity id="scenario-assets-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2">
-                <a-image id="s03-loading" src="./assets/topic_3/s03-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
-                    material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
             </a-entity>
 
-            <!-- Topic 3 entities will be added dynamically -->
+            <!-- <a-entity id="scenario-assets-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2"> -->
+            <a-entity id="scenario-assets-topic-3" position="0 0 0">
+
+                <a-entity id="s03-loading" position="0 0 0" visible="false">    
+                    <a-image id="s03-loading-panel" src="./assets/topic_3/s03-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
+                        material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                </a-entity>
+
+                <!-- Topic 3 entities will be added dynamically -->
                 <a-entity id="scenario-assets-topic-group-3" position="0 0 0"></a-entity>
 
+            </a-entity>
 
-                <a-entity id="scenario-assets-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3">
+            <!-- <a-entity id="scenario-assets-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3"> -->
+            <a-entity id="scenario-assets-topic-4" position="0 0 0">
 
-                <a-image id="s04-loading" src="./assets/topic_4/s04-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
-                    material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                <a-entity id="s04-loading" position="0 0 0" visible="false">   
+                    <a-image id="s04-loading-panel" src="./assets/topic_4/s04-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
+                        material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                </a-entity>
 
                 <!-- Topic 4 entities will be added dynamically -->
                 <a-entity id="scenario-assets-topic-group-4" position="0 0 0"></a-entity>
 
             </a-entity>
+
+
             <a-entity id="gyroCam" camera look-controls position="0 0 2" rotation="0 0 0" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-entity>
-            <a-camera id="mindarCam" position="0 0 0" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
-        </a-scene>`;
+            <!-- <a-camera id="mindarCam" position="0 0 0" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera> -->
+        
+            </a-scene>`;
+        
 
         // Inject into the dedicated container instead of body
         if (container) {
@@ -1191,8 +1275,8 @@ class ARSceneManager {
             console.log('AR Scene has been injected into body (fallback)');
         }
 
-        // Set up MindAR event listeners after scene is injected
-        this.setupMindARListeners();
+        // Set up MindAR event listeners after scene is injected - DISABLED for direct animation mode
+        // this.setupMindARListeners();
 
         const sceneEl = document.querySelector('a-scene');
     }

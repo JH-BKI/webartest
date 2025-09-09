@@ -17,8 +17,8 @@
      <!-- A-Frame Library - Required for 3D scenes and AR functionality -->
      <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
      
-     <!-- MindAR Library - Required for AR functionality -->
-     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <!-- MindAR Library - DISABLED for direct animation mode -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script> -->
      
      <!-- Anime.js Library - Required for timeline animations -->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -170,7 +170,7 @@
             </div>
                         
             <p>Find and scan each of the 4 posters to unlock a different immersive experience.</p>
-            <button class="btn btn-primary" onclick="startARScanning()">
+            <button class="btn btn-primary" onclick="startDirectAnimation()">
                 🚀 Let's Go!
             </button>
             
@@ -423,7 +423,7 @@
          * - Content loading functions
          */
         
-        let version = '3.07';
+        let version = '3.09';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -614,6 +614,61 @@
             }
         }
         
+        // Direct animation function - bypasses MindAR completely
+        function startDirectAnimation() {
+            console.log('🎬 App: Starting direct animation (bypassing MindAR)...');
+            
+            // Set topic 3 as default (1-based topic number)
+            window.currentTopic = 'topic_2';
+            console.log('📚 App: Set current topic to topic_2');
+            
+            // Initialize AR Scene Manager but skip scanning
+            if (window.arSceneManager) {
+                window.arSceneManager.initialize().then(() => {
+                    console.log('✅ App: AR Scene Manager ready - injecting scene for animation');
+                    
+                    // Inject the A-Frame scene (needed for animations)
+                    window.arSceneManager.injectARScene();
+                    
+                    // Skip scanning states, go straight to animating
+                    stateManager.changeState('animating');
+                    
+                    // Start the animation for topic 3
+                    setTimeout(() => {
+                        if (window.arSceneManager) {
+                            window.arSceneManager.startARExperience();
+                        }
+                    }, 500);
+                    
+                }).catch(error => {
+                    console.error('❌ App: Failed to initialize AR Scene Manager:', error);
+                });
+            } else {
+                console.error('❌ App: AR Scene Manager not available');
+            }
+        }
+        
+        // Console function to select different topics
+        function selectTopic(topicNumber) {
+            if (topicNumber < 1 || topicNumber > 4) {
+                console.error('❌ Invalid topic number. Use 1, 2, 3, or 4');
+                return;
+            }
+            
+            const topicId = `topic_${topicNumber}`;
+            window.currentTopic = topicId;
+            currentTopic = topicId; // Also update local variable
+            console.log(`📚 App: Topic changed to ${topicId}`);
+            
+            // If we're already in animating state, restart the animation
+            if (stateManager.getCurrentState() === 'animating') {
+                console.log('🔄 App: Restarting animation with new topic');
+                if (window.arSceneManager) {
+                    window.arSceneManager.startARExperience();
+                }
+            }
+        }
+        
         // Start AR experience function
         function startARExperience() {
             // Use state manager to transition to animating state
@@ -651,13 +706,14 @@
         // Function to set current topic (called by mindarManager)
         function setCurrentTopic(topic) {
             currentTopic = topic;
+            window.currentTopic = topic; // Also set global variable
             console.log(`🎯 Current topic set to: ${currentTopic}`);
         }
         
         function loadVideoContent() {
             // Use topics.js helper functions to get topic information
-            const topicId = currentTopic.replace('topic_', '');
-            console.log('🎬 Loading video content for topic:', currentTopic, 'topicId:', topicId);
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
+            console.log('🎬 Loading video content for topic:', window.currentTopic, 'topicId:', topicId);
             
             const topicTitle = window.getTopicTitle ? window.getTopicTitle(topicId) : 'Learning Topic';
             const topicContent = window.getTopicContent ? window.getTopicContent(topicId) : ['Content will be loaded here.'];
@@ -682,7 +738,7 @@
                     videoIframe.src = topicVideoUrl;
                 } else {
                     // No fallback - let the iframe remain empty/broken
-                    console.error(`❌ No video URL found for topic: ${currentTopic}`);
+                    console.error(`❌ No video URL found for topic: ${window.currentTopic}`);
                     videoIframe.src = '';
                 }
             } else {
@@ -708,7 +764,7 @@
         }
         
         function loadQuiz() {
-            const topicId = currentTopic.replace('topic_', '');
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
             const question = window.getTopicQuestion ? window.getTopicQuestion(topicId) : 'Loading question...';
             const answers = window.getTopicAnswers ? window.getTopicAnswers(topicId) : [];
             
@@ -739,7 +795,7 @@
         }
         
         function checkAnswers() {
-            const topicId = currentTopic.replace('topic_', '');
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
             const answers = window.getTopicAnswers ? window.getTopicAnswers(topicId) : [];
             const correctAnswers = answers.map((answer, index) => 
                 answer.correct ? index : null).filter(i => i !== null);
@@ -769,7 +825,7 @@
         }
         
         function showQuizResults(correctAnswers) {
-            const topicId = currentTopic.replace('topic_', '');
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
             const answers = window.getTopicAnswers ? window.getTopicAnswers(topicId) : [];
             const feedback = window.getTopicFeedback ? window.getTopicFeedback(topicId) : { perfect: '', partial: '' };
             const answerElements = document.getElementsByClassName('answer');
@@ -813,7 +869,7 @@
         }
         
         function loadSummary() {
-            const topicId = currentTopic.replace('topic_', '');
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
             const summary = window.getTopicSummary ? window.getTopicSummary(topicId) : '';
             const summaryDiv = document.getElementById('summary-content');
             summaryDiv.innerHTML = summary;
@@ -858,6 +914,7 @@
             selectedAnswers = [];
             currentScore = 0;
             currentTopic = '';
+            window.currentTopic = ''; // Also reset global variable
             selectedCampus = '';
             
             // Use state manager to return to campus selection state
@@ -942,6 +999,7 @@
         // Make functions globally available
         window.countdownTimer = countdownTimer;
         window.setupAutoTrigger = setupAutoTrigger;
+        window.selectTopic = selectTopic;
 
         /*
          * Celebration Functions
