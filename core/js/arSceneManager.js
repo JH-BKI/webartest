@@ -452,6 +452,22 @@ class ARSceneManager {
                 return;
             }
             
+            // Track timeline state before transitioning
+            if (currentState === 'animating') {
+                console.log(`📊 Timeline state before loss - Running: ${this.timelineController?.isRunning}, Completed: ${this.timelineController?.isCompleted}, Previous State: ${currentState}`);
+                this.isTimelinePaused = true;
+                this.timelineWasRunning = this.timelineController?.isRunning || false;
+                this.timelineWasCompleted = this.timelineController?.isCompleted || false;
+                
+                // Pause the timeline for potential resume
+                console.log(`⏸️ Pausing timeline for potential resume`);
+                if (this.timelineController && typeof this.timelineController.pauseTimeline === 'function') {
+                    this.timelineController.pauseTimeline();
+                } else {
+                    console.log(`⚠️ Timeline controller not available for pause`);
+                }
+            }
+            
             console.log(`⏰ Target loss confirmed after delay - transitioning to scanning`);
             // Always go back to scanning when tracking is lost
             window.stateManager.changeState('scanning');
