@@ -174,10 +174,13 @@ class SceneManager2D {
             // Update UI
             this.updateDetectedPosterUI(detectedTopicId);
             
-            // Transition to 2D animation state
+            // STOP MindAR tracking - we only needed it for detection
+            this.stopDetection();
+            
+            // Transition to AR Ready state (for countdown)
             if (window.stateManager) {
-                console.log(`🔄 2D Scene Manager: Transitioning to 2D animating state`);
-                window.stateManager.changeState('animating');
+                console.log(`🔄 2D Scene Manager: Transitioning to ar_ready state`);
+                window.stateManager.changeState('ar_ready');
             }
         } else {
             console.log(`⚠️ 2D Detection: Unknown target detected: ${targetIndex}`);
@@ -190,6 +193,9 @@ class SceneManager2D {
     start2DAnimation(topicId) {
         console.log(`🎬 2D Scene Manager: Starting 2D animation for topic ${topicId}`);
         
+        // Create a new 2D scene for animations (no MindAR tracking)
+        this.create2DAnimationScene(topicId);
+        
         // Load topic-specific animation file
         this.loadTopicAnimation(topicId);
         
@@ -197,7 +203,7 @@ class SceneManager2D {
         this.setTimelineTopic(topicId);
         
         // Start the animation
-        const sceneEl = document.querySelector('#2d-scene');
+        const sceneEl = document.querySelector('#AR-scene');
         if (sceneEl) {
             const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController && timelineController.isTimelineReady()) {
@@ -207,6 +213,65 @@ class SceneManager2D {
                 console.log(`2D Timeline not ready for topic ${topicId}`);
             }
         }
+    }
+    
+    /**
+     * Create 2D animation scene (no MindAR tracking)
+     * Uses AR-compatible structure for timeline controller compatibility
+     */
+    create2DAnimationScene(topicId) {
+        const container = document.getElementById('ar-scene-container');
+        if (!container) return false;
+        
+        // Generate asset HTML for the detected topic (same as AR version)
+        const assetHTML = this.generateTopicAssets(topicId);
+        
+        // Create 2D animation scene with AR-compatible structure
+        const sceneHTML = `
+            <a-scene id="AR-scene"  
+                timeline-controller
+                color-space="sRGB" 
+                renderer="colorManagement: true, physicallyCorrectLights, antialias: true, powerPreference: high-performance"
+                xr-mode-ui="enabled: false" 
+                loading-screen="enabled: false"
+                device-orientation-permission-ui="enabled: false"
+                stats="false"
+                embedded="true">  
+
+                ${assetHTML}
+
+                <!-- 2D Camera for browser viewing (positioned for 2D viewing) -->
+                <a-camera position="0 0 5" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
+                
+                <!-- Lighting for 2D content -->
+                <a-light type="ambient" color="#404040" intensity="0.8"></a-light>
+                <a-light type="directional" color="#ffffff" intensity="1.0" position="0 0 1"></a-light>
+                
+                <!-- AR-compatible topic containers for timeline controller -->
+                <a-entity id="scenario-assets-topic-${topicId}" position="0 0 -2">
+                    <!-- Topic ${topicId} 2D content will be added here by timeline controller -->
+                    <a-entity id="scenario-assets-topic-group-${topicId}" position="0 0 0">
+                        <!-- Timeline controller will populate this with 2D positioned assets -->
+                    </a-entity>
+                </a-entity>
+                
+            </a-scene>`;
+
+        container.innerHTML = sceneHTML;
+        this.currentScene = container.querySelector('#AR-scene');
+        
+        console.log(`2D animation scene created for topic ${topicId} (AR-compatible structure)`);
+        return true;
+    }
+    
+    /**
+     * Generate asset HTML for a specific topic (same as AR version)
+     */
+    generateTopicAssets(topicId) {
+        if (window.generateTopicAssetHTML) {
+            return window.generateTopicAssetHTML(topicId);
+        }
+        return '<a-assets></a-assets>';
     }
     
     /**
@@ -233,7 +298,7 @@ class SceneManager2D {
      * Set the topic in the timeline controller
      */
     setTimelineTopic(topicId) {
-        const sceneEl = document.querySelector('#2d-scene');
+        const sceneEl = document.querySelector('#AR-scene');
         if (sceneEl) {
             const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController) {
