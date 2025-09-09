@@ -216,6 +216,7 @@ class ARSceneManager {
             console.log('🎯 targetFound event received:', event);
             console.log('🎯 Event detail:', event.detail);
             console.log('🎯 Event target:', event.target);
+            console.log('🎯 About to call handleTargetFound...');
             
             let targetIndex = null;
             
@@ -241,7 +242,9 @@ class ARSceneManager {
             }
             
             console.log(`🎯 Target detected in AR scene: ${targetIndex}`);
+            console.log(`🎯 Calling handleTargetFound with targetIndex: ${targetIndex}`);
             this.handleTargetFound(targetIndex);
+            console.log(`🎯 handleTargetFound call completed`);
         });
         
         // Listen for target lost events
@@ -326,6 +329,7 @@ class ARSceneManager {
     handleTargetFound(targetIndex) {
         console.log(`🎯 handleTargetFound called with targetIndex: ${targetIndex}`);
         console.log(`🎯 Topic mapping:`, this.topicMapping);
+        console.log(`🎯 Current state:`, window.stateManager ? window.stateManager.currentState : 'unknown');
         
         // Clear any pending target loss timeout since we found the target
         if (this.targetLossTimeout) {
