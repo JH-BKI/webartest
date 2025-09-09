@@ -120,20 +120,29 @@ class StateManager {
             },
             scanning: {
                 onEnter: () => {
-                    console.log('Entering scanning state');
+                    console.log('Entering scanning state (2D mode)');
                     this.hideAllSections();
                     // Show scanning section
                     const scanningSection = document.getElementById('scanning-section');
                     if (scanningSection) {
                         scanningSection.classList.remove('hidden');
                     }
-                    
+                    // OLD AR CODE (commented out for 2D mode)
                     // Create AR scene and start MindAR camera when entering scanning state
-                    if (window.arSceneManager) {
-                        console.log('🔄 SCANNING STATE: Creating scene and enabling camera');
-                        window.arSceneManager.injectARScene();
-                        window.arSceneManager.enableCamera();
-                        console.log('🔄 SCANNING STATE: Scene and camera setup complete');
+                    // if (window.arSceneManager) {
+                    //     console.log('🔄 SCANNING STATE: Creating scene and enabling camera');
+                    //     window.arSceneManager.injectARScene();
+                    //     window.arSceneManager.enableCamera();
+                    //     console.log('🔄 SCANNING STATE: Scene and camera setup complete');
+                    // }
+                    
+                    // NEW 2D CODE
+                    // Create 2D scene and start MindAR detection when entering scanning state
+                    if (window.sceneManager2D) {
+                        console.log('🔄 SCANNING STATE: Creating 2D scene and starting detection');
+                        window.sceneManager2D.create2DScene();
+                        window.sceneManager2D.startDetection();
+                        console.log('🔄 SCANNING STATE: 2D scene and detection setup complete');
                     }
                 },
                 onExit: () => {
@@ -142,7 +151,7 @@ class StateManager {
             },
             ar_ready: {
                 onEnter: () => {
-                    console.log('Entering AR ready state');
+                    console.log('Entering AR ready state (2D mode)');
                     this.hideAllSections();
                     // Show AR ready section
                     const arReadySection = document.getElementById('ar-ready-section');
@@ -150,7 +159,7 @@ class StateManager {
                         arReadySection.classList.remove('hidden');
                     }
                     
-                    // AR scene already running from scanning state
+                    // 2D scene already running from scanning state
                     
                     // Auto-trigger countdown for start button
                     const startButton = document.getElementById('start-ar-button');
@@ -170,11 +179,13 @@ class StateManager {
             },
             animating: {
                 onEnter: () => {
-
-            // // Start the animation timeline
-            // this.startAnimation(topicId);
-
-                    console.log('Entering animating state');
+                    // OLD AR CODE (commented out for 2D mode)
+                    // // Start the animation timeline
+                    // this.startAnimation(topicId);
+                    // console.log('Entering animating state');
+                    
+                    // NEW 2D CODE
+                    console.log('Entering animating state (2D mode)');
                     this.hideAllSections();
                     // Show animating section
                     const animatingSection = document.getElementById('animating-section');
@@ -182,7 +193,18 @@ class StateManager {
                         animatingSection.classList.remove('hidden');
                     }
                     
-                    // AR scene already running from previous state
+                    // Start 2D animation if 2D scene manager is available
+                    if (window.sceneManager2D) {
+                        const topicId = window.sceneManager2D.getCurrentTopic();
+                        if (topicId) {
+                            console.log(`🎬 State Manager: Starting 2D animation for topic ${topicId}`);
+                            window.sceneManager2D.start2DAnimation(topicId);
+                        } else {
+                            console.error('❌ State Manager: No topic detected for 2D animation');
+                        }
+                    } else {
+                        console.error('❌ State Manager: 2D Scene Manager not available');
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting animating state');

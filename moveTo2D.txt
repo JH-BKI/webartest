@@ -1,0 +1,100 @@
+# 2D Mode Implementation Plan
+## Project Requirements Document (PRD)
+
+### Overview
+Convert the AR learning app to use 2D mode as the primary UX while preserving all existing AR functionality for potential future use. MindAR will be used only for initial poster detection to identify the topic, then the app switches to 2D animations and content.
+
+### Core Requirements
+- **Non-destructive**: Add new functionality alongside existing code, do not remove or overwrite AR functionality
+- **MindAR for detection only**: Use MindAR to detect which poster (1-4) is visible, then switch to 2D mode
+- **2D as primary UX**: All animations, content, and user experience in 2D browser view
+- **Preserve existing flow**: Video → Quiz → Summary flow remains unchanged
+
+### Technical Approach
+
+#### 1. MindAR Integration (Detection Only)
+- **Purpose**: Identify which poster is visible to set `currentTopic`
+- **Implementation**: 
+  - Keep existing MindAR setup in `arSceneManager.js`
+  - Modify to detect poster once, set topic, then disable tracking
+  - No 3D positioning or continuous tracking
+- **Output**: Set global `currentTopic` variable (topic_1, topic_2, topic_3, or topic_4)
+
+#### 2. New 2D Scene Manager
+- **File**: Create `core/js/sceneManager2D.js`
+- **Purpose**: Handle 2D animations and content display
+- **Features**:
+  - Load A-Frame scene in 2D mode (no AR camera)
+  - Position content for browser viewing instead of AR space
+  - Use existing timeline controller and animation assets
+  - Manage 2D-specific state transitions
+
+#### 3. Updated State Flow
+**Current Flow**: Menu → Scanning → AR Ready → Animating → Video → Quiz → Summary
+**New Flow**: Menu → Detection → 2D Animating → Video → Quiz → Summary
+
+**State Changes**:
+- `scanning` → `detection` (MindAR detection only)
+- `ar_ready` → Remove (skip countdown, go straight to animation)
+- `animating` → Use 2D scene manager instead of AR scene manager
+
+#### 4. UI Updates
+- **Scanning Section**: Update text to "Point camera at poster to detect topic"
+- **Remove AR Ready Section**: Skip countdown, go directly to animation
+- **Animating Section**: Use 2D scene container instead of AR scene container
+
+#### 5. File Structure Changes
+```
+core/js/
+├── arSceneManager.js          # Keep intact (future AR use)
+├── sceneManager2D.js          # NEW: 2D scene management
+├── stateManager.js            # Minor updates for new flow
+├── topics.js                  # No changes
+└── timeline-controller.js     # No changes (works with both modes)
+```
+
+### Implementation Steps
+
+#### Step 1: Create 2D Scene Manager (20 min)
+- Create `sceneManager2D.js` based on existing `arSceneManager.js`
+- Remove MindAR tracking, keep A-Frame scene setup
+- Add 2D camera positioning and content layout
+- Add methods: `detectPoster()`, `start2DAnimation()`, `load2DContent()`
+
+#### Step 2: Modify State Manager (10 min)
+- Update state transitions to skip `ar_ready`
+- Add routing to use 2D scene manager for `animating` state
+- Keep all existing states intact
+
+#### Step 3: Update Main App Flow (15 min)
+- Modify `startARScanning()` to use 2D detection
+- Update `startARExperience()` to use 2D animations
+- Add 2D scene container to HTML
+
+#### Step 4: UI Text Updates (10 min)
+- Update scanning instructions for 2D mode
+- Remove AR-specific terminology
+- Test complete user flow
+
+#### Step 5: Testing & Refinement (5 min)
+- Test poster detection → 2D animation flow
+- Verify all 4 topics work correctly
+- Ensure existing AR code remains untouched
+
+### Success Criteria
+- [ ] MindAR detects poster and sets correct topic
+- [ ] 2D animations play correctly for detected topic
+- [ ] Video → Quiz → Summary flow works unchanged
+- [ ] All existing AR code preserved and functional
+- [ ] No breaking changes to existing functionality
+- [ ] Complete user flow works in under 1 hour
+
+### Future Considerations
+- AR mode can be easily re-enabled by routing states back to `arSceneManager.js`
+- 2D mode can be enhanced with additional features
+- Both modes can coexist with proper state routing
+
+### Risk Mitigation
+- Keep all existing code intact to prevent breaking changes
+- Test each step incrementally
+- Maintain rollback capability to current AR implementation

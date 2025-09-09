@@ -1,0 +1,356 @@
+// 2D Scene Manager - Non-AR version for browser-based experience
+// Handles A-Frame scene creation and management in 2D mode with MindAR detection only
+
+class SceneManager2D {
+    constructor() {
+        this.currentScene = null;
+        this.isInitialized = false;
+        this.assetCache = new Map(); // topicId -> cached assets
+        this.currentTopic = null;
+        this.isPaused = false;
+        
+        // Performance optimization caches
+        this.elementCache = new Map();
+        this.assetPreloadCache = new Map();
+        
+        // Topic mapping: target index -> topic number (same as AR version)
+        this.topicMapping = {
+            0: 1, // Target 0 -> topic_1
+            1: 2, // Target 1 -> topic_2  
+            2: 3, // Target 2 -> topic_3
+            3: 4  // Target 3 -> topic_4
+        };
+        
+        console.log('2D Scene Manager initialized');
+    }
+    
+    /**
+     * Initialize the 2D scene manager
+     */
+    async initialize() {
+        if (typeof window.AFRAME === 'undefined') {
+            console.error('A-Frame library not loaded');
+            return false;
+        }
+        
+        this.isInitialized = true;
+        console.log('2D Scene Manager initialized successfully');
+        return true;
+    }
+    
+    /**
+     * Create 2D scene with MindAR for detection only
+     */
+    async create2DScene() {
+        if (!this.isInitialized) {
+            console.error('2D Scene Manager not initialized');
+            return false;
+        }
+        
+        const container = document.getElementById('ar-scene-container');
+        if (!container) return false;
+        
+        // Create A-Frame scene with MindAR for detection only (no AR camera)
+        const sceneHTML = `
+            <a-scene id="2d-scene"  
+                mindar-image="imageTargetSrc: ./assets/targets/targets_4_final.mind; 
+                filterMinCF: 0.0001; 
+                filterBeta: 0.001; 
+                warmupTolerance: 1; 
+                missTolerance: 1; 
+                maxTrack: 4;
+                autoStart: true;" 
+                timeline-controller
+                color-space="sRGB" 
+                renderer="colorManagement: true, physicallyCorrectLights, antialias: true, powerPreference: high-performance"
+                xr-mode-ui="enabled: false" 
+                loading-screen="enabled: false"
+                device-orientation-permission-ui="enabled: false"
+                stats="false"
+                embedded="true">  
+
+                <!-- 2D Camera for browser viewing (not AR camera) -->
+                <a-camera position="0 0 5" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
+                
+                <!-- Lighting for 2D content -->
+                <a-light type="ambient" color="#404040" intensity="0.8"></a-light>
+                <a-light type="directional" color="#ffffff" intensity="1.0" position="0 0 1"></a-light>
+                
+                <!-- Topic containers for detection only -->
+                <a-entity id="detection-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0" visible="false">
+                    <!-- Topic 1 detection marker -->
+                </a-entity>
+                <a-entity id="detection-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1" visible="false">
+                    <!-- Topic 2 detection marker -->
+                </a-entity>
+                <a-entity id="detection-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2" visible="false">
+                    <!-- Topic 3 detection marker -->
+                </a-entity>
+                <a-entity id="detection-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3" visible="false">
+                    <!-- Topic 4 detection marker -->
+                </a-entity>
+                
+                <!-- 2D Content Container - where animations will be displayed -->
+                <a-entity id="2d-content-container" position="0 0 -2">
+                    <!-- 2D content will be added here dynamically -->
+                </a-entity>
+                
+            </a-scene>`;
+
+        container.innerHTML = sceneHTML;
+        this.currentScene = container.querySelector('#2d-scene');
+        
+        // Set up MindAR event listeners for detection only
+        this.setupDetectionListeners();
+        
+        console.log('2D scene created with MindAR detection');
+        return true;
+    }
+    
+    /**
+     * Set up MindAR listeners for detection only (no tracking)
+     */
+    setupDetectionListeners() {
+        const sceneEl = document.querySelector('#2d-scene');
+        if (!sceneEl) {
+            console.error('❌ 2D Scene Manager: No 2D scene found for event listeners');
+            return;
+        }
+        
+        console.log('🎯 2D Scene Manager: Setting up MindAR detection listeners');
+        
+        // Listen for target found events (detection only)
+        sceneEl.addEventListener('targetFound', (event) => {
+            console.log('🎯 2D Detection: targetFound event received:', event);
+            
+            let targetIndex = null;
+            
+            // Extract targetIndex from event
+            if (event.detail && event.detail.targetIndex !== undefined) {
+                targetIndex = event.detail.targetIndex;
+            } else {
+                const targetEntity = event.target;
+                if (targetEntity && targetEntity.getAttribute) {
+                    const mindarTarget = targetEntity.getAttribute('mindar-image-target');
+                    if (mindarTarget && mindarTarget.targetIndex !== undefined) {
+                        targetIndex = mindarTarget.targetIndex;
+                    }
+                }
+            }
+            
+            if (targetIndex === null) {
+                console.warn('⚠️ 2D Detection: Could not extract targetIndex from event');
+                return;
+            }
+            
+            console.log(`🎯 2D Detection: Poster detected - targetIndex: ${targetIndex}`);
+            this.handlePosterDetection(targetIndex);
+        });
+        
+        // Listen for AR ready events
+        sceneEl.addEventListener('arReady', (event) => {
+            console.log('✅ 2D Scene Manager: MindAR detection ready');
+        });
+        
+        // Listen for AR error events
+        sceneEl.addEventListener('arError', (event) => {
+            console.error('❌ 2D Scene Manager: MindAR detection failed');
+        });
+        
+        console.log('🎯 2D Scene Manager: Detection listeners set up');
+    }
+    
+    /**
+     * Handle poster detection and set topic
+     */
+    handlePosterDetection(targetIndex) {
+        const detectedTopicId = this.topicMapping[targetIndex];
+        if (detectedTopicId) {
+            console.log(`✅ 2D Detection: Poster detected for topic ${detectedTopicId}`);
+            
+            // Set global topic
+            this.setGlobalTopic(detectedTopicId);
+            
+            // Update UI
+            this.updateDetectedPosterUI(detectedTopicId);
+            
+            // Transition to 2D animation state
+            if (window.stateManager) {
+                console.log(`🔄 2D Scene Manager: Transitioning to 2D animating state`);
+                window.stateManager.changeState('animating');
+            }
+        } else {
+            console.log(`⚠️ 2D Detection: Unknown target detected: ${targetIndex}`);
+        }
+    }
+    
+    /**
+     * Start 2D animation for detected topic
+     */
+    start2DAnimation(topicId) {
+        console.log(`🎬 2D Scene Manager: Starting 2D animation for topic ${topicId}`);
+        
+        // Load topic-specific animation file
+        this.loadTopicAnimation(topicId);
+        
+        // Set topic in timeline controller
+        this.setTimelineTopic(topicId);
+        
+        // Start the animation
+        const sceneEl = document.querySelector('#2d-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
+            if (timelineController && timelineController.isTimelineReady()) {
+                console.log(`Starting 2D animation for topic ${topicId}`);
+                timelineController.startAnimeTimeline();
+            } else {
+                console.log(`2D Timeline not ready for topic ${topicId}`);
+            }
+        }
+    }
+    
+    /**
+     * Load topic-specific animation file
+     */
+    async loadTopicAnimation(topicId) {
+        try {
+            const script = document.createElement('script');
+            script.src = `./core/js/animations/timeline-topic-${topicId}.js?v=${Date.now()}`;
+            script.onload = () => {
+                console.log(`2D Animation file loaded for topic ${topicId}`);
+                this.setTimelineTopic(topicId);
+            };
+            script.onerror = () => {
+                console.error(`Failed to load 2D animation file for topic ${topicId}`);
+            };
+            document.head.appendChild(script);
+        } catch (error) {
+            console.error(`Error loading 2D animation file for topic ${topicId}:`, error);
+        }
+    }
+    
+    /**
+     * Set the topic in the timeline controller
+     */
+    setTimelineTopic(topicId) {
+        const sceneEl = document.querySelector('#2d-scene');
+        if (sceneEl) {
+            const timelineController = sceneEl.components['timeline-controller'];
+            if (timelineController) {
+                const zeroBasedTopicId = topicId - 1;
+                console.log(`2D Timeline controller: Setting topic ${topicId} (0-based: ${zeroBasedTopicId})`);
+                timelineController.setTopic(zeroBasedTopicId);
+            }
+        }
+    }
+    
+    /**
+     * Update UI when poster is detected
+     */
+    updateDetectedPosterUI(topicId) {
+        const topicTitle = window.getTopicTitle ? window.getTopicTitle(topicId) : `Topic ${topicId}`;
+        
+        const titleElement = document.getElementById('detected-poster-title');
+        if (titleElement) {
+            titleElement.textContent = `Topic ${topicId}: ${topicTitle}`;
+        }
+        
+        console.log(`🎨 2D UI updated for topic: ${topicTitle}`);
+    }
+    
+    /**
+     * Set global topic
+     */
+    setGlobalTopic(topicId) {
+        if (typeof setCurrentTopic === 'function') {
+            setCurrentTopic(`topic_${topicId}`);
+        }
+        
+        if (typeof window !== 'undefined') {
+            window.currentTopic = `topic_${topicId}`;
+        }
+        
+        this.currentTopic = topicId;
+        console.log(`📚 2D Topic set globally: ${topicId} (topic_${topicId})`);
+    }
+    
+    /**
+     * Get current topic
+     */
+    getCurrentTopic() {
+        return this.currentTopic;
+    }
+    
+    /**
+     * Start detection process
+     */
+    startDetection() {
+        console.log('🎬 2D Scene Manager: Starting poster detection');
+        
+        // Create 2D scene with MindAR detection
+        this.create2DScene();
+        
+        // Start MindAR for detection only
+        setTimeout(() => {
+            this.startMindARDetection();
+        }, 200);
+    }
+    
+    /**
+     * Start MindAR for detection only
+     */
+    startMindARDetection() {
+        const sceneEl = document.querySelector('#2d-scene');
+        if (sceneEl) {
+            const mindarSystem = sceneEl.systems['mindar-image-system'];
+            if (mindarSystem) {
+                try {
+                    console.log('📹 Starting MindAR detection (no AR camera)');
+                    mindarSystem.start();
+                } catch (error) {
+                    console.warn('⚠️ MindAR detection start failed:', error.message);
+                }
+            } else {
+                console.warn('⚠️ MindAR system not found for detection');
+            }
+        }
+    }
+    
+    /**
+     * Stop detection
+     */
+    stopDetection() {
+        console.log('⏹️ 2D Scene Manager: Stopping detection');
+        const sceneEl = document.querySelector('#2d-scene');
+        if (sceneEl) {
+            const mindarSystem = sceneEl.systems['mindar-image-system'];
+            if (mindarSystem) {
+                try {
+                    mindarSystem.stop();
+                } catch (error) {
+                    console.warn('⚠️ Error stopping MindAR detection:', error);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Check if system is ready
+     */
+    isReady() {
+        return this.isInitialized;
+    }
+    
+    /**
+     * Reset for new session
+     */
+    reset() {
+        this.currentTopic = null;
+        console.log('2D Scene Manager reset');
+    }
+}
+
+// Create global instance
+window.sceneManager2D = new SceneManager2D();
+
+console.log('2D Scene Manager loaded');

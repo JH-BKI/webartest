@@ -24,6 +24,7 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
  
      <script src="./core/js/arSceneManager.js?v=2.26"></script>
+     <script src="./core/js/sceneManager2D.js?v=2.27"></script>
      <script src="./core/js/timeline-controller.js?v=2.25"></script>
      
     <!-- Stylesheets -->
@@ -169,7 +170,14 @@
                 </div>
             </div>
                         
-            <p>Find and scan each of the 4 posters to unlock a different immersive experience.</p>
+            <!-- OLD AR TEXT (commented out for 2D mode) -->
+            <!-- <p>Find and scan each of the 4 posters to unlock a different immersive experience.</p> -->
+            <!-- <button class="btn btn-primary" onclick="startARScanning()"> -->
+            <!--     🚀 Let's Go! -->
+            <!-- </button> -->
+            
+            <!-- NEW 2D TEXT -->
+            <p>Find and detect each of the 4 posters to unlock a different immersive experience.</p>
             <button class="btn btn-primary" onclick="startARScanning()">
                 🚀 Let's Go!
             </button>
@@ -229,10 +237,17 @@
         </div>
 
         <div class="scanning-instruction card">                
+            <!-- OLD AR TEXT (commented out for 2D mode) -->
+            <!-- <p>Find a poster and point your camera at it!</p> -->
+            <!-- <span><span class="step-icon">1️⃣</span> Hold your device steady</span> -->
+            <!-- <span><span class="step-icon">2️⃣</span> Point at the characters in the poster</span> -->                    
+            <!-- <span><span class="step-icon">3️⃣</span> Wait for the scan to finish</span> -->
+            
+            <!-- NEW 2D TEXT -->
             <p>Find a poster and point your camera at it!</p>
             <span><span class="step-icon">1️⃣</span> Hold your device steady</span>
-            <span><span class="step-icon">2️⃣</span> Point at the characters in the poster</span>                    
-            <span><span class="step-icon">3️⃣</span> Wait for the scan to finish</span>
+            <span><span class="step-icon">2️⃣</span> Point at the poster to detect the topic</span>                    
+            <span><span class="step-icon">3️⃣</span> Wait for detection to complete</span>
             <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
         </div>
     </div>
@@ -250,10 +265,18 @@
         <div class="detection-success card">
             <!-- <div class="success-icon">✅</div> -->
             <div class="poster-info">
+                <!-- OLD AR TEXT (commented out for 2D mode) -->
+                <!-- <p id="detected-poster-desc">You found:</p> -->
+                <!-- <h3 id="detected-poster-title">Learning Poster Detected</h3> -->
+                <!-- <button class="btn btn-primary" id="start-ar-button" onclick="countdownTimer(5, startARExperience, this)"> -->
+                <!--     🚀 Start AR Experience -->
+                <!-- </button> -->
+                
+                <!-- NEW 2D TEXT -->
                 <p id="detected-poster-desc">You found:</p>
                 <h3 id="detected-poster-title">Learning Poster Detected</h3>
                 <button class="btn btn-primary" id="start-ar-button" onclick="countdownTimer(5, startARExperience, this)">
-                    🚀 Start
+                    🚀 Start Experience
                 </button>
                 <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
             </div>
@@ -593,37 +616,40 @@
             stateManager.changeState('menu');
         }
         
-        // Start AR scanning function
+        // Start AR scanning function (now uses 2D detection)
         function startARScanning() {
-            console.log('🎬 App: Starting AR scanning process...');
+            console.log('🎬 App: Starting 2D detection process...');
             
-            if (window.arSceneManager) {
-                console.log('🚀 App: Initializing AR Scene Manager...');
-                window.arSceneManager.initialize().then(() => {
-                    console.log('✅ App: AR Scene Manager ready - starting scanning');
-                    window.arSceneManager.startScanning();
+            if (window.sceneManager2D) {
+                console.log('🚀 App: Initializing 2D Scene Manager...');
+                window.sceneManager2D.initialize().then(() => {
+                    console.log('✅ App: 2D Scene Manager ready - starting detection');
+                    window.sceneManager2D.startDetection();
                     stateManager.changeState('scanning');
                 }).catch(error => {
-                    console.error('❌ App: Failed to initialize AR Scene Manager:', error);
+                    console.error('❌ App: Failed to initialize 2D Scene Manager:', error);
                 });
             } else {
-                console.error('❌ App: AR Scene Manager not available');
+                console.error('❌ App: 2D Scene Manager not available');
             }
         }
         
-        // Start AR experience function
+        // Start AR experience function (now uses 2D animation)
         function startARExperience() {
             // Use state manager to transition to animating state
             stateManager.changeState('animating');
             
-            // Start the AR animation
-            if (window.arSceneManager) {
-                window.arSceneManager.startARExperience();
+            // Start the 2D animation
+            if (window.sceneManager2D) {
+                const topicId = window.sceneManager2D.getCurrentTopic();
+                if (topicId) {
+                    window.sceneManager2D.start2DAnimation(topicId);
+                } else {
+                    console.error('❌ No topic detected for 2D animation');
+                }
             } else {
-                console.error('❌ AR Scene Manager not available');
+                console.error('❌ 2D Scene Manager not available');
             }
-            
-
         }
               
 
