@@ -284,6 +284,16 @@ const topicData = {
                     visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                  id: 's01-background', 
+                  src: './assets/topic_1/background.png',
+                  scale: '0.5 0.5 0.5',
+                  position: '0 0 -2',
+                  rotation: '0 0 0',
+                  visible: 'false',
+                  opacity: '1',
+                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 }
             ]
         }
@@ -581,6 +591,16 @@ const topicData = {
                     visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                  id: 's02-background', 
+                  src: './assets/topic_2/background.png',
+                  scale: '0.5 0.5 0.5',
+                  position: '0 0 -2',
+                  rotation: '0 0 0',
+                  visible: 'false',
+                  opacity: '1',
+                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 }
             ]
         }
@@ -636,7 +656,7 @@ const topicData = {
                     id: 's03-speech-lt', 
                     src: './assets/topic_3/s03-speech-left.png',
                     scale: '0.5 0.5 0.5',
-                    position: '-0.125 1 -1',
+                    position: '-0.125 1.25 -1',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -646,7 +666,7 @@ const topicData = {
                     id: 's03-speech-rt', 
                     src: './assets/topic_3/s03-speech-right.png',
                     scale: '0.5 0.5 0.5',
-                    position: '0.125 1 -1.01',
+                    position: '0.125 1.25 -1.01',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -657,7 +677,7 @@ const topicData = {
                     id: 's03s01-Riley', 
                     src: './assets/topic_3/s03-01-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.275 0 0',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -667,7 +687,7 @@ const topicData = {
                     id: 's03s01-Sam', 
                     src: './assets/topic_3/s03-01-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 0',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -688,7 +708,7 @@ const topicData = {
                     id: 's03s02-Sam', 
                     src: './assets/topic_3/s03-02-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 0',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -699,7 +719,7 @@ const topicData = {
                     id: 's03s03-Riley', 
                     src: './assets/topic_3/s03-03-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.275 0 0',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -709,7 +729,7 @@ const topicData = {
                     id: 's03s03-Sam', 
                     src: './assets/topic_3/s03-03-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 0',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -730,7 +750,7 @@ const topicData = {
                     id: 's03s04-Sam', 
                     src: './assets/topic_3/s03-04-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 0',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -741,7 +761,7 @@ const topicData = {
                     id: 's03s05-Riley', 
                     src: './assets/topic_3/s03-05-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.275 0 0',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -751,7 +771,7 @@ const topicData = {
                     id: 's03s05-Sam', 
                     src: './assets/topic_3/s03-05-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 0',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -762,7 +782,7 @@ const topicData = {
                     id: 's03s06-Riley', 
                     src: './assets/topic_3/s03-06-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.275 0 0',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -772,7 +792,7 @@ const topicData = {
                     id: 's03s06-Sam', 
                     src: './assets/topic_3/s03-06-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 0',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -818,7 +838,17 @@ const topicData = {
                     visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
-                }
+                },
+                { 
+                  id: 's03-background', 
+                  src: './assets/topic_3/background.png',
+                  scale: '0.5 0.5 0.5',
+                  position: '0 0 -2',
+                  rotation: '0 0 0',
+                  visible: 'false',
+                  opacity: '1',
+                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+              }
             ]
         }
     },
@@ -1066,6 +1096,16 @@ const topicData = {
                     visible: 'false',
                     opacity: '1',
                     material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
+                },
+                { 
+                  id: 's04-background', 
+                  src: './assets/topic_4/background.png',
+                  scale: '0.5 0.5 0.5',
+                  position: '0 0 -2',
+                  rotation: '0 0 0',
+                  visible: 'false',
+                  opacity: '1',
+                  material: 'transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal'
                 }
             ]
         }

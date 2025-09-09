@@ -81,6 +81,8 @@ window.createTimeline = function(timelineController) {
       // document.getElementById('s03-plant').setAttribute('visible', false);
       // document.getElementById('s03-divider').setAttribute('visible', false);
 
+      document.getElementById('s04-background').setAttribute('opacity', 0);
+      document.getElementById('s04-background').setAttribute('visible', false);   
 
       console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
     },
@@ -108,13 +110,23 @@ window.createTimeline = function(timelineController) {
       console.error(`Timeline Item ${itemNumber} Error: Setting left/right profile pictures failed -`, error);
     }
   })
+      .add({
+      targets: ['#s04-background'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 04)`);
+        document.getElementById('s04-background').setAttribute('visible', true);  
+      }
+    })
   .add({
     targets: ['#s04-loading'],
     opacity: [1, 0],
     duration: 1000,
     easing: 'linear',
     begin: () => {
-      console.log(`Timeline Item ${itemNumber++}: Fading inRiley and Sam (Scene 02)`);
+      console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 04)`);
       document.getElementById('s04-loading').setAttribute('visible', false);      
     },
     complete: () => {
@@ -169,7 +181,7 @@ window.createTimeline = function(timelineController) {
     }) 
     .add(addPause(0))
     .add({
-      targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.info'],
+      targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.info','#s04-background'],
       opacity: [1, 0],
       duration: 500,
       easing: 'linear',
@@ -186,6 +198,9 @@ window.createTimeline = function(timelineController) {
         document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
         document.getElementById('scenario-assets-topic-group-4').setAttribute('opacity', 0);
         document.getElementById('scenario-assets-topic-group-4').setAttribute('visible', false);   
+
+        document.getElementById('s04-background').setAttribute('opacity', 0);
+        document.getElementById('s04-background').setAttribute('visible', false);   
       }   
     });
 }

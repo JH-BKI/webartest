@@ -60,8 +60,7 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s03-desk').setAttribute('opacity', 0);
         document.getElementById('s03-printer').setAttribute('opacity', 0);
         document.getElementById('s03-plant').setAttribute('opacity', 0);
-
-        document.getElementById('s03-divider').setAttribute('visible', false);    
+        document.getElementById('s03-divider').setAttribute('opacity', 0);
         document.getElementById('s03-speech-lt').setAttribute('visible', false);
         document.getElementById('s03-speech-rt').setAttribute('visible', false);
         document.getElementById('s03s01-Riley').setAttribute('visible', false);
@@ -80,6 +79,10 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s03-printer').setAttribute('visible', false);
         document.getElementById('s03-plant').setAttribute('visible', false);
         document.getElementById('s03-divider').setAttribute('visible', false);
+        document.getElementById('s03-background').setAttribute('visible', false);    
+
+        document.getElementById('s03-background').setAttribute('opacity', 0);
+        document.getElementById('s03-background').setAttribute('visible', false);   
 
 
         console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
@@ -106,6 +109,16 @@ window.createTimeline = function(timelineController) {
       },
       error: (error) => {
         console.error(`Timeline Item ${itemNumber} Error: Setting left/right profile pictures failed -`, error);
+      }
+    })
+    .add({
+      targets: ['#s03-background'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading inRiley and Sam (Scene 02)`);
+        document.getElementById('s03-background').setAttribute('visible', true);  
       }
     })
     .add({
@@ -475,8 +488,8 @@ window.createTimeline = function(timelineController) {
     }) 
     .add(addPause(0))
     .add({
-      targets: ['#s03s05-Riley', '#s03s05-Sam','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right',
-                '#s03-speech-lt','#s03-speech-rt'],
+      targets: ['#s03s05-Riley', '#s03s05-Sam','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right','.scenario-ui-prompt-speech.info',
+                '#s03-speech-lt','#s03-speech-rt','#s03-background'],
       opacity: [1, 0],
       duration: 1000,
       easing: 'linear',                  
@@ -494,6 +507,9 @@ window.createTimeline = function(timelineController) {
         document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
         document.getElementById('scenario-assets-topic-group-3').setAttribute('opacity', 0);
         document.getElementById('scenario-assets-topic-group-3').setAttribute('visible', false);   
+
+        document.getElementById('s03-background').setAttribute('opacity', 0);
+        document.getElementById('s03-background').setAttribute('visible', false);   
       }   
     });
 }

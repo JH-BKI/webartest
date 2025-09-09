@@ -88,7 +88,8 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s01s08-random').setAttribute('visible', false);
         document.getElementById('s01-floor').setAttribute('visible', false);
 
-
+        document.getElementById('s01-background').setAttribute('opacity', 0);
+        document.getElementById('s01-background').setAttribute('visible', false);   
 
         console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
       },
@@ -131,6 +132,16 @@ window.createTimeline = function(timelineController) {
       },
       error: (error) => {
         console.error(`Timeline Item ${itemNumber} Error: Setting left/right profile pictures failed -`, error);
+      }
+    })    
+    .add({
+      targets: ['#s01-background'],
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'linear',
+      begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 01)`);
+        document.getElementById('s01-background').setAttribute('visible', true);  
       }
     })
     .add({
@@ -688,7 +699,7 @@ window.createTimeline = function(timelineController) {
     }) 
     .add(addPause(0))
     .add({
-      targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.info'],
+      targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.info','#s01-background'],
       opacity: [1, 0],
       duration: 1000,
       easing: 'linear',
@@ -704,6 +715,9 @@ window.createTimeline = function(timelineController) {
         document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
         document.getElementById('scenario-assets-topic-group-1').setAttribute('opacity', 0);
         document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', false);   
+
+        document.getElementById('s01-background').setAttribute('opacity', 0);
+        document.getElementById('s01-background').setAttribute('visible', false);   
       }   
     });
 }
