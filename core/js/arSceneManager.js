@@ -628,6 +628,22 @@ class ARSceneManager {
     stopScanning() {
         console.log('⏹️ AR Scene Manager: Stopping AR scanning');
         this.stopMindAR();
+
+        const sceneEl = document.querySelector("a-scene");
+        const ARsystem = sceneEl.systems["mindar-image-system"];
+        const gyroCam = document.querySelector("#gyroCam");
+        const mindarCam = document.querySelector("#mindarCam");
+
+    // Enable AR
+    // gyroCam.setAttribute("camera", "active", false);
+    // mindarCam.setAttribute("camera", "active", true);
+
+
+
+    mindarCam.setAttribute("camera", "active", false);
+    gyroCam.setAttribute("camera", "active", true);
+
+
         // Scene disposal removed - keeping scene alive
     }
     
@@ -1096,8 +1112,8 @@ class ARSceneManager {
                 <a-entity id="scenario-assets-topic-group-4" position="0 0 0"></a-entity>
 
             </a-entity>
-
-            <a-camera position="0 0 2" look-controls="enabled: true" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
+            <a-entity id="gyroCam" camera look-controls position="0 0 2"></a-entity>
+            <a-camera id="mindarCam" position="0 0 2" look-controls="enabled: true" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
         </a-scene>`;
 
         // Inject into the dedicated container instead of body
