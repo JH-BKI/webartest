@@ -1143,6 +1143,13 @@ class ARSceneManager {
 
 }
 
-// Create global instance
-window.arSceneManager = new ARSceneManager();
-console.log('AR Scene Manager loaded');
+// Create global instance (commented out for 2D mode)
+// window.arSceneManager = new ARSceneManager();
+// console.log('AR Scene Manager loaded');
+
+// Expose performance helpers globally (commented out for 2D mode)
+// window.batchUpdateElements = window.arSceneManager.batchUpdateElements.bind(window.arSceneManager);
+// window.setElementVisibility = window.arSceneManager.setElementVisibility.bind(window.arSceneManager);
+// window.getCachedElement = window.arSceneManager.getCachedElement.bind(window.arSceneManager);
+
+
