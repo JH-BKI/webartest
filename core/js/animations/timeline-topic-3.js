@@ -31,11 +31,11 @@ window.createTimeline = function(timelineController) {
       duration: 10, // Instant change
       easing: 'linear',
       complete: () => {
-        document.querySelector('.scenario-ui-prompt-button-area').display = "none";
+        document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
         document.querySelector('.scenario-ui-prompt-button-area').setAttribute('opacity', 0);
-        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
         document.querySelector('.scenario-ui-prompt-speech.left').setAttribute('opacity', 0);
-        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
         document.querySelector('.scenario-ui-prompt-speech.right').setAttribute('opacity', 0);
 
 
@@ -189,9 +189,9 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubbles (Scene 02)`);
       },
       complete: () => {
-        document.querySelector('.scenario-ui-prompt-button-area').display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
+        document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
 
         document.getElementById('s03-speech-lt').setAttribute('visible', false);
         document.getElementById('s03-speech-rt').setAttribute('visible', false);
@@ -257,8 +257,8 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s03s03-Sam').setAttribute('visible', false);
         document.getElementById('s03-speech-lt').setAttribute('visible', false);
         document.getElementById('s03-speech-rt').setAttribute('visible', false);
-        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
       }
     })    
   ///////////////////////////////////////////////////////////////////////////////////////////
@@ -348,8 +348,8 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s03s05-Sam').setAttribute('visible', false);
         document.getElementById('s03-speech-lt').setAttribute('visible', false);
         document.getElementById('s03-speech-rt').setAttribute('visible', false);
-        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
       }
     })    
     .add({
@@ -400,8 +400,8 @@ window.createTimeline = function(timelineController) {
       complete: () => {
         document.getElementById('s03-speech-lt').setAttribute('visible', false);
         document.getElementById('s03-speech-rt').setAttribute('visible', false);
-        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
       }
     });  
   ///////////////////////////////////////////////////////////////////////////////////////////
@@ -459,8 +459,8 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s03s05-Sam').setAttribute('visible', false);
         document.getElementById('s03-speech-lt').setAttribute('visible', false);
         document.getElementById('s03-speech-rt').setAttribute('visible', false);
-        document.querySelector('.scenario-ui-prompt-speech.left').display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.right').display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
       }   
     });
 }

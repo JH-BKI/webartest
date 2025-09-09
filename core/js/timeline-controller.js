@@ -224,16 +224,20 @@ AFRAME.registerComponent('timeline-controller', {
       }
     });
     
-    // Use the loaded topic-specific timeline
-    window.createTimeline({
-      timeline: this.timeline,
-      addPause: this.addPause.bind(this)
-    });
-    
-    // UPDATE STATE TRACKING
-    this.timelineCreated = true;
-    this.timelineState = 'running';
-    this.timelineRunning = true;
+    // Use the loaded topic-specific timeline with defensive programming
+    if (typeof window.createTimeline === 'function') {
+      window.createTimeline({
+        timeline: this.timeline,
+        addPause: this.addPause.bind(this)
+      });
+      
+      // UPDATE STATE TRACKING
+      this.timelineCreated = true;
+      this.timelineState = 'running';
+      this.timelineRunning = true;
+    } else {
+      console.error('createTimeline function not available - timeline not created');
+    }
   },
   
   handleKeyPress: function(event) {
@@ -360,6 +364,12 @@ AFRAME.registerComponent('timeline-controller', {
     if (this.countdownInterval) {
       clearInterval(this.countdownInterval);
       this.countdownInterval = null;
+    }
+    
+    // Clear any other potential timers
+    if (this.timelineTimeout) {
+      clearTimeout(this.timelineTimeout);
+      this.timelineTimeout = null;
     }
     
     // Remove old animation script elements to prevent multiple instances

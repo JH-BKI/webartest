@@ -327,6 +327,13 @@ class ARSceneManager {
         console.log(`🎯 handleTargetFound called with targetIndex: ${targetIndex}`);
         console.log(`🎯 Topic mapping:`, this.topicMapping);
         
+        // Clear any pending target loss timeout since we found the target
+        if (this.targetLossTimeout) {
+            clearTimeout(this.targetLossTimeout);
+            this.targetLossTimeout = null;
+            console.log('⏰ Target found - cancelled pending target loss timeout');
+        }
+        
         // Don't process target found events when in video state or other non-AR states
         const currentState = window.stateManager ? window.stateManager.currentState : null;
         if (['video', 'quiz', 'summary', 'menu'].includes(currentState)) {
@@ -424,8 +431,20 @@ class ARSceneManager {
             return;
         }
         
-        // Always go back to scanning when tracking is lost
-        window.stateManager.changeState('scanning');
+        // Add hysteresis to prevent rapid state switching
+        clearTimeout(this.targetLossTimeout);
+        this.targetLossTimeout = setTimeout(() => {
+            // Double-check we're still in a state that should respond to target loss
+            const currentState = window.stateManager ? window.stateManager.currentState : null;
+            if (!['animating', 'ar_ready'].includes(currentState)) {
+                console.log(`🚫 Target loss timeout cancelled - no longer in responsive state: ${currentState}`);
+                return;
+            }
+            
+            console.log(`⏰ Target loss confirmed after delay - transitioning to scanning`);
+            // Always go back to scanning when tracking is lost
+            window.stateManager.changeState('scanning');
+        }, 1000); // 1 second delay
         
         // Store current state and timeline status before pausing
         this.previousState = window.stateManager ? window.stateManager.currentState : null;
