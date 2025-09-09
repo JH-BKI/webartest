@@ -208,6 +208,22 @@ class StateManager {
                 },
                 onExit: () => {
                     console.log('Exiting video state');
+                    
+                    // Stop any playing video when exiting video state
+                    const videoIframe = document.querySelector('#video-section iframe');
+                    if (videoIframe) {
+                        console.log('🛑 VIDEO EXIT: Stopping video playback');
+                        try {
+                            // Clear the iframe src to stop video playback
+                            videoIframe.src = '';
+                            console.log('✅ Video iframe src cleared');
+                        } catch (error) {
+                            console.warn('⚠️ Error stopping video:', error);
+                        }
+                    } else {
+                        console.log('ℹ️ No video iframe found to stop');
+                    }
+                    
                     //document.getElementById('progress').classList.add('hidden');
                     document.getElementById('video-section').classList.add('hidden');
                 }

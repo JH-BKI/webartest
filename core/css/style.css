@@ -1419,7 +1419,7 @@ li {
 
 .celebration-message {
     font-size: 1.1rem;
-    line-height: 1.6;
+    line-height: 1.2;
     margin-bottom: var(--spacing-xl);
     animation: fadeIn 1s ease-out 0.6s both;
 }
@@ -1452,9 +1452,12 @@ li {
 
 .celebration-actions {
     display: flex;
-    gap: var(--spacing-md);
-    justify-content: center;
-    animation: slideInUp 1s ease-out 1.2s both;
+        gap: var(--spacing-md);
+        animation: slideInUp 1s ease-out 1.2s both;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-content: center;
+        align-items: center;
 }
 
 .celebration-btn {
@@ -1542,3 +1545,60 @@ li {
         max-width: 300px;
     }
 }
+
+/* Celebration Button in Menu */
+.celebration-button-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.celebration-button {
+    background: linear-gradient(135deg, #8B5CF6, #A855F7);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    animation: pulse-outwards 2s ease-in-out infinite;
+}
+
+@keyframes pulse-outwards {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+    50% {
+        transform: scale(1.025);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+}
+
+.celebration-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+    background: linear-gradient(135deg, #7C3AED, #9333EA);
+}
+
+.celebration-button:active {
+    transform: translateY(0);
+}
+
+.celebration-icon {
+    font-size: 3rem;
+}
+
+.celebration-text {
+    font-family: 'Inter', sans-serif;
+}
+

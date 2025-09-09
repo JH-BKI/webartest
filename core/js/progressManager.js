@@ -38,10 +38,8 @@ class ProgressManager {
             this.updateMenuUI();
             console.log(`Topic ${topicNumber} marked as completed. Total completed: ${this.completedTopics.size}/4`);
             
-            // Check for completion celebration
-            if (this.completedTopics.size === 4) {
-                this.triggerCompletionCelebration();
-            }
+            // Note: Celebration is now manually triggered via button in menu
+            // No automatic celebration trigger
         } else {
             console.error('Invalid topic number:', topicNumber);
         }
@@ -78,6 +76,14 @@ class ProgressManager {
      */
     getCompletionPercentage() {
         return Math.round((this.completedTopics.size / 4) * 100);
+    }
+
+    /**
+     * Get remaining topics count
+     * @returns {number}
+     */
+    getRemainingTopicsCount() {
+        return 4 - this.completedTopics.size;
     }
 
     /**
@@ -233,6 +239,19 @@ class ProgressManager {
             progressCounter.textContent = `${completionCount} of 4 completed`;
         }
 
+        // Update remaining topics count
+        const progressLeftElement = document.querySelector('#progress-left');
+        if (progressLeftElement) {
+            const remaining = this.getRemainingTopicsCount();
+            progressLeftElement.textContent = remaining;
+        }
+
+        // Update all progress-left elements in summary sections
+        document.querySelectorAll('#progress-left').forEach(element => {
+            const remaining = this.getRemainingTopicsCount();
+            element.textContent = remaining;
+        });
+
         // Update completed topics list
         const completedTopicsList = document.querySelector('#completed-topics-list');
         if (completedTopicsList) {
@@ -252,6 +271,17 @@ class ProgressManager {
         if (progressBar) {
             const percentage = this.getCompletionPercentage();
             progressBar.style.width = `${percentage}%`;
+        }
+
+        // Show/hide celebration button based on completion status
+        const celebrationButtonContainer = document.querySelector('#celebration-button-container');
+        if (celebrationButtonContainer) {
+            if (completionCount === 4) {
+                celebrationButtonContainer.style.display = 'block';
+                console.log('🎉 All topics completed - showing celebration button');
+            } else {
+                celebrationButtonContainer.style.display = 'none';
+            }
         }
 
         console.log('Menu UI updated with progress:', {

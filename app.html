@@ -121,6 +121,13 @@
                     <div class="progress-bar-container">
                         <div class="progress-bar" id="progress-bar"></div>
                     </div>
+                    <!-- Celebration button - only shown when all topics completed -->
+                    <div id="celebration-button-container" class="celebration-button-container" style="display: none;">
+                        <button id="celebration-button" class="celebration-button" onclick="triggerCelebration()">
+                            <span class="celebration-icon">🏆</span>
+                            <span class="celebration-text">Your Reward!</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="completed-topics" id="completed-topics-section" style="display: none;">
                     <h3>Completed Topics</h3>
@@ -156,11 +163,11 @@
                     these important topics.
                 </p>
                 <p class="celebration-message">
-                    As a reward for your efforts, you can now access an exclusive face filter.
+                    As a reward for your efforts, you can now access an exclusive camera filter.
                 </p>
             </div>
             
-            <div class="celebration-stats hidden">
+            <!-- <div class="celebration-stats hidden">
                 <div class="stat-card">
                     <div class="stat-number">4</div>
                     <div class="stat-label">Topics Completed</div>
@@ -169,7 +176,7 @@
                     <div class="stat-number">100%</div>
                     <div class="stat-label">Progress</div>
                 </div>
-            </div>
+            </div> -->
             
             <div class="celebration-actions">
                 <button class="btn btn-primary celebration-btn" onclick="shareAchievement()">
@@ -381,7 +388,7 @@
          * - Content loading functions
          */
         
-        let version = '2.97';
+        let version = '2.98';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -923,11 +930,14 @@
             });
         }
         
-        // Event listener for completion celebration
-        window.addEventListener('allTopicsCompleted', () => {
-            console.log('🎉 Celebration event received, transitioning to celebration state');
+        // Manual celebration trigger function
+        function triggerCelebration() {
+            console.log('🎉 Manual celebration triggered from menu button');
             stateManager.changeState('celebration');
-        });
+        }
+        
+        // Make function globally available
+        window.triggerCelebration = triggerCelebration;
         
         /**
          * End of Main Application Script
