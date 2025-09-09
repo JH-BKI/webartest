@@ -31,7 +31,16 @@ window.createTimeline = function(timelineController) {
       duration: 10, // Instant change
       easing: 'linear',
       complete: () => {
-        
+        document.getElementById('scenario-assets-topic-group-1').setAttribute('opacity', 0);
+        document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', false);   
+
+        document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-button-area').setAttribute('opacity', 0);
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.left').setAttribute('opacity', 0);
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').setAttribute('opacity', 0);
+
         
         document.getElementById('s01-speech-lt').setAttribute('opacity', 0);
         document.getElementById('s01-speech-rt').setAttribute('opacity', 0);
@@ -55,6 +64,31 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s01s08-profile').setAttribute('opacity', 0);
         document.getElementById('s01s08-random').setAttribute('opacity', 0);
         document.getElementById('s01-floor').setAttribute('opacity', 0);
+
+        document.getElementById('s01-speech-lt').setAttribute('visible', false);
+        document.getElementById('s01-speech-rt').setAttribute('visible', false);
+        document.getElementById('s01s01-Alex').setAttribute('visible', false);
+        document.getElementById('s01s01-Mia').setAttribute('visible', false);
+        document.getElementById('s01s02-Alex').setAttribute('visible', false);
+        document.getElementById('s01s02-Mia').setAttribute('visible', false);
+        document.getElementById('s01s03-Alex').setAttribute('visible', false);    
+        document.getElementById('s01s03-Mia').setAttribute('visible', false);
+        document.getElementById('s01s04-post').setAttribute('visible', false);
+        document.getElementById('s01s04-heart').setAttribute('visible', false);
+        document.getElementById('s01s04-like').setAttribute('visible', false);
+        document.getElementById('s01s04-share').setAttribute('visible', false);
+        document.getElementById('s01s04-smile').setAttribute('visible', false);
+        document.getElementById('s01s05-Alex').setAttribute('visible', false);
+        document.getElementById('s01s05-Mia').setAttribute('visible', false);
+        document.getElementById('s01s06-Alex').setAttribute('visible', false);  
+        document.getElementById('s01s06-Mia').setAttribute('visible', false);
+        document.getElementById('s01s07-Alex').setAttribute('visible', false);
+        document.getElementById('s01s07-Mia').setAttribute('visible', false);
+        document.getElementById('s01s08-profile').setAttribute('visible', false);
+        document.getElementById('s01s08-random').setAttribute('visible', false);
+        document.getElementById('s01-floor').setAttribute('visible', false);
+
+
 
         console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
       },
@@ -107,6 +141,10 @@ window.createTimeline = function(timelineController) {
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading in Mia and Alex (Scene 02)`);
         document.getElementById('s01-loading').setAttribute('visible', false);
+      },
+      complete: () => {
+        document.getElementById('scenario-assets-topic-group-1').setAttribute('opacity', 1);
+        document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', true);  
       }
     })
     .add({
@@ -658,16 +696,14 @@ window.createTimeline = function(timelineController) {
         console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubble (Scene 08)`);
       },
       complete: () => {
-        const buttonArea = document.querySelector('.scenario-ui-prompt-button-area');
-        const speechLeft = document.querySelector('.scenario-ui-prompt-speech.left');
-        const speechInfo = document.querySelector('.scenario-ui-prompt-speech.info');
-        
-        if (buttonArea) buttonArea.style.display = "none";
-        if (speechLeft) speechLeft.style.display = "none";
-        if (speechInfo) speechInfo.style.display = "none";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading out button area and speech bubble (Scene 08) failed -`, error);
-      }
+        document.getElementById('s01-speech-lt').setAttribute('visible', false);
+        document.getElementById('s01-speech-rt').setAttribute('visible', false);
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.info').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
+        document.getElementById('scenario-assets-topic-group-1').setAttribute('opacity', 0);
+        document.getElementById('scenario-assets-topic-group-1').setAttribute('visible', false);   
+      }   
     });
 }

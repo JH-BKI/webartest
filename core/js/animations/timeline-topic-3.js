@@ -101,6 +101,7 @@ window.createTimeline = function(timelineController) {
         document.querySelector('#scenario .scenario-ui-prompt-speech.left img').setAttribute('src', getTopicLeftProfileImage(3));
         document.querySelector('#scenario .scenario-ui-prompt-speech.right img').setAttribute('src', getTopicRightProfileImage(3));
         
+ 
         console.log(`Timeline Item ${itemNumber++}: Setting left/right profile pictures`);
       },
       error: (error) => {
@@ -114,7 +115,11 @@ window.createTimeline = function(timelineController) {
       easing: 'linear',
       begin: () => {
         console.log(`Timeline Item ${itemNumber++}: Fading inRiley and Sam (Scene 02)`);
-        document.getElementById('s03-loading').setAttribute('visible', false);
+        document.getElementById('s03-loading').setAttribute('visible', false);      
+      },
+      complete: () => {
+        document.getElementById('scenario-assets-topic-group-3').setAttribute('opacity', 1);
+        document.getElementById('scenario-assets-topic-group-3').setAttribute('visible', true);  
       }
     })
     .add({
@@ -485,6 +490,8 @@ window.createTimeline = function(timelineController) {
         document.getElementById('s03-speech-rt').setAttribute('visible', false);
         document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
         document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.info').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
         document.getElementById('scenario-assets-topic-group-3').setAttribute('opacity', 0);
         document.getElementById('scenario-assets-topic-group-3').setAttribute('visible', false);   
       }   

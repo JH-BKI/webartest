@@ -174,21 +174,21 @@ AFRAME.registerComponent('timeline-controller', {
     // NEW LOGIC: Check existing timeline state
     if (this.timelineCreated && this.timeline) {
       if (this.timelineState === 'paused') {
-        console.log(`Resuming existing paused timeline for topic ${this.currentTopic}`);
+        console.log(`Resuming existing paused timeline for topic ${this.currentTopic + 1} (0-based: ${this.currentTopic})`);
         this.timeline.play();
         this.timelineState = 'running';
         this.timelineRunning = true;
         return;
       } else if (this.timelineState === 'running') {
-        console.log(`Timeline already running for topic ${this.currentTopic}`);
+        console.log(`Timeline already running for topic ${this.currentTopic + 1} (0-based: ${this.currentTopic})`);
         return;
       } else if (this.timelineState === 'completed') {
-        console.log(`Timeline completed for topic ${this.currentTopic} - doing nothing`);
+        console.log(`Timeline completed for topic ${this.currentTopic + 1} (0-based: ${this.currentTopic}) - doing nothing`);
         return;
       }
     }
     
-    console.log(`Starting anime.js timeline for topic ${this.currentTopic}...`);
+    console.log(`Starting anime.js timeline for topic ${this.currentTopic + 1} (0-based: ${this.currentTopic})...`);
     
     // Create the main timeline
     this.timeline = anime.timeline({

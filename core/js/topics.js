@@ -46,9 +46,8 @@ const topicData = {
                 <p><strong>Always be careful about what you say and share online.</strong></p>
             </div>
             
-            <p>Well done! You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+            <p>Well done!</p>
             <p><i>Topic 1: Protecting Yourself Online</i> is complete.</p>
-            <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
         `,
         targetImage: './assets/topic_1/s01-image-marker.png',
         leftProfileImage: './assets/topic_1/leftProfileImage.png',
@@ -333,9 +332,8 @@ const topicData = {
                 <p>You are special, loved and amazing!</strong></p>
             </div>
             
-            <p>Well done! You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+            <p>Well done!</p>
             <p><i>Topic 2: Navigating Difficult Situations</i> is complete.</p>
-            <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
         `,
         targetImage: './assets/topic_2/s02-image-marker.png',
         leftProfileImage: './assets/topic_2/leftProfileImage.png',
@@ -622,11 +620,9 @@ const topicData = {
 
         <div class="highlight-message light-card">
             <p><strong>There are many characteristics of a respectful, healthy relationship. No matter whether you are online or offline, relationships should be always be respectful.</strong></p>
-        </div>
-        
-        <p>Well done! You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+        </div>        
+        <p>Well done!</p>
         <p><i>Topic 3: Respectful Relationships Online</i> is complete.</p>
-        <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
     `,
     targetImage: './assets/topic_3/s03-image-marker.png',
     leftProfileImage: './assets/topic_3/leftProfileImage.png',
@@ -640,7 +636,7 @@ const topicData = {
                     id: 's03-speech-lt', 
                     src: './assets/topic_3/s03-speech-left.png',
                     scale: '0.5 0.5 0.5',
-                    position: '-0.125 1.125 -1',
+                    position: '-0.125 1 -1',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -650,7 +646,7 @@ const topicData = {
                     id: 's03-speech-rt', 
                     src: './assets/topic_3/s03-speech-right.png',
                     scale: '0.5 0.5 0.5',
-                    position: '0.125 1.125 -1.05',
+                    position: '0.125 1 -1.01',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -661,7 +657,7 @@ const topicData = {
                     id: 's03s01-Riley', 
                     src: './assets/topic_3/s03-01-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-1.25 0 -1',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -671,7 +667,7 @@ const topicData = {
                     id: 's03s01-Sam', 
                     src: './assets/topic_3/s03-01-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.375 0 -1.05',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -682,7 +678,7 @@ const topicData = {
                     id: 's03s02-Riley', 
                     src: './assets/topic_3/s03-02-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 -1',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -692,7 +688,7 @@ const topicData = {
                     id: 's03s02-Sam', 
                     src: './assets/topic_3/s03-02-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.375 0 -1.05',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -703,7 +699,7 @@ const topicData = {
                     id: 's03s03-Riley', 
                     src: './assets/topic_3/s03-03-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 -1',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -713,7 +709,7 @@ const topicData = {
                     id: 's03s03-Sam', 
                     src: './assets/topic_3/s03-03-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.375 0 -1.05',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -724,7 +720,7 @@ const topicData = {
                     id: 's03s04-Riley', 
                     src: './assets/topic_3/s03-04-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 -1',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -734,7 +730,7 @@ const topicData = {
                     id: 's03s04-Sam', 
                     src: './assets/topic_3/s03-04-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.375 0 -1.05',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -745,7 +741,7 @@ const topicData = {
                     id: 's03s05-Riley', 
                     src: './assets/topic_3/s03-05-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 -1',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -755,7 +751,7 @@ const topicData = {
                     id: 's03s05-Sam', 
                     src: './assets/topic_3/s03-05-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.375 0 -1.05',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -766,7 +762,7 @@ const topicData = {
                     id: 's03s06-Riley', 
                     src: './assets/topic_3/s03-06-riley.png',
                     scale: '1.5 1.5 1.5',
-                    position: '-0.275 0 -1',
+                    position: '0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -776,7 +772,7 @@ const topicData = {
                     id: 's03s06-Sam', 
                     src: './assets/topic_3/s03-06-sam.png',
                     scale: '1.5 1.5 1.5',
-                    position: '0.375 0 -1.05',
+                    position: '-0.275 0 0',
                     rotation: '0 0 0',
                     visible: 'false',
                     opacity: '1',
@@ -862,9 +858,8 @@ const topicData = {
             <p><strong>It’s important to call in other support - talk to a trusted adult like a parent, teacher or older sibling so they can help you work out what to do.</strong></p>
         </div>
         
-        <p>Well done! You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+        <p>Well done!</p>
         <p><i>Topic 4: Seeking Help and Support</i> is complete.</p>
-        <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
     `,
     targetImage: './assets/topic_4/s04-image-marker.png',
     leftProfileImage: './assets/topic_4/leftProfileImage.png',

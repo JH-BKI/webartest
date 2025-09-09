@@ -328,8 +328,11 @@
                 <!-- Summary will be loaded here -->
             </div>
             <div>
+                <p>You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+                <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
+                <BR><BR>
                 <button class="btn btn-primary" onclick="goHome()">Continue</button>
-                <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button>
+                <!-- <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button> -->
             </div>
         </div>
     </div>
@@ -388,7 +391,7 @@
          * - Content loading functions
          */
         
-        let version = '2.99';
+        let version = '3.00';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
