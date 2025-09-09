@@ -1097,7 +1097,7 @@ class ARSceneManager {
 
             </a-entity>
 
-            <a-camera position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
+            <a-camera position="0 0 2" look-controls="enabled: true" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
         </a-scene>`;
 
         // Inject into the dedicated container instead of body
