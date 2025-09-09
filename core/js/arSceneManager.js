@@ -81,7 +81,7 @@ class ARSceneManager {
             return false;
         }
         
-        this.disposeScene();
+        // Scene disposal removed - keeping scene alive
         
         // Check cache first
         const cachedAssets = this.assetCache.get(topicId);
@@ -471,8 +471,9 @@ class ARSceneManager {
     }
     
     disposeScene() {
-        // Always clean up MindAR elements, regardless of currentScene state
-        console.log('🧹 AR Scene Manager: Cleaning up MindAR elements...');
+        // DISABLED: Scene disposal removed to keep scene alive
+        console.log('🧹 AR Scene Manager: Scene disposal disabled - keeping scene alive');
+        return; // Early return to prevent disposal
         
         // Stop MindAR first to ensure clean state
         try {
@@ -533,8 +534,7 @@ class ARSceneManager {
     startScanning() {
         console.log('🎬 AR Scene Manager: Starting AR scanning');
         
-        // Ensure clean slate - dispose any existing scene first
-        this.disposeScene();
+        // Scene disposal removed - keeping scene alive
         
         // Reset state tracking variables for new scanning session
         this.previousState = null;
@@ -543,7 +543,7 @@ class ARSceneManager {
         
         console.log('🔄 AR Scene Manager: State tracking variables reset for new session');
         
-        this.injectARScene();
+        // Scene injection removed - scene stays alive
         
         // Start MindAR camera after scene is created
         setTimeout(() => {
@@ -576,7 +576,7 @@ class ARSceneManager {
     stopScanning() {
         console.log('⏹️ AR Scene Manager: Stopping AR scanning');
         this.stopMindAR();
-        this.disposeScene();
+        // Scene disposal removed - keeping scene alive
     }
     
     createSceneForTopic(topicId) {
@@ -658,7 +658,7 @@ class ARSceneManager {
     reset() {
         this.currentTopic = null;
         this.stopTipsRotation();
-        this.disposeScene();
+        // Scene disposal removed - keeping scene alive
         console.log('AR Scene Manager reset');
     }
     
@@ -750,6 +750,7 @@ class ARSceneManager {
     startMindAR() {
         // Clean up any lingering video elements before starting MindAR
         const existingVideos = document.querySelectorAll('video');
+        console.log(`📊 VIDEO COUNT: Found ${existingVideos.length} video elements before starting MindAR`);
         if (existingVideos.length > 0) {
             console.log(`🧹 AR Scene Manager: Cleaning up ${existingVideos.length} existing video elements before starting MindAR`);
             existingVideos.forEach(video => {
@@ -954,8 +955,22 @@ class ARSceneManager {
 
 
     injectARScene() {
-        // Clean up any previous AR scene before injecting new one
-        this.disposeScene();
+        // Check if scene already exists to prevent recreation
+        const existingScene = document.getElementById('AR-scene');
+        if (existingScene) {
+            console.log('🧹 AR Scene Manager: Scene already exists, keeping alive');
+            console.log('🧹 Scene reuse count:', (window.sceneReuseCount = (window.sceneReuseCount || 0) + 1));
+            // Just show the container if it's hidden
+            const container = document.getElementById('ar-scene-container');
+            if (container) {
+                container.classList.remove('hidden');
+                console.log('AR scene container shown');
+            }
+            return;
+        }
+        
+        console.log('🧹 AR Scene Manager: Creating AR scene for first time');
+        console.log('🧹 Scene creation count:', (window.sceneCreationCount = (window.sceneCreationCount || 0) + 1));
         
         // Show the AR scene container
         const container = document.getElementById('ar-scene-container');
@@ -1046,6 +1061,33 @@ class ARSceneManager {
         this.setupMindARListeners();
 
         const sceneEl = document.querySelector('a-scene');
+    }
+
+    // Phase 1: Clean camera on/off methods
+    enableCamera() {
+        console.log('📹 AR Scene Manager: Enabling camera');
+        const result = this.startMindAR();
+        console.log('📹 Camera enable result:', result);
+        return result;
+    }
+    
+    disableCamera() {
+        console.log('📹 AR Scene Manager: Disabling camera');
+        const result = this.stopMindAR();
+        console.log('📹 Camera disable result:', result);
+        return result;
+    }
+    
+    isCameraEnabled() {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const mindarSystem = sceneEl.systems['mindar-image-system'];
+            const isEnabled = mindarSystem && mindarSystem.isTracking;
+            console.log('📹 Camera enabled check:', isEnabled);
+            return isEnabled;
+        }
+        console.log('📹 Camera enabled check: false (no scene)');
+        return false;
     }
 
 }

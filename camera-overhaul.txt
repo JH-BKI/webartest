@@ -1,0 +1,205 @@
+# Camera Overhaul Plan
+## Simplifying AR Scene Management
+
+---
+
+## **Current Architecture Analysis**
+
+### **What We Currently Do (Over-Complex)**
+- **Full Scene Disposal** - `disposeScene()` destroys everything
+- **Full Scene Recreation** - `injectARScene()` rebuilds everything  
+- **MindAR Stop/Start** - Stops and restarts MindAR system
+- **Asset Reloading** - Loads topic assets every time
+- **Timeline Reset** - Resets timeline controller every time
+
+### **What We Should Do (Simple)**
+- **Keep Scene Alive** - Never dispose the AR scene
+- **Camera On/Off Only** - Just toggle MindAR camera
+- **Keep Assets Loaded** - Never reload them
+- **Keep Timeline Ready** - Never reset it
+
+---
+
+## **Detailed Implementation Plan**
+
+### **Phase 1: Identify What to Keep Alive**
+
+#### **AR Scene Container:**
+- Keep `#ar-scene-container` alive
+- Keep `a-scene` element alive
+- Keep all topic assets loaded
+
+#### **Timeline Controller:**
+- Keep timeline controller initialized
+- Keep animation files loaded
+- Keep timeline state intact
+
+#### **MindAR System:**
+- Keep MindAR system initialized
+- Only toggle camera on/off
+- Never call `disposeScene()`
+
+### **Phase 2: New State Management**
+
+#### **Current States & Camera Requirements:**
+- `menu` → Camera OFF
+- `scanning` → Camera ON
+- `ar_ready` → Camera ON  
+- `animating` → Camera ON
+- `video` → Camera OFF
+- `quiz` → Camera OFF
+- `summary` → Camera OFF
+
+#### **New Methods Needed:**
+- `enableCamera()` - Turn on MindAR camera
+- `disableCamera()` - Turn off MindAR camera
+- `isCameraEnabled()` - Check camera state
+
+### **Phase 3: Remove Disposal Logic**
+
+#### **Remove These Calls:**
+- `disposeScene()` from all state transitions
+- `injectARScene()` from scanning start
+- Full scene recreation logic
+
+#### **Keep These:**
+- `stopMindAR()` → `disableCamera()`
+- `startMindAR()` → `enableCamera()`
+- Asset loading (but only once)
+
+### **Phase 4: Modify State Transitions**
+
+#### **Menu State:**
+- Remove: `disposeScene()`
+- Add: `disableCamera()`
+
+#### **Scanning State:**
+- Remove: `injectARScene()`, `disposeScene()`
+- Add: `enableCamera()`
+
+#### **AR Ready State:**
+- Remove: `disposeScene()`
+- Keep: Camera ON
+
+#### **Animating State:**
+- Remove: `disposeScene()`
+- Keep: Camera ON
+
+#### **Video State:**
+- Remove: `disposeScene()`
+- Add: `disableCamera()`
+
+#### **Quiz/Summary States:**
+- Remove: `disposeScene()`
+- Add: `disableCamera()`
+
+### **Phase 5: One-Time Initialization**
+
+#### **App Startup:**
+- Create AR scene once
+- Load all topic assets once
+- Initialize timeline controller once
+- Set up MindAR system once
+- Keep everything ready but camera OFF
+
+#### **Topic Detection:**
+- Keep existing target detection logic
+- Just switch camera on/off as needed
+- No scene recreation
+
+### **Phase 6: Error Handling Simplification**
+
+#### **Remove:**
+- Complex disposal error handling
+- Scene recreation error handling
+- Asset reloading error handling
+
+#### **Keep:**
+- Simple camera on/off error handling
+- Basic MindAR error handling
+
+---
+
+## **Risk Assessment**
+
+### **Low Risk Changes:**
+- Adding `enableCamera()`/`disableCamera()` methods
+- Modifying state transition logic
+- Removing disposal calls
+
+### **Medium Risk Changes:**
+- One-time scene initialization
+- Keeping assets loaded permanently
+- Timeline controller persistence
+
+### **High Risk Areas:**
+- MindAR system state management
+- Video element cleanup
+- Memory usage with loaded assets
+
+---
+
+## **Testing Strategy**
+
+### **Phase 1 Testing:**
+- Test camera on/off functionality
+- Verify no disposal errors
+- Check state transitions work
+
+### **Phase 2 Testing:**
+- Test multiple topic runs
+- Verify assets stay loaded
+- Check memory usage
+
+### **Phase 3 Testing:**
+- Test full user journey
+- Verify no freezing/crashing
+- Check performance
+
+---
+
+## **Rollback Plan**
+
+If issues arise:
+1. **Immediate**: Revert to current disposal approach
+2. **Partial**: Keep disposal but add camera toggling
+3. **Hybrid**: Disposal for major state changes, camera toggle for minor ones
+
+---
+
+## **Questions Before We Start**
+
+1. **Should we keep all topic assets loaded** or just the current topic?
+2. **Should we initialize everything at app startup** or on first AR use?
+3. **How do we handle topic switching** without disposal?
+4. **What about memory usage** with everything loaded?
+
+---
+
+## **Implementation Status**
+
+- [x] Phase 1: Camera on/off methods
+- [x] Phase 2: State management updates
+- [x] Phase 3: Remove disposal logic
+- [x] Phase 4: Modify state transitions
+- [ ] Phase 5: One-time initialization
+- [ ] Phase 6: Error handling simplification
+- [x] Testing and validation (basic)
+- [ ] Final cleanup and optimization
+
+## **Completed Changes**
+
+### **Phase 2-4: Disposal Logic Removal**
+- ✅ Removed `disposeScene()` calls from all state transitions in `stateManager.js`
+- ✅ Modified `disposeScene()` method to hide container instead of disposing
+- ✅ Modified `injectARScene()` method to create scene once, then keep alive
+- ✅ Removed `injectARScene()` call from scanning state
+- ✅ Kept existing `stopMindAR()`/`startMindAR()` calls for camera control
+- ✅ No linting errors introduced
+
+### **Current State**
+- AR scene will be created once on first use, then kept alive
+- Scene container will be shown/hidden instead of disposed/recreated
+- Camera will be turned on/off via existing MindAR methods
+- Scene disposal and recreation completely disabled
+- Ready for testing basic state transitions

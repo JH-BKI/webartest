@@ -57,11 +57,11 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering menu state');
                     
-                    // Stop AR scene and timeline when returning to menu
+                    // Stop AR camera when returning to menu
                     if (window.arSceneManager) {
-                        console.log('🛑 Stopping AR scene and timeline when returning to menu');
-                        window.arSceneManager.stopMindAR();
-                        window.arSceneManager.disposeScene();
+                        console.log('🛑 MENU STATE: Disabling camera');
+                        window.arSceneManager.disableCamera();
+                        console.log('🛑 MENU STATE: Camera disabled');
                     }
 
                     this.hideAllSections();
@@ -91,10 +91,12 @@ class StateManager {
                         scanningSection.classList.remove('hidden');
                     }
                     
-                    // Start MindAR camera and resume AR scene when entering scanning state
+                    // Create AR scene and start MindAR camera when entering scanning state
                     if (window.arSceneManager) {
-                        window.arSceneManager.startMindAR();
-                        window.arSceneManager.resumeScene();
+                        console.log('🔄 SCANNING STATE: Creating scene and enabling camera');
+                        window.arSceneManager.injectARScene();
+                        window.arSceneManager.enableCamera();
+                        console.log('🔄 SCANNING STATE: Scene and camera setup complete');
                     }
                 },
                 onExit: () => {
@@ -111,10 +113,7 @@ class StateManager {
                         arReadySection.classList.remove('hidden');
                     }
                     
-                    // Keep MindAR camera running and resume AR scene when entering ar_ready state
-                    if (window.arSceneManager) {
-                        window.arSceneManager.resumeScene();
-                    }
+                    // AR scene already running from scanning state
                     
                     // Auto-trigger countdown for start button
                     const startButton = document.getElementById('start-ar-button');
@@ -146,10 +145,7 @@ class StateManager {
                         animatingSection.classList.remove('hidden');
                     }
                     
-                    // Keep MindAR camera running and resume AR scene when entering animating state
-                    if (window.arSceneManager) {
-                        window.arSceneManager.resumeScene();
-                    }
+                    // AR scene already running from previous state
                 },
                 onExit: () => {
                     console.log('Exiting animating state');
@@ -164,18 +160,14 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering video state');
 
-                    // Stop AR scene and timeline when entering video state
+                    // Stop AR camera when entering video state
                     if (window.arSceneManager) {
-                        console.log('🛑 Stopping AR scene and timeline when entering video state');
+                        console.log('🛑 VIDEO STATE: Disabling camera');
                         try {
-                            window.arSceneManager.stopMindAR();
+                            window.arSceneManager.disableCamera();
+                            console.log('🛑 VIDEO STATE: Camera disabled');
                         } catch (error) {
                             console.warn('⚠️ Error stopping MindAR:', error);
-                        }
-                        try {
-                            window.arSceneManager.disposeScene();
-                        } catch (error) {
-                            console.warn('⚠️ Error disposing scene:', error);
                         }
                     }
 
@@ -196,10 +188,7 @@ class StateManager {
                         console.error('❌ Video section not found!');
                     }
                     
-                    // Ensure MindAR camera is stopped for fullscreen video
-                    if (window.arSceneManager) {
-                        window.arSceneManager.stopMindAR();
-                    }
+                    // Camera already stopped above
                     
                 },
                 onExit: () => {
@@ -215,10 +204,9 @@ class StateManager {
                     //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('quiz-section').classList.remove('hidden');
                     
-                    // Stop MindAR camera and pause AR scene when showing fullscreen quiz
+                    // Stop MindAR camera when showing fullscreen quiz
                     if (window.arSceneManager) {
-                        window.arSceneManager.stopMindAR();
-                        window.arSceneManager.pauseScene();
+                        window.arSceneManager.disableCamera();
                     }
                     
                     // Stop the timeline completely when transitioning to quiz
@@ -239,10 +227,9 @@ class StateManager {
                     //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('summary-section').classList.remove('hidden');
                     
-                    // Stop MindAR camera and pause AR scene when showing fullscreen summary
+                    // Stop MindAR camera when showing fullscreen summary
                     if (window.arSceneManager) {
-                        window.arSceneManager.stopMindAR();
-                        window.arSceneManager.pauseScene();
+                        window.arSceneManager.disableCamera();
                     }
                     
                     // Stop the timeline completely when transitioning to summary
@@ -434,8 +421,8 @@ function testARSceneControl() {
             console.log('▶️ Resuming AR scene...');
             window.arSceneManager.resumeScene();
         } else {
-            console.log('⏸️ Pausing AR scene...');
-            window.arSceneManager.pauseScene();
+            console.log('⏸️ Disabling camera...');
+            window.arSceneManager.disableCamera();
         }
     } else {
         console.error('❌ AR Scene Manager not available');
