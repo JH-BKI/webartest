@@ -1119,7 +1119,7 @@ li {
 }
 
 .answer {
-    background: var(--ncpw-alt-blue-dk-half); */
+    /*background: var(--ncpw-alt-blue-dk-half); */
     padding: var(--spacing-md);
     margin: var(--spacing-md) 0;
     border: 1px solid var(--ncpw-blue);
