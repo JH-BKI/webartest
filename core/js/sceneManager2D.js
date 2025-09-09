@@ -72,7 +72,7 @@ class SceneManager2D {
                 <!-- OLD AR Camera -->
                 <!-- <a-camera position="0 0 5" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera> -->
                 <!-- MindAR Camera for detection (shows camera feed) -->
-                <a-camera mindar-camera="cameraParam: auto; maxTrack: 4;" position="0 0 0" look-controls="enabled: false"></a-camera>
+                <a-camera mindar-camera="cameraParam: auto; maxTrack: 4;" position="0 0 0" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
                 
                 <!-- Lighting for 2D content -->
                 <a-light type="ambient" color="#404040" intensity="0.8"></a-light>
@@ -81,15 +81,31 @@ class SceneManager2D {
                 <!-- Topic containers for detection only -->
                 <a-entity id="detection-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0" visible="false">
                     <!-- Topic 1 detection marker -->
+                        <a-entity id="s01-loading" position="0 0 0">    
+                            <a-image id="s01-loading-panel" src="./assets/topic_1/s01-image-marker.png" scale="1 1 1" position="0 0 0.25" rotation="0 0 0" 
+                                material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                        </a-entity>
                 </a-entity>
                 <a-entity id="detection-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1" visible="false">
                     <!-- Topic 2 detection marker -->
+                    <a-entity id="s02-loading" position="0 0 0">    
+                            <a-image id="s02-loading-panel" src="./assets/topic_2/s02-image-marker.png" scale="1 1 1" position="0 0 0.25" rotation="0 0 0" 
+                                material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                        </a-entity>
                 </a-entity>
                 <a-entity id="detection-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2" visible="false">
                     <!-- Topic 3 detection marker -->
+                        <a-entity id="s03-loading" position="0 0 0">    
+                            <a-image id="s03-loading-panel" src="./assets/topic_3/s03-image-marker.png" scale="1 1 1" position="0 0 0.25" rotation="0 0 0" 
+                                material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                        </a-entity>
                 </a-entity>
                 <a-entity id="detection-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3" visible="false">
                     <!-- Topic 4 detection marker -->
+                        <a-entity id="s04-loading" position="0 0 0">    
+                            <a-image id="s04-loading-panel" src="./assets/topic_4/s04-image-marker.png" scale="1 1 1" position="0 0 0.25" rotation="0 0 0" 
+                                material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                        </a-entity>
                 </a-entity>
                 
                 <!-- 2D Content Container - where animations will be displayed -->
@@ -288,7 +304,7 @@ class SceneManager2D {
                 // Wait for timeline controller to initialize
                 setTimeout(() => {
                     this.setTimelineTopic(topicId);
-                }, 100);
+                }, 500);
             };
             script.onerror = () => {
                 console.error(`Failed to load 2D animation file for topic ${topicId}`);
@@ -313,7 +329,10 @@ class SceneManager2D {
                 console.log(`2D Timeline controller: Setting topic ${topicId} (0-based: ${zeroBasedTopicId})`);
                 timelineController.setTopic(zeroBasedTopicId);
             } else {
-                console.log(`2D setTimelineTopic: Timeline controller not found on scene`);
+                console.log(`2D setTimelineTopic: Timeline controller not found, retrying in 200ms...`);
+                setTimeout(() => {
+                    this.setTimelineTopic(topicId);
+                }, 200);
             }
         } else {
             console.log(`2D setTimelineTopic: #AR-scene not found in document`);
