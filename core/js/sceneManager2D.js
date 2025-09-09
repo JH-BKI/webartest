@@ -417,5 +417,6 @@ class SceneManager2D {
 
 // Create global instance
 window.sceneManager2D = new SceneManager2D();
+console.log('2D Scene Manager v2.28 loaded - ready for 2D mode');
 
 console.log('2D Scene Manager loaded');

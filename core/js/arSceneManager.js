@@ -1145,7 +1145,7 @@ class ARSceneManager {
 
 // Create global instance (commented out for 2D mode)
 // window.arSceneManager = new ARSceneManager();
-// console.log('AR Scene Manager loaded');
+console.log('AR Scene Manager v2.27 loaded - auto-instantiation DISABLED for 2D mode');
 
 // Expose performance helpers globally (commented out for 2D mode)
 // window.batchUpdateElements = window.arSceneManager.batchUpdateElements.bind(window.arSceneManager);
