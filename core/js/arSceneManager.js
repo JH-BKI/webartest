@@ -487,6 +487,13 @@ class ARSceneManager {
                             setTimeout(checkTimelineReady, 200);
                         } else {
                             console.error(`❌ Timeline still not ready for topic ${topicId} after ${maxRetries} attempts`);
+                        // Emit an event to prompt the user for a page refresh
+                        const refreshEvent = new CustomEvent('promptPageRefresh', {
+                            detail: {
+                                message: 'Something went wrong here sorry! Please refresh the page.'
+                            }
+                        });
+                        window.dispatchEvent(refreshEvent);
                         }
                     };
                     

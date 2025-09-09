@@ -161,7 +161,7 @@ window.createTimeline = function(timelineController) {
   
   
   .add({
-  targets: '#s02s01-Taylor-sitting','#s02-desk-pc',
+  targets: ['#s02s01-Taylor-sitting','#s02-desk-pc'],
   opacity: [0, 1],
   duration: 1500,
   easing: 'easeInOutQuad',

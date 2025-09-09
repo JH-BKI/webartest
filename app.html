@@ -237,13 +237,14 @@
         </div>
     </div>
                 
-        <!-- <div class="error-section hidden">
-            <div class="error-message">
-                <span class="error-icon">⚠️</span>
-                <p>Camera access denied. Please enable camera permissions to continue.</p>
-            </div>
+    <div class="error-section hidden">
+        <div class="error-message">
+            <span class="error-icon">⚠️</span>
+            <p>Camera access denied. Please enable camera permissions to continue.</p>
+            <button class="btn btn-primary" onclick="hideErrorAndReturnToMenu()">Return to Menu</button>
         </div>
-    </div> -->
+    </div>
+
     
     <!-- AR Ready Section -->
     <div id="ar-ready-section" class="hidden section">
@@ -1042,6 +1043,50 @@
         
         // Make function globally available
         window.triggerCelebration = triggerCelebration;
+        
+        // Error handling - listen for error events
+        window.addEventListener('promptPageRefresh', function(event) {
+            console.log('Error event received:', event.detail);
+            
+            // Get the error section and message elements
+            const errorSection = document.querySelector('.error-section');
+            const errorMessage = document.querySelector('.error-message p');
+            
+            if (errorSection && errorMessage) {
+                // Update the error message with the event detail
+                if (event.detail && event.detail.message) {
+                    errorMessage.textContent = event.detail.message;
+                }
+                
+                // Hide all other sections
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                // Show the error section
+                errorSection.classList.remove('hidden');
+                
+                console.log('Error section displayed with message:', event.detail.message);
+            } else {
+                console.error('Error section or message element not found');
+            }
+        });
+        
+        // Function to hide error and return to menu
+        function hideErrorAndReturnToMenu() {
+            const errorSection = document.querySelector('.error-section');
+            if (errorSection) {
+                errorSection.classList.add('hidden');
+            }
+            
+            // Return to menu state
+            if (window.stateManager) {
+                window.stateManager.changeState('menu');
+            }
+        }
+        
+        // Make function globally available
+        window.hideErrorAndReturnToMenu = hideErrorAndReturnToMenu;
         
         /**
          * End of Main Application Script
