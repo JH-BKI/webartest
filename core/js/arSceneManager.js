@@ -355,7 +355,7 @@ class ARSceneManager {
                 // Same poster + timeline was paused = RESUME (but still go through ar_ready)
                 console.log(`🔄 Same poster detected - will resume paused timeline after ar_ready`);
                 // Don't resume immediately, let ar_ready handle the countdown first
-            } else if (isSamePoster && !this.isTimelinePaused) {
+            } else if (isSamePoster && !this.isTimelinePaused && this.timelineWasRunning) {
                 // Same poster + timeline already running = IGNORE (don't restart)
                 console.log(`🔄 Same poster detected - timeline already running, staying in current state`);
                 return; // Don't change state
@@ -460,7 +460,8 @@ class ARSceneManager {
             if (currentState === 'animating' || currentState === 'ar_ready') {
                 console.log(`📊 Timeline state before loss - Running: ${this.timelineController?.isRunning}, Completed: ${this.timelineController?.isCompleted}, Previous State: ${currentState}`);
                 this.isTimelinePaused = true;
-                this.timelineWasRunning = this.timelineController?.isRunning || false;
+                // For ar_ready state, timeline is loaded but not started yet, so we consider it "ready to start"
+                this.timelineWasRunning = (currentState === 'animating') ? (this.timelineController?.isRunning || false) : false;
                 this.timelineWasCompleted = this.timelineController?.isCompleted || false;
                 
                 // Pause the timeline for potential resume
