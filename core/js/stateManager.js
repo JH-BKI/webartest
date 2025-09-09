@@ -37,6 +37,28 @@ class StateManager {
                     console.log('Exiting campus selection state');
                 }
             },
+            splash: {
+                onEnter: () => {
+                    console.log('Entering splash state');
+                    this.hideAllSections();
+                    // Show splash section
+                    document.getElementById('splash-section').classList.remove('hidden');
+                    
+                    // Add event listener for start button
+                    const startButton = document.getElementById('start-app-button');
+                    if (startButton) {
+                        startButton.addEventListener('click', () => {
+                            console.log('Start app button clicked - transitioning to menu');
+                            this.changeState('menu');
+                        });
+                    }
+                },
+                onExit: () => {
+                    console.log('Exiting splash state');
+                    // Hide splash section
+                    document.getElementById('splash-section').classList.add('hidden');
+                }
+            },            
             onboarding: {
                 onEnter: () => {
                     console.log('Entering onboarding state');

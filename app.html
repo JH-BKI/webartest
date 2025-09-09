@@ -72,6 +72,37 @@
 
     <!-- Splash Section -->
     <div id="splash-section" class="hidden section">
+        <div class="splash-content">
+            <div class="splash-actions">
+                <img src="./assets/misc/call-to-action.png" alt="National Child Protection Week 2025" class="splash-logo">
+                <h1>Welcome!</h1>
+                <h2>#NCPW2025</h2>
+                <h4>National Child Protection Week 2025</h2>
+                <h4>Immersive Augmented Reality Experience</h4>
+            </div>
+                <h2 style="text-align: center;">⬇️</h2>
+        <div class="splash-actions">
+            <h4>How to use the app: (TBC)</h4>
+            <p>Jesse note: add images here for onboarding</p>
+            <ul>
+                <li>Scan the posters to unlock the immersive AR experience</li>
+                <li>Watch the videos to learn about the topics</li>
+                <li>Answer the questions to test your knowledge</li>
+                <li>Find all 4 and unlock an exclusive reward!</li>
+            </ul>
+        </div>
+            <h2 style="text-align: center;">⬇️</h2>
+        <div class="splash-actions">
+            <h4 style="text-align: center;">Ready?</h4>
+                <p style="text-align: center;">Let's go!</p>
+                    <button id="start-app-button" class="btn btn-primary">
+                     🚀 Get Started 
+                </button>
+                <BR>
+                    <BR>
+                        <BR>
+                        </div>
+        </div>
     </div>
 
     <!-- Onboarding Section -->
@@ -391,7 +422,7 @@
          * - Content loading functions
          */
         
-        let version = '3.00';
+        let version = '3.02';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -471,7 +502,7 @@
                     setTimeout(() => {
                         // Use state manager to transition to campus selection
                         //stateManager.changeState('campus_selection');
-                        stateManager.changeState('menu');
+                        stateManager.changeState('splash');
                     }, 250);
                 }
             }, 20);
@@ -530,6 +561,14 @@
                 } else if (capabilities.isDesktop) {
                     console.log('🖥️ Desktop detected - using desktop interface with demo mode');
                 }
+            }
+            
+            // Initialize state manager and start with splash state
+            if (window.StateManager) {
+                window.stateManager = new StateManager();
+                console.log('🎬 State Manager initialized - starting with splash state');
+            } else {
+                console.error('❌ StateManager not found - splash state will not work');
             }
             
             // Example: Set progress expiry (uncomment to enable)

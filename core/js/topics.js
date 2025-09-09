@@ -288,8 +288,8 @@ const topicData = {
                 { 
                   id: 's01-background', 
                   src: './assets/topic_1/background.png',
-                  scale: '0.5 0.5 0.5',
-                  position: '0 0 -2',
+                  scale: '2.5 1.1 0.5',
+                  position: '0 0.25 -2',
                   rotation: '0 0 0',
                   visible: 'false',
                   opacity: '1',

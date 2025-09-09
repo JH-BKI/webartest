@@ -1599,6 +1599,105 @@ li {
 }
 
 .celebration-text {
-    font-family: 'Inter', sans-serif;
+}
+
+/* Splash Section Styles */
+.splash-content {
+    text-align: center;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    box-sizing: border-box;
+    text-align: left;
+    padding: var(--spacing-xs);
+    /* position: relative; */
+    /* top: 70%; */
+    /* left: 4%; */
+    /* padding-bottom: 93px; */
+    /* width: 96%; */
+    flex-direction: column;
+    align-content: center;
+
+}
+
+.splash-logo h1 {
+    font-size: 3rem;
+    font-weight: 300;
+    margin: 0 0 0.5rem 0;
+    opacity: 0.9;
+}
+
+.splash-logo h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.splash-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+.splash-actions {
+    margin: 2rem 0;
+    width: 100%;
+}
+
+.splash-button {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    border: none;
+    border-radius: 50px;
+    padding: 16px 32px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.splash-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(135deg, #ff5252, #d63031);
+}
+
+.splash-button:active {
+    transform: translateY(-1px);
+}
+
+.button-icon {
+    font-size: 1.4rem;
+}
+
+
+
+/* Mobile responsiveness for splash */
+@media (max-width: 768px) {
+    .splash-logo h1 {
+        font-size: 2.5rem;
+    }
+    
+    .splash-logo h2 {
+        font-size: 2rem;
+    }
+    
+    .splash-subtitle {
+        font-size: 1rem;
+    }
+    
+    .splash-button {
+        padding: 14px 28px;
+        font-size: 1.1rem;
+    }
 }
 
