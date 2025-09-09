@@ -72,7 +72,7 @@ class SceneManager2D {
                 <!-- OLD AR Camera -->
                 <!-- <a-camera position="0 0 5" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera> -->
                 <!-- MindAR Camera for detection (shows camera feed) -->
-                <a-camera mindar-camera="cameraParam: auto; maxTrack: 4;" position="0 0 0" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
+                <a-camera mindar-camera="cameraParam: auto; maxTrack: 4;" position="0 0 0" look-controls="enabled: false"></a-camera>
                 
                 <!-- Lighting for 2D content -->
                 <a-light type="ambient" color="#404040" intensity="0.8"></a-light>
@@ -211,8 +211,8 @@ class SceneManager2D {
     start2DAnimation(topicId) {
         console.log(`🎬 2D Scene Manager: Starting 2D animation for topic ${topicId}`);
         
-        // Create a new 2D scene for animations (no MindAR tracking)
-        this.create2DAnimationScene(topicId);
+        // Convert existing detection scene to animation scene
+        this.convertToAnimationScene(topicId);
         
         // Load topic-specific animation file
         this.loadTopicAnimation(topicId);
@@ -221,15 +221,84 @@ class SceneManager2D {
         this.setTimelineTopic(topicId);
         
         // Start the animation
-        const sceneEl = document.querySelector('#AR-scene');
-        if (sceneEl) {
-            const timelineController = sceneEl.components['timeline-controller'];
-            if (timelineController && timelineController.isTimelineReady()) {
-                console.log(`Starting 2D animation for topic ${topicId}`);
-                timelineController.startAnimeTimeline();
-            } else {
-                console.log(`2D Timeline not ready for topic ${topicId}`);
+        setTimeout(() => {
+            const sceneEl = document.querySelector('#AR-scene');
+            if (sceneEl) {
+                const timelineController = sceneEl.components['timeline-controller'];
+                if (timelineController && timelineController.isTimelineReady()) {
+                    console.log(`🎬 Starting 2D animation for topic ${topicId}`);
+                    timelineController.startAnimeTimeline();
+                } else {
+                    console.log(`2D Timeline not ready for topic ${topicId}, retrying...`);
+                    // Retry after a delay
+                    setTimeout(() => {
+                        if (timelineController && timelineController.isTimelineReady()) {
+                            console.log(`🎬 Starting 2D animation for topic ${topicId} (retry)`);
+                            timelineController.startAnimeTimeline();
+                        }
+                    }, 1000);
+                }
             }
+        }, 1000);
+    }
+    
+    /**
+     * Convert detection scene to animation scene
+     */
+    convertToAnimationScene(topicId) {
+        console.log(`🔄 2D Scene Manager: Converting detection scene to animation scene for topic ${topicId}`);
+        
+        // Stop MindAR tracking
+        this.stopDetection();
+        
+        // Change scene ID to AR-scene for timeline controller compatibility
+        const sceneEl = document.querySelector('#scene-2d');
+        console.log(`2D convertToAnimationScene: Looking for #scene-2d, found:`, sceneEl);
+        if (sceneEl) {
+            sceneEl.id = 'AR-scene';
+            
+            // Add timeline controller component
+            sceneEl.setAttribute('timeline-controller', '');
+            
+            // Update camera for 2D viewing
+            const camera = sceneEl.querySelector('a-camera');
+            if (camera) {
+                camera.setAttribute('position', '0 0 5');
+                camera.setAttribute('look-controls', 'enabled: false');
+                camera.setAttribute('cursor', 'rayOrigin: mouse');
+                camera.setAttribute('raycaster', 'objects: [data-raycastable]');
+                // Remove MindAR camera component
+                camera.removeAttribute('mindar-camera');
+            }
+            
+            // Add topic containers for timeline controller
+            const topicContainer = document.createElement('a-entity');
+            topicContainer.id = `scenario-assets-topic-${topicId}`;
+            topicContainer.setAttribute('position', '0 0 -2');
+            
+            const topicGroup = document.createElement('a-entity');
+            topicGroup.id = `scenario-assets-topic-group-${topicId}`;
+            topicGroup.setAttribute('position', '0 0 0');
+            
+            topicContainer.appendChild(topicGroup);
+            sceneEl.appendChild(topicContainer);
+            
+            // Add assets
+            if (window.generateTopicAssetHTML) {
+                const assetsHTML = window.generateTopicAssetHTML(topicId);
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = assetsHTML;
+                const assets = tempDiv.firstChild;
+                if (assets) {
+                    sceneEl.insertBefore(assets, sceneEl.firstChild);
+                }
+            }
+            
+            console.log(`2D animation scene converted for topic ${topicId} (AR-compatible structure)`);
+            return true;
+        } else {
+            console.log(`2D convertToAnimationScene: #scene-2d not found, falling back to create2DAnimationScene`);
+            return this.create2DAnimationScene(topicId);
         }
     }
     
