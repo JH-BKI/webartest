@@ -46,7 +46,7 @@
 
 
 
-    <div id="debug">
+    <!-- <div id="debug">
         <button id="debug-toggle" onclick="toggleDebugConsole()">
             <span id="debug-info">v2.26 - loading</span>
             <span id="debug-arrow">▼</span>            
@@ -55,7 +55,7 @@
             <div id="console-output"></div>
             <button id="copy-console-btn" onclick="copyConsoleToClipboard()">📋 Copy Console</button>
         </div>
-    </div>
+    </div> -->
 
     <!-- Loading Section -->
     <div id="loading-section" class="section">
@@ -74,14 +74,13 @@
     <!-- Splash Section -->
     <div id="splash-section" class="hidden section">
         <div class="splash-content">
-            <div class="splash-actions">
-                <img style="margin-top: -56px;" src="./assets/misc/call-to-action.png" alt="National Child Protection Week 2025" class="splash-logo">
+            <div class="splash-actions" style="text-align: center;">
+                <img style="margin-top: -56px;margin-bottom: -80px;" src="./assets/misc/call-to-action.png" alt="National Child Protection Week 2025" class="splash-logo">
                 <h1>Welcome!</h1>
                 <h2>#NCPW2025</h2>
                 <h4>National Child Protection Week 2025</h2>
             </div>
-            <BR>
-            <h4>How to use the app:</h4>
+                <p><strong>About this app</strong></p>
                 <p>Watch the animated scenarios and videos to learn about each topic.</p>
                 <p>Then answer the questions to test your knowledge.</p>
 
@@ -129,8 +128,7 @@
         <div class="hero"></div>
         <div class="menu-content card">
             <h1>Welcome!</h1>
-            <p>We hope you enjoy this Immersive Experience for National Child Protection Week 2025.</p>
-            <p>There are <span>4 posters to find</span>, each representing a different #NCPW2025 topic. </p>
+            <p>There are <span>4 topics to explore</span> below, each representing an inportant concept related to #NCPW2025.</p>
             <div class="completion-status">
                 <div class="light-card">
                     <!-- <span class="status-icon">📊</span> -->
@@ -145,7 +143,7 @@
                             <span class="celebration-icon">🏆</span>
                             <span class="celebration-text">Your Reward!</span>
                         </button> -->
-                        <h2>Well done! You found all 4 posters!</h2>
+                        <p>Well done!</p><p>You have completed all 4 topics!</p>
                     </div>
                 </div>
                 <div class="completed-topics" id="completed-topics-section" style="display: none;">
@@ -155,11 +153,25 @@
                     </ul>
                 </div>
             </div>
-                        
+<!--                         
             <p>Find and scan each of the 4 posters to unlock a different immersive experience.</p>
             <button class="btn btn-primary" onclick="startDirectAnimation()">
                 🚀 Let's Go!
-            </button>
+            </button> -->
+            
+            <!-- Manual Topic Selection Buttons -->
+                    <button class="btn btn-primary topic-button topic_1" onclick="goToTopic(1)">
+                        Protecting Yourself Online
+                    </button>
+                    <button class="btn btn-primary topic-button topic_2" onclick="goToTopic(2)">
+                        Navigating Difficult Situations
+                    </button>
+                    <button class="btn btn-primary topic-button topic_3" onclick="goToTopic(3)">
+                        Respectful Relationships Online
+                    </button>
+                    <button class="btn btn-primary topic-button topic_4" onclick="goToTopic(4)">
+                        Seeking Help and Support
+                    </button>
             
          
         </div>
@@ -326,7 +338,7 @@
 
             <div id="results" class="hidden">
                 <div class="light-card">
-                    <div id="score" class="score-box">0 correct of 0.</div>
+                    <!-- <div id="score" class="score-box"></div> -->
                     <div id="feedback">Feedback will appear here</div>
                 </div>
                 <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
@@ -348,8 +360,8 @@
                 <!-- Summary will be loaded here -->
             </div>
             <div>
-                <p style="display:none">You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
-                <p id="progress-left-message">Find all of the remaining posters to learn more!</p>
+                <!-- <p style="display:none">You have <strong><span id="progress-left">3</span></strong> more posters to find.</p> -->
+                <!-- <p id="progress-left-message">Find all of the remaining posters to learn more!</p> -->
                 <BR><BR>
                 <button class="btn btn-primary" onclick="goHome()">Continue</button>
                 <!-- <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button> -->
@@ -797,6 +809,9 @@
             });
         }
         
+        // Make loadQuiz available globally
+        window.loadQuiz = loadQuiz;
+        
         function selectAnswer(index) {
             const answerDiv = document.getElementsByClassName('answer')[index];
             
@@ -867,7 +882,7 @@
             }
             
             // Show score and feedback
-            document.getElementById('score').textContent = `${currentScoreText}`;
+            //document.getElementById('score').textContent = `${currentScoreText}`;
             
             const feedbackText = currentScore === 100 ? feedback.perfect : feedback.partial;
             document.getElementById('feedback').textContent = feedbackText;
@@ -897,6 +912,9 @@
                 console.log(`Topic ${topicNumber} marked as completed after viewing summary`);
             }
         }
+        
+        // Make loadSummary available globally
+        window.loadSummary = loadSummary;
         
         function restartTopic() {
             selectedAnswers = [];
@@ -1101,6 +1119,64 @@
         
         // Make function globally available
         window.hideErrorAndReturnToMenu = hideErrorAndReturnToMenu;
+        
+        // Enhanced manual topic selection functions
+        function goToTopic(topicNumber) {
+            console.log(`🎯 Manually navigating to topic ${topicNumber}`);
+            
+            // Set the topic
+            const topicId = `topic_${topicNumber}`;
+            window.currentTopic = topicId;
+            currentTopic = topicId;
+            updateBodyTopicClass(topicId);
+            
+            // Go directly to animation (bypass menu)
+            if (window.stateManager) {
+                window.stateManager.changeState('animating');
+            }
+        }
+        
+        function restartCurrentTopic() {
+            console.log(`🔄 Restarting current topic: ${window.currentTopic}`);
+            
+            // Reset timeline if it exists
+            if (window.timelineController) {
+                window.timelineController.resetTimeline();
+            }
+            
+            // Go to animation state
+            if (window.stateManager) {
+                window.stateManager.changeState('animating');
+            }
+        }
+        
+        function goToVideo() {
+            console.log(`🎬 Going directly to video for topic: ${window.currentTopic}`);
+            if (window.stateManager) {
+                window.stateManager.changeState('video');
+            }
+        }
+        
+        function goToQuiz() {
+            console.log(`📝 Going directly to quiz for topic: ${window.currentTopic}`);
+            if (window.stateManager) {
+                window.stateManager.changeState('quiz');
+            }
+        }
+        
+        function goToSummary() {
+            console.log(`📊 Going directly to summary for topic: ${window.currentTopic}`);
+            if (window.stateManager) {
+                window.stateManager.changeState('summary');
+            }
+        }
+        
+        // Make functions globally available
+        window.goToTopic = goToTopic;
+        window.restartCurrentTopic = restartCurrentTopic;
+        window.goToVideo = goToVideo;
+        window.goToQuiz = goToQuiz;
+        window.goToSummary = goToSummary;
         
         /**
          * End of Main Application Script

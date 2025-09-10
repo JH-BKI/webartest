@@ -173,10 +173,6 @@ class StateManager {
             },
             animating: {
                 onEnter: () => {
-
-            // // Start the animation timeline
-            // this.startAnimation(topicId);
-
                     console.log('Entering animating state');
                     this.hideAllSections();
                     this.scrollToTop();
@@ -186,7 +182,21 @@ class StateManager {
                         animatingSection.classList.remove('hidden');
                     }
                     
-                    // AR scene already running from previous state
+                    // Start the animation for the current topic
+                    if (window.arSceneManager && window.currentTopic) {
+                        console.log(`🎬 Starting AR experience for ${window.currentTopic}`);
+                        
+                        // Ensure AR scene is injected before starting animation
+                        if (!document.querySelector('a-scene')) {
+                            console.log('🧹 AR Scene not found - injecting scene first');
+                            window.arSceneManager.injectARScene();
+                        }
+                        
+                        // Start the AR experience
+                        window.arSceneManager.startARExperience();
+                    } else {
+                        console.error('❌ AR Scene Manager or current topic not available');
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting animating state');
@@ -272,6 +282,14 @@ class StateManager {
                         console.log('🛑 Stopping timeline when transitioning to quiz state');
                         window.timelineController.resetTimeline();
                     }
+                    
+                    // Load quiz questions
+                    if (typeof window.loadQuiz === 'function') {
+                        console.log('📝 Loading quiz questions');
+                        window.loadQuiz();
+                    } else {
+                        console.error('❌ loadQuiz function not available');
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting quiz state');
@@ -295,6 +313,14 @@ class StateManager {
                     if (window.timelineController) {
                         console.log('🛑 Stopping timeline when transitioning to summary state');
                         window.timelineController.resetTimeline();
+                    }
+                    
+                    // Load summary content
+                    if (typeof window.loadSummary === 'function') {
+                        console.log('📄 Loading summary content');
+                        window.loadSummary();
+                    } else {
+                        console.error('❌ loadSummary function not available');
                     }
                 },
                 onExit: () => {
